@@ -10,6 +10,5 @@
 
 @implementation CellModel
 
-@synthesize color = _color;
 
 @end

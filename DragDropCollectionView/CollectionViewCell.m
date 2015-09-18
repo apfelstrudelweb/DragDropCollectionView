@@ -17,15 +17,18 @@
 
 @implementation CollectionViewCell
 
-- (void) reset {
+- (void) initialize {
+    
+    // remove previous label
     for (UIView *view in self.contentView.subviews) {
         for (UIView *subview in view.subviews) {
             if ([subview isKindOfClass:[UILabel class]]) {
                 [subview removeFromSuperview];
+                break;
             }
         }
     }
-    self.colorView.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0];
+    self.colorView.backgroundColor = COLOR_PLACEHOLDER_UNTOUCHED;
     
     [self setupViewConstraints:self.colorView isExpanded:false];
 }
@@ -49,22 +52,31 @@
         
         self.userInteractionEnabled = YES;
         
+//        [[self contentView] setFrame:[self bounds]];
+//        [[self contentView] setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+        
     }
     return self;
 }
 
 - (void) didLongPress:(UISwipeGestureRecognizer *)sender  {
-    [self reset];
     
     NSDictionary *userInfo = [NSDictionary dictionaryWithObject:self.indexPath forKey:@"indexPath"];
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"deleteCellNotification" object:nil userInfo:userInfo];
+
+    if (sender.state == UIGestureRecognizerStateEnded) {
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"shiftCellNotification" object:nil userInfo:nil];
+    }
+    else if (sender.state == UIGestureRecognizerStateBegan){
+        [self initialize];
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"deleteCellNotification" object:nil userInfo:userInfo];
+    }
 }
 
--(void)setLabelTitle:(NSString *)value {
+
+-(void)setLabelTitle:(NSString *)text {
     
     self.cellLabel = [[UILabel alloc] init];
-    self.cellLabel.text = value;
-    self.cellLabel.textAlignment = NSTextAlignmentCenter;
+    [self.cellLabel setTextForDragDropElement:text];
     
     [self.cellLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
     
@@ -74,8 +86,7 @@
 
 - (void) setColor: (UIColor*) color {
     self.colorView.backgroundColor = color;
-    //[self setupViewConstraints:self.colorView isExpanded:true];
-    [self expandColorView];
+    [self expandEmptyOne];
     self.isPopulated = true;
 }
 
@@ -83,31 +94,38 @@
     return self.backgroundColor;
 }
 
-- (void) shrinkColorView {
+- (void) shrinkEmptyOne {
     [self setupViewConstraints:self.colorView isExpanded:false];
 }
 
-- (void) expandColorView {
+- (void) expandEmptyOne {
     // expand only once!
     if (!self.isExpanded) {
         [self setupViewConstraints:self.colorView isExpanded:true];
     }
 }
 
-- (void) highlight {
+- (void) highlightEmptyOne {
     if (!self.isExpanded) {
-        self.colorView.backgroundColor  = [UIColor colorWithRed:0.80 green:0.80 blue:0.80 alpha:1.0];
+        self.colorView.backgroundColor  = COLOR_PLACEHOLDER_TOUCHED;
     }
 }
 
-- (void) unhighlight {
-    self.colorView.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0];
+- (void) unhighlightEmptyOne {
+    self.colorView.backgroundColor = COLOR_PLACEHOLDER_UNTOUCHED;
+}
+
+- (void) highlightPopulatedOne {
+    self.colorView.alpha = 0.3;
+}
+
+- (void) unhighlightPopulatedOne {
+    self.colorView.alpha = 1.0;
 }
 
 
 
 #pragma mark -constraint issues
-
 - (void)setupViewConstraints: (UIView*) view isExpanded: (bool) expand {
     
     [self removeConstraints:layoutViewConstraints];

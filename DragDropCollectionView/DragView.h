@@ -12,10 +12,9 @@
 
 @property (nonatomic, strong) UILabel* cellLabel;
 
-- (void) reset;
-- (void) setLabel:(NSString *)value;
-- (void) setColor: (UIColor*) color;
-
+- (void) setLabelTitle:(NSString *)value;
 - (NSString*) getLabelTitel;
+
+- (void) setColor: (UIColor*) color;
 
 @end

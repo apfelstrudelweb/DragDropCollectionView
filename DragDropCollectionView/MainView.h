@@ -6,19 +6,16 @@
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "UICollectionViewCell+cat.h"
-#import "CollectionViewCell.h"
-#import "DragView.h"
-#import "CellModel.h"
-#import "LayoutManager.h"
-
-#define SHARED_MANAGER     [LayoutManager sharedManager]
 
 @interface MainView : UIView  <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
-@property UICollectionView *collectionView1;
-@property UICollectionView *collectionView2;
+@property (strong, nonatomic) UILabel *headline1;
+@property (strong, nonatomic) UILabel *headline2;
+
+@property (strong, nonatomic) UICollectionView *collectionView1;
+@property (strong, nonatomic) UICollectionView *collectionView2;
+
+@property (strong, nonatomic) NSDictionary *viewsDictionary;
 
 
 @end

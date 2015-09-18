@@ -1,0 +1,39 @@
+//
+//  PrefixHeader.pch
+//  DragDropCollectionView
+//
+//  Created by Ulrich Vormbrock on 18.09.15.
+//  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
+//
+
+#ifndef DragDropCollectionView_PrefixHeader_pch
+#define DragDropCollectionView_PrefixHeader_pch
+
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
+#import "UILabel+cat.h"
+#import "MainView.h"
+#import "CollectionViewCell.h"
+#import "DragView.h"
+#import "CellModel.h"
+#import "Utils.h"
+
+#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#define IS_LANDSCAPE    UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])
+
+#define NUMBER_ITEMS_IN_LINE    IS_LANDSCAPE  ? 8 : 6
+#define SPACE_BETWEEN_ITEMS     IS_IPAD       ? 20.0 : 10.0
+
+#define NUMBER_SOURCE_ITEMS 16
+#define NUMBER_TARGET_ITEMS 30
+
+#define MARGIN 20
+
+#define COLOR_PLACEHOLDER_TOUCHED    [UIColor colorWithRed:0.80 green:0.80 blue:0.80 alpha:1.0]
+#define COLOR_PLACEHOLDER_UNTOUCHED  [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0]
+
+#define SHARED_MANAGER     [LayoutManager sharedManager]
+
+
+#endif

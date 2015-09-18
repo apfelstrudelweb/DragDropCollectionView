@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UICollectionViewCell+cat.h"
 
 @interface CollectionViewCell : UICollectionViewCell <UIGestureRecognizerDelegate>
 
@@ -20,15 +19,19 @@
 
 @property UILongPressGestureRecognizer* longPressGesture;
 
-- (void) reset;
+- (void) initialize;
 - (void) setLabelTitle:(NSString *)value;
 - (void) setColor: (UIColor*) color;
 - (UIColor*) getColor;
 
-- (void) shrinkColorView;
-- (void) expandColorView;
+- (void) shrinkEmptyOne;
+- (void) expandEmptyOne;
 
-- (void) highlight;
-- (void) unhighlight;
+- (void) highlightEmptyOne;
+- (void) unhighlightEmptyOne;
+
+- (void) highlightPopulatedOne;
+- (void) unhighlightPopulatedOne;
+
 
 @end

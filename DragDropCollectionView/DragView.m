@@ -10,34 +10,12 @@
 
 @implementation DragView
 
-- (void) reset {
-    for (UIView *view in self.subviews) {
-        if ([view isKindOfClass:[UILabel class]]) {
-            [view removeFromSuperview];
-        }
-    }
-    self.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0];
-    
-    //[self shrink];
-}
 
-- (id)initWithFrame:(CGRect)frame {
-    
-    self = [super initWithFrame:frame];
-    if (self) {
-        
-        //self.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0]; // gray color as placeholder
-        
-    }
-    return self;
-}
 
--(void)setLabel:(NSString *)value {
-    
-    
+-(void)setLabelTitle:(NSString *)text {
+
     self.cellLabel = [[UILabel alloc] init];
-    self.cellLabel.text = value;
-    self.cellLabel.textAlignment = NSTextAlignmentCenter;
+    [self.cellLabel setTextForDragDropElement:text];
     
     [self.cellLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
     
@@ -46,14 +24,15 @@
     [self setupConstraints:self.cellLabel];
 }
 
-- (void) setColor: (UIColor*) color {
-    self.backgroundColor = color;
-    //[self expand];
-}
-
 - (NSString*) getLabelTitel {
     return self.cellLabel.text;
 }
+
+- (void) setColor: (UIColor*) color {
+    self.backgroundColor = color;
+}
+
+
 
 
 

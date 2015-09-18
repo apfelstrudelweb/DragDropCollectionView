@@ -1,0 +1,35 @@
+//
+//  UILabel+cat.m
+//  DragDropCollectionView
+//
+//  Created by Ulrich Vormbrock on 18.09.15.
+//  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
+//
+
+#import "UILabel+cat.h"
+
+@implementation UILabel (cat)
+
+- (void) setTextForDragDropElement: (NSString*) text {
+    
+    self.text = text;
+    self.textAlignment = NSTextAlignmentCenter;
+    self.textColor = [UIColor whiteColor];
+    
+    UIFont* font = IS_IPAD ? [UIFont fontWithName:@"Helvetica-Bold" size:28] : [UIFont fontWithName:@"Helvetica" size:14];
+    
+    self.font = font;
+}
+
+- (void) setTextForHeadline: (NSString*) text {
+    
+    self.text = text;
+    self.textAlignment = NSTextAlignmentLeft;
+    self.textColor = [UIColor darkGrayColor];
+    
+    UIFont* font = IS_IPAD ? [UIFont fontWithName:@"Helvetica-Bold" size:28] : [UIFont fontWithName:@"Helvetica-Bold" size:16];
+    
+    self.font = font;
+}
+
+@end
