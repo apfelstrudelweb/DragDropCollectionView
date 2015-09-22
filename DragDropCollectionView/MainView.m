@@ -11,11 +11,16 @@
 
 @interface MainView() {
     
+    // subview proportions
+    float totalHeight;
+    float totalWidth;
+    int percentHeader1, percentHeader2, percentDragArea, percentDropArea;
+    
     NSMutableArray* layoutConstraints;
     NSArray *visualFormatConstraints;
     
     float itemSpacing;
-    int numberOfItemsInLine;
+    float cellWidthHeight;
     
     NSMutableDictionary* sourceCellsDict;
     NSMutableDictionary* targetCellsDict;
@@ -53,7 +58,6 @@
         sourceCellsDict = [NSMutableDictionary new];
         
         itemSpacing = SPACE_BETWEEN_ITEMS;
-        numberOfItemsInLine = NUMBER_ITEMS_IN_LINE;
         
         UICollectionViewFlowLayout *flowLayout1 = [[UICollectionViewFlowLayout alloc] init];
         
@@ -74,7 +78,6 @@
         [self addSubview:self.collectionView1];
         
         [self.collectionView1 setTranslatesAutoresizingMaskIntoConstraints:NO];
-        //[self setupConstraints1:self.collectionView1];
         
         
         
@@ -98,10 +101,10 @@
         [self addSubview:self.collectionView2];
         
         [self.collectionView2 setTranslatesAutoresizingMaskIntoConstraints:NO];
-        //[self setupConstraints2:self.collectionView2];
+
         
-//        self.collectionView1.backgroundColor = [UIColor yellowColor];
-//        self.collectionView2.backgroundColor = [UIColor greenColor];
+//        self.collectionView1.backgroundColor = [UIColor colorWithRed:1.00 green:0.95 blue:0.80 alpha:1.0];
+//        self.collectionView2.backgroundColor = [UIColor colorWithRed:1.00 green:0.95 blue:0.80 alpha:1.0];
         
         self.viewsDictionary = @{   @"headline1"    : self.headline1,
                                     @"source"       : self.collectionView1,
@@ -109,7 +112,9 @@
                                     @"target"       : self.collectionView2 };
         
         [self setupConstraints];
+        [self calculateCellSize];
         
+
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveDeleteCellNotification:) name:@"deleteCellNotification"
                                                    object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveShiftCellNotification:) name:@"shiftCellNotification"
@@ -146,7 +151,7 @@
 
 - (void) viewHasBeenRotated:(NSNotification *) notification {
     
-    numberOfItemsInLine = NUMBER_ITEMS_IN_LINE;
+    //numberOfItemsInLine = NUMBER_ITEMS_IN_LINE;
     
     for (UIView *subview in self.subviews) {
         if ([subview isKindOfClass:[DragView class]]) {
@@ -154,10 +159,13 @@
         }
     }
     
+    [self setupConstraints];
+    [self calculateCellSize];
+    
     [self.collectionView1 reloadData];
     [self.collectionView2 reloadData];
     
-    [self setupConstraints];
+    
 }
 
 #pragma mark <UICollectionViewDataSource>
@@ -166,7 +174,7 @@
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    
+
     int number = collectionView.tag==1 ? NUMBER_SOURCE_ITEMS: NUMBER_TARGET_ITEMS;
     return number;
 }
@@ -231,24 +239,10 @@
 
 #pragma mark <UICollectionViewDelegate>
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    float collectionViewWidth;
-    
-    if (collectionView.tag == 1) {
-        collectionViewWidth = self.collectionView1.frame.size.width;
-    } else {
-        collectionViewWidth = self.collectionView2.frame.size.width;
-    }
-    
-    //int numberOfRowsInSource = NUMBER_SOURCE_ITEMS / numberOfItemsInLine;
-    
-    // we want [NUMBER_ITEMS_IN_LINE] cells in a numberOfRowsline
-    float cellWidth = floorf((collectionViewWidth - (numberOfItemsInLine-1)*itemSpacing)/numberOfItemsInLine);
-    float cellHeight = cellWidth;
 
-    return CGSizeMake(cellWidth, cellHeight);
-    
+    return CGSizeMake(cellWidthHeight, cellWidthHeight);
 }
+
 
 
 #pragma mark -UIPanGestureRecognizer
@@ -347,13 +341,21 @@
 #pragma mark -constraint issues
 - (void)setupConstraints {
     
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    
+    totalHeight = 0.9*screenRect.size.height;
+    totalWidth  = 0.9*screenRect.size.width;
+    percentHeader1 = PERCENT_HEADER_1;
+    percentHeader2 = PERCENT_HEADER_2;
+    percentDragArea = PERCENT_DRAG_AREA;
+    percentDropArea = PERCENT_DROP_AREA;
+    
     // clear constraints in case of device rotation
     [self removeConstraints:visualFormatConstraints];
     [self removeConstraints:layoutConstraints];
+
     
-    int topMargin = IS_LANDSCAPE ? MARGIN : 2*MARGIN;
-    
-    NSString* visualFormatText = [NSString stringWithFormat:@"V:|-%d-[headline1]-%d-[source]-%d-[headline2]-%d-[target]", topMargin, MARGIN, MARGIN, MARGIN];
+    NSString* visualFormatText = [NSString stringWithFormat:@"V:|-%d-[headline1]-%d-[source][headline2]-%d-[target]",MARGIN, 0, 0];
     
 
     
@@ -369,7 +371,63 @@
     
     layoutConstraints = [NSMutableArray new];
     
-    float h1 = IS_LANDSCAPE ? 0.4 : 0.35;
+    
+    float heightHeader1  = (float) totalHeight*percentHeader1*0.01;
+    float heightHeader2  = (float) totalHeight*percentHeader2*0.01;
+    float heightDragArea = (float) totalHeight*percentDragArea*0.01;
+    float heightDropArea = (float) totalHeight*percentDropArea*0.01;
+    
+    // Width constraint
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.headline1
+                                                              attribute:NSLayoutAttributeWidth
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self
+                                                              attribute:NSLayoutAttributeWidth
+                                                             multiplier:0.0
+                                                               constant:totalWidth]];
+    
+    // Height constraint
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.headline1
+                                                              attribute:NSLayoutAttributeHeight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self
+                                                              attribute:NSLayoutAttributeHeight
+                                                             multiplier:0.0
+                                                               constant:heightHeader1]];
+    // Center horizontally
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.headline1
+                                                              attribute:NSLayoutAttributeCenterX
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self
+                                                              attribute:NSLayoutAttributeCenterX
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+    // Width constraint
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.headline2
+                                                              attribute:NSLayoutAttributeWidth
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self
+                                                              attribute:NSLayoutAttributeWidth
+                                                             multiplier:0.0
+                                                               constant:totalWidth]];
+    
+    // Height constraint
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.headline2
+                                                              attribute:NSLayoutAttributeHeight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self
+                                                              attribute:NSLayoutAttributeHeight
+                                                             multiplier:0.0
+                                                               constant:heightHeader2]];
+    // Center horizontally
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.headline2
+                                                              attribute:NSLayoutAttributeCenterX
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self
+                                                              attribute:NSLayoutAttributeCenterX
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+    
     
     
     
@@ -379,8 +437,8 @@
                                                                relatedBy:NSLayoutRelationEqual
                                                                   toItem:self
                                                                attribute:NSLayoutAttributeWidth
-                                                              multiplier:0.9
-                                                                constant:0]];
+                                                              multiplier:0.0
+                                                                constant:totalWidth]];
 
     // Height constraint
     [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.collectionView1
@@ -388,8 +446,8 @@
                                                                relatedBy:NSLayoutRelationEqual
                                                                   toItem:self
                                                                attribute:NSLayoutAttributeHeight
-                                                              multiplier:h1
-                                                                constant:0.0]];
+                                                              multiplier:0.0
+                                                                constant:heightDragArea]];
     
     // Center horizontally
     [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.collectionView1
@@ -406,8 +464,8 @@
                                                                relatedBy:NSLayoutRelationEqual
                                                                   toItem:self
                                                                attribute:NSLayoutAttributeWidth
-                                                              multiplier:0.9
-                                                                constant:0]];
+                                                             multiplier:0.0
+                                                               constant:totalWidth]];
     
     // Height constraint
     [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.collectionView2
@@ -415,8 +473,8 @@
                                                                relatedBy:NSLayoutRelationEqual
                                                                   toItem:self
                                                                attribute:NSLayoutAttributeHeight
-                                                              multiplier:0.5
-                                                                constant:0]];
+                                                              multiplier:0.0
+                                                                constant:heightDropArea]];
     
     // Center horizontally
     [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.collectionView2
@@ -427,42 +485,95 @@
                                                               multiplier:1.0
                                                                 constant:0.0]];
     
-    // Width constraint
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.headline1
-                                                               attribute:NSLayoutAttributeWidth
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:self
-                                                               attribute:NSLayoutAttributeWidth
-                                                              multiplier:0.9
-                                                                constant:0]];
-    // Center horizontally
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.headline1
-                                                               attribute:NSLayoutAttributeCenterX
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:self
-                                                               attribute:NSLayoutAttributeCenterX
-                                                              multiplier:1.0
-                                                                constant:0.0]];
-    // Width constraint
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.headline2
-                                                               attribute:NSLayoutAttributeWidth
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:self
-                                                               attribute:NSLayoutAttributeWidth
-                                                              multiplier:0.9
-                                                                constant:0]];
-    // Center horizontally
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.headline2
-                                                               attribute:NSLayoutAttributeCenterX
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:self
-                                                               attribute:NSLayoutAttributeCenterX
-                                                              multiplier:1.0
-                                                                constant:0.0]];
+
     
     // add all constraints at once
     [self addConstraints:layoutConstraints];
 }
+
+- (void) calculateCellSize {
+    
+    float collectionViewWidth;
+    float collectionViewHeight;
+    
+    float occupiedHeight = 0.0;
+    
+    int N;
+    
+
+    collectionViewWidth  = totalWidth;//self.collectionView1.frame.size.width;
+    collectionViewHeight = totalHeight*percentDragArea*0.01; //self.collectionView1.frame.size.height;
+    N = (int)[self.collectionView1 numberOfItemsInSection:0];
+    
+    
+    NSMutableArray *matrixArray = [NSMutableArray new];
+    [matrixArray insertObject:[NSNumber numberWithInt:N] atIndex:0];
+    for (int i=1; i<N; i++) {
+        [matrixArray insertObject:[NSNumber numberWithInt:0] atIndex:i];
+    }
+    
+    int newVal;
+    
+    for (int i=0; i<N; i++) {
+        
+        int rows = [matrixArray getNumberOfActiveElements];
+        int cols = [matrixArray[0] intValue];
+        
+        // 1. row
+        cellWidthHeight = floorf((collectionViewWidth - (cols-1)*itemSpacing)/cols);
+        
+        occupiedHeight = rows*cellWidthHeight + (rows-1)*itemSpacing;
+        
+        if (occupiedHeight > collectionViewHeight) {
+            // if total height exceeds contentview, add an item to first row
+            int cols = [matrixArray[0] intValue] + 1;
+            cellWidthHeight = floorf((collectionViewWidth - (cols-1)*itemSpacing)/cols);
+            
+            break;
+        }
+        
+        newVal = [matrixArray[0] intValue] - 1;
+        [matrixArray replaceObjectAtIndex:0 withObject:[NSNumber numberWithInt:newVal]];
+        
+        newVal = [matrixArray[1] intValue] + 1;
+        [matrixArray replaceObjectAtIndex:1 withObject:[NSNumber numberWithInt:newVal]];
+        
+        if ([matrixArray[2] intValue] > 0) {
+            newVal = [matrixArray[2] intValue] + 1;
+            [matrixArray replaceObjectAtIndex:2 withObject:[NSNumber numberWithInt:newVal]];
+        }
+        
+        
+        for (int j=1; j<N-1; j++) {
+            int diff = [matrixArray[j] intValue] - [matrixArray[j-1] intValue];
+            
+            if (diff > 0) {
+                newVal = [matrixArray[j] intValue] - diff;
+                [matrixArray replaceObjectAtIndex:j withObject:[NSNumber numberWithInt:newVal]];
+                
+                int sum = 0;
+                for (int k=0;k<j+1;k++) {
+                    sum += [matrixArray[k] intValue];
+                }
+                newVal = N - sum;
+                [matrixArray replaceObjectAtIndex:j+1 withObject:[NSNumber numberWithInt:newVal]];
+            }
+        }
+        
+        //NSLog(@"matrixArray:%@", matrixArray);
+        
+        if ([matrixArray[0] intValue] == 1) {
+            break;
+        }
+    }
+    
+    // don't do it - app crashes after device rotation!
+//    UICollectionViewFlowLayout *flow = (UICollectionViewFlowLayout*) self.collectionView1.collectionViewLayout;
+//    int rows = [matrixArray getNumberOfActiveElements] - 1;
+//    float newLineSpacing = (collectionViewHeight - rows*cellWidthHeight) / (rows-1);
+
+}
+
 
 
 @end

@@ -31,10 +31,12 @@
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        
+         [[NSNotificationCenter defaultCenter] postNotificationName: @"viewHasBeenRotatedNotification" object:self];
          
      } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
          // important for scrolling to position where fret has been before rotating the device
-         [[NSNotificationCenter defaultCenter] postNotificationName: @"viewHasBeenRotatedNotification" object:self];
+        
          
      }];
     
