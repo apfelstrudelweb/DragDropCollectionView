@@ -59,6 +59,20 @@
     return self;
 }
 
+//- (bool) isPopulated {
+//    bool hasLabel = false;
+//    
+//    for (UIView *view in self.contentView.subviews) {
+//        for (UIView *subview in view.subviews) {
+//            if ([subview isKindOfClass:[UILabel class]]) {
+//                hasLabel = true;
+//                break;
+//            }
+//        }
+//    }
+//    return hasLabel;
+//}
+
 - (void) didLongPress:(UISwipeGestureRecognizer *)sender  {
     
     NSDictionary *userInfo = [NSDictionary dictionaryWithObject:self.indexPath forKey:@"indexPath"];
@@ -123,9 +137,79 @@
     self.colorView.alpha = 1.0;
 }
 
+- (void) pushToLeft {
+    
+    if (self.isPushedToLeft || !self.isPopulated) return;
+    self.isPushedToLeft = true;
+    
+    [self setupViewConstraints:true doReset:false];
+}
+
+- (void) pushToRight {
+    
+    if (self.isPushedToRight || !self.isPopulated) return;
+    self.isPushedToRight = true;
+    
+    [self setupViewConstraints:false doReset:false];
+}
+
+- (void) pushBack {
+    
+    self.isPushedToLeft = false;
+    self.isPushedToRight = false;
+    [self setupViewConstraints:false doReset:true];
+}
+
 
 
 #pragma mark -constraint issues
+
+- (void)setupViewConstraints: (bool) toLeft doReset: (bool) reset {
+    
+    [self removeConstraints:layoutViewConstraints];
+    layoutViewConstraints = [NSMutableArray new];
+    
+    NSLayoutAttribute layoutAttributeHorizAlign = toLeft ? NSLayoutAttributeLeft : NSLayoutAttributeRight;
+    
+    // Width constraint
+    [layoutViewConstraints addObject:[NSLayoutConstraint constraintWithItem:self.colorView
+                                                                  attribute:NSLayoutAttributeWidth
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:self.contentView
+                                                                  attribute:NSLayoutAttributeWidth
+                                                                 multiplier:reset ? 1.0 : 0.5
+                                                                   constant:0]];
+    
+    // Height constraint
+    [layoutViewConstraints addObject:[NSLayoutConstraint constraintWithItem:self.colorView
+                                                                  attribute:NSLayoutAttributeHeight
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:self.contentView
+                                                                  attribute:NSLayoutAttributeHeight
+                                                                 multiplier:1.0
+                                                                   constant:0]];
+    
+    // Center horizontally
+    [layoutViewConstraints addObject:[NSLayoutConstraint constraintWithItem:self.colorView
+                                                                  attribute:layoutAttributeHorizAlign
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:self.contentView
+                                                                  attribute:layoutAttributeHorizAlign
+                                                                 multiplier:1.0
+                                                                   constant:0.0]];
+    
+    // Center vertically
+    [layoutViewConstraints addObject:[NSLayoutConstraint constraintWithItem:self.colorView
+                                                                  attribute:NSLayoutAttributeCenterY
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:self.contentView
+                                                                  attribute:NSLayoutAttributeCenterY
+                                                                 multiplier:1.0
+                                                                   constant:0.0]];
+    // add all constraints at once
+    [self addConstraints:layoutViewConstraints];
+}
+
 - (void)setupViewConstraints: (UIView*) view isExpanded: (bool) expand {
     
     [self removeConstraints:layoutViewConstraints];

@@ -16,6 +16,8 @@
 @property (nonatomic, strong) UIView* colorView;
 @property (nonatomic) BOOL isExpanded;
 @property (nonatomic) BOOL isPopulated;
+@property (nonatomic) BOOL isPushedToLeft;
+@property (nonatomic) BOOL isPushedToRight;
 
 @property UILongPressGestureRecognizer* longPressGesture;
 
@@ -32,6 +34,10 @@
 
 - (void) highlightPopulatedOne;
 - (void) unhighlightPopulatedOne;
+
+- (void) pushToLeft;
+- (void) pushToRight;
+- (void) pushBack;
 
 
 @end

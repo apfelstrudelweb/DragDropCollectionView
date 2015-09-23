@@ -27,7 +27,13 @@
     
     NSIndexPath* prevIndexPath;
     
+    NSIndexPath *finalInsertIndexPath;
+    CollectionViewCell* leftCell, *rightCell;
+    
     int numberOfDragItems;
+    int numberOfDropItems;
+    
+    int numberOfColumns;
     
 }
 
@@ -44,7 +50,9 @@
     
     self = [super initWithFrame:frame];
     if (self) {
-
+        
+        numberOfDropItems = NUMBER_TARGET_ITEMS;
+        
         self.headline1 = [[UILabel alloc] initWithFrame:frame];
         [self.headline1 setTextForHeadline:@"Drag and Drop Prototype"];
         [self.headline1 setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -105,22 +113,22 @@
         [self.collectionView2 setTranslatesAutoresizingMaskIntoConstraints:NO];
         
         [self createStepper];
-
+        
         
         self.collectionView1.backgroundColor = [UIColor colorWithRed:1.00 green:0.95 blue:0.80 alpha:1.0];
-//        self.collectionView2.backgroundColor = [UIColor colorWithRed:1.00 green:0.95 blue:0.80 alpha:1.0];
+        //        self.collectionView2.backgroundColor = [UIColor colorWithRed:1.00 green:0.95 blue:0.80 alpha:1.0];
         
         self.viewsDictionary = @{   @"headline1"    : self.headline1,
                                     @"source"       : self.collectionView1,
                                     @"stepper"      : self.stepper,
                                     @"headline2"    : self.headline2,
                                     @"target"       : self.collectionView2 };
-
+        
         
         [self setupConstraints];
         [self calculateCellSize];
         
-
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveDeleteCellNotification:) name:@"deleteCellNotification"
                                                    object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveShiftCellNotification:) name:@"shiftCellNotification"
@@ -180,8 +188,8 @@
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-
-    int number = collectionView.tag==1 ? numberOfDragItems: NUMBER_TARGET_ITEMS;
+    
+    int number = collectionView.tag==1 ? numberOfDragItems: numberOfDropItems;
     return number;
 }
 
@@ -224,7 +232,7 @@
             
             [sourceCellsDict setObject:dragView forKey:[NSNumber numberWithInt:(int)indexPath.item]];
         }
-
+        
     } else {
         
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell2" forIndexPath:indexPath];
@@ -238,14 +246,13 @@
             [cell setLabelTitle:model.labelTitle];
         }
     }
-    
-    
+
     return cell;
 }
 
 #pragma mark <UICollectionViewDelegate>
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-
+    
     return CGSizeMake(cellWidthHeight, cellWidthHeight);
 }
 
@@ -253,6 +260,10 @@
 
 #pragma mark -UIPanGestureRecognizer
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer {
+    
+    CollectionViewCell* cell;
+    
+    finalInsertIndexPath = nil;
     
     DragView* dragView = (DragView*)recognizer.view;
     
@@ -283,10 +294,18 @@
     [recognizer setTranslation:CGPointMake(0, 0) inView:self];
     
     CGPoint tapLocation = [recognizer locationInView:self.collectionView2];
-    NSIndexPath *dropIndexPath = [self.collectionView2 indexPathForItemAtPoint:tapLocation];
-    CollectionViewCell* cell = (CollectionViewCell*)[self.collectionView2 cellForItemAtIndexPath:dropIndexPath];
+    
+    // negative offset -> left cell should not be highlighted when touch point is in the middle of two cells
+    CollectionViewCell* dummyCell = (CollectionViewCell*)[self.collectionView2 cellForItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+    float cellWidth = dummyCell.frame.size.width;
+    CGPoint correctedTapLocation = CGPointMake(tapLocation.x-0.1*cellWidth, tapLocation.y);
+    
+    NSIndexPath *dropIndexPath = [self.collectionView2 indexPathForItemAtPoint:correctedTapLocation];
+    cell = (CollectionViewCell*)[self.collectionView2 cellForItemAtIndexPath:dropIndexPath];
+    
     
     CellModel* model = [targetCellsDict objectForKey:[NSNumber numberWithInt:(int)dropIndexPath.item]];
+    
     
     if (!model) {
         [cell highlightEmptyOne];
@@ -295,6 +314,7 @@
         // when a cell is populated, fade out the color in order to indicate that this cell may be overwritten by putting a new object above
         [cell highlightPopulatedOne];
     }
+    
     
     // when a cell is left without dropping an object onto it, perform a reset
     if (![dropIndexPath isEqual:prevIndexPath]) {
@@ -307,24 +327,150 @@
                 // when cell is left, shrink again
                 [prevCell shrinkEmptyOne];
                 [prevCell unhighlightEmptyOne];
-                
+     
             } else {
                 // when populated cell is left again, release the color lightening
                 [prevCell unhighlightPopulatedOne];
             }
         }
         prevIndexPath = dropIndexPath;
+        
+        NSIndexPath *insertIndexPath;
+        
+        if (leftCell.isPopulated && rightCell.isPopulated) {
+            [leftCell pushBack];
+            [rightCell pushBack];
+        }
+        
+        // if specific cell isn't touched, figure out if we are between two cells
+        if (!dropIndexPath) {
+            
+            //float leftPos = recognizer.view.frame.origin.x;
+            
+            // after scrolling down ...
+            CGPoint contentOffset = [self.collectionView2 contentOffset];
+            NSLog(@"contentOffset: %f",contentOffset.y);
+            NSLog(@"tapLocation:   %f",tapLocation.y);
+            
+            CGPoint correctedTapLocation = CGPointMake(tapLocation.x - 0.5*cellWidth, tapLocation.y);
+            
+            insertIndexPath = [self.collectionView2 indexPathForItemAtPoint:correctedTapLocation];
+            
+            if (insertIndexPath) {
+                //NSLog(@"finalInsertIndexPath: %ld", (long)insertIndexPath.item);
+                finalInsertIndexPath = insertIndexPath;
+                
+                int item1 = (int)insertIndexPath.item;
+                int item2 = item1 + 1;
+                
+                leftCell = (CollectionViewCell*)[self.collectionView2 cellForItemAtIndexPath:insertIndexPath];
+                rightCell = (CollectionViewCell*)[self.collectionView2 cellForItemAtIndexPath:[NSIndexPath indexPathForRow:item2 inSection:0]];
+                
+                if (leftCell.isPopulated && rightCell.isPopulated) {
+                    [leftCell pushToLeft];
+                    [rightCell pushToRight];
+                }
+            }
+//            else {
+//                if (leftCell.isPopulated && rightCell.isPopulated) {
+//                    [leftCell pushBack];
+//                    [rightCell pushBack];
+//                }
+//            }
+        } else {
+            //finalInsertIndexPath = nil;
+        }
+        
     }
     
     
     if (recognizer.state == UIGestureRecognizerStateEnded) {
         
-        if (!cell) {
-            // if not dropped into a cell, remove it
-            [dragView removeFromSuperview];
-            return;
+        //        if (!cell) {
+        //            // if not dropped into a cell, remove it
+        //            [dragView removeFromSuperview];
+        //            return;
+        //        }
+        
+        NSIndexPath* indexPathToInsert;
+        
+        for (NSInteger row = 0; row < [self.collectionView2 numberOfItemsInSection:0]; row++) {
+            CollectionViewCell* _cell = (CollectionViewCell*)[self.collectionView2 cellForItemAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+            
+            if (_cell.isPushedToLeft) {
+                indexPathToInsert = [NSIndexPath indexPathForRow:row+1 inSection:0];
+                break;
+            }
         }
         
+        // insert cell
+        if (indexPathToInsert) {
+            
+            __block CollectionViewCell* newCell;
+            
+            numberOfDropItems++;
+            [self.collectionView2 performBatchUpdates:^{
+                
+                NSArray *indexPaths = [NSArray arrayWithObject:indexPathToInsert];
+                [self.collectionView2 insertItemsAtIndexPaths:indexPaths];
+
+            } completion: ^(BOOL finished) {
+                
+                newCell = (CollectionViewCell*)[self.collectionView2 cellForItemAtIndexPath:indexPathToInsert];
+                
+                [newCell initialize]; // don't omit otherwise overwritten cells will have multiple labels!
+                //[cell unhighlightPopulatedOne];
+                [newCell setColor: dragView.backgroundColor];
+                [newCell setLabelTitle:[dragView getLabelTitel]];
+                [dragView removeFromSuperview];
+                
+                CellModel* model = [CellModel new];
+                [model setColor:dragView.backgroundColor];
+                [model setLabelTitle:[dragView getLabelTitel]];
+                
+                //TODO: update dictionary with inserted element
+                int insertIndex = (int)indexPathToInsert.item;
+                
+                NSDictionary* prevDict = [targetCellsDict mutableCopy];
+                
+                [targetCellsDict setObject:model forKey:[NSNumber numberWithInt:insertIndex]];
+
+                
+                [prevDict enumerateKeysAndObjectsUsingBlock:^(id key, id model, BOOL *stop) {
+                    NSLog(@"model - > %@ = %@", key, ((CellModel*)model).labelTitle);
+                    int _key = [key intValue];
+                    
+                    if (_key > insertIndex - 1) {
+                        NSLog(@"xxxxxxxxx %@ = %@", key, model);
+                        
+                        [targetCellsDict setObject:model forKey:[NSNumber numberWithInt:_key+1]];
+                    }
+                }];
+
+            }];
+            
+            NSLog(@"targetCellsDict: %@", targetCellsDict);
+            
+            numberOfDropItems--;
+            [self.collectionView2 performBatchUpdates:^{
+                
+                NSIndexPath *indexPath =[NSIndexPath indexPathForRow:numberOfDropItems inSection:0];
+                [self.collectionView2 deleteItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
+            } completion: ^(BOOL finished) {
+                finalInsertIndexPath = nil;
+                [leftCell pushBack];
+                [rightCell pushBack];
+                
+                leftCell = nil;
+                rightCell = nil;
+            }];
+            
+            
+            return;
+
+        }
+        
+        // append cell
         [cell initialize]; // don't omit otherwise overwritten cells will have multiple labels!
         // when new object is put on it, release the color lightening
         [cell unhighlightPopulatedOne];
@@ -360,16 +506,16 @@
     // clear constraints in case of device rotation
     [self removeConstraints:visualFormatConstraints];
     [self removeConstraints:layoutConstraints];
-
+    
     
     NSString* visualFormatText = [NSString stringWithFormat:@"V:|-%d-[headline1]-%d-[source]-%f-[stepper]-%d-[headline2]-%d-[target]",MARGIN, 0, 0.5*MARGIN, 0, 0];
     
-
+    
     
     visualFormatConstraints = [NSLayoutConstraint constraintsWithVisualFormat:visualFormatText
-                                                                                           options:0
-                                                                                           metrics:nil
-                                                                                             views:self.viewsDictionary];
+                                                                      options:0
+                                                                      metrics:nil
+                                                                        views:self.viewsDictionary];
     
     for (int i = 0; i<visualFormatConstraints.count; i++) {
         [self addConstraint:visualFormatConstraints[i]];
@@ -441,57 +587,57 @@
     
     // Width constraint
     [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.collectionView1
-                                                               attribute:NSLayoutAttributeWidth
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:self
-                                                               attribute:NSLayoutAttributeWidth
-                                                              multiplier:0.0
-                                                                constant:totalWidth]];
-
+                                                              attribute:NSLayoutAttributeWidth
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self
+                                                              attribute:NSLayoutAttributeWidth
+                                                             multiplier:0.0
+                                                               constant:totalWidth]];
+    
     // Height constraint
     [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.collectionView1
-                                                               attribute:NSLayoutAttributeHeight
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:self
-                                                               attribute:NSLayoutAttributeHeight
-                                                              multiplier:0.0
-                                                                constant:heightDragArea]];
+                                                              attribute:NSLayoutAttributeHeight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self
+                                                              attribute:NSLayoutAttributeHeight
+                                                             multiplier:0.0
+                                                               constant:heightDragArea]];
     
     // Center horizontally
     [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.collectionView1
-                                                               attribute:NSLayoutAttributeCenterX
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:self
-                                                               attribute:NSLayoutAttributeCenterX
-                                                              multiplier:1.0
-                                                                constant:0.0]];
+                                                              attribute:NSLayoutAttributeCenterX
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self
+                                                              attribute:NSLayoutAttributeCenterX
+                                                             multiplier:1.0
+                                                               constant:0.0]];
     
     // Width constraint
     [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.collectionView2
-                                                               attribute:NSLayoutAttributeWidth
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:self
-                                                               attribute:NSLayoutAttributeWidth
+                                                              attribute:NSLayoutAttributeWidth
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self
+                                                              attribute:NSLayoutAttributeWidth
                                                              multiplier:0.0
                                                                constant:totalWidth]];
     
     // Height constraint
     [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.collectionView2
-                                                               attribute:NSLayoutAttributeHeight
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:self
-                                                               attribute:NSLayoutAttributeHeight
-                                                              multiplier:0.0
-                                                                constant:heightDropArea]];
+                                                              attribute:NSLayoutAttributeHeight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self
+                                                              attribute:NSLayoutAttributeHeight
+                                                             multiplier:0.0
+                                                               constant:heightDropArea]];
     
     // Center horizontally
     [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.collectionView2
-                                                               attribute:NSLayoutAttributeCenterX
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:self
-                                                               attribute:NSLayoutAttributeCenterX
-                                                              multiplier:1.0
-                                                                constant:0.0]];
+                                                              attribute:NSLayoutAttributeCenterX
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self
+                                                              attribute:NSLayoutAttributeCenterX
+                                                             multiplier:1.0
+                                                               constant:0.0]];
     
     
     // Width constraint
@@ -520,16 +666,16 @@
                                                              multiplier:1.0
                                                                constant:0.0]];
     
-//    // Center vertically
-//    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.stepper
-//                                                              attribute:NSLayoutAttributeCenterY
-//                                                              relatedBy:NSLayoutRelationEqual
-//                                                                 toItem:self
-//                                                              attribute:NSLayoutAttributeCenterY
-//                                                             multiplier:1.0
-//                                                               constant:0.0]];
+    //    // Center vertically
+    //    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.stepper
+    //                                                              attribute:NSLayoutAttributeCenterY
+    //                                                              relatedBy:NSLayoutRelationEqual
+    //                                                                 toItem:self
+    //                                                              attribute:NSLayoutAttributeCenterY
+    //                                                             multiplier:1.0
+    //                                                               constant:0.0]];
     
-
+    
     
     // add all constraints at once
     [self addConstraints:layoutConstraints];
@@ -544,7 +690,7 @@
     
     int N;
     
-
+    
     collectionViewWidth  = totalWidth;
     collectionViewHeight = totalHeight*percentDragArea*0.01;
     N = (int)[self.collectionView1 numberOfItemsInSection:0];
@@ -572,6 +718,7 @@
             // if total height exceeds contentview, add an item to first row
             int cols = [matrixArray[0] intValue] + 1;
             cellWidthHeight = floorf((collectionViewWidth - (cols-1)*itemSpacing)/cols);
+            numberOfColumns = cols;
             
             // case when matrix contains only one row with few elements
             if (cellWidthHeight > collectionViewHeight) {
@@ -620,7 +767,7 @@
             break;
         }
     }
-
+    
 }
 
 - (void) createStepper {
@@ -640,7 +787,7 @@
     
     
     [self addSubview:self.stepper];
- 
+    
 }
 
 - (void)stepperChanged:(UIStepper*)stepper {
@@ -653,11 +800,11 @@
         }
     }
     
-
+    
     [self.collectionView1 reloadData];
     [self.collectionView2 reloadData];
     [self calculateCellSize];
-
+    
 }
 
 
