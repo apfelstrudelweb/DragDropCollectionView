@@ -30,13 +30,15 @@
 #define PERCENT_HEADER_1    10
 #define PERCENT_HEADER_2    10
 #define PERCENT_DRAG_AREA   30
-#define PERCENT_DROP_AREA   50
+#define PERCENT_DROP_AREA   40
+#define PERCENT_STEPPER     10
 
-#define NUMBER_SOURCE_ITEMS 20
+#define NUMBER_SOURCE_ITEMS 10
 #define NUMBER_TARGET_ITEMS 60
 
 #define MARGIN  20
 
+#define FONT_COLOR                   [UIColor darkGrayColor]
 #define COLOR_PLACEHOLDER_TOUCHED    [UIColor colorWithRed:0.80 green:0.80 blue:0.80 alpha:1.0]
 #define COLOR_PLACEHOLDER_UNTOUCHED  [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0]
 

@@ -14,7 +14,7 @@
     // subview proportions
     float totalHeight;
     float totalWidth;
-    int percentHeader1, percentHeader2, percentDragArea, percentDropArea;
+    int percentHeader1, percentHeader2, percentDragArea, percentDropArea, percentStepper;
     
     NSMutableArray* layoutConstraints;
     NSArray *visualFormatConstraints;
@@ -26,6 +26,8 @@
     NSMutableDictionary* targetCellsDict;
     
     NSIndexPath* prevIndexPath;
+    
+    int numberOfDragItems;
     
 }
 
@@ -101,15 +103,19 @@
         [self addSubview:self.collectionView2];
         
         [self.collectionView2 setTranslatesAutoresizingMaskIntoConstraints:NO];
+        
+        [self createStepper];
 
         
-//        self.collectionView1.backgroundColor = [UIColor colorWithRed:1.00 green:0.95 blue:0.80 alpha:1.0];
+        self.collectionView1.backgroundColor = [UIColor colorWithRed:1.00 green:0.95 blue:0.80 alpha:1.0];
 //        self.collectionView2.backgroundColor = [UIColor colorWithRed:1.00 green:0.95 blue:0.80 alpha:1.0];
         
         self.viewsDictionary = @{   @"headline1"    : self.headline1,
                                     @"source"       : self.collectionView1,
+                                    @"stepper"      : self.stepper,
                                     @"headline2"    : self.headline2,
                                     @"target"       : self.collectionView2 };
+
         
         [self setupConstraints];
         [self calculateCellSize];
@@ -175,7 +181,7 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
 
-    int number = collectionView.tag==1 ? NUMBER_SOURCE_ITEMS: NUMBER_TARGET_ITEMS;
+    int number = collectionView.tag==1 ? numberOfDragItems: NUMBER_TARGET_ITEMS;
     return number;
 }
 
@@ -349,13 +355,14 @@
     percentHeader2 = PERCENT_HEADER_2;
     percentDragArea = PERCENT_DRAG_AREA;
     percentDropArea = PERCENT_DROP_AREA;
+    percentStepper = PERCENT_STEPPER;
     
     // clear constraints in case of device rotation
     [self removeConstraints:visualFormatConstraints];
     [self removeConstraints:layoutConstraints];
 
     
-    NSString* visualFormatText = [NSString stringWithFormat:@"V:|-%d-[headline1]-%d-[source][headline2]-%d-[target]",MARGIN, 0, 0];
+    NSString* visualFormatText = [NSString stringWithFormat:@"V:|-%d-[headline1]-%d-[source]-%f-[stepper]-%d-[headline2]-%d-[target]",MARGIN, 0, 0.5*MARGIN, 0, 0];
     
 
     
@@ -376,6 +383,7 @@
     float heightHeader2  = (float) totalHeight*percentHeader2*0.01;
     float heightDragArea = (float) totalHeight*percentDragArea*0.01;
     float heightDropArea = (float) totalHeight*percentDropArea*0.01;
+    float heightStepper  = (float) totalHeight*percentStepper*0.01;
     
     // Width constraint
     [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.headline1
@@ -485,6 +493,42 @@
                                                               multiplier:1.0
                                                                 constant:0.0]];
     
+    
+    // Width constraint
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.stepper
+                                                              attribute:NSLayoutAttributeWidth
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self
+                                                              attribute:NSLayoutAttributeWidth
+                                                             multiplier:0.0
+                                                               constant:totalWidth]];
+    
+    // Height constraint
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.stepper
+                                                              attribute:NSLayoutAttributeHeight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self
+                                                              attribute:NSLayoutAttributeHeight
+                                                             multiplier:0.0
+                                                               constant:heightStepper]];
+    // Center horizontally
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.stepper
+                                                              attribute:NSLayoutAttributeCenterX
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self
+                                                              attribute:NSLayoutAttributeCenterX
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+    
+//    // Center vertically
+//    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.stepper
+//                                                              attribute:NSLayoutAttributeCenterY
+//                                                              relatedBy:NSLayoutRelationEqual
+//                                                                 toItem:self
+//                                                              attribute:NSLayoutAttributeCenterY
+//                                                             multiplier:1.0
+//                                                               constant:0.0]];
+    
 
     
     // add all constraints at once
@@ -501,8 +545,8 @@
     int N;
     
 
-    collectionViewWidth  = totalWidth;//self.collectionView1.frame.size.width;
-    collectionViewHeight = totalHeight*percentDragArea*0.01; //self.collectionView1.frame.size.height;
+    collectionViewWidth  = totalWidth;
+    collectionViewHeight = totalHeight*percentDragArea*0.01;
     N = (int)[self.collectionView1 numberOfItemsInSection:0];
     
     
@@ -529,6 +573,11 @@
             int cols = [matrixArray[0] intValue] + 1;
             cellWidthHeight = floorf((collectionViewWidth - (cols-1)*itemSpacing)/cols);
             
+            // case when matrix contains only one row with few elements
+            if (cellWidthHeight > collectionViewHeight) {
+                cellWidthHeight = collectionViewHeight;
+            }
+            
             break;
         }
         
@@ -537,6 +586,11 @@
         
         newVal = [matrixArray[1] intValue] + 1;
         [matrixArray replaceObjectAtIndex:1 withObject:[NSNumber numberWithInt:newVal]];
+        
+        // case when matrix contains only two elements
+        if (matrixArray.count<3) {
+            return;
+        }
         
         if ([matrixArray[2] intValue] > 0) {
             newVal = [matrixArray[2] intValue] + 1;
@@ -566,11 +620,43 @@
             break;
         }
     }
+
+}
+
+- (void) createStepper {
     
-    // don't do it - app crashes after device rotation!
-//    UICollectionViewFlowLayout *flow = (UICollectionViewFlowLayout*) self.collectionView1.collectionViewLayout;
-//    int rows = [matrixArray getNumberOfActiveElements] - 1;
-//    float newLineSpacing = (collectionViewHeight - rows*cellWidthHeight) / (rows-1);
+    self.stepper = [[UIStepper alloc] initWithFrame:CGRectZero];
+    [self.stepper addTarget:self action:@selector(stepperChanged:) forControlEvents:UIControlEventValueChanged];
+    [self.stepper setBackgroundColor:[UIColor clearColor]];
+    [self.stepper setTranslatesAutoresizingMaskIntoConstraints:NO];
+    self.stepper.value = NUMBER_SOURCE_ITEMS;
+    self.stepper.minimumValue = 2;
+    self.stepper.maximumValue = 50;
+    self.stepper.stepValue = 1;
+    self.stepper.userInteractionEnabled = YES;
+    self.stepper.tintColor = FONT_COLOR;
+    
+    numberOfDragItems = self.stepper.value;
+    
+    
+    [self addSubview:self.stepper];
+ 
+}
+
+- (void)stepperChanged:(UIStepper*)stepper {
+    
+    numberOfDragItems = self.stepper.value;
+    
+    for (UIView *subview in self.subviews) {
+        if ([subview isKindOfClass:[DragView class]]) {
+            [subview removeFromSuperview];
+        }
+    }
+    
+
+    [self.collectionView1 reloadData];
+    [self.collectionView2 reloadData];
+    [self calculateCellSize];
 
 }
 

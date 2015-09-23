@@ -25,7 +25,7 @@
     
     self.text = text;
     self.textAlignment = NSTextAlignmentLeft;
-    self.textColor = [UIColor darkGrayColor];
+    self.textColor = FONT_COLOR;
     
     UIFont* font = IS_IPAD ? [UIFont fontWithName:@"Helvetica-Bold" size:28] : [UIFont fontWithName:@"Helvetica-Bold" size:16];
     

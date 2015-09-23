@@ -10,8 +10,6 @@
 
 @interface NSMutableArray (cat)
 
-//- (void) populateWithNumber: (int) num atIndex: (int) index;
-
 - (int) getNumberOfActiveElements;
 
 @end

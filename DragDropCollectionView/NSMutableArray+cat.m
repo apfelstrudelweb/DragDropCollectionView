@@ -10,18 +10,6 @@
 
 @implementation NSMutableArray (cat)
 
-//- (void) populateWithNumber: (int) num atIndex: (int) index {
-//    
-//    NSLog(@"count=%lu", (unsigned long)self.count);
-//    
-//    NSNumber* number = [NSNumber numberWithInt:num];
-//    
-//    if (self.count < index+1) {
-//         [self insertObject:number atIndex:index];
-//    } else {
-//         [self replaceObjectAtIndex:index withObject:number];
-//    }
-//}
 
 - (int) getNumberOfActiveElements {
     int num = 0;
