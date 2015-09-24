@@ -77,4 +77,9 @@
     return [UIColor colorWithRed:aRedValue/255.0f green:aGreenValue/255.0f blue:aBlueValue/255.0f alpha:1.0f];
 }
 
++ (int) getHighestKeyInDict: (NSMutableDictionary*) dict {
+    NSArray * keys = [dict allKeys];
+    return [[keys valueForKeyPath:@"@max.intValue"] intValue];
+}
+
 @end

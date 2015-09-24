@@ -148,18 +148,64 @@
         NSDictionary *userInfo = notification.userInfo;
         NSIndexPath* indexPath = [userInfo objectForKey:@"indexPath"];
         
-        [targetCellsDict  removeObjectForKey:[NSNumber numberWithInt:(int)indexPath.item]];
+//        numberOfDropItems--;
+//        [self.collectionView2 performBatchUpdates:^{
+//            //NSLog(@"item = %d", (int)indexPath.item);
+//            [self.collectionView2 deleteItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
+//            
+//        } completion: ^(BOOL finished) {
+//            // important: reload data, otherwise empty cells could remain visible!
+//            [self.collectionView2 reloadData];
+//        }];
+        
+        // append empty cell in order to maintain a constant number of cells
+        numberOfDropItems++;
+        [self.collectionView2 performBatchUpdates:^{
+            
+            NSIndexPath* indexPathToAppend = [NSIndexPath indexPathForRow:numberOfDropItems-1 inSection:0];
+            
+            NSArray *indexPaths = [NSArray arrayWithObject:indexPathToAppend];
+            [self.collectionView2 insertItemsAtIndexPaths:indexPaths];
+            
+        } completion: ^(BOOL finished) {
+            [targetCellsDict  removeObjectForKey:[NSNumber numberWithInt:(int)indexPath.item]];
+            
+        }];
+
     }
 }
 
 - (void) receiveShiftCellNotification:(NSNotification *) notification {
     if ([[notification name] isEqualToString:@"shiftCellNotification"]) {
         
-        // shift elements to left and remove empty ones
-        [Utils eliminateEmptyKeysInDict:targetCellsDict];
         
-        // refresh collection view so that changes can take effect
-        [self.collectionView2 reloadData];
+        NSDictionary *userInfo = notification.userInfo;
+        NSIndexPath* indexPath = [userInfo objectForKey:@"indexPath"];
+        
+        numberOfDropItems--;
+        [self.collectionView2 performBatchUpdates:^{
+            //NSLog(@"item = %d", (int)indexPath.item);
+            [self.collectionView2 deleteItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
+            
+        } completion: ^(BOOL finished) {
+            // shift elements to left and remove empty ones
+            [Utils eliminateEmptyKeysInDict:targetCellsDict];
+            // important: reload data, otherwise empty cells could remain visible!
+            [self.collectionView2 reloadData];
+            
+            // now scroll to the last item in collection view
+            int maxItem = [Utils getHighestKeyInDict:targetCellsDict];
+            NSIndexPath* scrollToIndexPath = [NSIndexPath indexPathForItem:maxItem inSection:0];
+            
+            [self.collectionView2 scrollToItemAtIndexPath:scrollToIndexPath atScrollPosition:UICollectionViewScrollPositionBottom animated:YES];
+        }];
+
+        //[self.collectionView2 setContentOffset:CGPointZero animated:YES];
+        
+
+        
+
+
     }
 }
 
@@ -246,7 +292,7 @@
             [cell setLabelTitle:model.labelTitle];
         }
     }
-
+    
     return cell;
 }
 
@@ -255,7 +301,6 @@
     
     return CGSizeMake(cellWidthHeight, cellWidthHeight);
 }
-
 
 
 #pragma mark -UIPanGestureRecognizer
@@ -293,12 +338,38 @@
                                          recognizer.view.center.y + translation.y);
     [recognizer setTranslation:CGPointMake(0, 0) inView:self];
     
-    CGPoint tapLocation = [recognizer locationInView:self.collectionView2];
+    CGPoint tapLocationInCollectionView = [recognizer locationInView:self.collectionView2];
+    CGPoint tapLocationInDragView = [recognizer locationInView:dragView];
     
     // negative offset -> left cell should not be highlighted when touch point is in the middle of two cells
-    CollectionViewCell* dummyCell = (CollectionViewCell*)[self.collectionView2 cellForItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
-    float cellWidth = dummyCell.frame.size.width;
-    CGPoint correctedTapLocation = CGPointMake(tapLocation.x-0.1*cellWidth, tapLocation.y);
+    CollectionViewCell* dummyCell;
+    
+    
+    // Get vertical scroll offset
+    //
+    // Important: when collection view is scrolled, all information about previous cells
+    // (which are no more visible) are lost!
+    // That's why we need to iterate over all cells and find the first one which can
+    // provide the width and height of such.
+    for (int i=0; i<[self.collectionView2 numberOfItemsInSection:0]; i++) {
+        dummyCell = (CollectionViewCell*)[self.collectionView2 cellForItemAtIndexPath:[NSIndexPath indexPathForItem:i inSection:0]];
+        if (dummyCell) {
+            break;
+        }
+    }
+    
+    float cellWidth = dummyCell.bounds.size.width;
+    float cellHeight = dummyCell.bounds.size.height; // is redundant, perhaps we'll need it in future
+    float scrollY = self.collectionView2.contentOffset.y / self.collectionView2.frame.size.height;
+    
+    
+    // now get the center of the dragged view -> we need two tap locations:
+    // - first tap location related to the collection view and
+    // - second tap location related to the dragged view
+    float centerX = tapLocationInCollectionView.x - tapLocationInDragView.x + 0.5*cellWidth;
+    float centerY = tapLocationInCollectionView.y - tapLocationInDragView.y + 0.5*cellHeight+scrollY;
+    
+    CGPoint correctedTapLocation = CGPointMake(centerX, centerY);
     
     NSIndexPath *dropIndexPath = [self.collectionView2 indexPathForItemAtPoint:correctedTapLocation];
     cell = (CollectionViewCell*)[self.collectionView2 cellForItemAtIndexPath:dropIndexPath];
@@ -327,7 +398,7 @@
                 // when cell is left, shrink again
                 [prevCell shrinkEmptyOne];
                 [prevCell unhighlightEmptyOne];
-     
+                
             } else {
                 // when populated cell is left again, release the color lightening
                 [prevCell unhighlightPopulatedOne];
@@ -345,16 +416,11 @@
         // if specific cell isn't touched, figure out if we are between two cells
         if (!dropIndexPath) {
             
-            //float leftPos = recognizer.view.frame.origin.x;
+            float leftX = correctedTapLocation.x - 0.5*cellWidth - 0.5*itemSpacing;
             
-            // after scrolling down ...
-            CGPoint contentOffset = [self.collectionView2 contentOffset];
-            NSLog(@"contentOffset: %f",contentOffset.y);
-            NSLog(@"tapLocation:   %f",tapLocation.y);
+            CGPoint leftTapLocation = CGPointMake(leftX, correctedTapLocation.y);
             
-            CGPoint correctedTapLocation = CGPointMake(tapLocation.x - 0.5*cellWidth, tapLocation.y);
-            
-            insertIndexPath = [self.collectionView2 indexPathForItemAtPoint:correctedTapLocation];
+            insertIndexPath = [self.collectionView2 indexPathForItemAtPoint:leftTapLocation];
             
             if (insertIndexPath) {
                 //NSLog(@"finalInsertIndexPath: %ld", (long)insertIndexPath.item);
@@ -371,16 +437,7 @@
                     [rightCell pushToRight];
                 }
             }
-//            else {
-//                if (leftCell.isPopulated && rightCell.isPopulated) {
-//                    [leftCell pushBack];
-//                    [rightCell pushBack];
-//                }
-//            }
-        } else {
-            //finalInsertIndexPath = nil;
         }
-        
     }
     
     
@@ -413,7 +470,7 @@
                 
                 NSArray *indexPaths = [NSArray arrayWithObject:indexPathToInsert];
                 [self.collectionView2 insertItemsAtIndexPaths:indexPaths];
-
+                
             } completion: ^(BOOL finished) {
                 
                 newCell = (CollectionViewCell*)[self.collectionView2 cellForItemAtIndexPath:indexPathToInsert];
@@ -428,29 +485,29 @@
                 [model setColor:dragView.backgroundColor];
                 [model setLabelTitle:[dragView getLabelTitel]];
                 
-                //TODO: update dictionary with inserted element
+                
+                // Now update dictionary, shifting all elements right of the insert index to right
                 int insertIndex = (int)indexPathToInsert.item;
                 
                 NSDictionary* prevDict = [targetCellsDict mutableCopy];
                 
                 [targetCellsDict setObject:model forKey:[NSNumber numberWithInt:insertIndex]];
-
                 
                 [prevDict enumerateKeysAndObjectsUsingBlock:^(id key, id model, BOOL *stop) {
-                    NSLog(@"model - > %@ = %@", key, ((CellModel*)model).labelTitle);
+                    //NSLog(@"model - > %@ = %@", key, ((CellModel*)model).labelTitle);
                     int _key = [key intValue];
                     
                     if (_key > insertIndex - 1) {
-                        NSLog(@"xxxxxxxxx %@ = %@", key, model);
-                        
+                        //NSLog(@"xxxxxxxxx %@ = %@", key, model);
                         [targetCellsDict setObject:model forKey:[NSNumber numberWithInt:_key+1]];
                     }
                 }];
-
+                
             }];
             
-            NSLog(@"targetCellsDict: %@", targetCellsDict);
+            //NSLog(@"targetCellsDict: %@", targetCellsDict);
             
+            // now remove last cell in order to maintain a constant number of cells
             numberOfDropItems--;
             [self.collectionView2 performBatchUpdates:^{
                 
@@ -464,13 +521,10 @@
                 leftCell = nil;
                 rightCell = nil;
             }];
-            
-            
             return;
-
         }
         
-        // append cell
+        // populate cell
         [cell initialize]; // don't omit otherwise overwritten cells will have multiple labels!
         // when new object is put on it, release the color lightening
         [cell unhighlightPopulatedOne];

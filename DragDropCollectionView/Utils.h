@@ -13,4 +13,6 @@
 + (CGRect) getCellCoordinates: (CollectionViewCell *) cell fromCollectionView: (UICollectionView*) collectionView;
 + (UIColor*) getRandomColor;
 
++ (int) getHighestKeyInDict: (NSMutableDictionary*) dict;
+
 @end

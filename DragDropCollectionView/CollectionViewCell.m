@@ -31,6 +31,9 @@
     self.colorView.backgroundColor = COLOR_PLACEHOLDER_UNTOUCHED;
     
     [self setupViewConstraints:self.colorView isExpanded:false];
+    
+    self.isPopulated = false;
+    self.isExpanded = false;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -78,7 +81,7 @@
     NSDictionary *userInfo = [NSDictionary dictionaryWithObject:self.indexPath forKey:@"indexPath"];
 
     if (sender.state == UIGestureRecognizerStateEnded) {
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"shiftCellNotification" object:nil userInfo:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"shiftCellNotification" object:nil userInfo:userInfo];
     }
     else if (sender.state == UIGestureRecognizerStateBegan){
         [self initialize];
@@ -186,7 +189,7 @@
                                                                   relatedBy:NSLayoutRelationEqual
                                                                      toItem:self.contentView
                                                                   attribute:NSLayoutAttributeHeight
-                                                                 multiplier:1.0
+                                                                 multiplier:reset ? 1.0 : 1.2
                                                                    constant:0]];
     
     // Center horizontally
