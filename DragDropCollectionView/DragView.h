@@ -11,6 +11,7 @@
 @interface DragView : UIView
 
 @property (nonatomic, strong) UILabel* cellLabel;
+@property (nonatomic, strong) UIImageView* imageView;
 
 - (void) setLabelTitle:(NSString *)value;
 - (NSString*) getLabelTitel;

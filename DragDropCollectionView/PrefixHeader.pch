@@ -12,6 +12,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#import "DragDropConfig.h"
 #import "UILabel+cat.h"
 #import "NSMutableArray+cat.h"
 #import "MainView.h"
@@ -42,7 +43,6 @@
 #define COLOR_PLACEHOLDER_TOUCHED    [UIColor colorWithRed:0.80 green:0.80 blue:0.80 alpha:1.0]
 #define COLOR_PLACEHOLDER_UNTOUCHED  [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0]
 
-#define SHARED_MANAGER     [LayoutManager sharedManager]
-
+#define SHARED_CONFIG   [DragDropConfig sharedConfig]
 
 #endif

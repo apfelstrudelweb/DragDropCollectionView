@@ -13,5 +13,6 @@
 
 @property (nonatomic, strong) NSString* labelTitle;
 @property (nonatomic, strong) UIColor* color;
+@property (nonatomic, strong) UIImageView* imageView;
 
 @end

@@ -21,6 +21,11 @@
     
     [self addSubview:self.cellLabel];
     
+    
+//    self.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dummy.png"]];
+//    self.imageView.contentMode = UIViewContentModeScaleAspectFit;
+//    [self addSubview:self.imageView];
+    
     [self setupConstraints:self.cellLabel];
 }
 

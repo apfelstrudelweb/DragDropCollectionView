@@ -42,6 +42,8 @@
 
 @implementation MainView
 
+
+
 - (id)init {
     return [self initWithFrame:CGRectZero];
 }
@@ -51,6 +53,11 @@
     self = [super initWithFrame:frame];
     if (self) {
         
+        itemSpacing = [SHARED_CONFIG itemSpacing];
+        sourceCellsDict = [SHARED_CONFIG dataSourceDict]; //[NSMutableDictionary new];
+        targetCellsDict = [NSMutableDictionary new];
+        
+        numberOfDragItems = sourceCellsDict.count;
         numberOfDropItems = NUMBER_TARGET_ITEMS;
         
         self.headline1 = [[UILabel alloc] initWithFrame:frame];
@@ -63,12 +70,7 @@
         [self.headline2 setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.headline2];
         
-        
-        targetCellsDict = [NSMutableDictionary new];
-        sourceCellsDict = [NSMutableDictionary new];
-        
-        itemSpacing = SPACE_BETWEEN_ITEMS;
-        
+
         UICollectionViewFlowLayout *flowLayout1 = [[UICollectionViewFlowLayout alloc] init];
         
         [flowLayout1 setMinimumInteritemSpacing:itemSpacing];
@@ -76,11 +78,11 @@
         
         
         self.collectionView1 = [[UICollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout1];
+        self.collectionView1.backgroundColor = [SHARED_CONFIG backgroundColorSourceView];
         
         self.collectionView1.delegate = self;
         self.collectionView1.dataSource = self;
         self.collectionView1.showsHorizontalScrollIndicator = NO;
-        self.collectionView1.backgroundColor = [UIColor whiteColor];
         
         [self.collectionView1 registerClass:[CollectionViewCell class] forCellWithReuseIdentifier:@"cell1"];
         self.collectionView1.tag = 1;
@@ -99,11 +101,11 @@
         //[flowLayout2 setScrollDirection:UICollectionViewScrollDirectionHorizontal];
         
         self.collectionView2 = [[UICollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout2];
+        self.collectionView2.backgroundColor = [SHARED_CONFIG backgroundColorTargetView];
         
         self.collectionView2.delegate = self;
         self.collectionView2.dataSource = self;
         self.collectionView2.showsVerticalScrollIndicator = YES;
-        self.collectionView2.backgroundColor = [UIColor whiteColor];
         
         [self.collectionView2 registerClass:[CollectionViewCell class] forCellWithReuseIdentifier:@"cell2"];
         self.collectionView2.tag = 2;
@@ -114,9 +116,6 @@
         
         [self createStepper];
         
-        
-        self.collectionView1.backgroundColor = [UIColor colorWithRed:1.00 green:0.95 blue:0.80 alpha:1.0];
-        //        self.collectionView2.backgroundColor = [UIColor colorWithRed:1.00 green:0.95 blue:0.80 alpha:1.0];
         
         self.viewsDictionary = @{   @"headline1"    : self.headline1,
                                     @"source"       : self.collectionView1,
@@ -141,23 +140,14 @@
     return self;
 }
 
+
 #pragma mark -NSNotificationCenter
 // notification from InfoView: user has clicked into a red info cell "X"
 - (void) receiveDeleteCellNotification:(NSNotification *) notification {
     if ([[notification name] isEqualToString:@"deleteCellNotification"]) {
         NSDictionary *userInfo = notification.userInfo;
         NSIndexPath* indexPath = [userInfo objectForKey:@"indexPath"];
-        
-//        numberOfDropItems--;
-//        [self.collectionView2 performBatchUpdates:^{
-//            //NSLog(@"item = %d", (int)indexPath.item);
-//            [self.collectionView2 deleteItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
-//            
-//        } completion: ^(BOOL finished) {
-//            // important: reload data, otherwise empty cells could remain visible!
-//            [self.collectionView2 reloadData];
-//        }];
-        
+  
         // append empty cell in order to maintain a constant number of cells
         numberOfDropItems++;
         [self.collectionView2 performBatchUpdates:^{
@@ -174,6 +164,7 @@
 
     }
 }
+
 
 - (void) receiveShiftCellNotification:(NSNotification *) notification {
     if ([[notification name] isEqualToString:@"shiftCellNotification"]) {
@@ -193,19 +184,8 @@
             // important: reload data, otherwise empty cells could remain visible!
             [self.collectionView2 reloadData];
             
-            // now scroll to the last item in collection view
-            int maxItem = [Utils getHighestKeyInDict:targetCellsDict];
-            NSIndexPath* scrollToIndexPath = [NSIndexPath indexPathForItem:maxItem inSection:0];
-            
-            [self.collectionView2 scrollToItemAtIndexPath:scrollToIndexPath atScrollPosition:UICollectionViewScrollPositionBottom animated:YES];
+            [self scrollToLastElement];
         }];
-
-        //[self.collectionView2 setContentOffset:CGPointZero animated:YES];
-        
-
-        
-
-
     }
 }
 
@@ -225,6 +205,7 @@
     [self.collectionView1 reloadData];
     [self.collectionView2 reloadData];
     
+    [self scrollToLastElement];
     
 }
 
@@ -256,6 +237,13 @@
         if (dragView) {
             // overwrite coordinates after interface rotation
             [dragView setFrame:dragRect];
+            
+            
+            UIPanGestureRecognizer* recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+            [recognizer setMaximumNumberOfTouches:1];
+            [recognizer setMinimumNumberOfTouches:1];
+            [dragView addGestureRecognizer:recognizer];
+            
             [self addSubview:dragView];
         } else {
             // for test and visualization purposes, create each cell with a different and random color
@@ -271,7 +259,6 @@
             UIPanGestureRecognizer* recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
             [recognizer setMaximumNumberOfTouches:1];
             [recognizer setMinimumNumberOfTouches:1];
-            
             [dragView addGestureRecognizer:recognizer];
             
             [self addSubview:dragView];
@@ -290,6 +277,7 @@
         if (model) {
             [cell setColor:model.color];
             [cell setLabelTitle:model.labelTitle];
+            //[cell addSubview:model.imageView];
         }
     }
     
@@ -300,6 +288,16 @@
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     return CGSizeMake(cellWidthHeight, cellWidthHeight);
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    
+    // put the first row a bit below - so when cell is to be inserted, the left and right cell has enough place to expand to the top as well
+    if (collectionView.tag == 2) {
+        return UIEdgeInsetsMake(0.5*itemSpacing, 0, 0, 0);
+    }
+    // don't change the insets of the source collection view
+    return UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
 
@@ -479,11 +477,14 @@
                 //[cell unhighlightPopulatedOne];
                 [newCell setColor: dragView.backgroundColor];
                 [newCell setLabelTitle:[dragView getLabelTitel]];
+                //[cell addSubview:dragView.imageView];
+ 
                 [dragView removeFromSuperview];
                 
                 CellModel* model = [CellModel new];
                 [model setColor:dragView.backgroundColor];
                 [model setLabelTitle:[dragView getLabelTitel]];
+                //[model setImageView:dragView.imageView];
                 
                 
                 // Now update dictionary, shifting all elements right of the insert index to right
@@ -531,12 +532,14 @@
         
         [cell setColor: dragView.backgroundColor];
         [cell setLabelTitle:[dragView getLabelTitel]];
+        //[cell addSubview:dragView.imageView];
         
         [dragView removeFromSuperview];
         
         CellModel* model = [CellModel new];
         [model setColor:dragView.backgroundColor];
         [model setLabelTitle:[dragView getLabelTitel]];
+        //[model setImageView:dragView.imageView];
         
         [targetCellsDict setObject:model forKey:[NSNumber numberWithInt:(int)dropIndexPath.item]];
     }
@@ -735,6 +738,15 @@
     [self addConstraints:layoutConstraints];
 }
 
+#pragma mark -utility methods
+- (void)scrollToLastElement {
+    // now scroll to the last item in collection view
+    int maxItem = [Utils getHighestKeyInDict:targetCellsDict];
+    NSIndexPath* scrollToIndexPath = [NSIndexPath indexPathForItem:maxItem inSection:0];
+    
+    [self.collectionView2 scrollToItemAtIndexPath:scrollToIndexPath atScrollPosition:UICollectionViewScrollPositionBottom animated:YES];
+}
+
 - (void) calculateCellSize {
     
     float collectionViewWidth;
@@ -830,15 +842,12 @@
     [self.stepper addTarget:self action:@selector(stepperChanged:) forControlEvents:UIControlEventValueChanged];
     [self.stepper setBackgroundColor:[UIColor clearColor]];
     [self.stepper setTranslatesAutoresizingMaskIntoConstraints:NO];
-    self.stepper.value = NUMBER_SOURCE_ITEMS;
+    self.stepper.value = numberOfDragItems;
     self.stepper.minimumValue = 2;
     self.stepper.maximumValue = 50;
     self.stepper.stepValue = 1;
     self.stepper.userInteractionEnabled = YES;
     self.stepper.tintColor = FONT_COLOR;
-    
-    numberOfDragItems = self.stepper.value;
-    
     
     [self addSubview:self.stepper];
     
@@ -858,6 +867,9 @@
     [self.collectionView1 reloadData];
     [self.collectionView2 reloadData];
     [self calculateCellSize];
+    
+    // now scroll to the last item in collection view
+    [self scrollToLastElement];
     
 }
 

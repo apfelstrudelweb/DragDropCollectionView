@@ -13,6 +13,8 @@
 		1BDB12321BAAB672005A5051 /* DragView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDB12311BAAB672005A5051 /* DragView.m */; };
 		1BDB12351BAABE0D005A5051 /* CellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDB12341BAABE0D005A5051 /* CellModel.m */; };
 		1BDC75E91BB1B22E00171AA2 /* NSMutableArray+cat.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC75E81BB1B22E00171AA2 /* NSMutableArray+cat.m */; };
+		1BDDE7481BB4426400E54751 /* DragDropConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDDE7471BB4426400E54751 /* DragDropConfig.m */; };
+		1BDDE74C1BB456D500E54751 /* dummy.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BDDE74B1BB456D500E54751 /* dummy.png */; };
 		1BDF7FAE1BA833FC00A49AA9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDF7FAD1BA833FC00A49AA9 /* main.m */; };
 		1BDF7FB11BA833FC00A49AA9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDF7FB01BA833FC00A49AA9 /* AppDelegate.m */; };
 		1BDF7FB41BA833FC00A49AA9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDF7FB31BA833FC00A49AA9 /* ViewController.m */; };
@@ -45,6 +47,9 @@
 		1BDB12341BAABE0D005A5051 /* CellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellModel.m; sourceTree = "<group>"; };
 		1BDC75E71BB1B22E00171AA2 /* NSMutableArray+cat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+cat.h"; sourceTree = "<group>"; };
 		1BDC75E81BB1B22E00171AA2 /* NSMutableArray+cat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+cat.m"; sourceTree = "<group>"; };
+		1BDDE7461BB4426400E54751 /* DragDropConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DragDropConfig.h; sourceTree = "<group>"; };
+		1BDDE7471BB4426400E54751 /* DragDropConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DragDropConfig.m; sourceTree = "<group>"; };
+		1BDDE74B1BB456D500E54751 /* dummy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dummy.png; sourceTree = "<group>"; };
 		1BDF7FA81BA833FC00A49AA9 /* DragDropCollectionView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DragDropCollectionView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BDF7FAC1BA833FC00A49AA9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1BDF7FAD1BA833FC00A49AA9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -99,6 +104,7 @@
 		1BDF7FAA1BA833FC00A49AA9 /* DragDropCollectionView */ = {
 			isa = PBXGroup;
 			children = (
+				1BDDE74B1BB456D500E54751 /* dummy.png */,
 				1BDF7FAF1BA833FC00A49AA9 /* AppDelegate.h */,
 				1BDF7FB01BA833FC00A49AA9 /* AppDelegate.m */,
 				1BDF7FB21BA833FC00A49AA9 /* ViewController.h */,
@@ -117,6 +123,8 @@
 				1BBDE4161BAC56C300CD5461 /* UILabel+cat.m */,
 				1BDC75E71BB1B22E00171AA2 /* NSMutableArray+cat.h */,
 				1BDC75E81BB1B22E00171AA2 /* NSMutableArray+cat.m */,
+				1BDDE7461BB4426400E54751 /* DragDropConfig.h */,
+				1BDDE7471BB4426400E54751 /* DragDropConfig.m */,
 			);
 			path = DragDropCollectionView;
 			sourceTree = "<group>";
@@ -230,6 +238,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BDDE74C1BB456D500E54751 /* dummy.png in Resources */,
 				1BDF7FB91BA833FC00A49AA9 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -250,6 +259,7 @@
 			files = (
 				1BBDE4121BAC1B7200CD5461 /* Utils.m in Sources */,
 				1BD968361BA99A3200C243D1 /* CollectionViewCell.m in Sources */,
+				1BDDE7481BB4426400E54751 /* DragDropConfig.m in Sources */,
 				1BDF7FB41BA833FC00A49AA9 /* ViewController.m in Sources */,
 				1BDF7FD31BA8354700A49AA9 /* MainView.m in Sources */,
 				1BDC75E91BB1B22E00171AA2 /* NSMutableArray+cat.m in Sources */,

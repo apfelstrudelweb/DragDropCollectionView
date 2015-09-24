@@ -8,6 +8,8 @@
 
 #import "CollectionViewCell.h"
 
+#define ANIMATION_DURATION 0.25
+
 @interface CollectionViewCell() {
     NSMutableArray* layoutViewConstraints;
     NSMutableArray* layoutLabelConstraints;
@@ -28,6 +30,15 @@
             }
         }
     }
+    
+    // remove previous image view
+    for (UIView *subview in self.subviews) {
+            if ([subview isKindOfClass:[UIImageView class]]) {
+                [subview removeFromSuperview];
+                break;
+            }
+    }
+    
     self.colorView.backgroundColor = COLOR_PLACEHOLDER_UNTOUCHED;
     
     [self setupViewConstraints:self.colorView isExpanded:false];
@@ -55,8 +66,8 @@
         
         self.userInteractionEnabled = YES;
         
-//        [[self contentView] setFrame:[self bounds]];
-//        [[self contentView] setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+        //        [[self contentView] setFrame:[self bounds]];
+        //        [[self contentView] setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
         
     }
     return self;
@@ -64,7 +75,7 @@
 
 //- (bool) isPopulated {
 //    bool hasLabel = false;
-//    
+//
 //    for (UIView *view in self.contentView.subviews) {
 //        for (UIView *subview in view.subviews) {
 //            if ([subview isKindOfClass:[UILabel class]]) {
@@ -79,7 +90,7 @@
 - (void) didLongPress:(UISwipeGestureRecognizer *)sender  {
     
     NSDictionary *userInfo = [NSDictionary dictionaryWithObject:self.indexPath forKey:@"indexPath"];
-
+    
     if (sender.state == UIGestureRecognizerStateEnded) {
         [[NSNotificationCenter defaultCenter] postNotificationName: @"shiftCellNotification" object:nil userInfo:userInfo];
     }
@@ -144,8 +155,13 @@
     
     if (self.isPushedToLeft || !self.isPopulated) return;
     self.isPushedToLeft = true;
-    
     [self setupViewConstraints:true doReset:false];
+    
+    [UIView animateWithDuration:ANIMATION_DURATION
+                     animations:^{
+                         [self layoutIfNeeded];
+                     }];
+    
 }
 
 - (void) pushToRight {
@@ -154,6 +170,11 @@
     self.isPushedToRight = true;
     
     [self setupViewConstraints:false doReset:false];
+    
+    [UIView animateWithDuration:ANIMATION_DURATION
+                     animations:^{
+                         [self layoutIfNeeded];
+                     }];
 }
 
 - (void) pushBack {
@@ -161,6 +182,11 @@
     self.isPushedToLeft = false;
     self.isPushedToRight = false;
     [self setupViewConstraints:false doReset:true];
+    
+    [UIView animateWithDuration:ANIMATION_DURATION
+                     animations:^{
+                         [self layoutIfNeeded];
+                     }];
 }
 
 
@@ -171,6 +197,7 @@
     
     [self removeConstraints:layoutViewConstraints];
     layoutViewConstraints = [NSMutableArray new];
+    
     
     NSLayoutAttribute layoutAttributeHorizAlign = toLeft ? NSLayoutAttributeLeft : NSLayoutAttributeRight;
     
