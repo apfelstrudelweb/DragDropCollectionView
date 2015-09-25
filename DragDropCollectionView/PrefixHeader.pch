@@ -12,11 +12,16 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#import "CollectionViewCell.h"
+#import "DragCollectionView.h"
+#import "DropCollectionView.h"
+#import "MainBasicView.h"
 #import "DragDropConfig.h"
 #import "UILabel+cat.h"
 #import "NSMutableArray+cat.h"
+#import "NSMutableDictionary+cat.h"
 #import "MainView.h"
-#import "CollectionViewCell.h"
+
 #import "DragView.h"
 #import "CellModel.h"
 #import "Utils.h"

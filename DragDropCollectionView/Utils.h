@@ -14,5 +14,6 @@
 + (UIColor*) getRandomColor;
 
 + (int) getHighestKeyInDict: (NSMutableDictionary*) dict;
++ (void)scrollToLastElement: (UICollectionView*) collectionView ofDictionary: (NSMutableDictionary*) dict;
 
 @end

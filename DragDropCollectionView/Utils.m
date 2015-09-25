@@ -77,9 +77,25 @@
     return [UIColor colorWithRed:aRedValue/255.0f green:aGreenValue/255.0f blue:aBlueValue/255.0f alpha:1.0f];
 }
 
+/**
+ * Returns the highest key (int) of a dictionary
+ *
+ */
 + (int) getHighestKeyInDict: (NSMutableDictionary*) dict {
     NSArray * keys = [dict allKeys];
     return [[keys valueForKeyPath:@"@max.intValue"] intValue];
+}
+
+/**
+ * collection view: scrolls to the last element of a dictionary
+ *
+ */
++ (void) scrollToLastElement: (UICollectionView*) collectionView ofDictionary: (NSMutableDictionary*) dict {
+    // now scroll to the last item in collection view
+    int maxItem = [self getHighestKeyInDict:dict];
+    NSIndexPath* scrollToIndexPath = [NSIndexPath indexPathForItem:maxItem inSection:0];
+    
+    [collectionView scrollToItemAtIndexPath:scrollToIndexPath atScrollPosition:UICollectionViewScrollPositionBottom animated:YES];
 }
 
 @end

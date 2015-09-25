@@ -7,17 +7,11 @@
 //
 
 
-@interface MainView : UIView  <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface MainView : MainBasicView <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
-@property (strong, nonatomic) UILabel *headline1;
-@property (strong, nonatomic) UILabel *headline2;
 
-@property (strong, nonatomic) UIStepper* stepper;
 
-@property (strong, nonatomic) UICollectionView *collectionView1;
-@property (strong, nonatomic) UICollectionView *collectionView2;
 
-@property (strong, nonatomic) NSDictionary *viewsDictionary;
 
 
 @end
