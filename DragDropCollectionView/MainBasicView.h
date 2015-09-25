@@ -20,6 +20,7 @@
 
 @property (strong, nonatomic) NSDictionary *viewsDictionary;
 
+@property (nonatomic) CGSize dragCollectionViewSize;
 @property (nonatomic) float cellWidthHeight;
 @property (nonatomic) float itemSpacing;
 @property (nonatomic) int numberOfColumns;
@@ -33,6 +34,6 @@
 
 
 - (void)setupConstraints;
-- (void) calculateCellSize;
+
 
 @end

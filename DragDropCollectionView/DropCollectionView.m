@@ -8,7 +8,7 @@
 
 #import "DropCollectionView.h"
 
-#define REUSE_IDENTIFIER @"cell2"
+#define REUSE_IDENTIFIER @"dropCell"
 
 @implementation DropCollectionView
 

@@ -69,7 +69,8 @@
         
 
         [super setupConstraints];
-        [super calculateCellSize];
+        //[super calculateCellSize];
+        self.cellWidthHeight = [self.dragCollectionView getBestFillingCellSize:self.dragCollectionViewSize];
         
     }
     return self;
@@ -442,7 +443,8 @@
     
     [self.dragCollectionView reloadData];
     [self.dropCollectionView reloadData];
-    [super calculateCellSize];
+    //[super calculateCellSize];
+    self.cellWidthHeight = [self.dragCollectionView getBestFillingCellSize:self.dragCollectionViewSize];
     
     // now scroll to the last item in collection view
     [Utils scrollToLastElement: self.dropCollectionView ofDictionary:self.targetCellsDict];

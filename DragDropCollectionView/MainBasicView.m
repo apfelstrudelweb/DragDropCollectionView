@@ -58,7 +58,7 @@
         } completion: ^(BOOL finished) {
             [self.targetCellsDict  removeObjectForKey:[NSNumber numberWithInt:(int)indexPath.item]];
             
-            [self.targetCellsDict log];
+            //[self.targetCellsDict log];
             
         }];
         
@@ -100,7 +100,7 @@
     }
     
     [self setupConstraints];
-    [self calculateCellSize];
+    self.cellWidthHeight = [self.dragCollectionView getBestFillingCellSize:self.dragCollectionViewSize];
     
     [self.dragCollectionView reloadData];
     [self.dropCollectionView reloadData];
@@ -109,94 +109,6 @@
 }
 
 
-- (void) calculateCellSize {
-    
-    float collectionViewWidth;
-    float collectionViewHeight;
-    
-    float occupiedHeight = 0.0;
-    
-    int N;
-    
-    
-    collectionViewWidth  = totalWidth;
-    collectionViewHeight = totalHeight*percentDragArea*0.01;
-    N = (int)[self.dragCollectionView numberOfItemsInSection:0];
-    
-    
-    NSMutableArray *matrixArray = [NSMutableArray new];
-    [matrixArray insertObject:[NSNumber numberWithInt:N] atIndex:0];
-    for (int i=1; i<N; i++) {
-        [matrixArray insertObject:[NSNumber numberWithInt:0] atIndex:i];
-    }
-    
-    int newVal;
-    
-    for (int i=0; i<N; i++) {
-        
-        int rows = [matrixArray getNumberOfActiveElements];
-        int cols = [matrixArray[0] intValue];
-        
-        // 1. row
-        self.cellWidthHeight = floorf((collectionViewWidth - (cols-1)*self.itemSpacing)/cols);
-        
-        occupiedHeight = rows*self.cellWidthHeight + (rows-1)*self.itemSpacing;
-        
-        if (occupiedHeight > collectionViewHeight) {
-            // if total height exceeds contentview, add an item to first row
-            int cols = [matrixArray[0] intValue] + 1;
-            self.cellWidthHeight = floorf((collectionViewWidth - (cols-1)*self.itemSpacing)/cols);
-            self.numberOfColumns = cols;
-            
-            // case when matrix contains only one row with few elements
-            if (self.cellWidthHeight > collectionViewHeight) {
-                self.cellWidthHeight = collectionViewHeight;
-            }
-            
-            break;
-        }
-        
-        newVal = [matrixArray[0] intValue] - 1;
-        [matrixArray replaceObjectAtIndex:0 withObject:[NSNumber numberWithInt:newVal]];
-        
-        newVal = [matrixArray[1] intValue] + 1;
-        [matrixArray replaceObjectAtIndex:1 withObject:[NSNumber numberWithInt:newVal]];
-        
-        // case when matrix contains only two elements
-        if (matrixArray.count<3) {
-            return;
-        }
-        
-        if ([matrixArray[2] intValue] > 0) {
-            newVal = [matrixArray[2] intValue] + 1;
-            [matrixArray replaceObjectAtIndex:2 withObject:[NSNumber numberWithInt:newVal]];
-        }
-        
-        
-        for (int j=1; j<N-1; j++) {
-            int diff = [matrixArray[j] intValue] - [matrixArray[j-1] intValue];
-            
-            if (diff > 0) {
-                newVal = [matrixArray[j] intValue] - diff;
-                [matrixArray replaceObjectAtIndex:j withObject:[NSNumber numberWithInt:newVal]];
-                
-                int sum = 0;
-                for (int k=0;k<j+1;k++) {
-                    sum += [matrixArray[k] intValue];
-                }
-                newVal = N - sum;
-                [matrixArray replaceObjectAtIndex:j+1 withObject:[NSNumber numberWithInt:newVal]];
-            }
-        }
-        
-        //NSLog(@"matrixArray:%@", matrixArray);
-        
-        if ([matrixArray[0] intValue] == 1) {
-            break;
-        }
-    }
-    
-}
 
 
 
@@ -218,6 +130,8 @@
     percentDragArea = PERCENT_DRAG_AREA;
     percentDropArea = PERCENT_DROP_AREA;
     percentStepper = PERCENT_STEPPER;
+    
+    self.dragCollectionViewSize = CGSizeMake(totalWidth, totalHeight*percentDragArea*0.01);
     
     // clear constraints in case of device rotation
     [self removeConstraints:visualFormatConstraints];

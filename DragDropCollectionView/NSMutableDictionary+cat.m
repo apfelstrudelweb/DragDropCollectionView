@@ -32,7 +32,7 @@
      }
      ];
     
-    NSLog(@"allKeys: %@", allKeys);
+    //NSLog(@"allKeys: %@", allKeys);
     
     // 2. copy all elements left to insertion index
     for (int i=0; i<allKeys.count; i++) {
