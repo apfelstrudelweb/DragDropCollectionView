@@ -12,7 +12,7 @@
     // subview proportions
     float totalHeight;
     float totalWidth;
-    int percentHeader1, percentHeader2, percentDragArea, percentDropArea, percentStepper;
+    int percentHeader1, percentHeader2, percentDragArea, percentDropArea;
     
     NSMutableArray* layoutConstraints;
     NSArray *visualFormatConstraints;
@@ -26,7 +26,7 @@
     
     self = [super initWithFrame:frame];
     if (self) {
-
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveDeleteCellNotification:) name:@"deleteCellNotification"
                                                    object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveShiftCellNotification:) name:@"shiftCellNotification"
@@ -68,7 +68,6 @@
 
 - (void) receiveShiftCellNotification:(NSNotification *) notification {
     if ([[notification name] isEqualToString:@"shiftCellNotification"]) {
-        
         
         NSDictionary *userInfo = notification.userInfo;
         NSIndexPath* indexPath = [userInfo objectForKey:@"indexPath"];
@@ -117,7 +116,6 @@
     
     self.viewsDictionary = @{   @"headline1"    : self.headline1,
                                 @"source"       : self.dragCollectionView,
-                                @"stepper"      : self.stepper,
                                 @"headline2"    : self.headline2,
                                 @"target"       : self.dropCollectionView };
     
@@ -129,7 +127,6 @@
     percentHeader2 = PERCENT_HEADER_2;
     percentDragArea = PERCENT_DRAG_AREA;
     percentDropArea = PERCENT_DROP_AREA;
-    percentStepper = PERCENT_STEPPER;
     
     self.dragCollectionViewSize = CGSizeMake(totalWidth, totalHeight*percentDragArea*0.01);
     
@@ -138,7 +135,7 @@
     [self removeConstraints:layoutConstraints];
     
     
-    NSString* visualFormatText = [NSString stringWithFormat:@"V:|-%d-[headline1]-%d-[source]-%f-[stepper]-%d-[headline2]-%d-[target]",MARGIN, 0, 0.5*MARGIN, 0, 0];
+    NSString* visualFormatText = [NSString stringWithFormat:@"V:|-%d-[headline1]-%d-[source]-%d-[headline2]-%d-[target]",MARGIN, 0, 0, 0];
     
     
     
@@ -159,7 +156,6 @@
     float heightHeader2  = (float) totalHeight*percentHeader2*0.01;
     float heightDragArea = (float) totalHeight*percentDragArea*0.01;
     float heightDropArea = (float) totalHeight*percentDropArea*0.01;
-    float heightStepper  = (float) totalHeight*percentStepper*0.01;
     
     // Width constraint
     [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.headline1
@@ -269,32 +265,6 @@
                                                              multiplier:1.0
                                                                constant:0.0]];
     
-    
-    // Width constraint
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.stepper
-                                                              attribute:NSLayoutAttributeWidth
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self
-                                                              attribute:NSLayoutAttributeWidth
-                                                             multiplier:0.0
-                                                               constant:totalWidth]];
-    
-    // Height constraint
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.stepper
-                                                              attribute:NSLayoutAttributeHeight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self
-                                                              attribute:NSLayoutAttributeHeight
-                                                             multiplier:0.0
-                                                               constant:heightStepper]];
-    // Center horizontally
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.stepper
-                                                              attribute:NSLayoutAttributeCenterX
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self
-                                                              attribute:NSLayoutAttributeCenterX
-                                                             multiplier:1.0
-                                                               constant:0.0]];
     
     // add all constraints at once
     [self addConstraints:layoutConstraints];

@@ -10,16 +10,12 @@
 
 
 @interface MainView() {
-
-
-    NSMutableDictionary* sourceCellsDict;
-   
     
     NSIndexPath* prevIndexPath;
     
     NSIndexPath *finalInsertIndexPath;
     CollectionViewCell* leftCell, *rightCell;
-
+    
 }
 
 @end
@@ -38,11 +34,11 @@
     self = [super initWithFrame:frame];
     if (self) {
         
-        self.itemSpacing = [SHARED_CONFIG itemSpacing];
-        sourceCellsDict = [SHARED_CONFIG dataSourceDict];
+        self.itemSpacing = [SHARED_CONFIG cItemSpacing];
+        self.sourceCellsDict = [SHARED_CONFIG cDataSourceDict];
         self.targetCellsDict = [NSMutableDictionary new];
         
-        self.numberOfDragItems = sourceCellsDict.count;
+        self.numberOfDragItems = (int)self.sourceCellsDict.count;
         self.numberOfDropItems = NUMBER_TARGET_ITEMS;
         
         self.headline1 = [[UILabel alloc] initWithFrame:frame];
@@ -54,7 +50,7 @@
         [self.headline2 setTextForHeadline:@"Drag elements from top to bottom"];
         [self.headline2 setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.headline2];
-
+        
         self.dragCollectionView = [[DragCollectionView alloc] initWithFrame:frame withinView:self];
         [self.dragCollectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.dragCollectionView];
@@ -63,14 +59,13 @@
         [self.dropCollectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.dropCollectionView];
         
-
         
-        [self createStepper];
-        
-
         [super setupConstraints];
         //[super calculateCellSize];
         self.cellWidthHeight = [self.dragCollectionView getBestFillingCellSize:self.dragCollectionViewSize];
+        
+        //        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dragCellNotification:) name:@"dragCellNotification"
+        //                                                   object:nil];
         
     }
     return self;
@@ -95,62 +90,26 @@
 -(CollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     CollectionViewCell *cell;
-    UIColor *color;
-    
-    NSString *cellData = [NSString stringWithFormat:@"%ld", (long)indexPath.item];
+    CellModel* model;
     
     if ([collectionView isKindOfClass:[DragCollectionView class]]) {
+        // fill all cells from DragCollectionView
         cell = [((DragCollectionView*)collectionView) getCell:indexPath];
+        model = [self.sourceCellsDict objectForKey:[NSNumber numberWithInt:(int)indexPath.item]];
         
-        // after device rotation, try to reuse the cell from the dictionary which tracks all views in cells
-        DragView* dragView = [sourceCellsDict objectForKey:[NSNumber numberWithInt:(int)indexPath.item]];
-        CGRect dragRect = [Utils getCellCoordinates:cell fromCollectionView:collectionView];
-        
-        if (dragView) {
-            // overwrite coordinates after interface rotation
-            [dragView setFrame:dragRect];
-            
-            
-            UIPanGestureRecognizer* recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
-            [recognizer setMaximumNumberOfTouches:1];
-            [recognizer setMinimumNumberOfTouches:1];
-            [dragView addGestureRecognizer:recognizer];
-            
-            [self addSubview:dragView];
-        } else {
-            // for test and visualization purposes, create each cell with a different and random color
-            color = [Utils getRandomColor];
-            
-            // put an UIView over the cell and populate it - let the cell itself empty (it's only a placeholder)
-            
-            dragView = [[DragView alloc] initWithFrame:dragRect];
-            [dragView setBackgroundColor:color];
-            [dragView setLabelTitle:cellData];
-            
-            
-            UIPanGestureRecognizer* recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
-            [recognizer setMaximumNumberOfTouches:1];
-            [recognizer setMinimumNumberOfTouches:1];
-            [dragView addGestureRecognizer:recognizer];
-            
-            [self addSubview:dragView];
-            
-            [sourceCellsDict setObject:dragView forKey:[NSNumber numberWithInt:(int)indexPath.item]];
-        }
+        UIPanGestureRecognizer* recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+        [recognizer setMaximumNumberOfTouches:1];
+        [recognizer setMinimumNumberOfTouches:1];
+        [model.view addGestureRecognizer:recognizer];
         
     } else {
-        
+        // fill all cells from DropCollectionView
         cell = [((DropCollectionView*)collectionView) getCell:indexPath];
-        cell.indexPath = indexPath;
-        [cell initialize]; // make it gray and small (it's still a placeholder)
-        
-        // after scrolling, try to reuse the cell from the dictionary which tracks all populated cells
-        CellModel* model = [self.targetCellsDict objectForKey:[NSNumber numberWithInt:(int)indexPath.item]];
-        if (model) {
-            [cell setColor:model.color];
-            [cell setLabelTitle:model.labelTitle];
-            //[cell addSubview:model.imageView];
-        }
+        model = [self.targetCellsDict objectForKey:[NSNumber numberWithInt:(int)indexPath.item]];
+    }
+    
+    if (model) {
+        [cell populateWithCellModel:model inCollectionView:collectionView];
     }
     
     return cell;
@@ -171,12 +130,17 @@
         // put the first row a bit below - so when cell is to be inserted, the left and right cell has enough place to expand to the top as well
         return UIEdgeInsetsMake(0.5*self.itemSpacing, 0, 0, 0);
     }
-
+    
 }
 
 
-#pragma mark -UIPanGestureRecognizer
+//#pragma mark -UIPanGestureRecognizer
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer {
+    //- (void) dragCellNotification:(NSNotification *) notification {
+    //    if ([[notification name] isEqualToString:@"dragCellNotification"]) {
+    //
+    //    NSDictionary *userInfo = notification.userInfo;
+    //    UIPanGestureRecognizer* recognizer = [userInfo objectForKey:@"recognizer"];
     
     CollectionViewCell* cell;
     
@@ -189,17 +153,18 @@
     // TODO: when View is in end position, don't add subviews!!
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         // Important: deliver new view when the old view has been dropped into the target cell
-        DragView *newDragView = [DragView new];
-        newDragView.frame = dragView.frame;
-        newDragView.backgroundColor = dragView.backgroundColor;
-        [newDragView setLabelTitle:[dragView getLabelTitel]];
+        DragView* newDragView = [dragView supplyNewDragView:self.dragCollectionView];
         
         UIPanGestureRecognizer* recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
         [recognizer setMaximumNumberOfTouches:1];
         [recognizer setMinimumNumberOfTouches:1];
         [newDragView addGestureRecognizer:recognizer];
         
-        [self addSubview:newDragView];
+        //        DragView *newDragView = [DragView new];
+        //        newDragView.frame = dragView.frame;
+        //        newDragView.backgroundColor = dragView.backgroundColor;
+        //        [newDragView setLabelTitle:[dragView getLabelTitel]];
+        //        [self addSubview:newDragView];
         
         prevIndexPath = nil;
     }
@@ -246,9 +211,7 @@
     NSIndexPath *dropIndexPath = [self.dropCollectionView indexPathForItemAtPoint:correctedTapLocation];
     cell = (CollectionViewCell*)[self.dropCollectionView cellForItemAtIndexPath:dropIndexPath];
     
-    
     CellModel* model = [self.targetCellsDict objectForKey:[NSNumber numberWithInt:(int)dropIndexPath.item]];
-    
     
     if (!model) {
         [cell highlightEmptyOne];
@@ -315,6 +278,7 @@
     
     if (recognizer.state == UIGestureRecognizerStateEnded) {
         
+        //
         //        if (!cell) {
         //            // if not dropped into a cell, remove it
         //            [dragView removeFromSuperview];
@@ -352,7 +316,7 @@
                 [newCell setColor: dragView.backgroundColor];
                 [newCell setLabelTitle:[dragView getLabelTitel]];
                 //[cell addSubview:dragView.imageView];
- 
+                
                 [dragView removeFromSuperview];
                 
                 CellModel* model = [CellModel new];
@@ -364,9 +328,9 @@
                 // Now update dictionary, shifting all elements right of the insert index to right
                 int insertIndex = (int)indexPathToInsert.item;
                 [self.targetCellsDict insertObject: model atIndex:insertIndex];
-
+                
                 //[targetCellsDict log];
- 
+                
             }];
             
             //NSLog(@"targetCellsDict: %@", targetCellsDict);
@@ -412,45 +376,44 @@
 
 
 
-#pragma mark -utility methods
-- (void) createStepper {
-    
-    self.stepper = [[UIStepper alloc] initWithFrame:CGRectZero];
-    [self.stepper addTarget:self action:@selector(stepperChanged:) forControlEvents:UIControlEventValueChanged];
-    [self.stepper setBackgroundColor:[UIColor clearColor]];
-    [self.stepper setTranslatesAutoresizingMaskIntoConstraints:NO];
-    self.stepper.value = self.numberOfDragItems;
-    self.stepper.minimumValue = 2;
-    self.stepper.maximumValue = 50;
-    self.stepper.stepValue = 1;
-    self.stepper.userInteractionEnabled = YES;
-    self.stepper.tintColor = FONT_COLOR;
-    
-    [self addSubview:self.stepper];
-    
-}
-
-- (void)stepperChanged:(UIStepper*)stepper {
-    
-    self.numberOfDragItems = self.stepper.value;
-    
-    for (UIView *subview in self.subviews) {
-        if ([subview isKindOfClass:[DragView class]]) {
-            [subview removeFromSuperview];
-        }
-    }
-    
-    
-    [self.dragCollectionView reloadData];
-    [self.dropCollectionView reloadData];
-    //[super calculateCellSize];
-    self.cellWidthHeight = [self.dragCollectionView getBestFillingCellSize:self.dragCollectionViewSize];
-    
-    // now scroll to the last item in collection view
-    [Utils scrollToLastElement: self.dropCollectionView ofDictionary:self.targetCellsDict];
-    
-}
-
+//#pragma mark -utility methods
+//- (void) createStepper {
+//
+//    self.stepper = [[UIStepper alloc] initWithFrame:CGRectZero];
+//    [self.stepper addTarget:self action:@selector(stepperChanged:) forControlEvents:UIControlEventValueChanged];
+//    [self.stepper setBackgroundColor:[UIColor clearColor]];
+//    [self.stepper setTranslatesAutoresizingMaskIntoConstraints:NO];
+//    self.stepper.value = self.numberOfDragItems;
+//    self.stepper.minimumValue = 2;
+//    self.stepper.maximumValue = 50;
+//    self.stepper.stepValue = 1;
+//    self.stepper.userInteractionEnabled = YES;
+//    self.stepper.tintColor = FONT_COLOR;
+//
+//    [self addSubview:self.stepper];
+//
+//}
+//
+//- (void)stepperChanged:(UIStepper*)stepper {
+//
+//    self.numberOfDragItems = self.stepper.value;
+//
+//    for (UIView *subview in self.subviews) {
+//        if ([subview isKindOfClass:[DragView class]]) {
+//            [subview removeFromSuperview];
+//        }
+//    }
+//
+//
+//    [self.dragCollectionView reloadData];
+//    [self.dropCollectionView reloadData];
+//    //[super calculateCellSize];
+//    self.cellWidthHeight = [self.dragCollectionView getBestFillingCellSize:self.dragCollectionViewSize];
+//    
+//    // now scroll to the last item in collection view
+//    [Utils scrollToLastElement: self.dropCollectionView ofDictionary:self.targetCellsDict];
+//    
+//}
 
 
 @end

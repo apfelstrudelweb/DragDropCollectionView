@@ -11,7 +11,6 @@
 @implementation DragView
 
 
-
 -(void)setLabelTitle:(NSString *)text {
 
     self.cellLabel = [[UILabel alloc] init];
@@ -38,7 +37,33 @@
 }
 
 
+- (DragView*) supplyNewDragView: (UICollectionView*) collectionView {
+    
+    DragView *newDragView = [DragView new];
+    newDragView.frame = self.frame;
+    newDragView.backgroundColor = self.backgroundColor;
+    [newDragView setLabelTitle:[self getLabelTitel]];
+    
+    [collectionView.superview addSubview:newDragView];
+    
+//    NSArray* recognizers = [self gestureRecognizers];
+//    
+//    for (UIGestureRecognizer* recognizer in recognizers) {
+//        if ([recognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+//            [self removeGestureRecognizer:recognizer];
+//            
+//        }
+//    }
+    
+    return newDragView;
+}
 
+//#pragma mark -UIPanGestureRecognizer
+//- (void)handlePan:(UIPanGestureRecognizer *)recognizer {
+//    
+//    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:recognizer forKey:@"recognizer"];
+//    [[NSNotificationCenter defaultCenter] postNotificationName: @"dragCellNotification" object:nil userInfo:userInfo];
+//}
 
 
 #pragma mark -constraint issues

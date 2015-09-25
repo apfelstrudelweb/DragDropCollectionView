@@ -18,4 +18,6 @@
 
 - (void) setColor: (UIColor*) color;
 
+- (DragView*) supplyNewDragView: (UICollectionView*) collectionView;
+
 @end

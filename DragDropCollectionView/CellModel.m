@@ -10,5 +10,12 @@
 
 @implementation CellModel
 
+- (void) populateWithDragView: (DragView*) view {
+    
+    self.view = view;
+    
+    [self setColor:view.backgroundColor];
+    [self setLabelTitle:[view getLabelTitel]];
+}
 
 @end

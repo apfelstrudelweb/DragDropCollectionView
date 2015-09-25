@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DragDropCollectionView/MainView.m"
-            timestampString = "464874692.041261"
+            timestampString = "464895009.828361"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "331"
-            endingLineNumber = "331"
+            startingLineNumber = "295"
+            endingLineNumber = "295"
             landmarkName = "-handlePan:"
             landmarkType = "5">
          </BreakpointContent>
@@ -36,11 +36,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DragDropCollectionView/MainView.m"
-            timestampString = "464874692.041261"
+            timestampString = "464894769.737523"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "234"
-            endingLineNumber = "234"
+            startingLineNumber = "199"
+            endingLineNumber = "199"
             landmarkName = "-handlePan:"
             landmarkType = "5">
          </BreakpointContent>
@@ -52,28 +52,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DragDropCollectionView/MainView.m"
-            timestampString = "464874692.041261"
+            timestampString = "464894769.737523"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "235"
-            endingLineNumber = "235"
+            startingLineNumber = "200"
+            endingLineNumber = "200"
             landmarkName = "-handlePan:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DragDropCollectionView/MainView.m"
-            timestampString = "464874692.041261"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
-            landmarkName = "-collectionView:cellForItemAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -106,6 +90,22 @@
             startingLineNumber = "74"
             endingLineNumber = "74"
             landmarkName = "-insertObject:atIndex:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DragDropCollectionView/ViewController.m"
+            timestampString = "464887342.346511"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "-getSourceElements"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

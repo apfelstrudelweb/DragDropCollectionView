@@ -11,8 +11,12 @@
 
 @interface CellModel : NSObject
 
+@property (nonatomic, strong) DragView* view;
+
 @property (nonatomic, strong) NSString* labelTitle;
 @property (nonatomic, strong) UIColor* color;
 @property (nonatomic, strong) UIImageView* imageView;
+
+- (void) populateWithDragView: (DragView*) view;
 
 @end

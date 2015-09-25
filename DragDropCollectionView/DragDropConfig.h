@@ -12,10 +12,10 @@
 
 + (id)sharedConfig;
 
-@property (nonatomic) float itemSpacing;
-@property (nonatomic, strong) UIColor* backgroundColorSourceView;
-@property (nonatomic, strong) UIColor* backgroundColorTargetView;
+@property (nonatomic) float cItemSpacing;
+@property (nonatomic, strong) UIColor* cBackgroundColorSourceView;
+@property (nonatomic, strong) UIColor* cBackgroundColorTargetView;
 
-@property (nonatomic, strong) NSMutableDictionary* dataSourceDict;
+@property (nonatomic, strong) NSMutableDictionary* cDataSourceDict;
 
 @end

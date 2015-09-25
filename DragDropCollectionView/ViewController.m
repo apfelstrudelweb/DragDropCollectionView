@@ -20,34 +20,37 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [SHARED_CONFIG setItemSpacing:SPACE_BETWEEN_ITEMS];
-    [SHARED_CONFIG setBackgroundColorSourceView:[UIColor colorWithRed:1.00 green:0.95 blue:0.80 alpha:1.0]];
-    [SHARED_CONFIG setBackgroundColorTargetView:[UIColor whiteColor]];
+    [SHARED_CONFIG setCItemSpacing:SPACE_BETWEEN_ITEMS];
+    [SHARED_CONFIG setCBackgroundColorSourceView:[UIColor colorWithRed:1.00 green:0.95 blue:0.80 alpha:1.0]];
+    [SHARED_CONFIG setCBackgroundColorTargetView:[UIColor whiteColor]];
     
-    [SHARED_CONFIG setDataSourceDict:[self getSourceElements]];
+    [SHARED_CONFIG setCDataSourceDict:[self getSourceElements]];
     
     self.view = [MainView new];
-
+    
 }
 
 - (NSMutableDictionary*) getSourceElements {
-    if(!dataSourceDict) {
-        dataSourceDict = [NSMutableDictionary new];
-        
-        NSArray* titles = @[@"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", @"K", @"L", @"M", @"N", @"O", @"P", @"Q", @"R", @"S", @"T", @"U", @"V", @"W", @"X", @"Y", @"Z"];
-        
-        for (int i=0; i<titles.count; i++) {
-            DragView* view = [DragView new];
-            [view setLabelTitle:titles[i]];
-            if (i%2==0) {
-                [view setColor: [UIColor orangeColor]];
-            } else {
-                [view setColor: [UIColor blueColor]];
-            }
-            
-            
-            [dataSourceDict setObject:view forKey:[NSNumber numberWithInt:i]];
+    
+    dataSourceDict = [NSMutableDictionary new];
+    
+    NSArray* titles = @[@"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", @"K", @"L", @"M", @"N", @"O", @"P", @"Q", @"R", @"S", @"T", @"U", @"V", @"W", @"X", @"Y", @"Z"];
+    
+    for (int i=0; i<titles.count; i++) {
+        DragView* view = [DragView new];
+        [view setLabelTitle:titles[i]];
+        if (i%2==0) {
+            [view setColor: [UIColor orangeColor]];
+        } else {
+            [view setColor: [UIColor blueColor]];
         }
+        
+        CellModel* model = [CellModel new];
+        [model populateWithDragView:view];
+        
+        //[self.targetCellsDict insertObject: model atIndex:insertIndex];
+        
+        [dataSourceDict setObject:model forKey:[NSNumber numberWithInt:i]];
     }
     
     return dataSourceDict;

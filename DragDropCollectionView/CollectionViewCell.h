@@ -12,6 +12,8 @@
 
 @property (nonatomic, strong) NSIndexPath* indexPath;
 
+//@property (nonatomic, strong) DragView* dragView;
+
 @property (nonatomic, strong) UILabel* cellLabel;
 @property (nonatomic, strong) UIView* colorView;
 @property (nonatomic) BOOL isExpanded;
@@ -20,6 +22,8 @@
 @property (nonatomic) BOOL isPushedToRight;
 
 @property UILongPressGestureRecognizer* longPressGesture;
+
+- (void) populateWithCellModel: (CellModel*) model inCollectionView: (UICollectionView*) collectionView;
 
 - (void) initialize;
 - (void) setLabelTitle:(NSString *)value;

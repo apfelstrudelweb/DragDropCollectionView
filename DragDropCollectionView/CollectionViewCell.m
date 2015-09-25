@@ -19,6 +19,52 @@
 
 @implementation CollectionViewCell
 
+- (void) populateWithCellModel: (CellModel*) model inCollectionView: (UICollectionView*) collectionView {
+    
+    DragView* dragView = model.view;
+    CGRect dragRect = [Utils getCellCoordinates:self fromCollectionView:collectionView];
+    
+    if ([collectionView isKindOfClass:[DragCollectionView class]]) {
+        // overwrite coordinates after interface rotation
+        if (dragView) {
+            [dragView setFrame:dragRect];
+            
+//            UIPanGestureRecognizer* recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+//            [recognizer setMaximumNumberOfTouches:1];
+//            [recognizer setMinimumNumberOfTouches:1];
+//            [dragView addGestureRecognizer:recognizer];
+            
+            [collectionView.superview addSubview:dragView];
+            //self.dragView = dragView;
+        }
+    } else {
+        // in case of DropCollectionView, don't put a view on it, but decore the cell
+        [self initialize];
+        
+        [self setColor:model.color];
+        [self setLabelTitle:model.labelTitle];
+    }
+
+}
+
+//- (void) supplyNewDragView: (DragView*) view inCollectionView: (UICollectionView*) collectionView {
+//  
+//    DragView *newDragView = [DragView new];
+//    newDragView.frame = view.frame;
+//    newDragView.backgroundColor = view.backgroundColor;
+//    [newDragView setLabelTitle:[view getLabelTitel]];
+//    
+//    UIPanGestureRecognizer* recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+//    [recognizer setMaximumNumberOfTouches:1];
+//    [recognizer setMinimumNumberOfTouches:1];
+//    [newDragView addGestureRecognizer:recognizer];
+//    
+//    [self addSubview:newDragView];
+//
+//}
+
+
+
 - (void) initialize {
     
     // remove previous label
@@ -65,27 +111,11 @@
         [self addGestureRecognizer:self.longPressGesture];
         
         self.userInteractionEnabled = YES;
-        
-        //        [[self contentView] setFrame:[self bounds]];
-        //        [[self contentView] setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
-        
+
     }
     return self;
 }
 
-//- (bool) isPopulated {
-//    bool hasLabel = false;
-//
-//    for (UIView *view in self.contentView.subviews) {
-//        for (UIView *subview in view.subviews) {
-//            if ([subview isKindOfClass:[UILabel class]]) {
-//                hasLabel = true;
-//                break;
-//            }
-//        }
-//    }
-//    return hasLabel;
-//}
 
 - (void) didLongPress:(UISwipeGestureRecognizer *)sender  {
     
@@ -189,6 +219,13 @@
                      }];
 }
 
+
+#pragma mark -UIPanGestureRecognizer
+- (void)handlePan:(UIPanGestureRecognizer *)recognizer {
+    
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:recognizer forKey:@"recognizer"];
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"dragCellNotification" object:nil userInfo:userInfo];
+}
 
 
 #pragma mark -constraint issues

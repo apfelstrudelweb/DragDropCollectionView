@@ -19,12 +19,16 @@
         
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
         
-        [flowLayout setMinimumInteritemSpacing:[SHARED_CONFIG itemSpacing]];
-        [flowLayout setMinimumLineSpacing:[SHARED_CONFIG itemSpacing]];
+        [flowLayout setMinimumInteritemSpacing:[SHARED_CONFIG cItemSpacing]];
+        [flowLayout setMinimumLineSpacing:[SHARED_CONFIG cItemSpacing]];
         
         
         self = [[DropCollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
-        self.backgroundColor = [SHARED_CONFIG backgroundColorTargetView];
+        self.backgroundColor = [SHARED_CONFIG cBackgroundColorTargetView];
+        
+        self.itemSpacing = [SHARED_CONFIG cItemSpacing]; // set member variable AFTER  instantiation - otherwise it will be lost later
+        [flowLayout setMinimumInteritemSpacing:self.itemSpacing];
+        [flowLayout setMinimumLineSpacing:self.itemSpacing];
         
         self.delegate = view;
         self.dataSource = view;
@@ -37,7 +41,10 @@
 }
 
 - (CollectionViewCell*) getCell: (NSIndexPath*) indexPath {
-    return [self dequeueReusableCellWithReuseIdentifier:REUSE_IDENTIFIER forIndexPath:indexPath];
+    CollectionViewCell* cell = [self dequeueReusableCellWithReuseIdentifier:REUSE_IDENTIFIER forIndexPath:indexPath];
+    cell.indexPath = indexPath;
+    [cell initialize];
+    return cell;
 }
 
 @end

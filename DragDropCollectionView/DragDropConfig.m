@@ -10,10 +10,10 @@
 
 @implementation DragDropConfig
 
-@synthesize itemSpacing = _itemSpacing;
-@synthesize backgroundColorSourceView = _backgroundColorSourceView;
-@synthesize backgroundColorTargetView = _backgroundColorTargetView;
-@synthesize dataSourceDict = _dataSourceDict;
+@synthesize cItemSpacing = _cItemSpacing;
+@synthesize cBackgroundColorSourceView = _cBackgroundColorSourceView;
+@synthesize cBackgroundColorTargetView = _cBackgroundColorTargetView;
+@synthesize cDataSourceDict = _cDataSourceDict;
 
 #pragma mark Singleton Methods
 
@@ -35,19 +35,19 @@
 
 
 - (float) itemSpacing {
-    return _itemSpacing;
+    return _cItemSpacing;
 }
 
 - (UIColor*) backgroundColorSourceView {
-    return _backgroundColorSourceView;
+    return _cBackgroundColorSourceView;
 }
 
 - (UIColor*) backgroundColorTargetView {
-    return _backgroundColorTargetView;
+    return _cBackgroundColorTargetView;
 }
 
 - (NSMutableDictionary*) dataSourceDict {
-    return _dataSourceDict;
+    return _cDataSourceDict;
 }
 
 @end

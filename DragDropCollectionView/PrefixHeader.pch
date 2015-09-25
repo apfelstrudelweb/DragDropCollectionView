@@ -12,6 +12,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#import "DragView.h"
+#import "CellModel.h"
 #import "CollectionViewCell.h"
 #import "DragCollectionView.h"
 #import "DropCollectionView.h"
@@ -22,24 +24,21 @@
 #import "NSMutableDictionary+cat.h"
 #import "MainView.h"
 
-#import "DragView.h"
-#import "CellModel.h"
+
+
 #import "Utils.h"
 
 #define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 #define IS_LANDSCAPE    UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])
 
-//#define NUMBER_ITEMS_IN_LINE    IS_LANDSCAPE  ? 8 : 6
 #define SPACE_BETWEEN_ITEMS     IS_IPAD       ? 20.0 : 10.0
 
 // sum of the following subviews must be 100
 #define PERCENT_HEADER_1    10
 #define PERCENT_HEADER_2    10
-#define PERCENT_DRAG_AREA   30
-#define PERCENT_DROP_AREA   40
-#define PERCENT_STEPPER     10
+#define PERCENT_DRAG_AREA   35
+#define PERCENT_DROP_AREA   45
 
-#define NUMBER_SOURCE_ITEMS 10
 #define NUMBER_TARGET_ITEMS 60
 
 #define MARGIN  20
