@@ -18,7 +18,7 @@
 #import "DragCollectionView.h"
 #import "DropCollectionView.h"
 #import "MainBasicView.h"
-#import "DragDropConfig.h"
+#import "ConfigAPI.h"
 #import "UILabel+cat.h"
 #import "NSMutableArray+cat.h"
 #import "NSMutableDictionary+cat.h"
@@ -47,6 +47,6 @@
 #define COLOR_PLACEHOLDER_TOUCHED    [UIColor colorWithRed:0.80 green:0.80 blue:0.80 alpha:1.0]
 #define COLOR_PLACEHOLDER_UNTOUCHED  [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0]
 
-#define SHARED_CONFIG   [DragDropConfig sharedConfig]
+#define SHARED_INSTANCE   [ConfigAPI sharedInstance]
 
 #endif

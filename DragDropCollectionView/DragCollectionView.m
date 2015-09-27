@@ -25,9 +25,9 @@
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
         
         self = [[DragCollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
-        self.backgroundColor = [SHARED_CONFIG cBackgroundColorSourceView];
+        self.backgroundColor = [SHARED_INSTANCE getBackgroundColorSourceView];
         
-        self.itemSpacing = [SHARED_CONFIG cItemSpacing]; // set member variable AFTER  instantiation - otherwise it will be lost later
+        self.itemSpacing = [SHARED_INSTANCE getItemSpacing]; // set member variable AFTER  instantiation - otherwise it will be lost later
         [flowLayout setMinimumInteritemSpacing:self.itemSpacing];
         [flowLayout setMinimumLineSpacing:self.itemSpacing];
         

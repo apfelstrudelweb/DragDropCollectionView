@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#define SHARED_CONFIG   [DragDropConfig sharedConfig]
+#define SHARED_INSTANCE   [ConfigAPI sharedInstance]
 
 @interface ViewController () {
     NSMutableDictionary* dataSourceDict;
@@ -20,17 +20,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [SHARED_CONFIG setCItemSpacing:SPACE_BETWEEN_ITEMS];
-    [SHARED_CONFIG setCBackgroundColorSourceView:[UIColor colorWithRed:1.00 green:0.95 blue:0.80 alpha:1.0]];
-    [SHARED_CONFIG setCBackgroundColorTargetView:[UIColor whiteColor]];
+    [self setSourceElements];
     
-    [SHARED_CONFIG setCDataSourceDict:[self getSourceElements]];
+    [SHARED_INSTANCE setItemSpacing:SPACE_BETWEEN_ITEMS];
+    [SHARED_INSTANCE setBackgroundColorSourceView:[UIColor colorWithRed:1.00 green:0.95 blue:0.80 alpha:1.0]];
+    [SHARED_INSTANCE setBackgroundColorTargetView:[UIColor whiteColor]];
+    
+    [SHARED_INSTANCE setDataSourceDict:dataSourceDict];
     
     self.view = [MainView new];
     
 }
 
-- (NSMutableDictionary*) getSourceElements {
+- (void) setSourceElements {
     
     dataSourceDict = [NSMutableDictionary new];
     
@@ -52,8 +54,6 @@
         
         [dataSourceDict setObject:model forKey:[NSNumber numberWithInt:i]];
     }
-    
-    return dataSourceDict;
 }
 
 

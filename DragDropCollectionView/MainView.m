@@ -34,8 +34,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         
-        self.itemSpacing = [SHARED_CONFIG cItemSpacing];
-        self.sourceCellsDict = [SHARED_CONFIG cDataSourceDict];
+        self.itemSpacing = [SHARED_INSTANCE getItemSpacing];
+        self.sourceCellsDict = [SHARED_INSTANCE getDataSourceDict];
         self.targetCellsDict = [NSMutableDictionary new];
         
         self.numberOfDragItems = (int)self.sourceCellsDict.count;

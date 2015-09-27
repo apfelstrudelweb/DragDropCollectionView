@@ -18,15 +18,11 @@
     if (self) {
         
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        
-        [flowLayout setMinimumInteritemSpacing:[SHARED_CONFIG cItemSpacing]];
-        [flowLayout setMinimumLineSpacing:[SHARED_CONFIG cItemSpacing]];
-        
-        
+
         self = [[DropCollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
-        self.backgroundColor = [SHARED_CONFIG cBackgroundColorTargetView];
+        self.backgroundColor = [SHARED_INSTANCE getBackgroundColorTargetView];
         
-        self.itemSpacing = [SHARED_CONFIG cItemSpacing]; // set member variable AFTER  instantiation - otherwise it will be lost later
+        self.itemSpacing = [SHARED_INSTANCE getItemSpacing]; // set member variable AFTER  instantiation - otherwise it will be lost later
         [flowLayout setMinimumInteritemSpacing:self.itemSpacing];
         [flowLayout setMinimumLineSpacing:self.itemSpacing];
         
