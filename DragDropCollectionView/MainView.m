@@ -328,8 +328,13 @@
                 // Now update dictionary, shifting all elements right of the insert index to right
                 int insertIndex = (int)indexPathToInsert.item;
                 [self.targetCellsDict insertObject: model atIndex:insertIndex];
+                int maxItems = (int)[self.dropCollectionView numberOfItemsInSection:0];
+                int maxKey = [Utils getHighestKeyInDict:self.targetCellsDict];
                 
-                //[targetCellsDict log];
+                // avoid overflow of dictionary
+                if (maxKey > maxItems-1) {
+                    [self.targetCellsDict removeObjectForKey:[NSNumber numberWithInt:maxItems]];
+                }
                 
             }];
             
