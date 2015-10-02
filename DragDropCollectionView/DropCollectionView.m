@@ -10,6 +10,12 @@
 
 #define REUSE_IDENTIFIER @"dropCell"
 
+@interface DropCollectionView() {
+    float minInteritemSpacing;
+    float minLineSpacing;
+}
+@end
+
 @implementation DropCollectionView
 
 - (id)initWithFrame:(CGRect)frame withinView: (UIView<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>*) view  {
@@ -20,11 +26,12 @@
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
 
         self = [[DropCollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
-        self.backgroundColor = [SHARED_INSTANCE getBackgroundColorTargetView];
+        self.backgroundColor = [SHARED_CONFIG_INSTANCE getBackgroundColorTargetView];
         
-        self.itemSpacing = [SHARED_INSTANCE getItemSpacing]; // set member variable AFTER  instantiation - otherwise it will be lost later
-        [flowLayout setMinimumInteritemSpacing:self.itemSpacing];
-        [flowLayout setMinimumLineSpacing:self.itemSpacing];
+        minInteritemSpacing = [SHARED_CONFIG_INSTANCE getMinInteritemSpacing];
+        minLineSpacing = [SHARED_CONFIG_INSTANCE getMinLineSpacing]; // set member variable AFTER  instantiation - otherwise it will be lost later
+        [flowLayout setMinimumInteritemSpacing:minInteritemSpacing];
+        [flowLayout setMinimumLineSpacing:minLineSpacing];
         
         self.delegate = view;
         self.dataSource = view;
@@ -39,8 +46,15 @@
 - (CollectionViewCell*) getCell: (NSIndexPath*) indexPath {
     CollectionViewCell* cell = [self dequeueReusableCellWithReuseIdentifier:REUSE_IDENTIFIER forIndexPath:indexPath];
     cell.indexPath = indexPath;
-    [cell initialize];
+    [cell reset];
     return cell;
+}
+
+- (void) resetAllCells {
+    
+    for (CollectionViewCell *cell in self.visibleCells) {
+        [cell shrink];
+    }
 }
 
 @end

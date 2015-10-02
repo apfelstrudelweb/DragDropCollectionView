@@ -99,7 +99,7 @@
     }
     
     [self setupConstraints];
-    self.cellWidthHeight = [self.dragCollectionView getBestFillingCellSize:self.dragCollectionViewSize];
+    self.cellSize = [self.dragCollectionView getBestFillingCellSize:self.dragCollectionViewSize];
     
     [self.dragCollectionView reloadData];
     [self.dropCollectionView reloadData];
@@ -268,6 +268,10 @@
     
     // add all constraints at once
     [self addConstraints:layoutConstraints];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

@@ -10,8 +10,6 @@
 @interface MainView : MainBasicView <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 
-
-
-
+@property bool isTranslation;
 
 @end

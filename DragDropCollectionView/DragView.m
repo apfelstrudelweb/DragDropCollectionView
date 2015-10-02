@@ -7,106 +7,76 @@
 //
 
 #import "DragView.h"
+#import "CustomView.h"
+#pragma GCC diagnostic ignored "-Wundeclared-selector"
+
+@interface DragView() {
+
+    
+}
+@end
+
+
 
 @implementation DragView
 
 
--(void)setLabelTitle:(NSString *)text {
+- (void)didMoveToSuperview {
+    UIPanGestureRecognizer* recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self.superview action:@selector(handlePan:)];
+    
+    [recognizer setMaximumNumberOfTouches:1];
+    [recognizer setMinimumNumberOfTouches:1];
+    [self addGestureRecognizer:recognizer];
 
-    self.cellLabel = [[UILabel alloc] init];
-    [self.cellLabel setTextForDragDropElement:text];
-    
-    [self.cellLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-    
-    [self addSubview:self.cellLabel];
-    
-    
-//    self.imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dummy.png"]];
-//    self.imageView.contentMode = UIViewContentModeScaleAspectFit;
-//    [self addSubview:self.imageView];
-    
-    [self setupConstraints:self.cellLabel];
 }
 
-- (NSString*) getLabelTitel {
-    return self.cellLabel.text;
+- (void) setBorderColor: (UIColor*) color {
+    //[super setBackgroundColor:color];
+    [super setBorderColor:color];
 }
 
-- (void) setColor: (UIColor*) color {
-    self.backgroundColor = color;
+- (DragView*) provideNew {
+    
+    DragView *newView = [DragView new];
+    newView.frame = self.frame;
+    newView.index = self.index;
+    newView.borderColor = self.borderColor;
+    
+    CustomView* contentView = (CustomView*)[self getContentView];
+
+    CustomView* newContentView = [[CustomView alloc] initWithFrame:contentView.frame]; //(CustomView*)[contentView snapshotViewAfterScreenUpdates:NO];
+    //[newContentView setBackgroundColor:[UIColor colorWithRed:0.80 green:0.80 blue:0.80 alpha:1.0]];
+
+    [newContentView setLabelText:[contentView getLabelText]];
+    [newContentView setImageName:[contentView getImageName]];
+    [newContentView setLabelColor:[contentView getLabelColor]];
+    [newContentView setBackgroundColorOfView:[contentView getBackgroundColorOfView]];
+    
+
+    [newView setContentView:newContentView];
+    
+    
+    
+    
+    [newView initialize];
+    
+    
+    return newView;
 }
 
 
-- (DragView*) supplyNewDragView: (UICollectionView*) collectionView {
+
+#pragma mark -UIPanGestureRecognizer
+- (void) move:(UIPanGestureRecognizer *)recognizer inView:(UIView*) view {
+    // perform translation of the drag view
+    CGPoint translation = [recognizer translationInView:view];
+    recognizer.view.center = CGPointMake(recognizer.view.center.x + translation.x,
+                                         recognizer.view.center.y + translation.y);
     
-    DragView *newDragView = [DragView new];
-    newDragView.frame = self.frame;
-    newDragView.backgroundColor = self.backgroundColor;
-    [newDragView setLabelTitle:[self getLabelTitel]];
-    
-    [collectionView.superview addSubview:newDragView];
-    
-//    NSArray* recognizers = [self gestureRecognizers];
-//    
-//    for (UIGestureRecognizer* recognizer in recognizers) {
-//        if ([recognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
-//            [self removeGestureRecognizer:recognizer];
-//            
-//        }
-//    }
-    
-    return newDragView;
+    [recognizer setTranslation:CGPointMake(0, 0) inView:view];
 }
 
-//#pragma mark -UIPanGestureRecognizer
-//- (void)handlePan:(UIPanGestureRecognizer *)recognizer {
-//    
-//    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:recognizer forKey:@"recognizer"];
-//    [[NSNotificationCenter defaultCenter] postNotificationName: @"dragCellNotification" object:nil userInfo:userInfo];
-//}
 
-
-#pragma mark -constraint issues
-
-- (void)setupConstraints: (UILabel*) label {
-    
-    // Width constraint
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:label
-                                                     attribute:NSLayoutAttributeWidth
-                                                     relatedBy:NSLayoutRelationEqual
-                                                        toItem:self
-                                                     attribute:NSLayoutAttributeWidth
-                                                    multiplier:1.0
-                                                      constant:0]];
-    
-    // Height constraint
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:label
-                                                     attribute:NSLayoutAttributeHeight
-                                                     relatedBy:NSLayoutRelationEqual
-                                                        toItem:self
-                                                     attribute:NSLayoutAttributeHeight
-                                                    multiplier:1.0
-                                                      constant:0]];
-    
-    // Center horizontally
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:label
-                                                     attribute:NSLayoutAttributeCenterX
-                                                     relatedBy:NSLayoutRelationEqual
-                                                        toItem:self
-                                                     attribute:NSLayoutAttributeCenterX
-                                                    multiplier:1.0
-                                                      constant:0.0]];
-    
-    // Center vertically
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:label
-                                                     attribute:NSLayoutAttributeCenterY
-                                                     relatedBy:NSLayoutRelationEqual
-                                                        toItem:self
-                                                     attribute:NSLayoutAttributeCenterY
-                                                    multiplier:1.0
-                                                      constant:0.0]];
-    [super updateConstraints];
-}
 
 
 @end

@@ -14,8 +14,9 @@
 
 //@property (nonatomic, strong) DragView* dragView;
 
-@property (nonatomic, strong) UILabel* cellLabel;
-@property (nonatomic, strong) UIView* colorView;
+//@property (nonatomic, strong) UILabel* cellLabel;
+//@property (nonatomic, strong) UIView* colorView;
+//@property (nonatomic, strong) UIView* placeholderView; // basic subview of a cell - initially represented by a gray square
 @property (nonatomic) BOOL isExpanded;
 @property (nonatomic) BOOL isPopulated;
 @property (nonatomic) BOOL isPushedToLeft;
@@ -23,25 +24,20 @@
 
 @property UILongPressGestureRecognizer* longPressGesture;
 
-- (void) populateWithCellModel: (CellModel*) model inCollectionView: (UICollectionView*) collectionView;
+//- (void) populateWithCellModel: (CellModel*) model inCollectionView: (UICollectionView*) collectionView;
 
-- (void) initialize;
-- (void) setLabelTitle:(NSString *)value;
-- (void) setColor: (UIColor*) color;
-- (UIColor*) getColor;
+- (void) reset;
+- (void) populateWithContentsOfView: (MoveableView*) view;
+- (void) expand;
+- (void) shrink;
 
-- (void) shrinkEmptyOne;
-- (void) expandEmptyOne;
+- (void) push: (NSInteger) direction;
+- (void) undoPush;
 
-- (void) highlightEmptyOne;
-- (void) unhighlightEmptyOne;
-
-- (void) highlightPopulatedOne;
-- (void) unhighlightPopulatedOne;
-
-- (void) pushToLeft;
-- (void) pushToRight;
-- (void) pushBack;
-
+// define push directions - accessible also from MainView.m
+typedef NS_ENUM (NSInteger, PushDirection) {
+    Left,
+    Right
+};
 
 @end

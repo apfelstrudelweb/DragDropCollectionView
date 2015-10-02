@@ -10,15 +10,24 @@
 
 @interface PersistencyManager : NSObject
 
-- (void) setItemSpacing: (float) value;
+// Config API
+- (void) setCellWidthHeightRatio: (float) value;
+- (void) setMinInteritemSpacing: (float) value;
+- (void) setMinLineSpacing: (float) value;
 - (void) setBackgroundColorSourceView: (UIColor*) color;
 - (void) setBackgroundColorTargetView: (UIColor*) color;
 - (void) setDataSourceDict: (NSMutableDictionary*) dict;
 
-- (float) getItemSpacing;
+- (float) getCellWidthHeightRatio;
+- (float) getMinInteritemSpacing;
+- (float) getMinLineSpacing;
 - (UIColor*) getBackgroundColorSourceView;
 - (UIColor*) getBackgroundColorTargetView;
 - (NSMutableDictionary*) getDataSourceDict;
+
+// Current State
+- (void) setTransactionActive: (bool) value;
+- (bool) isTransactionActive;
 
 
 

@@ -8,8 +8,15 @@
 
 #import "Utils.h"
 
+@interface Utils() {
+    float cellWidth;
+}
+@end
 
 @implementation Utils
+
+float cellWidth;
+float cellHeight;
 
 /**
  * Removes all empty keys in a dictionary and shifts all populated elements to left, for example [0,1,4,7] becomes [0,1,2,3]
@@ -98,6 +105,92 @@
     [collectionView layoutIfNeeded];
     
     [collectionView scrollToItemAtIndexPath:scrollToIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
+}
+
+#pragma mark -UIPanGestureRecognizer
+/**
+ * Returns the correspondent cell of a target collection view when a drag view is dropped into
+ * it (after dragging it from the source collection view)
+ *
+ */
++ (CollectionViewCell*)getTargetCell:(DragView *)dragView inCollectionView:(DropCollectionView*) collectionView recognizer:(UIPanGestureRecognizer *)recognizer {
+
+    CGPoint correctedTapLocation = [self getCenteredTapLocation:dragView inCollectionView:collectionView recognizer:recognizer];
+    
+    NSIndexPath* dropIndexPath = [collectionView indexPathForItemAtPoint:correctedTapLocation];
+    return (CollectionViewCell*)[collectionView cellForItemAtIndexPath:dropIndexPath];
+}
+
+// returns an array of max. two "CollectionViewCell" objects
++ (NSArray*) getInsertCells:(DragView *)dragView inCollectionView:(DropCollectionView*) collectionView recognizer:(UIPanGestureRecognizer*)recognizer {
+    
+    CGPoint correctedTapLocation = [self getCenteredTapLocation:dragView inCollectionView:collectionView recognizer:recognizer];
+    float dragCenterX = correctedTapLocation.x;
+    float dragCenterY = correctedTapLocation.y;
+    
+    float leftX = dragCenterX - cellWidth;
+    float leftY = dragCenterY;
+    
+    CGPoint shiftedTapLocation = CGPointMake(leftX, leftY);
+    NSIndexPath* dropIndexPathLeft = [collectionView indexPathForItemAtPoint:shiftedTapLocation];
+    
+    int leftIndex = (int) dropIndexPathLeft.item;
+    int lastInsertionIndex = (int)[collectionView numberOfItemsInSection:0] - 1;
+    
+    if (!dropIndexPathLeft || leftIndex == lastInsertionIndex) {
+        //NSLog(@"dropIndexPathLeft: %@", dropIndexPathLeft);
+        return nil;
+    }
+    
+    NSIndexPath* dropIndexPathRight = [NSIndexPath indexPathForItem:leftIndex+1 inSection:dropIndexPathLeft.section];
+    
+    CollectionViewCell* leftCell = (CollectionViewCell*)[collectionView cellForItemAtIndexPath:dropIndexPathLeft];
+    CollectionViewCell* rightCell = (CollectionViewCell*)[collectionView cellForItemAtIndexPath:dropIndexPathRight];
+    
+    if (leftCell.isPopulated && rightCell.isPopulated) {
+        return @[leftCell, rightCell];
+    } else {
+        return nil;
+    }
+    
+}
+
++ (CGPoint) getCenteredTapLocation:(DragView *)dragView inCollectionView:(DropCollectionView*) collectionView recognizer:(UIPanGestureRecognizer *)recognizer {
+    
+    CGPoint tapLocationInDragView = [recognizer locationInView:dragView];
+    CGPoint tapLocationInCollectionView = [recognizer locationInView:collectionView];
+    
+    // negative offset -> left cell should not be highlighted when touch point is in the middle of two cells
+    CollectionViewCell* dummyCell;
+    
+    
+    // Get vertical scroll offset
+    //
+    // Important: when collection view is scrolled, all information about previous cells
+    // (which are no more visible) are lost!
+    // That's why we need to iterate over all cells and find the first one which can
+    // provide the width and height of such.
+    for (int i=0; i<[collectionView numberOfItemsInSection:0]; i++) {
+        dummyCell = (CollectionViewCell*)[collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:i inSection:0]];
+        if (dummyCell) {
+            break;
+        }
+    }
+    
+    cellWidth  = dummyCell.bounds.size.width;
+    cellHeight = dummyCell.bounds.size.height;
+    
+    float scrollY = collectionView.contentOffset.y / collectionView.frame.size.height;
+    
+    
+    // now get the center of the dragged view -> we need two tap locations:
+    // - first tap location related to the collection view and
+    // - second tap location related to the dragged view
+    float centerX = tapLocationInCollectionView.x - tapLocationInDragView.x + 0.5*cellWidth;
+    float centerY = tapLocationInCollectionView.y - tapLocationInDragView.y + 0.5*cellHeight+scrollY;
+    
+    CGPoint centeredTapLocation = CGPointMake(centerX, centerY);
+    return centeredTapLocation;
 }
 
 @end

@@ -7,13 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CollectionViewCell.h"
 
 @interface DropCollectionView : UICollectionView
 
-@property (nonatomic) float itemSpacing;
 
 - (id)initWithFrame:(CGRect)frame withinView: (UIView<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>*) view;
 
 - (CollectionViewCell*) getCell: (NSIndexPath*) indexPath;
+
+- (void) resetAllCells;
 
 @end

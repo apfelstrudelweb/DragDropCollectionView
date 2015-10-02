@@ -9,111 +9,86 @@
 #import "CollectionViewCell.h"
 
 #define ANIMATION_DURATION 0.25
+#define MIN_PRESS_DURATION 0.5
 
 @interface CollectionViewCell() {
     NSMutableArray* layoutViewConstraints;
-    NSMutableArray* layoutLabelConstraints;
+    
+
+    bool isTransformedLeft;
+    bool isTransformedRight;
+    
+    UIView* placeholderView; // basic subview of a cell - initially represented by a gray square
+    MoveableView* moveableView;
 }
 
 @end
 
+
 @implementation CollectionViewCell
-
-- (void) populateWithCellModel: (CellModel*) model inCollectionView: (UICollectionView*) collectionView {
-    
-    DragView* dragView = model.view;
-    CGRect dragRect = [Utils getCellCoordinates:self fromCollectionView:collectionView];
-    
-    if ([collectionView isKindOfClass:[DragCollectionView class]]) {
-        // overwrite coordinates after interface rotation
-        if (dragView) {
-            [dragView setFrame:dragRect];
-            
-//            UIPanGestureRecognizer* recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
-//            [recognizer setMaximumNumberOfTouches:1];
-//            [recognizer setMinimumNumberOfTouches:1];
-//            [dragView addGestureRecognizer:recognizer];
-            
-            [collectionView.superview addSubview:dragView];
-            //self.dragView = dragView;
-        }
-    } else {
-        // in case of DropCollectionView, don't put a view on it, but decore the cell
-        [self initialize];
-        
-        [self setColor:model.color];
-        [self setLabelTitle:model.labelTitle];
-    }
-
-}
-
-//- (void) supplyNewDragView: (DragView*) view inCollectionView: (UICollectionView*) collectionView {
-//  
-//    DragView *newDragView = [DragView new];
-//    newDragView.frame = view.frame;
-//    newDragView.backgroundColor = view.backgroundColor;
-//    [newDragView setLabelTitle:[view getLabelTitel]];
-//    
-//    UIPanGestureRecognizer* recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
-//    [recognizer setMaximumNumberOfTouches:1];
-//    [recognizer setMinimumNumberOfTouches:1];
-//    [newDragView addGestureRecognizer:recognizer];
-//    
-//    [self addSubview:newDragView];
-//
-//}
-
-
-
-- (void) initialize {
-    
-    // remove previous label
-    for (UIView *view in self.contentView.subviews) {
-        for (UIView *subview in view.subviews) {
-            if ([subview isKindOfClass:[UILabel class]]) {
-                [subview removeFromSuperview];
-                break;
-            }
-        }
-    }
-    
-    // remove previous image view
-    for (UIView *subview in self.subviews) {
-            if ([subview isKindOfClass:[UIImageView class]]) {
-                [subview removeFromSuperview];
-                break;
-            }
-    }
-    
-    self.colorView.backgroundColor = COLOR_PLACEHOLDER_UNTOUCHED;
-    
-    [self setupViewConstraints:self.colorView isExpanded:false];
-    
-    self.isPopulated = false;
-    self.isExpanded = false;
-}
 
 - (id)initWithFrame:(CGRect)frame {
     
     self = [super initWithFrame:frame];
     if (self) {
         
-        self.colorView = [UIView new];
-        [self.colorView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        placeholderView = [UIView new];
+        [placeholderView setTranslatesAutoresizingMaskIntoConstraints:NO];
         
-        [self.contentView addSubview:self.colorView];
-        [self setupViewConstraints:self.colorView isExpanded:false];
+        [self.contentView addSubview:placeholderView];
+        [self setupViewConstraints:placeholderView isExpanded:false];
         
         self.longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didLongPress:)];
         
-        self.longPressGesture.minimumPressDuration = 0.5; //seconds
+        self.longPressGesture.minimumPressDuration = MIN_PRESS_DURATION;
         self.longPressGesture.delegate = self;
         [self addGestureRecognizer:self.longPressGesture];
         
         self.userInteractionEnabled = YES;
-
+        
     }
     return self;
+}
+
+
+- (void) reset {
+    
+//    [self.subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+//        [obj removeFromSuperview];
+//    }];
+    
+    // remove previous drop view -> important for scrolling
+    for (UIView *view in self.contentView.subviews) {
+        for (UIView *subview in view.subviews) {
+            if ([subview isKindOfClass:[MoveableView class]]) {
+                [subview removeFromSuperview];
+                break;
+            }
+        }
+    }
+    
+    placeholderView.backgroundColor = COLOR_PLACEHOLDER_UNTOUCHED;
+    
+    [self setupViewConstraints:placeholderView isExpanded:false];
+    
+    self.isPopulated = false;
+    self.isExpanded = false;
+
+}
+
+- (void) populateWithContentsOfView: (MoveableView*) view {
+    
+    [self reset];
+    [self expand];
+    self.isPopulated = true;
+
+    moveableView = view;
+    //[view setNeedsUpdateConstraints];
+    //moveableView.autoresizingMask = placeholderView.autoresizingMask;
+    
+    [placeholderView addSubview:view];
+    [view setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self addFurtherViewConstraints:view];
 }
 
 
@@ -125,121 +100,85 @@
         [[NSNotificationCenter defaultCenter] postNotificationName: @"shiftCellNotification" object:nil userInfo:userInfo];
     }
     else if (sender.state == UIGestureRecognizerStateBegan){
-        [self initialize];
+        [self reset];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"deleteCellNotification" object:nil userInfo:userInfo];
     }
 }
 
-
--(void)setLabelTitle:(NSString *)text {
-    
-    self.cellLabel = [[UILabel alloc] init];
-    [self.cellLabel setTextForDragDropElement:text];
-    
-    [self.cellLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-    
-    [self.colorView addSubview:self.cellLabel];
-    [self setupLabelConstraints:self.cellLabel];
-}
-
-- (void) setColor: (UIColor*) color {
-    self.colorView.backgroundColor = color;
-    [self expandEmptyOne];
-    self.isPopulated = true;
-}
-
-- (UIColor*) getColor {
-    return self.backgroundColor;
-}
-
-- (void) shrinkEmptyOne {
-    [self setupViewConstraints:self.colorView isExpanded:false];
-}
-
-- (void) expandEmptyOne {
-    // expand only once!
-    if (!self.isExpanded) {
-        [self setupViewConstraints:self.colorView isExpanded:true];
+// expands the cell when drag view is above it
+- (void) expand {
+    if (!self.isPopulated) {
+        [self setupViewConstraints:placeholderView isExpanded:true];
+    } else {
+        // highlight populated cell
+        [self highlight:true];
     }
 }
 
-- (void) highlightEmptyOne {
-    if (!self.isExpanded) {
-        self.colorView.backgroundColor  = COLOR_PLACEHOLDER_TOUCHED;
+// shrinks the cell when drag view leaves it again
+- (void) shrink {
+    if (!self.isPopulated) {
+        [self setupViewConstraints:placeholderView isExpanded:false];
+    } else {
+        // unhighlight populated cell
+        [self highlight:false];
     }
 }
 
-- (void) unhighlightEmptyOne {
-    self.colorView.backgroundColor = COLOR_PLACEHOLDER_UNTOUCHED;
+// highlights/unhighlights the drop view (which is above this cell)
+- (void) highlight: (bool) flag {
+    for (UIView* view in placeholderView.subviews) {
+        if ([view isKindOfClass:[DropView class]]) {
+            view.alpha = flag ? 0.5 : 1.0;
+        }
+    }
 }
 
-- (void) highlightPopulatedOne {
-    self.colorView.alpha = 0.3;
-}
-
-- (void) unhighlightPopulatedOne {
-    self.colorView.alpha = 1.0;
-}
-
-- (void) pushToLeft {
+- (void) push: (NSInteger) direction {
     
-    if (self.isPushedToLeft || !self.isPopulated) return;
-    self.isPushedToLeft = true;
-    [self setupViewConstraints:true doReset:false];
+    if (!self.isPopulated) return;
     
-    [UIView animateWithDuration:ANIMATION_DURATION
-                     animations:^{
-                         [self layoutIfNeeded];
-                     }];
+    if (direction == Left) {
+        if (self.isPushedToLeft) return;
+        self.isPushedToLeft = true;
+    } else {
+        if (self.isPushedToRight) return;
+        self.isPushedToRight = true;
+    }
     
-}
-
-- (void) pushToRight {
-    
-    if (self.isPushedToRight || !self.isPopulated) return;
-    self.isPushedToRight = true;
-    
-    [self setupViewConstraints:false doReset:false];
-    
+    [self setupViewConstraints:direction doReset:false];
+    [self addFurtherViewConstraints:moveableView];
     [UIView animateWithDuration:ANIMATION_DURATION
                      animations:^{
                          [self layoutIfNeeded];
                      }];
 }
 
-- (void) pushBack {
-    
+- (void) undoPush {
     self.isPushedToLeft = false;
     self.isPushedToRight = false;
-    [self setupViewConstraints:false doReset:true];
-    
+    [self setupViewConstraints:Left doReset:true];
+    //[self setupViewConstraints:Right doReset:true];
+    [self addFurtherViewConstraints:moveableView];
     [UIView animateWithDuration:ANIMATION_DURATION
                      animations:^{
                          [self layoutIfNeeded];
                      }];
 }
 
-
-#pragma mark -UIPanGestureRecognizer
-- (void)handlePan:(UIPanGestureRecognizer *)recognizer {
-    
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:recognizer forKey:@"recognizer"];
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"dragCellNotification" object:nil userInfo:userInfo];
-}
 
 
 #pragma mark -constraint issues
-
-- (void)setupViewConstraints: (bool) toLeft doReset: (bool) reset {
+- (void)setupViewConstraints: (NSInteger) direction doReset: (bool) reset {
     
     [self removeConstraints:layoutViewConstraints];
     layoutViewConstraints = [NSMutableArray new];
     
-    
-    NSLayoutAttribute layoutAttributeHorizAlign = toLeft ? NSLayoutAttributeLeft : NSLayoutAttributeRight;
+
+    NSLayoutAttribute layoutAttributeHorizAlign = (direction==Left) ? NSLayoutAttributeLeft : NSLayoutAttributeRight;
     
     // Width constraint
-    [layoutViewConstraints addObject:[NSLayoutConstraint constraintWithItem:self.colorView
+    [layoutViewConstraints addObject:[NSLayoutConstraint constraintWithItem:placeholderView
                                                                   attribute:NSLayoutAttributeWidth
                                                                   relatedBy:NSLayoutRelationEqual
                                                                      toItem:self.contentView
@@ -248,7 +187,7 @@
                                                                    constant:0]];
     
     // Height constraint
-    [layoutViewConstraints addObject:[NSLayoutConstraint constraintWithItem:self.colorView
+    [layoutViewConstraints addObject:[NSLayoutConstraint constraintWithItem:placeholderView
                                                                   attribute:NSLayoutAttributeHeight
                                                                   relatedBy:NSLayoutRelationEqual
                                                                      toItem:self.contentView
@@ -257,7 +196,7 @@
                                                                    constant:0]];
     
     // Center horizontally
-    [layoutViewConstraints addObject:[NSLayoutConstraint constraintWithItem:self.colorView
+    [layoutViewConstraints addObject:[NSLayoutConstraint constraintWithItem:placeholderView
                                                                   attribute:layoutAttributeHorizAlign
                                                                   relatedBy:NSLayoutRelationEqual
                                                                      toItem:self.contentView
@@ -266,7 +205,7 @@
                                                                    constant:0.0]];
     
     // Center vertically
-    [layoutViewConstraints addObject:[NSLayoutConstraint constraintWithItem:self.colorView
+    [layoutViewConstraints addObject:[NSLayoutConstraint constraintWithItem:placeholderView
                                                                   attribute:NSLayoutAttributeCenterY
                                                                   relatedBy:NSLayoutRelationEqual
                                                                      toItem:self.contentView
@@ -275,6 +214,9 @@
                                                                    constant:0.0]];
     // add all constraints at once
     [self addConstraints:layoutViewConstraints];
+    
+
+    
 }
 
 - (void)setupViewConstraints: (UIView*) view isExpanded: (bool) expand {
@@ -282,14 +224,18 @@
     [self removeConstraints:layoutViewConstraints];
     layoutViewConstraints = [NSMutableArray new];
     
+    UIView* referenceView;
     float fact = expand ? 1.0 : 0.7;
+    
+    referenceView = self.contentView;
+    
     self.isExpanded = expand;
     
     // Width constraint
     [layoutViewConstraints addObject:[NSLayoutConstraint constraintWithItem:view
                                                                   attribute:NSLayoutAttributeWidth
                                                                   relatedBy:NSLayoutRelationEqual
-                                                                     toItem:self.contentView
+                                                                     toItem:referenceView
                                                                   attribute:NSLayoutAttributeWidth
                                                                  multiplier:fact
                                                                    constant:0]];
@@ -298,7 +244,7 @@
     [layoutViewConstraints addObject:[NSLayoutConstraint constraintWithItem:view
                                                                   attribute:NSLayoutAttributeHeight
                                                                   relatedBy:NSLayoutRelationEqual
-                                                                     toItem:self.contentView
+                                                                     toItem:referenceView
                                                                   attribute:NSLayoutAttributeHeight
                                                                  multiplier:fact
                                                                    constant:0]];
@@ -307,7 +253,7 @@
     [layoutViewConstraints addObject:[NSLayoutConstraint constraintWithItem:view
                                                                   attribute:NSLayoutAttributeCenterX
                                                                   relatedBy:NSLayoutRelationEqual
-                                                                     toItem:self.contentView
+                                                                     toItem:referenceView
                                                                   attribute:NSLayoutAttributeCenterX
                                                                  multiplier:1.0
                                                                    constant:0.0]];
@@ -316,7 +262,7 @@
     [layoutViewConstraints addObject:[NSLayoutConstraint constraintWithItem:view
                                                                   attribute:NSLayoutAttributeCenterY
                                                                   relatedBy:NSLayoutRelationEqual
-                                                                     toItem:self.contentView
+                                                                     toItem:referenceView
                                                                   attribute:NSLayoutAttributeCenterY
                                                                  multiplier:1.0
                                                                    constant:0.0]];
@@ -324,48 +270,46 @@
     [self addConstraints:layoutViewConstraints];
 }
 
-- (void)setupLabelConstraints: (UILabel*) label {
-    
-    [self removeConstraints:layoutLabelConstraints];
-    layoutLabelConstraints = [NSMutableArray new];
-    
+- (void)addFurtherViewConstraints: (UIView*) view {
+
     // Width constraint
-    [layoutLabelConstraints addObject:[NSLayoutConstraint constraintWithItem:label
-                                                                   attribute:NSLayoutAttributeWidth
-                                                                   relatedBy:NSLayoutRelationEqual
-                                                                      toItem:self.contentView
-                                                                   attribute:NSLayoutAttributeWidth
-                                                                  multiplier:1.0
-                                                                    constant:0]];
+    [layoutViewConstraints addObject:[NSLayoutConstraint constraintWithItem:view
+                                                                  attribute:NSLayoutAttributeWidth
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:placeholderView
+                                                                  attribute:NSLayoutAttributeWidth
+                                                                 multiplier:1.0
+                                                                   constant:0]];
     
     // Height constraint
-    [layoutLabelConstraints addObject:[NSLayoutConstraint constraintWithItem:label
-                                                                   attribute:NSLayoutAttributeHeight
-                                                                   relatedBy:NSLayoutRelationEqual
-                                                                      toItem:self.contentView
-                                                                   attribute:NSLayoutAttributeHeight
-                                                                  multiplier:1.0
-                                                                    constant:0]];
+    [layoutViewConstraints addObject:[NSLayoutConstraint constraintWithItem:view
+                                                                  attribute:NSLayoutAttributeHeight
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:placeholderView
+                                                                  attribute:NSLayoutAttributeHeight
+                                                                 multiplier:1.0
+                                                                   constant:0]];
     
     // Center horizontally
-    [layoutLabelConstraints addObject:[NSLayoutConstraint constraintWithItem:label
-                                                                   attribute:NSLayoutAttributeCenterX
-                                                                   relatedBy:NSLayoutRelationEqual
-                                                                      toItem:self.contentView
-                                                                   attribute:NSLayoutAttributeCenterX
-                                                                  multiplier:1.0
-                                                                    constant:0.0]];
+    [layoutViewConstraints addObject:[NSLayoutConstraint constraintWithItem:view
+                                                                  attribute:NSLayoutAttributeCenterX
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:placeholderView
+                                                                  attribute:NSLayoutAttributeCenterX
+                                                                 multiplier:1.0
+                                                                   constant:0.0]];
     
     // Center vertically
-    [layoutLabelConstraints addObject:[NSLayoutConstraint constraintWithItem:label
-                                                                   attribute:NSLayoutAttributeCenterY
-                                                                   relatedBy:NSLayoutRelationEqual
-                                                                      toItem:self.contentView
-                                                                   attribute:NSLayoutAttributeCenterY
-                                                                  multiplier:1.0
-                                                                    constant:0.0]];
+    [layoutViewConstraints addObject:[NSLayoutConstraint constraintWithItem:view
+                                                                  attribute:NSLayoutAttributeCenterY
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:placeholderView
+                                                                  attribute:NSLayoutAttributeCenterY
+                                                                 multiplier:1.0
+                                                                   constant:0.0]];
     // add all constraints at once
-    [self addConstraints:layoutLabelConstraints];
+    [self addConstraints:layoutViewConstraints];
 }
+
 
 @end

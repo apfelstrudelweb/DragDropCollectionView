@@ -7,10 +7,13 @@
 //
 
 #import "ViewController.h"
-#define SHARED_INSTANCE   [ConfigAPI sharedInstance]
+#import "CustomView.h"
+
 
 @interface ViewController () {
     NSMutableDictionary* dataSourceDict;
+    
+    NSMutableArray* layoutConstraints;
 }
 
 @end
@@ -22,11 +25,15 @@
     
     [self setSourceElements];
     
-    [SHARED_INSTANCE setItemSpacing:SPACE_BETWEEN_ITEMS];
-    [SHARED_INSTANCE setBackgroundColorSourceView:[UIColor colorWithRed:1.00 green:0.95 blue:0.80 alpha:1.0]];
-    [SHARED_INSTANCE setBackgroundColorTargetView:[UIColor whiteColor]];
+    [SHARED_CONFIG_INSTANCE setCellWidthHeightRatio:CELL_WIDTH_HEIGHT_RATIO]; // width:height = 3:2
+    [SHARED_CONFIG_INSTANCE setMinInteritemSpacing:SPACE_BETWEEN_ITEMS];
+    float minInterimSpacing = [SHARED_CONFIG_INSTANCE getMinInteritemSpacing];
+    float minLineSpacing = minInterimSpacing / CELL_WIDTH_HEIGHT_RATIO;
+    [SHARED_CONFIG_INSTANCE setMinLineSpacing:minLineSpacing];
+    [SHARED_CONFIG_INSTANCE setBackgroundColorSourceView:[UIColor whiteColor]];
+    [SHARED_CONFIG_INSTANCE setBackgroundColorTargetView:[UIColor whiteColor]];
     
-    [SHARED_INSTANCE setDataSourceDict:dataSourceDict];
+    [SHARED_CONFIG_INSTANCE setDataSourceDict:dataSourceDict];
     
     self.view = [MainView new];
     
@@ -36,23 +43,52 @@
     
     dataSourceDict = [NSMutableDictionary new];
     
-    NSArray* titles = @[@"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", @"K", @"L", @"M", @"N", @"O", @"P", @"Q", @"R", @"S", @"T", @"U", @"V", @"W", @"X", @"Y", @"Z"];
+    NSArray* countries = @[@[@"Andorra", @"andorra.png"],
+                           @[@"Austria", @"austria.png"],
+                           @[@"Belgium", @"belgium.png"],
+                           @[@"Croatia", @"croatia.png"],
+                           @[@"Denmark", @"denmark.png"],
+                           @[@"Finland", @"finland.png"],
+                           @[@"France", @"france.png"],
+                           @[@"Germany", @"germany.png"],
+                           @[@"Great Britain", @"greatbritain.png"],
+                           @[@"Greece", @"greece.png"],
+                           @[@"Hungary", @"hungary.png"],
+                           @[@"Iceland", @"iceland.png"],
+                           @[@"Ireland", @"ireland.png"],
+                           @[@"Italy", @"italy.png"],
+                           @[@"Liechtenstein", @"liechtenstein.png"],
+                           @[@"Luxembourg", @"luxembourg.png"],
+                           @[@"Malta", @"malta.png"],
+                           @[@"Netherlands", @"netherlands.png"],
+                           @[@"Norway", @"norway.png"],
+                           @[@"Poland", @"poland.png"],
+                           @[@"Portugal", @"portugal.png"],
+                           @[@"Spain", @"spain.png"],
+                           @[@"Sweden", @"sweden.png"],
+                           @[@"Switzerland", @"switzerland.png"],
+                           @[@"Turkey", @"turkey.png"]
+                           ];
     
-    for (int i=0; i<titles.count; i++) {
+    for (int i=0; i<countries.count; i++) {
         DragView* view = [DragView new];
-        [view setLabelTitle:titles[i]];
+        view.index = i;
+        [view setBorderColor:[UIColor colorWithRed:0.80 green:0.80 blue:0.80 alpha:1.0]];
+        
+        CustomView* cv = [CustomView new];
         if (i%2==0) {
-            [view setColor: [UIColor orangeColor]];
+            [cv setBackgroundColorOfView:[UIColor colorWithRed:0.64 green:0.76 blue:0.96 alpha:1.0]];
         } else {
-            [view setColor: [UIColor blueColor]];
+            [cv setBackgroundColorOfView:[UIColor colorWithRed:0.43 green:0.62 blue:0.92 alpha:1.0]];
         }
+        [cv setLabelText:countries[i][0]];
+        [cv setLabelColor:[UIColor colorWithRed:0.11 green:0.27 blue:0.53 alpha:1.0]];
+        [cv setImageName:countries[i][1]];
+        //[cv setupConstraints];
+        [view setContentView:cv];
+        [view initialize];
         
-        CellModel* model = [CellModel new];
-        [model populateWithDragView:view];
-        
-        //[self.targetCellsDict insertObject: model atIndex:insertIndex];
-        
-        [dataSourceDict setObject:model forKey:[NSNumber numberWithInt:i]];
+        [dataSourceDict setObject:view forKey:[NSNumber numberWithInt:i]];
     }
 }
 
@@ -78,5 +114,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 @end

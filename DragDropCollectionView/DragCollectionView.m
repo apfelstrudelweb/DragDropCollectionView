@@ -11,7 +11,8 @@
 #define REUSE_IDENTIFIER @"dragCell"
 
 @interface DragCollectionView() {
-    
+    float minInteritemSpacing;
+    float minLineSpacing;
 }
 @end
 
@@ -25,11 +26,12 @@
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
         
         self = [[DragCollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
-        self.backgroundColor = [SHARED_INSTANCE getBackgroundColorSourceView];
+        self.backgroundColor = [SHARED_CONFIG_INSTANCE getBackgroundColorSourceView];
         
-        self.itemSpacing = [SHARED_INSTANCE getItemSpacing]; // set member variable AFTER  instantiation - otherwise it will be lost later
-        [flowLayout setMinimumInteritemSpacing:self.itemSpacing];
-        [flowLayout setMinimumLineSpacing:self.itemSpacing];
+        minInteritemSpacing = [SHARED_CONFIG_INSTANCE getMinInteritemSpacing];
+        minLineSpacing = [SHARED_CONFIG_INSTANCE getMinLineSpacing];// set member variable AFTER  instantiation - otherwise it will be lost later
+        [flowLayout setMinimumInteritemSpacing:minInteritemSpacing];
+        [flowLayout setMinimumLineSpacing:minLineSpacing];
         
         self.delegate = view;
         self.dataSource = view;
@@ -52,9 +54,12 @@
  * in preventing a vertical overlapping towards the bottom of the collection view.
  *
  */
-- (float) getBestFillingCellSize: (CGSize) containerSize {
+- (CGSize) getBestFillingCellSize: (CGSize) containerSize {
     
-    float cellWidthHeight = 0.0;
+    
+    float cellWidth = 0.0;
+    float cellHeight = 0.0;
+    float cellSizeRatio = [SHARED_CONFIG_INSTANCE getCellWidthHeightRatio];
     
     float collectionViewWidth;
     float collectionViewHeight;
@@ -62,8 +67,6 @@
     float occupiedHeight = 0.0;
     
     int N;
-    
-    int numberOfColumns;
     
     
     collectionViewWidth  = containerSize.width;
@@ -85,19 +88,21 @@
         int cols = [matrixArray[0] intValue];
         
         // 1. row
-        cellWidthHeight = floorf((collectionViewWidth - (cols-1)*self.itemSpacing)/cols);
+        cellWidth = floorf((collectionViewWidth - (cols-1)*minInteritemSpacing)/cols);
+        cellHeight = cellWidth / cellSizeRatio;
         
-        occupiedHeight = rows*cellWidthHeight + (rows-1)*self.itemSpacing;
+        occupiedHeight = rows*cellHeight + (rows-1)*minLineSpacing;
         
         if (occupiedHeight > collectionViewHeight) {
             // if total height exceeds contentview, add an item to first row
             int cols = [matrixArray[0] intValue] + 1;
-            cellWidthHeight = floorf((collectionViewWidth - (cols-1)*self.itemSpacing)/cols);
-            numberOfColumns = cols;
+            cellWidth = floorf((collectionViewWidth - (cols-1)*minInteritemSpacing)/cols);
+            cellHeight = cellWidth / cellSizeRatio;
             
             // case when matrix contains only one row with few elements
-            if (cellWidthHeight > collectionViewHeight) {
-                cellWidthHeight = collectionViewHeight;
+            if (cellHeight > collectionViewHeight) {
+                cellHeight = collectionViewHeight;
+                cellWidth = cellHeight * cellSizeRatio;
             }
             break;
         }
@@ -110,7 +115,7 @@
         
         // case when matrix contains only two elements
         if (matrixArray.count<3) {
-            return cellWidthHeight;
+            return CGSizeMake(cellWidth, cellHeight);
         }
         
         if ([matrixArray[2] intValue] > 0) {
@@ -141,7 +146,7 @@
             break;
         }
     }
-    return cellWidthHeight;
+    return CGSizeMake(cellWidth, cellHeight);
 }
 
 

@@ -39,8 +39,14 @@
     return self;
 }
 
-- (void) setItemSpacing: (float) value {
-    [persistencyManager setItemSpacing:value];
+- (void) setCellWidthHeightRatio: (float) value {
+    [persistencyManager setCellWidthHeightRatio:value];
+}
+- (void) setMinInteritemSpacing: (float) value {
+    [persistencyManager setMinInteritemSpacing:value];
+}
+- (void) setMinLineSpacing: (float) value {
+    [persistencyManager setMinLineSpacing:value];
 }
 - (void) setBackgroundColorSourceView: (UIColor*) color {
     [persistencyManager setBackgroundColorSourceView:color];
@@ -52,9 +58,14 @@
     [persistencyManager setDataSourceDict:dict];
 }
 
-
-- (float) getItemSpacing {
-    return [persistencyManager getItemSpacing];
+- (float) getCellWidthHeightRatio {
+    return [persistencyManager getCellWidthHeightRatio];
+}
+- (float) getMinInteritemSpacing {
+    return [persistencyManager getMinInteritemSpacing];
+}
+- (float) getMinLineSpacing {
+    return [persistencyManager getMinLineSpacing];
 }
 - (UIColor*) getBackgroundColorSourceView {
     return [persistencyManager getBackgroundColorSourceView];

@@ -10,6 +10,11 @@
 
 @implementation NSMutableDictionary (cat)
 
+/**
+ * Inserts a new object at index position and right-shifts all other 
+ * objects at the right-hand side of the inserted object
+ *
+ */
 - (void) insertObject: (id) object atIndex: (int) index {
     
     NSMutableDictionary* newDict = [NSMutableDictionary new];
@@ -104,15 +109,15 @@
     
     printf("%s", "\r-------------------------\r");
     
-    for (NSNumber *key in allKeys) {
-        
-        CellModel* model = [self objectForKey: key];
-        NSString* labelTitle = [model labelTitle];
-        
-        NSString *fmt = [NSString stringWithFormat:@"\rkey = %2d -- label = %@", [key intValue], labelTitle];
-        
-        printf("%s", [fmt cStringUsingEncoding:[NSString defaultCStringEncoding]]);
-    }
+//    for (NSNumber *key in allKeys) {
+//        
+//        DragView* view = [self objectForKey: key];
+//        NSString* labelTitle = [view getLabelTitle];
+//        
+//        NSString *fmt = [NSString stringWithFormat:@"\rkey = %2d -- label = %@", [key intValue], labelTitle];
+//        
+//        printf("%s", [fmt cStringUsingEncoding:[NSString defaultCStringEncoding]]);
+//    }
     
 }
 

@@ -13,16 +13,14 @@
 @property (strong, nonatomic) UILabel *headline1;
 @property (strong, nonatomic) UILabel *headline2;
 
-//@property (strong, nonatomic) UIStepper* stepper;
-
 @property (strong, nonatomic) DragCollectionView *dragCollectionView;
 @property (strong, nonatomic) DropCollectionView *dropCollectionView;
 
 @property (strong, nonatomic) NSDictionary *viewsDictionary;
 
 @property (nonatomic) CGSize dragCollectionViewSize;
-@property (nonatomic) float cellWidthHeight;
-@property (nonatomic) float itemSpacing;
+@property (nonatomic) CGSize cellSize;
+
 @property (nonatomic) int numberOfColumns;
 
 @property (nonatomic) int numberOfDragItems;

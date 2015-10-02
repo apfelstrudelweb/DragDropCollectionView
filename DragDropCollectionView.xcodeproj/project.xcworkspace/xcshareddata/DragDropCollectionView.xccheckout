@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>25225855-4E9F-4788-92B8-7E71906EA361</string>
 	<key>IDESourceControlProjectName</key>
-	<string>DragDropCollectionView</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>980D9F1A05B5F4AEDD77674D88823E028385865E</key>
 		<string>https://github.com/apfelstrudelweb/DragDropCollectionView.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>DragDropCollectionView.xcodeproj</string>
+	<string>DragDropCollectionView.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>980D9F1A05B5F4AEDD77674D88823E028385865E</key>

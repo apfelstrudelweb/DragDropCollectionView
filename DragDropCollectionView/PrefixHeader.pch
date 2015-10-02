@@ -12,8 +12,9 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#import "CurrentState.h"
 #import "DragView.h"
-#import "CellModel.h"
+#import "DropView.h"
 #import "CollectionViewCell.h"
 #import "DragCollectionView.h"
 #import "DropCollectionView.h"
@@ -31,13 +32,17 @@
 #define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 #define IS_LANDSCAPE    UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])
 
-#define SPACE_BETWEEN_ITEMS     IS_IPAD       ? 20.0 : 10.0
+#define IS_RETINA ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] && ([UIScreen mainScreen].scale >= 2.0))
+
+#define CELL_WIDTH_HEIGHT_RATIO 2.0
+#define SPACE_BETWEEN_ITEMS     IS_IPAD       ? 15.0 : 10.0
+#define SPACE_BETWEEN_LINES     IS_IPAD       ? 11.0 : 7
 
 // sum of the following subviews must be 100
 #define PERCENT_HEADER_1    10
 #define PERCENT_HEADER_2    10
-#define PERCENT_DRAG_AREA   35
-#define PERCENT_DROP_AREA   45
+#define PERCENT_DRAG_AREA   40
+#define PERCENT_DROP_AREA   40
 
 #define NUMBER_TARGET_ITEMS 60
 
@@ -47,6 +52,7 @@
 #define COLOR_PLACEHOLDER_TOUCHED    [UIColor colorWithRed:0.80 green:0.80 blue:0.80 alpha:1.0]
 #define COLOR_PLACEHOLDER_UNTOUCHED  [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0]
 
-#define SHARED_INSTANCE   [ConfigAPI sharedInstance]
+#define SHARED_CONFIG_INSTANCE   [ConfigAPI sharedInstance]
+#define SHARED_STATE_INSTANCE    [CurrentState sharedInstance]
 
 #endif

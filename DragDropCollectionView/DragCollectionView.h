@@ -10,12 +10,11 @@
 
 @interface DragCollectionView : UICollectionView
 
-@property (nonatomic) float itemSpacing;
 
 - (id)initWithFrame:(CGRect)frame withinView: (UIView<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>*) view;
 
 - (CollectionViewCell*) getCell: (NSIndexPath*) indexPath;
 
-- (float) getBestFillingCellSize: (CGSize) containerSize;
+- (CGSize) getBestFillingCellSize: (CGSize) containerSize;
 
 @end

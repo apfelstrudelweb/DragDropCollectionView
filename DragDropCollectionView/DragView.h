@@ -7,17 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MoveableView.h"
 
-@interface DragView : UIView
+@interface DragView : MoveableView
 
-@property (nonatomic, strong) UILabel* cellLabel;
-@property (nonatomic, strong) UIImageView* imageView;
+- (DragView*) provideNew;
+- (void) move:(UIPanGestureRecognizer *)recognizer inView:(UIView*) view;
 
-- (void) setLabelTitle:(NSString *)value;
-- (NSString*) getLabelTitel;
-
-- (void) setColor: (UIColor*) color;
-
-- (DragView*) supplyNewDragView: (UICollectionView*) collectionView;
+- (void) setBorderColor: (UIColor*) color;
 
 @end
