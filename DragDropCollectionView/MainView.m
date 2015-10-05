@@ -17,8 +17,11 @@
     CollectionViewCell* lastLeftCell;
     //    CollectionViewCell* lastRightCell;
     
+    NSArray* insertCells;
     CollectionViewCell* leftCell;
     CollectionViewCell* rightCell;
+    int insertIndex;
+    CollectionViewCell* dropCell;
     
     //
     //    NSIndexPath *finalInsertIndexPath;
@@ -146,6 +149,95 @@
 }
 
 
+- (void)handleInitialDragView:(DragView *)dragView {
+    // Remove temporary DragView (it's only a snapshot) and replace it by a real one
+    CGRect frame = newDragView.frame;
+    [newDragView removeFromSuperview];
+    newDragView = [dragView provideNew];
+    newDragView.frame = frame;
+    [self addSubview:newDragView];
+    // we need to update the dictionary - otherwise we get empty custom views!
+    [self.sourceCellsDict setObject:newDragView forKey:[NSNumber numberWithInt:dragView.index]];
+}
+
+- (void)insertCell:(DragView *)dragView {
+    NSIndexPath* insertionIndexPath = rightCell.indexPath;
+    
+    __block CollectionViewCell* newCell;
+    
+    self.numberOfDropItems++;
+    [self.dropCollectionView performBatchUpdates:^{
+        
+        NSArray *indexPaths = [NSArray arrayWithObject:insertionIndexPath];
+        [self.dropCollectionView insertItemsAtIndexPaths:indexPaths];
+        
+    } completion: ^(BOOL finished) {
+        
+        newCell = (CollectionViewCell*)[self.dropCollectionView cellForItemAtIndexPath:insertionIndexPath];
+        
+        dropCell = newCell;
+        
+        DropView* dropView = [[DropView alloc] initWithView:targetDragView inCollectionViewCell:dropCell];
+        
+        // Now update dictionary, shifting all elements right of the insert index to right
+        insertIndex = (int)insertionIndexPath.item;
+        [self.targetCellsDict insertObject: dropView atIndex:insertIndex];
+        int maxItems = (int)[self.dropCollectionView numberOfItemsInSection:0];
+        int maxKey = [Utils getHighestKeyInDict:self.targetCellsDict];
+        
+        // avoid overflow of dictionary
+        if (maxKey > maxItems-1) {
+            [self.targetCellsDict removeObjectForKey:[NSNumber numberWithInt:maxItems]];
+        }
+        
+        // when dragged view is dropped, remove it as it is replaced by this drop view
+        [dragView removeFromSuperview];
+        
+        [leftCell undoPush];
+        [rightCell undoPush];
+        
+        // reload in order to show the new drop view - > "cellForItemAtIndexPath"
+        [self.dropCollectionView reloadData];
+        
+    }];
+    
+    
+    // now remove last cell in order to maintain a constant number of cells
+    self.numberOfDropItems--;
+    [self.dropCollectionView performBatchUpdates:^{
+        
+        NSIndexPath *indexPath =[NSIndexPath indexPathForRow:self.numberOfDropItems inSection:0];
+        [self.dropCollectionView deleteItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
+    } completion: ^(BOOL finished) {
+        
+        leftCell = nil;
+        rightCell = nil;
+    }];
+}
+
+- (void)appendCell:(UIPanGestureRecognizer *)recognizer dragView:(DragView *)dragView {
+    dropCell = [Utils getTargetCell:dragView inCollectionView:self.dropCollectionView recognizer:recognizer];
+    
+    // if view is not dropped into a valid cell, remove it
+    if (!dropCell) {
+        [dragView removeFromSuperview];
+        [self.dropCollectionView reloadData];
+        [SHARED_STATE_INSTANCE setTransactionActive:false];
+        return;
+    }
+    NSIndexPath* dropIndexPath = dropCell.indexPath;
+    // drop view into the cell, making a copy of the dragged element and remove the dragged one
+    DropView* dropView = [[DropView alloc] initWithView:targetDragView inCollectionViewCell:dropCell];
+    // when dragged view is dropped, remove it as it is replaced by this drop view
+    [dragView removeFromSuperview];
+    // [dropView setIndex:(int)dropIndexPath.item];
+    // populate dictionary -> we need it for "cellForItemAtIndexPath"
+    
+    //DropView* copyOfDropView = [dropView provideNew];
+    
+    [self.targetCellsDict setObject:dropView forKey:[NSNumber numberWithInt:(int)dropIndexPath.item]];
+}
+
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer {
     
     
@@ -194,7 +286,7 @@
             return;
         }
         
-        NSArray* insertCells = [Utils getInsertCells:dragView inCollectionView:self.dropCollectionView recognizer:recognizer];
+        insertCells = [Utils getInsertCells:dragView inCollectionView:self.dropCollectionView recognizer:recognizer];
         
         if (!insertCells) {
             lastLeftCell = nil;
@@ -215,280 +307,23 @@
     // END DRAGGING AND START DROPPING
     if (recognizer.state == UIGestureRecognizerStateEnded) {
         
-        // Remove temporary DragView (it's only a snapshot) and replace it by a real one
-        CGRect frame = newDragView.frame;
-        [newDragView removeFromSuperview];
-        newDragView = [dragView provideNew];
-        newDragView.frame = frame;
-        [self addSubview:newDragView];
-        // we need to update the dictionary - otherwise we get empty custom views!
-        [self.sourceCellsDict setObject:newDragView forKey:[NSNumber numberWithInt:dragView.index]];
+        [self handleInitialDragView:dragView];
         
-        
-        
-        CollectionViewCell* dropCell = [Utils getTargetCell:dragView inCollectionView:self.dropCollectionView recognizer:recognizer];
-        // if view is not dropped into a valid cell, remove it
-        if (!dropCell) {
-            [dragView removeFromSuperview];
-            [self.dropCollectionView reloadData];
-            [SHARED_STATE_INSTANCE setTransactionActive:false];
-            return;
+        // insert cell
+        if (insertCells) {
+            [self insertCell:dragView];
+            
+        } else {
+            [self appendCell:recognizer dragView:dragView];
+
         }
-        NSIndexPath* dropIndexPath = dropCell.indexPath;
-        // drop view into the cell, making a copy of the dragged element and remove the dragged one
-        DropView* dropView = [[DropView alloc] initWithView:targetDragView inCollectionViewCell:dropCell];
-        // when dragged view is dropped, remove it as it is replaced by this drop view
-        [dragView removeFromSuperview];
-        // [dropView setIndex:(int)dropIndexPath.item];
-        // populate dictionary -> we need it for "cellForItemAtIndexPath"
         
-        //DropView* copyOfDropView = [dropView provideNew];
         
-        [self.targetCellsDict setObject:dropView forKey:[NSNumber numberWithInt:(int)dropIndexPath.item]];
         // reload in order to show the new drop view - > "cellForItemAtIndexPath"
         [self.dropCollectionView reloadData];
         [SHARED_STATE_INSTANCE setTransactionActive:false];
     }
 }
 
-
-
-//- (void)_handlePan:(UIPanGestureRecognizer *)recognizer {
-//
-//
-//    CollectionViewCell* cell;
-//    finalInsertIndexPath = nil;
-//
-//    DragView* dragView = (DragView*)recognizer.view;
-//
-//    [self bringSubviewToFront:dragView];
-//
-//    // TODO: when View is in end position, don't add subviews!!
-//    if (recognizer.state == UIGestureRecognizerStateBegan) {
-//        // Important: deliver new view when the old view has been dropped into the target cell
-//        //[dragView supplyNewDragView:self.dragCollectionView];
-//        DragView *newDragView = [dragView clone];
-//
-//        [self.dragCollectionView.superview addSubview:newDragView];
-//
-//
-//        prevIndexPath = nil;
-//    }
-//
-//
-//    CGPoint translation = [recognizer translationInView:self];
-//    recognizer.view.center = CGPointMake(recognizer.view.center.x + translation.x,
-//                                         recognizer.view.center.y + translation.y);
-//    [recognizer setTranslation:CGPointMake(0, 0) inView:self];
-//
-//    CGPoint tapLocationInCollectionView = [recognizer locationInView:self.dropCollectionView];
-//    CGPoint tapLocationInDragView = [recognizer locationInView:dragView];
-//
-//    // negative offset -> left cell should not be highlighted when touch point is in the middle of two cells
-//    CollectionViewCell* dummyCell;
-//
-//
-//    // Get vertical scroll offset
-//    //
-//    // Important: when collection view is scrolled, all information about previous cells
-//    // (which are no more visible) are lost!
-//    // That's why we need to iterate over all cells and find the first one which can
-//    // provide the width and height of such.
-//    for (int i=0; i<[self.dropCollectionView numberOfItemsInSection:0]; i++) {
-//        dummyCell = (CollectionViewCell*)[self.dropCollectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:i inSection:0]];
-//        if (dummyCell) {
-//            break;
-//        }
-//    }
-//
-//    float cellWidth = dummyCell.bounds.size.width;
-//    float cellHeight = dummyCell.bounds.size.height; // is redundant, perhaps we'll need it in future
-//    float scrollY = self.dropCollectionView.contentOffset.y / self.dropCollectionView.frame.size.height;
-//
-//
-//    // now get the center of the dragged view -> we need two tap locations:
-//    // - first tap location related to the collection view and
-//    // - second tap location related to the dragged view
-//    float centerX = tapLocationInCollectionView.x - tapLocationInDragView.x + 0.5*cellWidth;
-//    float centerY = tapLocationInCollectionView.y - tapLocationInDragView.y + 0.5*cellHeight+scrollY;
-//
-//    CGPoint correctedTapLocation = CGPointMake(centerX, centerY);
-//
-//    NSIndexPath *dropIndexPath = [self.dropCollectionView indexPathForItemAtPoint:correctedTapLocation];
-//    cell = (CollectionViewCell*)[self.dropCollectionView cellForItemAtIndexPath:dropIndexPath];
-//
-//    DragView* view = [self.targetCellsDict objectForKey:[NSNumber numberWithInt:(int)dropIndexPath.item]];
-//
-//    if (!view) {
-//        [cell highlightEmptyOne];
-//        [cell expandEmptyOne];
-//    } else {
-//        // when a cell is populated, fade out the color in order to indicate that this cell may be overwritten by putting a new object above
-//        [cell highlightPopulatedOne];
-//    }
-//
-//
-//    // when a cell is left without dropping an object onto it, perform a reset
-//    if (![dropIndexPath isEqual:prevIndexPath]) {
-//        if (prevIndexPath != nil) {
-//            // watch out after scrolling -> check if model in array exists
-//            DragView* prevView = [self.targetCellsDict objectForKey:[NSNumber numberWithInt:(int)prevIndexPath.item]];
-//            CollectionViewCell* prevCell = (CollectionViewCell*)[self.dropCollectionView cellForItemAtIndexPath:prevIndexPath];
-//
-//            if (!prevView) {
-//                // when cell is left, shrink again
-//                [prevCell shrinkEmptyOne];
-//                [prevCell unhighlightEmptyOne];
-//
-//            } else {
-//                // when populated cell is left again, release the color lightening
-//                [prevCell unhighlightPopulatedOne];
-//            }
-//        }
-//        prevIndexPath = dropIndexPath;
-//
-//        NSIndexPath *insertIndexPath;
-//
-//        if (leftCell.isPopulated && rightCell.isPopulated) {
-//            [leftCell pushBack];
-//            [rightCell pushBack];
-//        }
-//
-//        // if specific cell isn't touched, figure out if we are between two cells
-//        if (!dropIndexPath) {
-//
-//            float leftX = correctedTapLocation.x - 0.5*cellWidth - 0.5*itemSpacing;
-//
-//            CGPoint leftTapLocation = CGPointMake(leftX, correctedTapLocation.y);
-//
-//            insertIndexPath = [self.dropCollectionView indexPathForItemAtPoint:leftTapLocation];
-//
-//            if (insertIndexPath) {
-//                //NSLog(@"finalInsertIndexPath: %ld", (long)insertIndexPath.item);
-//                finalInsertIndexPath = insertIndexPath;
-//
-//                int item1 = (int)insertIndexPath.item;
-//                int item2 = item1 + 1;
-//
-//                leftCell = (CollectionViewCell*)[self.dropCollectionView cellForItemAtIndexPath:insertIndexPath];
-//                rightCell = (CollectionViewCell*)[self.dropCollectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:item2 inSection:0]];
-//
-//                if (leftCell.isPopulated && rightCell.isPopulated) {
-//                    [leftCell pushToLeft];
-//                    [rightCell pushToRight];
-//                }
-//            }
-//        }
-//    }
-//
-//    if (recognizer.state == UIGestureRecognizerStateEnded) {
-//        // drop view into the cell, making a copy of the dragged element and remove the dragged one
-//        DropView* dropView = [[DropView alloc] initWithView:dragView inCollectionViewCell:cell];
-//        [self.targetCellsDict setObject:dropView forKey:[NSNumber numberWithInt:(int)dropIndexPath.item]];
-//        // reload in order to show the new drop view from the targetCellsDict
-//        //[self.dropCollectionView reloadData];
-//    }
-//
-////    if (recognizer.state == UIGestureRecognizerStateEnded) {
-////
-////        //
-////        //        if (!cell) {
-////        //            // if not dropped into a cell, remove it
-////        //            [dragView removeFromSuperview];
-////        //            return;
-////        //        }
-////
-////        NSIndexPath* indexPathToInsert;
-////
-////        for (NSInteger row = 0; row < [self.dropCollectionView numberOfItemsInSection:0]; row++) {
-////            CollectionViewCell* _cell = (CollectionViewCell*)[self.dropCollectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
-////
-////            if (_cell.isPushedToLeft) {
-////                indexPathToInsert = [NSIndexPath indexPathForRow:row+1 inSection:0];
-////                break;
-////            }
-////        }
-////
-////        // insert cell
-////        if (indexPathToInsert) {
-////
-////            __block CollectionViewCell* newCell;
-////
-////            self.numberOfDropItems++;
-////            [self.dropCollectionView performBatchUpdates:^{
-////
-////                NSArray *indexPaths = [NSArray arrayWithObject:indexPathToInsert];
-////                [self.dropCollectionView insertItemsAtIndexPaths:indexPaths];
-////
-////            } completion: ^(BOOL finished) {
-////
-////                newCell = (CollectionViewCell*)[self.dropCollectionView cellForItemAtIndexPath:indexPathToInsert];
-////
-////
-//////                //[cell unhighlightPopulatedOne];
-//////                [newCell setColor:[dragView getColor]];
-//////                [newCell setLabelTitle:[dragView getLabelTitle]];
-//////                [newCell setLabelColor:[dragView getLabelColor]];
-//////                [newCell setCellSubview:[dragView getSubview]];
-//////                [newCell initialize]; // don't omit otherwise overwritten cells will have multiple labels!
-////                [newCell populateWithContentsOfView:dragView];
-////
-////
-//////                CellModel* model = [CellModel new];
-//////                [model setColor:dragView.backgroundColor];
-//////                [model setLabelTitle:[dragView getLabelTitle]];
-//////                //[model setImageView:dragView.imageView];
-////
-////
-////                // Now update dictionary, shifting all elements right of the insert index to right
-////                int insertIndex = (int)indexPathToInsert.item;
-////                [self.targetCellsDict insertObject: dragView atIndex:insertIndex];
-////                int maxItems = (int)[self.dropCollectionView numberOfItemsInSection:0];
-////                int maxKey = [Utils getHighestKeyInDict:self.targetCellsDict];
-////
-////                // avoid overflow of dictionary
-////                if (maxKey > maxItems-1) {
-////                    [self.targetCellsDict removeObjectForKey:[NSNumber numberWithInt:maxItems]];
-////                }
-////
-////                 [dragView removeFromSuperview];
-////
-////            }];
-////
-////            //NSLog(@"targetCellsDict: %@", targetCellsDict);
-////
-////            // now remove last cell in order to maintain a constant number of cells
-////            self.numberOfDropItems--;
-////            [self.dropCollectionView performBatchUpdates:^{
-////
-////                NSIndexPath *indexPath =[NSIndexPath indexPathForRow:self.numberOfDropItems inSection:0];
-////                [self.dropCollectionView deleteItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
-////            } completion: ^(BOOL finished) {
-////                finalInsertIndexPath = nil;
-////                [leftCell pushBack];
-////                [rightCell pushBack];
-////
-////                leftCell = nil;
-////                rightCell = nil;
-////            }];
-////            return;
-////        }
-////
-////        // populate cell
-////        [cell initialize]; // don't omit otherwise overwritten cells will have multiple labels!
-////        // when new object is put on it, release the color lightening
-////        [cell unhighlightPopulatedOne];
-////
-////        [cell populateWithContentsOfView:dragView];
-////
-////        DropView* dropView = [[DropView alloc] initWithView:dragView];
-////
-////        [self.targetCellsDict setObject:dropView forKey:[NSNumber numberWithInt:(int)dropIndexPath.item]];
-////
-////        [dragView removeFromSuperview];
-////
-////    }
-//    
-//}
 
 @end

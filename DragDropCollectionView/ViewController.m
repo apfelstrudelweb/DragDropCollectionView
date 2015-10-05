@@ -30,8 +30,8 @@
     float minInterimSpacing = [SHARED_CONFIG_INSTANCE getMinInteritemSpacing];
     float minLineSpacing = minInterimSpacing / CELL_WIDTH_HEIGHT_RATIO;
     [SHARED_CONFIG_INSTANCE setMinLineSpacing:minLineSpacing];
-    [SHARED_CONFIG_INSTANCE setBackgroundColorSourceView:[UIColor whiteColor]];
-    [SHARED_CONFIG_INSTANCE setBackgroundColorTargetView:[UIColor whiteColor]];
+    [SHARED_CONFIG_INSTANCE setBackgroundColorSourceView:[UIColor clearColor]];
+    [SHARED_CONFIG_INSTANCE setBackgroundColorTargetView:[UIColor clearColor]];
     
     [SHARED_CONFIG_INSTANCE setDataSourceDict:dataSourceDict];
     

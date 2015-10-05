@@ -44,7 +44,7 @@
 #define PERCENT_DRAG_AREA   40
 #define PERCENT_DROP_AREA   40
 
-#define NUMBER_TARGET_ITEMS 60
+#define NUMBER_TARGET_ITEMS 30
 
 #define MARGIN  20
 
