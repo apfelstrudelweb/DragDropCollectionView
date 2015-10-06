@@ -10,23 +10,12 @@
 
 @interface CustomView : UIView
 
-@property (strong, nonatomic) UILabel *label;
-@property (strong, nonatomic) UIImageView *imageView;
+// these members will be called later by introspection and must not be bound to layout constraints!
+@property (strong, nonatomic) NSString* labelText;
+@property (strong, nonatomic) NSString* imageName;
+@property (strong, nonatomic) UIColor*  labelColor;
+@property (strong, nonatomic) UIColor*  backgroundColorOfView;
 
-@property (strong, nonatomic) NSDictionary *viewsDictionary;
-
-- (void) setLabelText: (NSString*) text;
-- (void) setImageName: (NSString*) name;
-
-- (void) setLabelColor: (UIColor*) color;
-- (void) setBackgroundColorOfView: (UIColor*) color;
-
-
-- (NSString*) getLabelText;
-- (NSString*) getImageName;
-
-- (UIColor*) getLabelColor;
-- (UIColor*) getBackgroundColorOfView;
 
 - (void) setupConstraints;
 

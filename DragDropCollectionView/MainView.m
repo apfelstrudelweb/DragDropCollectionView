@@ -38,7 +38,7 @@
         self.targetCellsDict = [NSMutableDictionary new];
         
         self.numberOfDragItems = (int)self.sourceCellsDict.count;
-        self.numberOfDropItems = NUMBER_TARGET_ITEMS;
+        self.numberOfDropItems = [SHARED_CONFIG_INSTANCE getNumberOfDropItems];
         
         self.headline1 = [[UILabel alloc] initWithFrame:frame];
         [self.headline1 setTextForHeadline:@"Drag and Drop Prototype"];

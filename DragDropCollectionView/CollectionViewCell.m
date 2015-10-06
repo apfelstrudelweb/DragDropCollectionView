@@ -8,7 +8,7 @@
 
 #import "CollectionViewCell.h"
 
-#define ANIMATION_DURATION 0.25
+#define ANIMATION_DURATION 0.5
 #define MIN_PRESS_DURATION 0.5
 
 @interface CollectionViewCell() {
@@ -46,16 +46,14 @@
         
         self.userInteractionEnabled = YES;
         
+      
+        
     }
     return self;
 }
 
 
 - (void) reset {
-    
-//    [self.subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-//        [obj removeFromSuperview];
-//    }];
     
     // remove previous drop view -> important for scrolling
     for (UIView *view in self.contentView.subviews) {
@@ -67,7 +65,7 @@
         }
     }
     
-    placeholderView.backgroundColor = COLOR_PLACEHOLDER_UNTOUCHED;
+    placeholderView.backgroundColor = [SHARED_CONFIG_INSTANCE getDropPlaceholderColorUntouched];
     
     [self setupViewConstraints:placeholderView isExpanded:false];
     
@@ -113,6 +111,7 @@
 - (void) expand {
     if (!self.isPopulated) {
         [self setupViewConstraints:placeholderView isExpanded:true];
+        placeholderView.backgroundColor = [SHARED_CONFIG_INSTANCE getDropPlaceholderColorTouched];
     } else {
         // highlight populated cell
         [self highlight:true];
@@ -122,6 +121,7 @@
 // shrinks the cell when drag view leaves it again
 - (void) shrink {
     if (!self.isPopulated) {
+        placeholderView.backgroundColor = [SHARED_CONFIG_INSTANCE getDropPlaceholderColorUntouched];
         [self setupViewConstraints:placeholderView isExpanded:false];
     } else {
         // unhighlight populated cell

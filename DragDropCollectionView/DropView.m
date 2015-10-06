@@ -17,7 +17,7 @@
 
 - (id)initWithView:(DragView*)view inCollectionViewCell:(CollectionViewCell*) cell {
     
-    self = [super initWithFrame:CGRectZero];
+    self = [super initWithFrame:cell.frame];
     if (self) {
         
         // if there is already an underlying DropView, remove it
@@ -28,6 +28,7 @@
         }
         
         self.borderColor = view.borderColor;
+        self.borderWidth = view.borderWidth;
         
         
         UIView* contentView = [view getContentView];

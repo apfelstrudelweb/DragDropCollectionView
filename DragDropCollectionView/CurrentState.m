@@ -7,10 +7,9 @@
 //
 
 #import "CurrentState.h"
-#import "PersistencyManager.h"
 
 @interface CurrentState () {
-    PersistencyManager *persistencyManager;
+    bool transactionActive;
 }
 @end
 
@@ -29,22 +28,14 @@
     return _sharedInstance;
 }
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        persistencyManager = [[PersistencyManager alloc] init];
-    }
-    return self;
-}
 
 // Getter/Setter which indicate if a Drag View is in the drag state (transaction)
 - (void) setTransactionActive: (bool) value {
-    [persistencyManager setTransactionActive:value];
+    transactionActive = value;
 }
 
 - (bool) isTransactionActive {
-    return [persistencyManager isTransactionActive];
+    return transactionActive;
 }
 
 @end

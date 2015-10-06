@@ -57,6 +57,16 @@
 - (void) setDataSourceDict: (NSMutableDictionary*) dict {
     [persistencyManager setDataSourceDict:dict];
 }
+- (void) setDropPlaceholderColorUntouched: (UIColor*) color {
+    [persistencyManager setDropPlaceholderColorUntouched:color];
+}
+- (void) setDropPlaceholderColorTouched: (UIColor*) color {
+    [persistencyManager setDropPlaceholderColorTouched:color];
+}
+- (void) setNumberOfDropItems: (int) value {
+    [persistencyManager setNumberOfDropItems:value];
+}
+
 
 - (float) getCellWidthHeightRatio {
     return [persistencyManager getCellWidthHeightRatio];
@@ -76,4 +86,14 @@
 - (NSMutableDictionary*) getDataSourceDict {
     return [persistencyManager getDataSourceDict];
 }
+- (UIColor*) getDropPlaceholderColorUntouched {
+    return [persistencyManager getDropPlaceholderColorUntouched];
+}
+- (UIColor*) getDropPlaceholderColorTouched {
+    return [persistencyManager getDropPlaceholderColorTouched];
+}
+- (int) getNumberOfDropItems {
+    return [persistencyManager getNumberOfDropItems];
+}
+
 @end

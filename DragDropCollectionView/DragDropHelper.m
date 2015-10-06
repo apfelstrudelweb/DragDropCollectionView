@@ -79,7 +79,7 @@
         
         // during dragging, we use a snapshot of the content view
         //[dragView setContentView:newContentView];
-        [dragView initialize];
+        //[dragView initialize];
         // move drag view AFTER cloning of itself - otherwise we get a vertical offset
         [dragView move:recognizer inView:mainView];
         

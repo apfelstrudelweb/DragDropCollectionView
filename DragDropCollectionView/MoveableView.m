@@ -52,6 +52,9 @@
 
 - (void)setupConstraints: (UIView*) element {
     
+    float widthWithoutBorder = (self.frame.size.width - self.borderWidth) / self.frame.size.width;
+    float heightWithoutBorder = (self.frame.size.height - self.borderWidth) / self.frame.size.height;
+    
     if ([element isKindOfClass:[UIImageView class]]) {
         UIImageView* imageView = (UIImageView*)element;
         UIImage *image = imageView.image;
@@ -84,8 +87,8 @@
                                                                   relatedBy:NSLayoutRelationEqual
                                                                      toItem:self
                                                                   attribute:NSLayoutAttributeWidth
-                                                                 multiplier:0.9
-                                                                   constant:0]];
+                                                                 multiplier:widthWithoutBorder
+                                                                   constant:0.0]];
         
         // Height constraint
         [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:element
@@ -93,8 +96,8 @@
                                                                   relatedBy:NSLayoutRelationEqual
                                                                      toItem:self
                                                                   attribute:NSLayoutAttributeHeight
-                                                                 multiplier:0.9
-                                                                   constant:0]];
+                                                                 multiplier:heightWithoutBorder
+                                                                   constant:0.0]];
     }
         
         // Center horizontally

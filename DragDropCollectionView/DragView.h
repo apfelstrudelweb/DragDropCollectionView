@@ -15,5 +15,6 @@
 - (void) move:(UIPanGestureRecognizer *)recognizer inView:(UIView*) view;
 
 - (void) setBorderColor: (UIColor*) color;
+- (void) setBorderWidth: (float) value;
 
 @end

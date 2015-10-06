@@ -13,12 +13,14 @@
 
 @interface CustomView( ) {
     
+    NSDictionary *viewsDictionary;
     NSMutableArray* layoutConstraints;
     NSArray *visualFormatConstraints;
     
     bool hasObserver;
-    
-    NSString* imageName;
+
+    UILabel *label;
+    UIImageView *imageView;
 
 }
 @end
@@ -33,19 +35,18 @@
     
     self = [super initWithFrame:frame];
     if (self) {
-        self.label = [UILabel new];
-        self.imageView = [UIImageView new];
+        label = [UILabel new];
+        imageView = [UIImageView new];
         
-        //[self setContentMode:UIViewContentModeScaleAspectFit];
+        // avoid overlapping
         [self setClipsToBounds:YES];
         
-        [self.label setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self.imageView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [label setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [imageView setTranslatesAutoresizingMaskIntoConstraints:NO];
         
-        [self addSubview:self.label];
-        [self addSubview:self.imageView];
-  
-   
+        [self addSubview:label];
+        [self addSubview:imageView];
+
     }
     return self;
 }
@@ -53,27 +54,27 @@
 
 
 - (void) setLabelText: (NSString*) text {
-    [self.label setTextForDragDropElement:text];
+    [label setTextForDragDropElement:text];
     
-    self.label.text = text;
-    self.label.textAlignment = NSTextAlignmentCenter;
+    label.text = text;
+    label.textAlignment = NSTextAlignmentCenter;
     
     UIFont* font = IS_IPAD ? [UIFont fontWithName:FONT size:2*FONTSIZE] : [UIFont fontWithName:FONT size:FONTSIZE];
     
-    self.label.font = font;
-    
-    
+    label.font = font;
+ 
 }
 
 - (void) setImageName: (NSString*) name {
-    UIImage *image = [UIImage imageNamed:name];
+    _imageName = name;
+    // setup image view
+    UIImage *image = [UIImage imageNamed:_imageName];
     UIImage* _image = [UIImage imageWithCGImage:image.CGImage]; // trick for @2x.png
-    [self.imageView setImage:_image];
-    imageName = name;
+    [imageView setImage:_image];
 }
 
 - (void) setLabelColor: (UIColor*) color {
-    [self.label setTextColor:color];
+    [label setTextColor:color];
 }
 
 - (void) setBackgroundColorOfView: (UIColor*) color {
@@ -82,15 +83,15 @@
 
 
 - (NSString*) getLabelText {
-    return self.label.text;
+    return label.text;
 }
 
 - (NSString*) getImageName {
-    return imageName;
+    return self.imageName;
 }
 
 - (UIColor*) getLabelColor {
-    return self.label.textColor;
+    return label.textColor;
 }
 
 - (UIColor*) getBackgroundColorOfView {
@@ -106,7 +107,7 @@
     bool viewIsInDragState = [SHARED_STATE_INSTANCE isTransactionActive];
  
     // Performance issue: don't update constraints continuously during dragging the view,
-    // only when view has bee dropped or before dragging!
+    // only when view has been dropped or before dragging!
     if (!viewIsInDragState) {
         [self setupConstraints];
     }
@@ -114,9 +115,9 @@
 
 - (void)setupConstraints {
     
-    self.viewsDictionary = @{   @"label"       : self.label,
-                                @"image"       : self.imageView };
-    
+    viewsDictionary = @{        @"label"       : label,
+                                @"image"       : imageView };
+
     
     // clear constraints in case of device rotation
     [self removeConstraints:visualFormatConstraints];
@@ -133,12 +134,12 @@
     visualFormatConstraints = [NSLayoutConstraint constraintsWithVisualFormat:visualFormatText
                                                                       options:0
                                                                       metrics:nil
-                                                                        views:self.viewsDictionary];
+                                                                        views:viewsDictionary];
     
     for (int i = 0; i<visualFormatConstraints.count; i++) {
         [self addConstraint:visualFormatConstraints[i]];
     }
-    
+
     
     layoutConstraints = [NSMutableArray new];
     
@@ -148,8 +149,8 @@
     
     float fact = 1.0;//IS_RETINA ? 1.0 : 1.0;
     
-    float imageWidth  = fact*self.imageView.image.size.width;
-    float imageHeight = fact*self.imageView.image.size.height;
+    float imageWidth  = fact*imageView.image.size.width;
+    float imageHeight = fact*imageView.image.size.height;
     float ratio = (float) imageWidth / imageHeight;
     
     if (remainingHeight < imageHeight) {
@@ -157,13 +158,10 @@
         imageWidth = ratio * imageHeight;
     }
     
-   
-    
-    
-    
+
     
     // Width constraint
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.label
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:label
                                                               attribute:NSLayoutAttributeWidth
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self
@@ -172,7 +170,7 @@
                                                                constant:0]];
     
     // Height constraint
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.label
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:label
                                                               attribute:NSLayoutAttributeHeight
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self
@@ -180,7 +178,7 @@
                                                              multiplier:0.0
                                                                constant:labelHeight]];
     // Center horizontally
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.label
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:label
                                                               attribute:NSLayoutAttributeCenterX
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self
@@ -191,7 +189,7 @@
     
     
     // Width constraint
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.imageView
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:imageView
                                                               attribute:NSLayoutAttributeWidth
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self
@@ -200,7 +198,7 @@
                                                                constant:imageWidth]];
     
     // Height constraint
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.imageView
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:imageView
                                                               attribute:NSLayoutAttributeHeight
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self
@@ -208,7 +206,7 @@
                                                              multiplier:0.0
                                                                constant:imageHeight]];
     // Center horizontally
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.imageView
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:imageView
                                                               attribute:NSLayoutAttributeCenterX
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self

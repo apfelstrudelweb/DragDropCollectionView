@@ -18,6 +18,10 @@
 - (void) setBackgroundColorSourceView: (UIColor*) color;
 - (void) setBackgroundColorTargetView: (UIColor*) color;
 - (void) setDataSourceDict: (NSMutableDictionary*) dict;
+- (void) setDropPlaceholderColorUntouched: (UIColor*) color;
+- (void) setDropPlaceholderColorTouched: (UIColor*) color;
+- (void) setNumberOfDropItems: (int) value;
+
 
 - (float) getCellWidthHeightRatio;
 - (float) getMinInteritemSpacing;
@@ -25,5 +29,8 @@
 - (UIColor*) getBackgroundColorSourceView;
 - (UIColor*) getBackgroundColorTargetView;
 - (NSMutableDictionary*) getDataSourceDict;
+- (UIColor*) getDropPlaceholderColorUntouched;
+- (UIColor*) getDropPlaceholderColorTouched;
+- (int) getNumberOfDropItems;
 
 @end

@@ -18,6 +18,7 @@
 
 @end
 
+
 @implementation ViewController
 
 - (void)viewDidLoad {
@@ -32,6 +33,11 @@
     [SHARED_CONFIG_INSTANCE setMinLineSpacing:minLineSpacing];
     [SHARED_CONFIG_INSTANCE setBackgroundColorSourceView:[UIColor clearColor]];
     [SHARED_CONFIG_INSTANCE setBackgroundColorTargetView:[UIColor clearColor]];
+    
+//    [SHARED_CONFIG_INSTANCE setDropPlaceholderColorUntouched:[UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0]];
+//    [SHARED_CONFIG_INSTANCE setDropPlaceholderColorTouched:[UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1.0]];
+    
+    [SHARED_CONFIG_INSTANCE setNumberOfDropItems:30];
     
     [SHARED_CONFIG_INSTANCE setDataSourceDict:dataSourceDict];
     
@@ -73,7 +79,8 @@
     for (int i=0; i<countries.count; i++) {
         DragView* view = [DragView new];
         view.index = i;
-        [view setBorderColor:[UIColor colorWithRed:0.80 green:0.80 blue:0.80 alpha:1.0]];
+        [view setBorderColor:[UIColor lightGrayColor]];
+        [view setBorderWidth:2.0];
         
         CustomView* cv = [CustomView new];
         if (i%2==0) {
@@ -84,9 +91,9 @@
         [cv setLabelText:countries[i][0]];
         [cv setLabelColor:[UIColor colorWithRed:0.11 green:0.27 blue:0.53 alpha:1.0]];
         [cv setImageName:countries[i][1]];
-        //[cv setupConstraints];
+        
         [view setContentView:cv];
-        [view initialize];
+        //[view initialize];
         
         [dataSourceDict setObject:view forKey:[NSNumber numberWithInt:i]];
     }

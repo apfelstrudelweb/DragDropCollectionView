@@ -8,10 +8,11 @@
 
 #import "DragView.h"
 #import "CustomView.h"
+#import <objc/runtime.h>
 #pragma GCC diagnostic ignored "-Wundeclared-selector"
 
 @interface DragView() {
-
+    
     
 }
 @end
@@ -27,12 +28,18 @@
     [recognizer setMaximumNumberOfTouches:1];
     [recognizer setMinimumNumberOfTouches:1];
     [self addGestureRecognizer:recognizer];
-
+    
+    [super initialize];
+    
 }
 
 - (void) setBorderColor: (UIColor*) color {
     //[super setBackgroundColor:color];
     [super setBorderColor:color];
+}
+
+- (void) setBorderWidth: (float) value {
+    [super setBorderWidth:value];
 }
 
 - (DragView*) provideNew {
@@ -41,24 +48,34 @@
     newView.frame = self.frame;
     newView.index = self.index;
     newView.borderColor = self.borderColor;
+    newView.borderWidth = self.borderWidth;
     
     CustomView* contentView = (CustomView*)[self getContentView];
-
-    CustomView* newContentView = [[CustomView alloc] initWithFrame:contentView.frame]; //(CustomView*)[contentView snapshotViewAfterScreenUpdates:NO];
-    //[newContentView setBackgroundColor:[UIColor colorWithRed:0.80 green:0.80 blue:0.80 alpha:1.0]];
-
-    [newContentView setLabelText:[contentView getLabelText]];
-    [newContentView setImageName:[contentView getImageName]];
-    [newContentView setLabelColor:[contentView getLabelColor]];
-    [newContentView setBackgroundColorOfView:[contentView getBackgroundColorOfView]];
     
-
+    CustomView* newContentView = [CustomView new];
+    
+    unsigned int outCount, i;
+    objc_property_t *propertiesSource = class_copyPropertyList([contentView class], &outCount);
+    
+    // get all members by introspection
+    for (i = 0; i < outCount; i++) {
+        objc_property_t propertySource = propertiesSource[i];
+        NSString *propertyName = [NSString stringWithUTF8String:property_getName(propertySource)];
+        id propertyValue = [contentView valueForKey:(NSString *)propertyName];
+        [newContentView setValue:propertyValue forKey:(NSString *)propertyName];
+        
+    }
+    
+    //    [newContentView setLabelText:[contentView getLabelText]];
+    //    [newContentView setImageName:[contentView getImageName]];
+    //    [newContentView setLabelColor:[contentView getLabelColor]];
+    //    [newContentView setBackgroundColorOfView:[contentView getBackgroundColorOfView]];
+    
+    
     [newView setContentView:newContentView];
     
     
-    
-    
-    [newView initialize];
+    //[newView initialize];
     
     
     return newView;

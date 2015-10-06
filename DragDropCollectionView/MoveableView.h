@@ -12,14 +12,14 @@
 
 @property int index;
 @property (strong, nonatomic) UIColor* borderColor;
+@property (nonatomic) float borderWidth;
+
 
 - (void) setContentView: (UIView*) view;
 - (UIView*) getContentView;
 
 - (void) initialize;
 
-//- (MoveableView*) provideNew;
-
-- (void)setupConstraints: (UIView*) element;
+- (void) setupConstraints: (UIView*) element;
 
 @end

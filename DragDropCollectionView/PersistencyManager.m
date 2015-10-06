@@ -18,11 +18,13 @@
     
     UIColor* backgroundColorSourceView;
     UIColor* backgroundColorTargetView;
+    
+    UIColor* dropPlaceholderColorUntouched;
+    UIColor* dropPlaceholderColorTouched;
+    
+    int numberOfDropPlaceholders;
 
     NSMutableDictionary* dataSourceDict;
-    
-    // Current State
-    bool transactionActive;
 }
 
 @end
@@ -57,6 +59,15 @@
 - (void) setDataSourceDict: (NSMutableDictionary*) dict {
     dataSourceDict = dict;
 }
+- (void) setDropPlaceholderColorUntouched: (UIColor*) color {
+    dropPlaceholderColorUntouched = color;
+}
+- (void) setDropPlaceholderColorTouched: (UIColor*) color {
+    dropPlaceholderColorTouched = color;
+}
+- (void) setNumberOfDropItems: (int) value {
+    numberOfDropPlaceholders = value;
+}
 
 - (float) getCellWidthHeightRatio {
     if (cellWidthHeightRatio == INVALID) {
@@ -89,14 +100,22 @@
 - (NSMutableDictionary*) getDataSourceDict {
     return dataSourceDict;
 }
-
-// Current State
-- (void) setTransactionActive: (bool) value {
-    transactionActive = value;
+- (UIColor*) getDropPlaceholderColorUntouched {
+    if (dropPlaceholderColorUntouched) {
+        return dropPlaceholderColorUntouched;
+    } else {
+        return [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0];
+    }
 }
-
-- (bool) isTransactionActive {
-    return transactionActive;
+- (UIColor*) getDropPlaceholderColorTouched {
+    if (dropPlaceholderColorTouched) {
+        return dropPlaceholderColorTouched;
+    } else {
+        return [UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1.0];
+    }
+}
+- (int) getNumberOfDropItems {
+    return numberOfDropPlaceholders;
 }
 
 @end
