@@ -27,7 +27,7 @@
 //- (void) populateWithCellModel: (CellModel*) model inCollectionView: (UICollectionView*) collectionView;
 
 - (void) reset;
-- (void) populateWithContentsOfView: (MoveableView*) view;
+- (void) populateWithContentsOfView: (MoveableView*) view withinCollectionView:(UICollectionView*) collectionView;
 - (void) expand;
 - (void) shrink;
 

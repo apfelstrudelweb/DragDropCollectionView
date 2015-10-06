@@ -76,19 +76,23 @@
 
 }
 
-- (void) populateWithContentsOfView: (MoveableView*) view {
+- (void) populateWithContentsOfView: (MoveableView*) view withinCollectionView: (UICollectionView*) collectionView {
     
-    [self reset];
-    [self expand];
-    self.isPopulated = true;
-
-    moveableView = view;
-    //[view setNeedsUpdateConstraints];
-    //moveableView.autoresizingMask = placeholderView.autoresizingMask;
-    
-    [placeholderView addSubview:view];
-    [view setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self addFurtherViewConstraints:view];
+    if ([view isKindOfClass:[DragView class]]) {
+        // add an UIView above the main view
+        CGRect dragRect = [Utils getCellCoordinates:self fromCollectionView:collectionView];
+        [view setFrame:dragRect];
+        [collectionView.superview addSubview:view];
+    } else {
+        [self reset];
+        [self expand];
+        self.isPopulated = true;
+        // add an UIView above the placeholder views (gray square) in an UICollectionViewCell
+        moveableView = view;
+        [placeholderView addSubview:view];
+        [view setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self addFurtherViewConstraints:view];
+    }
 }
 
 

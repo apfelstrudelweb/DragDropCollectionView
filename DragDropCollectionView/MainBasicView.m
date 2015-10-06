@@ -58,8 +58,6 @@
         } completion: ^(BOOL finished) {
             [self.targetCellsDict  removeObjectForKey:[NSNumber numberWithInt:(int)indexPath.item]];
             
-            //[self.targetCellsDict log];
-            
         }];
         
     }

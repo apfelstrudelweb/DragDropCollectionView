@@ -39,6 +39,7 @@
 		1BDB12321BAAB672005A5051 /* DragView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDB12311BAAB672005A5051 /* DragView.m */; };
 		1BDB9F701BBD71D0005C62CA /* CustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDB9F6F1BBD71D0005C62CA /* CustomView.m */; };
 		1BDC75E91BB1B22E00171AA2 /* NSMutableArray+cat.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC75E81BB1B22E00171AA2 /* NSMutableArray+cat.m */; };
+		1BDCD8B81BC3B880000C21A7 /* DragDropHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDCD8B71BC3B880000C21A7 /* DragDropHelper.m */; };
 		1BDD6CAF1BB819DB00AFE92C /* PersistencyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDD6CAE1BB819DB00AFE92C /* PersistencyManager.m */; };
 		1BDD7EF71BB53AE700CB4161 /* NSMutableDictionary+cat.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDD7EF61BB53AE700CB4161 /* NSMutableDictionary+cat.m */; };
 		1BDD7EFD1BB54ABD00CB4161 /* MainBasicView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDD7EFC1BB54ABD00CB4161 /* MainBasicView.m */; };
@@ -106,6 +107,8 @@
 		1BDB9F6F1BBD71D0005C62CA /* CustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomView.m; sourceTree = "<group>"; };
 		1BDC75E71BB1B22E00171AA2 /* NSMutableArray+cat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+cat.h"; sourceTree = "<group>"; };
 		1BDC75E81BB1B22E00171AA2 /* NSMutableArray+cat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+cat.m"; sourceTree = "<group>"; };
+		1BDCD8B61BC3B880000C21A7 /* DragDropHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DragDropHelper.h; sourceTree = "<group>"; };
+		1BDCD8B71BC3B880000C21A7 /* DragDropHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DragDropHelper.m; sourceTree = "<group>"; };
 		1BDD6CAD1BB819DB00AFE92C /* PersistencyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersistencyManager.h; sourceTree = "<group>"; };
 		1BDD6CAE1BB819DB00AFE92C /* PersistencyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersistencyManager.m; sourceTree = "<group>"; };
 		1BDD7EF51BB53AE700CB4161 /* NSMutableDictionary+cat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+cat.h"; sourceTree = "<group>"; };
@@ -261,6 +264,8 @@
 			children = (
 				1BBDE4141BAC1BDE00CD5461 /* Utils.h */,
 				1BBDE4111BAC1B7200CD5461 /* Utils.m */,
+				1BDCD8B61BC3B880000C21A7 /* DragDropHelper.h */,
+				1BDCD8B71BC3B880000C21A7 /* DragDropHelper.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -475,6 +480,7 @@
 				1BD924A91BBEC36300EF90F7 /* CurrentState.m in Sources */,
 				1BDDE7481BB4426400E54751 /* ConfigAPI.m in Sources */,
 				1BDF7FB41BA833FC00A49AA9 /* ViewController.m in Sources */,
+				1BDCD8B81BC3B880000C21A7 /* DragDropHelper.m in Sources */,
 				1BDD7EFD1BB54ABD00CB4161 /* MainBasicView.m in Sources */,
 				1BDF7FD31BA8354700A49AA9 /* MainView.m in Sources */,
 				1BDC75E91BB1B22E00171AA2 /* NSMutableArray+cat.m in Sources */,
