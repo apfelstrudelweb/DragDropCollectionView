@@ -7,13 +7,17 @@
 //
 
 #import "MainView.h"
+#import "DragDropHelper.h"
+#import "ConfigAPI.h"
+#import "UILabel+size.h"
 
+#define SHARED_CONFIG_INSTANCE   [ConfigAPI sharedInstance]
 
 @interface MainView() {
     
     float minLineSpacing;
     
-    DragDropHelper* helper;
+    DragDropHelper* dragDropHelper;
 }
 
 @end
@@ -34,11 +38,7 @@
         
         minLineSpacing = [SHARED_CONFIG_INSTANCE getMinLineSpacing];
         
-        self.sourceCellsDict = [SHARED_CONFIG_INSTANCE getDataSourceDict];
-        self.targetCellsDict = [NSMutableDictionary new];
-        
-        self.numberOfDragItems = (int)self.sourceCellsDict.count;
-        self.numberOfDropItems = [SHARED_CONFIG_INSTANCE getNumberOfDropItems];
+
         
         self.headline1 = [[UILabel alloc] initWithFrame:frame];
         [self.headline1 setTextForHeadline:@"Drag and Drop Prototype"];
@@ -50,15 +50,22 @@
         [self.headline2 setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.headline2];
         
+        // Prepare source collection view
+        self.sourceCellsDict = [SHARED_CONFIG_INSTANCE getDataSourceDict];
+        self.numberOfDragItems = (int)self.sourceCellsDict.count;
+
         self.dragCollectionView = [[DragCollectionView alloc] initWithFrame:frame withinView:self];
         [self.dragCollectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.dragCollectionView];
         
-        self.dropCollectionView = [[DropCollectionView alloc] initWithFrame:frame withinView:self];
+        // Prepare target collection view
+        self.targetCellsDict = [NSMutableDictionary new];
+        self.numberOfDropItems = [SHARED_CONFIG_INSTANCE getNumberOfDropItems];
+        
+        self.dropCollectionView = [[DropCollectionView alloc] initWithFrame:frame withinView:self boundToElementsDictionary:self.targetCellsDict];
         [self.dropCollectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.dropCollectionView];
-        
-        
+
         [super setupConstraints];
         
         // calculate the ideal cell size in order to use most of the available
@@ -67,7 +74,7 @@
         self.cellSize = [self.dragCollectionView getBestFillingCellSize:self.dragCollectionViewSize];
         
         // Important - we need it for the UIPanGestureRecognizer
-        helper = [[DragDropHelper alloc] initWithView:self collectionViews:@[self.dragCollectionView, self.dropCollectionView] cellDictionaries:@[self.sourceCellsDict, self.targetCellsDict]];
+        dragDropHelper = [[DragDropHelper alloc] initWithView:self collectionViews:@[self.dragCollectionView, self.dropCollectionView] cellDictionaries:@[self.sourceCellsDict, self.targetCellsDict]];
         
     }
     return self;
@@ -139,7 +146,7 @@
 #pragma mark UIPanGestureRecognizer
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer {
     
-    [helper handlePan:recognizer];
+    [dragDropHelper handlePan:recognizer];
 }
 
 

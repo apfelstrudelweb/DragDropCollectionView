@@ -6,9 +6,10 @@
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
 //
 
-#import "UILabel+cat.h"
+#import "UILabel+size.h"
+#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
-@implementation UILabel (cat)
+@implementation UILabel (size)
 
 - (void) setTextForDragDropElement: (NSString*) text {
     

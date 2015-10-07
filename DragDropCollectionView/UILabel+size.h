@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UILabel (cat)
+@interface UILabel (size)
 
 - (void) setTextForDragDropElement: (NSString*) text;
 - (void) setTextForHeadline: (NSString*) text;

@@ -6,6 +6,11 @@
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
 //
 
+#import "NSMutableArray+cat.h"
+#import "NSMutableDictionary+cat.h"
+#import "CollectionViewCell.h"
+#import "DragView.h"
+#import "DropCollectionView.h"
 
 @interface Utils : NSObject
 

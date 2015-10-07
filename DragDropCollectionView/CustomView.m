@@ -7,21 +7,25 @@
 //
 
 #import "CustomView.h"
+#import "UILabel+size.h"
 
-#define FONT @"Helvetica-Bold"
-#define FONTSIZE 7.0
+#define FONT        @"Helvetica-Bold"
+#define FONTSIZE    7.0
+
+#define SHARED_STATE_INSTANCE    [CurrentState sharedInstance]
+#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
 @interface CustomView( ) {
     
     NSDictionary *viewsDictionary;
     NSMutableArray* layoutConstraints;
     NSArray *visualFormatConstraints;
-    
-    bool hasObserver;
-
+ 
+    // don't declare these members in the public interface,
+    // otherwise we get conflicts with introspection in conjunction
+    // with layout constraints during dragging this view!
     UILabel *label;
     UIImageView *imageView;
-
 }
 @end
 
@@ -38,7 +42,7 @@
         label = [UILabel new];
         imageView = [UIImageView new];
         
-        // avoid overlapping
+        // avoids overlapping
         [self setClipsToBounds:YES];
         
         [label setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -52,7 +56,7 @@
 }
 
 
-
+#pragma  mark -getter/setter
 - (void) setLabelText: (NSString*) text {
     [label setTextForDragDropElement:text];
     
@@ -99,8 +103,8 @@
 }
 
 
-
-#pragma mark -constraint issues
+// IMPORTANT: this method must be implemented
+#pragma mark -layoutSubviews
 - (void)layoutSubviews {
     [super layoutSubviews];
     
@@ -113,24 +117,28 @@
     }
 }
 
-- (void)setupConstraints {
-    
-    viewsDictionary = @{        @"label"       : label,
-                                @"image"       : imageView };
 
+#pragma mark -constraint issues
+- (void)setupConstraints {
     
     // clear constraints in case of device rotation
     [self removeConstraints:visualFormatConstraints];
     [self removeConstraints:layoutConstraints];
     
-    float areaHeight = self.frame.size.height;
-    float margin = areaHeight/20.0;
+    float viewHeight = self.frame.size.height;
+    float viewWidth  = self.frame.size.width;
     
+    // calculate a percentual padding in function of the total height of this view
+    float fact = 0.05; // 5%
+    float padding = fact*viewHeight;
     
-    NSString* visualFormatText = [NSString stringWithFormat:@"V:|-%f-[label]-%f-[image]", margin, margin];
+    // define the order of the subviews - here we place them vertically:
+    // on the top we place the label, beneath we place the image view
+    viewsDictionary = @{        @"label"       : label,
+                                @"image"       : imageView };
     
-    
-    
+    NSString* visualFormatText = [NSString stringWithFormat:@"V:|-%f-[label]-%f-[image]", padding, padding];
+
     visualFormatConstraints = [NSLayoutConstraint constraintsWithVisualFormat:visualFormatText
                                                                       options:0
                                                                       metrics:nil
@@ -143,22 +151,26 @@
     
     layoutConstraints = [NSMutableArray new];
     
-    float labelHeight = areaHeight / 4.0 ;//[self heightForText];
+    // height of label - here: 25% of the total height of this view
+    float labelHeight = 0.25*viewHeight;
+    // available height for the image view - remember: we have 2 paddings:
+    // one between the top and the label and the other between the label and the image view
+    float imageviewHeight = viewHeight - labelHeight - 2*padding;
+    float imageviewWidth  = viewWidth; // assume that we offer the entire width of this view
     
-    float remainingHeight = areaHeight - labelHeight - 2*margin;
-    
-    float fact = 1.0;//IS_RETINA ? 1.0 : 1.0;
-    
-    float imageWidth  = fact*imageView.image.size.width;
-    float imageHeight = fact*imageView.image.size.height;
+    float imageWidth  = imageView.image.size.width;
+    float imageHeight = imageView.image.size.height;
     float ratio = (float) imageWidth / imageHeight;
     
-    if (remainingHeight < imageHeight) {
-        imageHeight = remainingHeight;
+    // watch out: the image size should not exceed the available size of the image view
+    if (imageviewHeight < imageHeight) {
+        imageHeight = imageviewHeight;
         imageWidth = ratio * imageHeight;
+    } else if (imageviewWidth < imageWidth) {
+        imageWidth = imageviewWidth;
+        imageviewHeight = imageWidth / ratio;
     }
-    
-
+ 
     
     // Width constraint
     [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:label

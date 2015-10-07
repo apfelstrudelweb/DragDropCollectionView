@@ -7,6 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DropView.h"
+#import "DragCollectionView.h"
+#import "CollectionViewCell.h"
+
 
 @interface DragCollectionView : UICollectionView
 

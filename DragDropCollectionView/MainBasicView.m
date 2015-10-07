@@ -7,6 +7,7 @@
 //
 
 #import "MainBasicView.h"
+#import "Utils.h"
 
 @interface MainBasicView( ) {
     // subview proportions
@@ -26,12 +27,7 @@
     
     self = [super initWithFrame:frame];
     if (self) {
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveDeleteCellNotification:) name:@"deleteCellNotification"
-                                                   object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveShiftCellNotification:) name:@"shiftCellNotification"
-                                                   object:nil];
-        
+   
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewHasBeenRotated:) name:@"viewHasBeenRotatedNotification"
                                                    object:nil];
         
@@ -40,55 +36,8 @@
 }
 
 
-#pragma mark -NSNotificationCenter
-- (void) receiveDeleteCellNotification:(NSNotification *) notification {
-    if ([[notification name] isEqualToString:@"deleteCellNotification"]) {
-        NSDictionary *userInfo = notification.userInfo;
-        NSIndexPath* indexPath = [userInfo objectForKey:@"indexPath"];
-        
-        // append empty cell in order to maintain a constant number of cells
-        self.numberOfDropItems++;
-        [self.dropCollectionView performBatchUpdates:^{
-            
-            NSIndexPath* indexPathToAppend = [NSIndexPath indexPathForRow:self.numberOfDropItems-1 inSection:0];
-            
-            NSArray *indexPaths = [NSArray arrayWithObject:indexPathToAppend];
-            [self.dropCollectionView insertItemsAtIndexPaths:indexPaths];
-            
-        } completion: ^(BOOL finished) {
-            [self.targetCellsDict  removeObjectForKey:[NSNumber numberWithInt:(int)indexPath.item]];
-            
-        }];
-        
-    }
-}
-
-
-- (void) receiveShiftCellNotification:(NSNotification *) notification {
-    if ([[notification name] isEqualToString:@"shiftCellNotification"]) {
-        
-        NSDictionary *userInfo = notification.userInfo;
-        NSIndexPath* indexPath = [userInfo objectForKey:@"indexPath"];
-        
-        self.numberOfDropItems--;
-        [self.dropCollectionView performBatchUpdates:^{
-            //NSLog(@"item = %d", (int)indexPath.item);
-            [self.dropCollectionView deleteItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
-            
-        } completion: ^(BOOL finished) {
-            // shift elements to left and remove empty ones
-            [Utils eliminateEmptyKeysInDict:self.targetCellsDict];
-            // important: reload data, otherwise empty cells could remain visible!
-            [self.dropCollectionView reloadData];
-            
-            [Utils scrollToLastElement: self.dropCollectionView ofDictionary:self.targetCellsDict];
-        }];
-    }
-}
-
+#pragma mark -NSNotification
 - (void) viewHasBeenRotated:(NSNotification *) notification {
-    
-    //numberOfItemsInLine = NUMBER_ITEMS_IN_LINE;
     
     for (UIView *subview in self.subviews) {
         if ([subview isKindOfClass:[DragView class]]) {

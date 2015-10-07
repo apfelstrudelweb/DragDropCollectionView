@@ -7,6 +7,11 @@
 //
 
 #import "DragDropHelper.h"
+#import "Utils.h"
+#import "DragCollectionView.h"
+#import "DropCollectionView.h"
+
+#define SHARED_STATE_INSTANCE    [CurrentState sharedInstance]
 
 @interface DragDropHelper() {
     
@@ -23,10 +28,10 @@
     CollectionViewCell* rightCell;
     CollectionViewCell* dropCell;
     CollectionViewCell* lastLeftCell;
-
+    
     DragView* targetDragView;
     DragView* newDragView;
-
+    
     
     NSArray* insertCells;
     int insertIndex;
@@ -171,8 +176,8 @@
         // when dragged view is dropped, remove it as it is replaced by this drop view
         [dragView removeFromSuperview];
         
-//        [leftCell undoPush];
-//        [rightCell undoPush]; // crashes - figure out why!
+        [leftCell shrink];
+        //        [rightCell undoPush]; // crashes - figure out why!
         
         // reload in order to show the new drop view - > "cellForItemAtIndexPath"
         [dropCollectionView reloadData];

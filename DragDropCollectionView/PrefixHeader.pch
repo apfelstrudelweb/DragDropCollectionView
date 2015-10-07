@@ -12,31 +12,14 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-// closed in libraray
-#import "DragDropHelper.h"
-#import "CurrentState.h"
-#import "DragView.h"
-#import "DropView.h"
-#import "CollectionViewCell.h"
-#import "DragCollectionView.h"
-#import "DropCollectionView.h"
-#import "NSMutableArray+cat.h"
-#import "NSMutableDictionary+cat.h"
-
 // open
-#import "UILabel+cat.h"
-#import "ConfigAPI.h"
-#import "MainBasicView.h"
-#import "MainView.h"
+//#import "UILabel+size.h"
+//#import "ConfigAPI.h"
+//#import "MainBasicView.h"
+//#import "MainView.h"
 
-
-
-#import "Utils.h"
 
 #define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-//#define IS_LANDSCAPE    UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])
-
-#define IS_RETINA ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] && ([UIScreen mainScreen].scale >= 2.0))
 
 #define CELL_WIDTH_HEIGHT_RATIO 2.0
 #define SPACE_BETWEEN_ITEMS     IS_IPAD       ? 15.0 : 10.0
@@ -52,7 +35,6 @@
 #define MARGIN  20
 #define FONT_COLOR               [UIColor darkGrayColor]
 
-#define SHARED_CONFIG_INSTANCE   [ConfigAPI sharedInstance]
-#define SHARED_STATE_INSTANCE    [CurrentState sharedInstance]
+
 
 #endif

@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DragCollectionView.h"
+#import "DropCollectionView.h"
 
 @interface MainBasicView : UIView
 

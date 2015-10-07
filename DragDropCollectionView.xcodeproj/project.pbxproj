@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1BBDE4121BAC1B7200CD5461 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BBDE4111BAC1B7200CD5461 /* Utils.m */; };
-		1BBDE4171BAC56C300CD5461 /* UILabel+cat.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BBDE4161BAC56C300CD5461 /* UILabel+cat.m */; };
+		1BBDE4171BAC56C300CD5461 /* UILabel+size.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BBDE4161BAC56C300CD5461 /* UILabel+size.m */; };
 		1BD924A91BBEC36300EF90F7 /* CurrentState.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD924A81BBEC36300EF90F7 /* CurrentState.m */; };
 		1BD924AD1BBED7DB00EF90F7 /* greece.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BD924AC1BBED7DB00EF90F7 /* greece.png */; };
 		1BD924AF1BBEDA8E00EF90F7 /* hungary.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BD924AE1BBEDA8E00EF90F7 /* hungary.png */; };
@@ -70,8 +70,8 @@
 		1BBDE4111BAC1B7200CD5461 /* Utils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		1BBDE4131BAC1BCF00CD5461 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		1BBDE4141BAC1BDE00CD5461 /* Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
-		1BBDE4151BAC56C300CD5461 /* UILabel+cat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+cat.h"; sourceTree = "<group>"; };
-		1BBDE4161BAC56C300CD5461 /* UILabel+cat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+cat.m"; sourceTree = "<group>"; };
+		1BBDE4151BAC56C300CD5461 /* UILabel+size.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+size.h"; sourceTree = "<group>"; };
+		1BBDE4161BAC56C300CD5461 /* UILabel+size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+size.m"; sourceTree = "<group>"; };
 		1BD924A71BBEC36300EF90F7 /* CurrentState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentState.h; sourceTree = "<group>"; };
 		1BD924A81BBEC36300EF90F7 /* CurrentState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrentState.m; sourceTree = "<group>"; };
 		1BD924AC1BBED7DB00EF90F7 /* greece.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greece.png; sourceTree = "<group>"; };
@@ -230,12 +230,8 @@
 		1BDD7EF81BB549A800CB4161 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				1BBDE4151BAC56C300CD5461 /* UILabel+cat.h */,
-				1BBDE4161BAC56C300CD5461 /* UILabel+cat.m */,
-				1BDC75E71BB1B22E00171AA2 /* NSMutableArray+cat.h */,
-				1BDC75E81BB1B22E00171AA2 /* NSMutableArray+cat.m */,
-				1BDD7EF51BB53AE700CB4161 /* NSMutableDictionary+cat.h */,
-				1BDD7EF61BB53AE700CB4161 /* NSMutableDictionary+cat.m */,
+				1BBDE4151BAC56C300CD5461 /* UILabel+size.h */,
+				1BBDE4161BAC56C300CD5461 /* UILabel+size.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -244,17 +240,10 @@
 			isa = PBXGroup;
 			children = (
 				1BDB9F6D1BBD71B8005C62CA /* Custom */,
-				1BE55A001BBAD3A300E5218F /* Moveable */,
 				1BDD7EFB1BB54ABD00CB4161 /* MainBasicView.h */,
 				1BDD7EFC1BB54ABD00CB4161 /* MainBasicView.m */,
 				1BDF7FD11BA8354700A49AA9 /* MainView.h */,
 				1BDF7FD21BA8354700A49AA9 /* MainView.m */,
-				1BD968341BA99A3200C243D1 /* CollectionViewCell.h */,
-				1BD968351BA99A3200C243D1 /* CollectionViewCell.m */,
-				1BDD7EFF1BB5553A00CB4161 /* DragCollectionView.h */,
-				1BDD7F001BB5553A00CB4161 /* DragCollectionView.m */,
-				1BDD7F021BB5556C00CB4161 /* DropCollectionView.h */,
-				1BDD7F031BB5556C00CB4161 /* DropCollectionView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -291,18 +280,16 @@
 		1BDF7FAA1BA833FC00A49AA9 /* DragDropCollectionView */ = {
 			isa = PBXGroup;
 			children = (
+				1BE780591BC52C7700BD13C1 /* library */,
 				1BD924AA1BBED7C200EF90F7 /* Images */,
-				1BDD6CAC1BB8190700AFE92C /* API */,
 				1BDF7FAF1BA833FC00A49AA9 /* AppDelegate.h */,
 				1BDF7FB01BA833FC00A49AA9 /* AppDelegate.m */,
 				1BDF7FB21BA833FC00A49AA9 /* ViewController.h */,
 				1BDF7FB31BA833FC00A49AA9 /* ViewController.m */,
 				1BDF7FB81BA833FC00A49AA9 /* Images.xcassets */,
 				1BDF7FAB1BA833FC00A49AA9 /* Supporting Files */,
-				1BD924A61BBEC33100EF90F7 /* Session */,
 				1BDD7EFA1BB549FD00CB4161 /* View */,
 				1BDD7EF81BB549A800CB4161 /* Categories */,
-				1BDD7EFE1BB54FE600CB4161 /* Utilities */,
 			);
 			path = DragDropCollectionView;
 			sourceTree = "<group>";
@@ -345,6 +332,51 @@
 				1BE55A021BBAD3DF00E5218F /* MoveableView.m */,
 			);
 			name = Moveable;
+			sourceTree = "<group>";
+		};
+		1BE780591BC52C7700BD13C1 /* library */ = {
+			isa = PBXGroup;
+			children = (
+				1BE7805C1BC52CFE00BD13C1 /* Categories */,
+				1BDD7EFE1BB54FE600CB4161 /* Utilities */,
+				1BE7805A1BC52CA900BD13C1 /* View */,
+				1BD924A61BBEC33100EF90F7 /* Session */,
+				1BDD6CAC1BB8190700AFE92C /* API */,
+			);
+			name = library;
+			sourceTree = "<group>";
+		};
+		1BE7805A1BC52CA900BD13C1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1BE7805B1BC52CCB00BD13C1 /* CollectionView */,
+				1BE55A001BBAD3A300E5218F /* Moveable */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		1BE7805B1BC52CCB00BD13C1 /* CollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				1BD968341BA99A3200C243D1 /* CollectionViewCell.h */,
+				1BD968351BA99A3200C243D1 /* CollectionViewCell.m */,
+				1BDD7EFF1BB5553A00CB4161 /* DragCollectionView.h */,
+				1BDD7F001BB5553A00CB4161 /* DragCollectionView.m */,
+				1BDD7F021BB5556C00CB4161 /* DropCollectionView.h */,
+				1BDD7F031BB5556C00CB4161 /* DropCollectionView.m */,
+			);
+			name = CollectionView;
+			sourceTree = "<group>";
+		};
+		1BE7805C1BC52CFE00BD13C1 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				1BDC75E71BB1B22E00171AA2 /* NSMutableArray+cat.h */,
+				1BDC75E81BB1B22E00171AA2 /* NSMutableArray+cat.m */,
+				1BDD7EF51BB53AE700CB4161 /* NSMutableDictionary+cat.h */,
+				1BDD7EF61BB53AE700CB4161 /* NSMutableDictionary+cat.m */,
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -484,7 +516,7 @@
 				1BDD7EFD1BB54ABD00CB4161 /* MainBasicView.m in Sources */,
 				1BDF7FD31BA8354700A49AA9 /* MainView.m in Sources */,
 				1BDC75E91BB1B22E00171AA2 /* NSMutableArray+cat.m in Sources */,
-				1BBDE4171BAC56C300CD5461 /* UILabel+cat.m in Sources */,
+				1BBDE4171BAC56C300CD5461 /* UILabel+size.m in Sources */,
 				1BDB12321BAAB672005A5051 /* DragView.m in Sources */,
 				1BDF7FB11BA833FC00A49AA9 /* AppDelegate.m in Sources */,
 				1BDF7FAE1BA833FC00A49AA9 /* main.m in Sources */,

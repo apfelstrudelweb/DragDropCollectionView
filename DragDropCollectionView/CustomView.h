@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CurrentState.h"
 
 @interface CustomView : UIView
 
@@ -15,8 +16,5 @@
 @property (strong, nonatomic) NSString* imageName;
 @property (strong, nonatomic) UIColor*  labelColor;
 @property (strong, nonatomic) UIColor*  backgroundColorOfView;
-
-
-- (void) setupConstraints;
 
 @end

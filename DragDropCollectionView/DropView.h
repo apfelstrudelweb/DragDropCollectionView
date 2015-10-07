@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "MoveableView.h"
 #import "CollectionViewCell.h"
+#import "DragView.h"
+#import "DragCollectionView.h"
 
 @interface DropView : MoveableView
 

@@ -7,9 +7,14 @@
 //
 
 #import "CollectionViewCell.h"
+#import "Utils.h"
+#import "ConfigAPI.h"
+#import "DropView.h"
 
 #define ANIMATION_DURATION 0.5
 #define MIN_PRESS_DURATION 0.5
+
+#define SHARED_CONFIG_INSTANCE   [ConfigAPI sharedInstance]
 
 @interface CollectionViewCell() {
     NSMutableArray* layoutViewConstraints;
@@ -19,7 +24,7 @@
     bool isTransformedRight;
     
     UIView* placeholderView; // basic subview of a cell - initially represented by a gray square
-    MoveableView* moveableView;
+    UIView* moveableView;
 }
 
 @end
@@ -45,9 +50,7 @@
         [self addGestureRecognizer:self.longPressGesture];
         
         self.userInteractionEnabled = YES;
-        
-      
-        
+ 
     }
     return self;
 }
@@ -74,7 +77,7 @@
 
 }
 
-- (void) populateWithContentsOfView: (MoveableView*) view withinCollectionView: (UICollectionView*) collectionView {
+- (void) populateWithContentsOfView: (UIView*) view withinCollectionView: (UICollectionView*) collectionView {
     
     if ([view isKindOfClass:[DragView class]]) {
         // add an UIView above the main view
@@ -94,14 +97,12 @@
 }
 
 
-- (void) didLongPress:(UISwipeGestureRecognizer *)sender  {
+- (void) didLongPress:(UISwipeGestureRecognizer*)sender  {
     
     NSDictionary *userInfo = [NSDictionary dictionaryWithObject:self.indexPath forKey:@"indexPath"];
     
-    if (sender.state == UIGestureRecognizerStateEnded) {
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"shiftCellNotification" object:nil userInfo:userInfo];
-    }
-    else if (sender.state == UIGestureRecognizerStateBegan){
+    // inform DragCollectionView
+    if (sender.state == UIGestureRecognizerStateBegan){
         [self reset];
         [[NSNotificationCenter defaultCenter] postNotificationName: @"deleteCellNotification" object:nil userInfo:userInfo];
     }

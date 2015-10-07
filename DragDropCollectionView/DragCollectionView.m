@@ -7,8 +7,11 @@
 //
 
 #import "DragCollectionView.h"
+#import "Utils.h"
+#import "ConfigAPI.h"
 
 #define REUSE_IDENTIFIER @"dragCell"
+#define SHARED_CONFIG_INSTANCE   [ConfigAPI sharedInstance]
 
 @interface DragCollectionView() {
     float minInteritemSpacing;

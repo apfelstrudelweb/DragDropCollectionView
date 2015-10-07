@@ -8,6 +8,12 @@
 
 #import "ViewController.h"
 #import "CustomView.h"
+#import "ConfigAPI.h"
+#import "MainView.h"
+
+// Important: always include ConfigApi into the current project
+// and don't rename it, as different library classes need it!
+#define SHARED_CONFIG_INSTANCE   [ConfigAPI sharedInstance]
 
 
 @interface ViewController () {

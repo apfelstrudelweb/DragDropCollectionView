@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
 //
 
+#import "MainBasicView.h"
 
 @interface MainView : MainBasicView <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 

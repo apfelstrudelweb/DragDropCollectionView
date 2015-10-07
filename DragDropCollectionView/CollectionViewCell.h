@@ -7,16 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+//#import "MoveableView.h"
+
 
 @interface CollectionViewCell : UICollectionViewCell <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) NSIndexPath* indexPath;
 
-//@property (nonatomic, strong) DragView* dragView;
-
-//@property (nonatomic, strong) UILabel* cellLabel;
-//@property (nonatomic, strong) UIView* colorView;
-//@property (nonatomic, strong) UIView* placeholderView; // basic subview of a cell - initially represented by a gray square
 @property (nonatomic) BOOL isExpanded;
 @property (nonatomic) BOOL isPopulated;
 @property (nonatomic) BOOL isPushedToLeft;
@@ -24,10 +21,9 @@
 
 @property UILongPressGestureRecognizer* longPressGesture;
 
-//- (void) populateWithCellModel: (CellModel*) model inCollectionView: (UICollectionView*) collectionView;
 
 - (void) reset;
-- (void) populateWithContentsOfView: (MoveableView*) view withinCollectionView:(UICollectionView*) collectionView;
+- (void) populateWithContentsOfView: (UIView*) view withinCollectionView:(UICollectionView*) collectionView;
 - (void) expand;
 - (void) shrink;
 

@@ -11,8 +11,7 @@
 
 @interface DropCollectionView : UICollectionView
 
-
-- (id)initWithFrame:(CGRect)frame withinView: (UIView<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>*) view;
+- (id)initWithFrame:(CGRect)frame withinView: (UIView<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>*) view boundToElementsDictionary:(NSMutableDictionary*) dict;
 
 - (CollectionViewCell*) getCell: (NSIndexPath*) indexPath;
 
