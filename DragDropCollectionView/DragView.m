@@ -52,7 +52,8 @@
     
     CustomView* contentView = (CustomView*)[self getContentView];
     
-    CustomView* newContentView = [CustomView new];
+    Class subclass = [contentView class];
+    CustomView* newContentView = [subclass new];
     
     unsigned int outCount, i;
     objc_property_t *propertiesSource = class_copyPropertyList([contentView class], &outCount);
@@ -66,17 +67,7 @@
         
     }
     
-    //    [newContentView setLabelText:[contentView getLabelText]];
-    //    [newContentView setImageName:[contentView getImageName]];
-    //    [newContentView setLabelColor:[contentView getLabelColor]];
-    //    [newContentView setBackgroundColorOfView:[contentView getBackgroundColorOfView]];
-    
-    
     [newView setContentView:newContentView];
-    
-    
-    //[newView initialize];
-    
     
     return newView;
 }

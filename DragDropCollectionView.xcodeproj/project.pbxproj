@@ -54,6 +54,7 @@
 		1BDF7FD31BA8354700A49AA9 /* MainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDF7FD21BA8354700A49AA9 /* MainView.m */; };
 		1BE559FF1BBAD38900E5218F /* DropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE559FE1BBAD38900E5218F /* DropView.m */; };
 		1BE55A031BBAD3DF00E5218F /* MoveableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE55A021BBAD3DF00E5218F /* MoveableView.m */; };
+		1BE7810B1BC5536E00BD13C1 /* ConcreteCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE7810A1BC5536E00BD13C1 /* ConcreteCustomView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,6 +139,8 @@
 		1BE559FE1BBAD38900E5218F /* DropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropView.m; sourceTree = "<group>"; };
 		1BE55A011BBAD3DF00E5218F /* MoveableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoveableView.h; sourceTree = "<group>"; };
 		1BE55A021BBAD3DF00E5218F /* MoveableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoveableView.m; sourceTree = "<group>"; };
+		1BE781091BC5536E00BD13C1 /* ConcreteCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConcreteCustomView.h; sourceTree = "<group>"; };
+		1BE7810A1BC5536E00BD13C1 /* ConcreteCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConcreteCustomView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,8 +215,8 @@
 		1BDB9F6D1BBD71B8005C62CA /* Custom */ = {
 			isa = PBXGroup;
 			children = (
-				1BDB9F6E1BBD71D0005C62CA /* CustomView.h */,
-				1BDB9F6F1BBD71D0005C62CA /* CustomView.m */,
+				1BE781091BC5536E00BD13C1 /* ConcreteCustomView.h */,
+				1BE7810A1BC5536E00BD13C1 /* ConcreteCustomView.m */,
 			);
 			name = Custom;
 			sourceTree = "<group>";
@@ -330,6 +333,8 @@
 				1BE559FE1BBAD38900E5218F /* DropView.m */,
 				1BE55A011BBAD3DF00E5218F /* MoveableView.h */,
 				1BE55A021BBAD3DF00E5218F /* MoveableView.m */,
+				1BDB9F6E1BBD71D0005C62CA /* CustomView.h */,
+				1BDB9F6F1BBD71D0005C62CA /* CustomView.m */,
 			);
 			name = Moveable;
 			sourceTree = "<group>";
@@ -512,6 +517,7 @@
 				1BD924A91BBEC36300EF90F7 /* CurrentState.m in Sources */,
 				1BDDE7481BB4426400E54751 /* ConfigAPI.m in Sources */,
 				1BDF7FB41BA833FC00A49AA9 /* ViewController.m in Sources */,
+				1BE7810B1BC5536E00BD13C1 /* ConcreteCustomView.m in Sources */,
 				1BDCD8B81BC3B880000C21A7 /* DragDropHelper.m in Sources */,
 				1BDD7EFD1BB54ABD00CB4161 /* MainBasicView.m in Sources */,
 				1BDF7FD31BA8354700A49AA9 /* MainView.m in Sources */,

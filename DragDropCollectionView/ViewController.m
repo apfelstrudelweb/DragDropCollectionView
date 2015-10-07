@@ -7,9 +7,11 @@
 //
 
 #import "ViewController.h"
-#import "CustomView.h"
-#import "ConfigAPI.h"
 #import "MainView.h"
+
+// from static library
+#import "ConcreteCustomView.h"
+#import "ConfigAPI.h"
 
 // Important: always include ConfigApi into the current project
 // and don't rename it, as different library classes need it!
@@ -88,7 +90,7 @@
         [view setBorderColor:[UIColor lightGrayColor]];
         [view setBorderWidth:2.0];
         
-        CustomView* cv = [CustomView new];
+        ConcreteCustomView* cv = [ConcreteCustomView new];
         if (i%2==0) {
             [cv setBackgroundColorOfView:[UIColor colorWithRed:0.64 green:0.76 blue:0.96 alpha:1.0]];
         } else {

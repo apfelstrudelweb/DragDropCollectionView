@@ -84,11 +84,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DragDropCollectionView/DragView.m"
-            timestampString = "465848855.144061"
+            timestampString = "465917653.194313"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
             landmarkName = "-move:inView:"
             landmarkType = "5">
          </BreakpointContent>
@@ -106,22 +106,6 @@
             startingLineNumber = "109"
             endingLineNumber = "109"
             landmarkName = "-collectionView:cellForItemAtIndexPath:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DragDropCollectionView/DragView.m"
-            timestampString = "465848855.144061"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
-            landmarkName = "-provideNew"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+
+// from static library
 #import "DragCollectionView.h"
 #import "DropCollectionView.h"
 
