@@ -12,5 +12,6 @@
 @interface CustomView : UIView
 
 @property (nonatomic) bool viewIsInDragState;
+@property (nonatomic) NSString* concreteClassName;
 
 @end

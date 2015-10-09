@@ -8,8 +8,6 @@
 
 #import "MainBasicView.h"
 
-// from static library
-#import "Utils.h"
 
 @interface MainBasicView( ) {
     // subview proportions

@@ -52,8 +52,11 @@
     
     CustomView* contentView = (CustomView*)[self getContentView];
     
-    Class subclass = [contentView class];
-    CustomView* newContentView = [subclass new];
+    //NSString *className = NSStringFromClass([contentView class]);
+    id theClass = NSClassFromString(contentView.concreteClassName);
+    
+    UIView* newContentView = [theClass new];
+    
     
     unsigned int outCount, i;
     objc_property_t *propertiesSource = class_copyPropertyList([contentView class], &outCount);
@@ -63,8 +66,8 @@
         objc_property_t propertySource = propertiesSource[i];
         NSString *propertyName = [NSString stringWithUTF8String:property_getName(propertySource)];
         id propertyValue = [contentView valueForKey:(NSString *)propertyName];
-        [newContentView setValue:propertyValue forKey:(NSString *)propertyName];
         
+        [newContentView setValue:propertyValue forKey:(NSString *)propertyName];
     }
     
     [newView setContentView:newContentView];

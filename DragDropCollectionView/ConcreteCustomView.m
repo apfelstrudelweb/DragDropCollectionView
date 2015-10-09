@@ -7,8 +7,6 @@
 //
 
 #import "ConcreteCustomView.h"
-
-
 #import "UILabel+size.h"
 
 #define FONT        @"Helvetica-Bold"
@@ -51,6 +49,9 @@
         
         [self addSubview:label];
         [self addSubview:imageView];
+        
+        // TEST
+        self.concreteClassName = @"ConcreteCustomView";
         
     }
     return self;

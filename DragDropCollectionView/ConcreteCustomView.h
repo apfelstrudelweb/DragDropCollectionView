@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CustomView.h"
+
+// from framework
+#import "PublicAPI.h"
 
 @interface ConcreteCustomView : CustomView
 

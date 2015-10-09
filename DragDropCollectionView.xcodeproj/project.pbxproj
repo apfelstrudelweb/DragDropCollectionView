@@ -35,6 +35,7 @@
 		1BD924D91BBEF0B700EF90F7 /* iceland.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BD924D81BBEF0B700EF90F7 /* iceland.png */; };
 		1BD924DB1BBEF12100EF90F7 /* malta.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BD924DA1BBEF12100EF90F7 /* malta.png */; };
 		1BD924DD1BBEF30300EF90F7 /* croatia.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BD924DC1BBEF30300EF90F7 /* croatia.png */; };
+		1BD94FD41BC6A9E5004AF034 /* PublicAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD94FD31BC6A9E5004AF034 /* PublicAPI.m */; };
 		1BD968361BA99A3200C243D1 /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD968351BA99A3200C243D1 /* CollectionViewCell.m */; };
 		1BDB12321BAAB672005A5051 /* DragView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDB12311BAAB672005A5051 /* DragView.m */; };
 		1BDB9F701BBD71D0005C62CA /* CustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDB9F6F1BBD71D0005C62CA /* CustomView.m */; };
@@ -100,6 +101,8 @@
 		1BD924D81BBEF0B700EF90F7 /* iceland.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iceland.png; sourceTree = "<group>"; };
 		1BD924DA1BBEF12100EF90F7 /* malta.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = malta.png; sourceTree = "<group>"; };
 		1BD924DC1BBEF30300EF90F7 /* croatia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = croatia.png; sourceTree = "<group>"; };
+		1BD94FD21BC6A9E5004AF034 /* PublicAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublicAPI.h; sourceTree = "<group>"; };
+		1BD94FD31BC6A9E5004AF034 /* PublicAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublicAPI.m; sourceTree = "<group>"; };
 		1BD968341BA99A3200C243D1 /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
 		1BD968351BA99A3200C243D1 /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
 		1BDB12301BAAB672005A5051 /* DragView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DragView.h; sourceTree = "<group>"; };
@@ -342,6 +345,8 @@
 		1BE780591BC52C7700BD13C1 /* library */ = {
 			isa = PBXGroup;
 			children = (
+				1BD94FD21BC6A9E5004AF034 /* PublicAPI.h */,
+				1BD94FD31BC6A9E5004AF034 /* PublicAPI.m */,
 				1BE7805C1BC52CFE00BD13C1 /* Categories */,
 				1BDD7EFE1BB54FE600CB4161 /* Utilities */,
 				1BE7805A1BC52CA900BD13C1 /* View */,
@@ -524,6 +529,7 @@
 				1BDC75E91BB1B22E00171AA2 /* NSMutableArray+cat.m in Sources */,
 				1BBDE4171BAC56C300CD5461 /* UILabel+size.m in Sources */,
 				1BDB12321BAAB672005A5051 /* DragView.m in Sources */,
+				1BD94FD41BC6A9E5004AF034 /* PublicAPI.m in Sources */,
 				1BDF7FB11BA833FC00A49AA9 /* AppDelegate.m in Sources */,
 				1BDF7FAE1BA833FC00A49AA9 /* main.m in Sources */,
 				1BDD7F011BB5553A00CB4161 /* DragCollectionView.m in Sources */,
@@ -641,7 +647,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				INFOPLIST_FILE = DragDropCollectionView/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -656,7 +662,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				INFOPLIST_FILE = DragDropCollectionView/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

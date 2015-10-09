@@ -7,20 +7,20 @@
 //
 
 #import "ViewController.h"
+// custom views
 #import "MainView.h"
-
-// from static library
 #import "ConcreteCustomView.h"
-#import "ConfigAPI.h"
 
-// Important: always include ConfigApi into the current project
-// and don't rename it, as different library classes need it!
+// framework
+#import "PublicAPI.h"
+
+// Important: always include PublicAPI.h into the current project
 #define SHARED_CONFIG_INSTANCE   [ConfigAPI sharedInstance]
 
 
 @interface ViewController () {
-    NSMutableDictionary* dataSourceDict;
     
+    NSMutableDictionary* dataSourceDict;
     NSMutableArray* layoutConstraints;
 }
 

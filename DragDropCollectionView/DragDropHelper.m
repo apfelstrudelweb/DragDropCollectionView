@@ -141,6 +141,9 @@
 
 - (void)insertCell:(DragView *)dragView {
     
+    [leftCell shrink];
+    [rightCell shrink];
+    
     NSIndexPath* insertionIndexPath = rightCell.indexPath;
     
     NSInteger numberOfItems = [dropCollectionView numberOfItemsInSection:0];
@@ -175,10 +178,7 @@
         
         // when dragged view is dropped, remove it as it is replaced by this drop view
         [dragView removeFromSuperview];
-        
-        [leftCell shrink];
-        //        [rightCell undoPush]; // crashes - figure out why!
-        
+
         // reload in order to show the new drop view - > "cellForItemAtIndexPath"
         [dropCollectionView reloadData];
         

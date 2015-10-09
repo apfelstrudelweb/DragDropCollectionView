@@ -9,10 +9,6 @@
 #import "MainView.h"
 #import "UILabel+size.h"
 
-// from static library
-#import "ConfigAPI.h"
-#import "DragDropHelper.h"
-
 #define SHARED_CONFIG_INSTANCE   [ConfigAPI sharedInstance]
 
 @interface MainView() {
