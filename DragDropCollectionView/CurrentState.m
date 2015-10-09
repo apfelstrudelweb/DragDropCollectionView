@@ -10,6 +10,8 @@
 
 @interface CurrentState () {
     bool transactionActive;
+    
+    NSMutableArray* consumedItemsArray;
 }
 @end
 
@@ -19,13 +21,21 @@
 {
     
     static CurrentState *_sharedInstance = nil;
-    
     static dispatch_once_t oncePredicate;
     
     dispatch_once(&oncePredicate, ^{
         _sharedInstance = [[CurrentState alloc] init];
     });
     return _sharedInstance;
+}
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        consumedItemsArray = [NSMutableArray new];
+    }
+    return self;
 }
 
 
@@ -36,6 +46,17 @@
 
 - (bool) isTransactionActive {
     return transactionActive;
+}
+
+
+- (void) addConsumedItem: (UIView*) view {
+    [consumedItemsArray addObject:view];
+}
+- (void) removeConsumedItem: (UIView*) view {
+    [consumedItemsArray removeObject:view];
+}
+- (NSArray*) getConsumedItems {
+    return consumedItemsArray;
 }
 
 @end

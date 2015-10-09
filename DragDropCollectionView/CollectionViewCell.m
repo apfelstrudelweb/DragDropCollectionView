@@ -51,7 +51,7 @@
         [self addGestureRecognizer:self.longPressGesture];
         
         self.userInteractionEnabled = YES;
- 
+
     }
     return self;
 }
@@ -85,6 +85,8 @@
         CGRect dragRect = [Utils getCellCoordinates:self fromCollectionView:collectionView];
         [view setFrame:dragRect];
         [collectionView.superview addSubview:view];
+        // placeholder color for consumable source items
+        self.backgroundColor = [SHARED_CONFIG_INSTANCE getDropPlaceholderColorUntouched];
     } else {
         [self reset];
         [self expand];

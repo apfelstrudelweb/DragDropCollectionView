@@ -42,9 +42,20 @@
         
         [self registerClass:[CollectionViewCell class] forCellWithReuseIdentifier:REUSE_IDENTIFIER];
         
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(restoreElementNotification:) name:@"restoreElementNotification"
+                                                   object:nil];
     }
     return self;
 }
+
+#pragma mark -NSNotificationCenter
+- (void) restoreElementNotification:(NSNotification *) notification {
+    if ([[notification name] isEqualToString:@"restoreElementNotification"]) {
+        [self reloadData];
+    }
+}
+
+       
 
 - (CollectionViewCell*) getCell: (NSIndexPath*) indexPath {
     return [self dequeueReusableCellWithReuseIdentifier:REUSE_IDENTIFIER forIndexPath:indexPath];
@@ -152,6 +163,8 @@
     return CGSizeMake(cellWidth, cellHeight);
 }
 
-
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 @end

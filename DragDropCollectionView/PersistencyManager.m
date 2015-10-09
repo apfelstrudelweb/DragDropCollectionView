@@ -25,6 +25,9 @@
     int numberOfDropPlaceholders;
 
     NSMutableDictionary* dataSourceDict;
+    
+    bool isSourceItemConsumable;
+    bool shouldRemoveAllEmptyCells;
 }
 
 @end
@@ -68,6 +71,14 @@
 - (void) setNumberOfDropItems: (int) value {
     numberOfDropPlaceholders = value;
 }
+- (void) setIsSourceItemConsumable: (bool) value {
+    isSourceItemConsumable = value;
+}
+
+- (void) setShouldRemoveAllEmptyCells: (bool) value {
+    shouldRemoveAllEmptyCells = value;
+}
+
 
 - (float) getCellWidthHeightRatio {
     if (cellWidthHeightRatio == INVALID) {
@@ -116,6 +127,13 @@
 }
 - (int) getNumberOfDropItems {
     return numberOfDropPlaceholders;
+}
+- (bool) getIsSourceItemConsumable {
+    return isSourceItemConsumable;
+}
+
+- (bool) getShouldRemoveAllEmptyCells {
+    return shouldRemoveAllEmptyCells;
 }
 
 @end

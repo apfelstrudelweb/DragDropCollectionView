@@ -36,8 +36,6 @@
         
         minLineSpacing = [SHARED_CONFIG_INSTANCE getMinLineSpacing];
         
-
-        
         self.headline1 = [[UILabel alloc] initWithFrame:frame];
         [self.headline1 setTextForHeadline:@"Drag and Drop Prototype"];
         [self.headline1 setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -60,7 +58,8 @@
         self.targetCellsDict = [NSMutableDictionary new];
         self.numberOfDropItems = [SHARED_CONFIG_INSTANCE getNumberOfDropItems];
         
-        self.dropCollectionView = [[DropCollectionView alloc] initWithFrame:frame withinView:self boundToElementsDictionary:self.targetCellsDict];
+        self.dropCollectionView = [[DropCollectionView alloc] initWithFrame:frame withinView:self sourceDictionary:self.sourceCellsDict targetDictionary:self.targetCellsDict];
+        
         [self.dropCollectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.dropCollectionView];
 

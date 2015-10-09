@@ -34,7 +34,10 @@
     
     [self setSourceElements];
     
-    [SHARED_CONFIG_INSTANCE setCellWidthHeightRatio:CELL_WIDTH_HEIGHT_RATIO]; // width:height = 3:2
+    [SHARED_CONFIG_INSTANCE setSourceItemConsumable:false];
+    [SHARED_CONFIG_INSTANCE shouldRemoveAllEmptyCells:false];
+    
+    [SHARED_CONFIG_INSTANCE setCellWidthHeightRatio:CELL_WIDTH_HEIGHT_RATIO]; // width:height
     [SHARED_CONFIG_INSTANCE setMinInteritemSpacing:SPACE_BETWEEN_ITEMS];
     float minInterimSpacing = [SHARED_CONFIG_INSTANCE getMinInteritemSpacing];
     float minLineSpacing = minInterimSpacing / CELL_WIDTH_HEIGHT_RATIO;
@@ -42,7 +45,7 @@
     [SHARED_CONFIG_INSTANCE setBackgroundColorSourceView:[UIColor clearColor]];
     [SHARED_CONFIG_INSTANCE setBackgroundColorTargetView:[UIColor clearColor]];
     
-//    [SHARED_CONFIG_INSTANCE setDropPlaceholderColorUntouched:[UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0]];
+    [SHARED_CONFIG_INSTANCE setDropPlaceholderColorUntouched:[UIColor colorWithRed:0.79 green:0.85 blue:0.97 alpha:1.0]];
 //    [SHARED_CONFIG_INSTANCE setDropPlaceholderColorTouched:[UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1.0]];
     
     [SHARED_CONFIG_INSTANCE setNumberOfDropItems:30];
@@ -118,7 +121,6 @@
         [[NSNotificationCenter defaultCenter] postNotificationName: @"viewHasBeenRotatedNotification" object:self];
         
     } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-        // important for scrolling to position where fret has been before rotating the device
         
         
     }];

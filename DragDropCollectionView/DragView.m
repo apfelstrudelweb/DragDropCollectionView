@@ -43,7 +43,6 @@
 }
 
 - (DragView*) provideNew {
-    
     DragView *newView = [DragView new];
     newView.frame = self.frame;
     newView.index = self.index;

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface ConfigAPI : NSObject
 
@@ -21,6 +22,8 @@
 - (void) setDropPlaceholderColorUntouched: (UIColor*) color;
 - (void) setDropPlaceholderColorTouched: (UIColor*) color;
 - (void) setNumberOfDropItems: (int) value;
+- (void) setSourceItemConsumable: (bool) value;
+- (void) shouldRemoveAllEmptyCells: (bool) value;
 
 
 - (float) getCellWidthHeightRatio;
@@ -32,5 +35,7 @@
 - (UIColor*) getDropPlaceholderColorUntouched;
 - (UIColor*) getDropPlaceholderColorTouched;
 - (int) getNumberOfDropItems;
+- (bool) isSourceItemConsumable;
+- (bool) isShouldRemoveAllEmptyCells;
 
 @end

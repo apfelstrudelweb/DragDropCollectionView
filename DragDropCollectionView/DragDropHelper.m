@@ -10,8 +10,10 @@
 #import "Utils.h"
 #import "DragCollectionView.h"
 #import "DropCollectionView.h"
+#import "ConfigAPI.h"
 
-#define SHARED_STATE_INSTANCE    [CurrentState sharedInstance]
+#define SHARED_STATE_INSTANCE      [CurrentState sharedInstance]
+#define SHARED_CONFIG_INSTANCE     [ConfigAPI sharedInstance]
 
 @interface DragDropHelper() {
     
@@ -74,7 +76,10 @@
         newDragView = (DragView*)[dragView snapshotViewAfterScreenUpdates:NO];
         newDragView.frame = dragView.frame;
         targetDragView = [dragView provideNew];
-        [mainView addSubview:newDragView];
+        
+        if (![SHARED_CONFIG_INSTANCE isSourceItemConsumable]) {
+            [mainView addSubview:newDragView];
+        }
         
         [SHARED_STATE_INSTANCE setTransactionActive:true]; // indicate that view is in drag state
     }
@@ -123,7 +128,15 @@
     // END DRAGGING AND START DROPPING
     if (recognizer.state == UIGestureRecognizerStateEnded) {
         
-        [self handleInitialDragView:dragView];
+        if (![SHARED_CONFIG_INSTANCE isSourceItemConsumable]) {
+            [self handleInitialDragView:dragView];
+        } else {
+            // remove consumable item from dictionary
+            [sourceCellsDict removeObjectForKey:[NSNumber numberWithInt:dragView.index]];
+            
+            // and add it to an array in order to get it back if needed
+            [SHARED_STATE_INSTANCE addConsumedItem:dragView];
+        }
         
         // insert cell
         if (insertCells) {
@@ -164,6 +177,7 @@
         dropCell = newCell;
         
         DropView* dropView = [[DropView alloc] initWithView:targetDragView inCollectionViewCell:dropCell];
+        dropView.sourceIndex = dragView.index;
         
         // Now update dictionary, shifting all elements right of the insert index to right
         insertIndex = (int)insertionIndexPath.item;
@@ -193,11 +207,17 @@
         [dragView removeFromSuperview];
         [dropCollectionView reloadData];
         [SHARED_STATE_INSTANCE setTransactionActive:false];
+        
+        if ([SHARED_CONFIG_INSTANCE isSourceItemConsumable]) {
+            [self handleInitialDragView:dragView];
+        }
+        
         return;
     }
     NSIndexPath* dropIndexPath = dropCell.indexPath;
     // drop view into the cell, making a copy of the dragged element and remove the dragged one
     DropView* dropView = [[DropView alloc] initWithView:targetDragView inCollectionViewCell:dropCell];
+    dropView.sourceIndex = dragView.index;
     // when dragged view is dropped, remove it as it is replaced by this drop view
     [dragView removeFromSuperview];
     // populate dictionary -> we need it for "cellForItemAtIndexPath"
@@ -208,6 +228,7 @@
     // Remove temporary DragView (it's only a snapshot) and replace it by a real one
     CGRect frame = newDragView.frame;
     [newDragView removeFromSuperview];
+    
     newDragView = [dragView provideNew];
     newDragView.frame = frame;
     [mainView addSubview:newDragView];

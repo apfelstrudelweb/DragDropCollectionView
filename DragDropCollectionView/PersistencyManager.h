@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface PersistencyManager : NSObject
 
@@ -20,7 +21,8 @@
 - (void) setDropPlaceholderColorUntouched: (UIColor*) color;
 - (void) setDropPlaceholderColorTouched: (UIColor*) color;
 - (void) setNumberOfDropItems: (int) value;
-
+- (void) setIsSourceItemConsumable: (bool) value;
+- (void) setShouldRemoveAllEmptyCells: (bool) value;
 
 - (float) getCellWidthHeightRatio;
 - (float) getMinInteritemSpacing;
@@ -31,5 +33,7 @@
 - (UIColor*) getDropPlaceholderColorUntouched;
 - (UIColor*) getDropPlaceholderColorTouched;
 - (int) getNumberOfDropItems;
+- (bool) getIsSourceItemConsumable;
+- (bool) getShouldRemoveAllEmptyCells;
 
 @end

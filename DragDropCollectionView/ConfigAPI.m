@@ -66,6 +66,12 @@
 - (void) setNumberOfDropItems: (int) value {
     [persistencyManager setNumberOfDropItems:value];
 }
+- (void) setSourceItemConsumable: (bool) value {
+    [persistencyManager setIsSourceItemConsumable:value];
+}
+- (void) shouldRemoveAllEmptyCells: (bool) value {
+    [persistencyManager setShouldRemoveAllEmptyCells:value];
+}
 
 
 - (float) getCellWidthHeightRatio {
@@ -94,6 +100,12 @@
 }
 - (int) getNumberOfDropItems {
     return [persistencyManager getNumberOfDropItems];
+}
+- (bool) isSourceItemConsumable {
+    return [persistencyManager getIsSourceItemConsumable];
+}
+- (bool) isShouldRemoveAllEmptyCells {
+    return [persistencyManager getShouldRemoveAllEmptyCells];
 }
 
 @end

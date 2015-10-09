@@ -9,12 +9,17 @@
 #import "DropCollectionView.h"
 #import "Utils.h"
 #import "ConfigAPI.h"
+#import "CurrentState.h"
+#import "DropView.h"
 
-#define SHARED_CONFIG_INSTANCE   [ConfigAPI sharedInstance]
+#define SHARED_CONFIG_INSTANCE     [ConfigAPI sharedInstance]
+#define SHARED_STATE_INSTANCE      [CurrentState sharedInstance]
+
 #define REUSE_IDENTIFIER @"dropCell"
 
 @interface DropCollectionView() {
     
+    NSMutableDictionary* sourceCellsDict;
     NSMutableDictionary* targetCellsDict;
     
     float minInteritemSpacing;
@@ -24,7 +29,7 @@
 
 @implementation DropCollectionView
 
-- (id)initWithFrame:(CGRect)frame withinView: (UIView<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>*) view boundToElementsDictionary:(NSMutableDictionary*) dict  {
+- (id)initWithFrame:(CGRect)frame withinView: (UIView<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>*) view sourceDictionary:(NSMutableDictionary*) sourceDict targetDictionary:(NSMutableDictionary*) targetDict  {
     
     if (self) {
         
@@ -33,7 +38,8 @@
         self = [[DropCollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
         self.backgroundColor = [SHARED_CONFIG_INSTANCE getBackgroundColorTargetView];
         
-        targetCellsDict = dict;
+        sourceCellsDict = sourceDict;
+        targetCellsDict = targetDict;
         
         minInteritemSpacing = [SHARED_CONFIG_INSTANCE getMinInteritemSpacing];
         minLineSpacing = [SHARED_CONFIG_INSTANCE getMinLineSpacing]; // set member variable AFTER  instantiation - otherwise it will be lost later
@@ -63,21 +69,74 @@
         NSInteger numberOfItems = [self numberOfItemsInSection:0];
         NSIndexPath* lastIndexPath = [NSIndexPath indexPathForItem:numberOfItems-1 inSection:0];
         
-        // append empty cell in order to maintain a constant number of cells
-        [self performBatchUpdates:^{
+        bool cellIsPopulated = [targetCellsDict objectForKey:[NSNumber numberWithInt:(int)indexPath.item]];
+        
+        // append empty cell in order to maintain a constant number of cells - only when user has configured it
+        if ([SHARED_CONFIG_INSTANCE isShouldRemoveAllEmptyCells] || !cellIsPopulated)  {
+            [self performBatchUpdates:^{
+                
+                NSArray *indexPaths = [NSArray arrayWithObject:lastIndexPath];
+                [self deleteItemsAtIndexPaths:@[indexPath]];
+                [self insertItemsAtIndexPaths:indexPaths];
+ 
+            } completion: ^(BOOL finished) {
+                
+                // if consumable item, get it back into the source collection view
+                if (sourceCellsDict && [SHARED_CONFIG_INSTANCE isSourceItemConsumable]) {
+                    
+                    [self recoverConsumedElement:(int)indexPath.item];
+                }
+                
+                [targetCellsDict removeObjectForKey:[NSNumber numberWithInt:(int)indexPath.item]];
+                
+                
+                [Utils eliminateEmptyKeysInDict:targetCellsDict];
+                
+                
+                [SHARED_STATE_INSTANCE setTransactionActive:true]; // indicate that view is in drag state
+                
+                [self reloadData];
+                
+            }];
+        } else {
+            // if consumable item, get it back into the source collection view
+            if (sourceCellsDict && [SHARED_CONFIG_INSTANCE isSourceItemConsumable]) {
+                
+                [self recoverConsumedElement:(int)indexPath.item];
+            }
             
-            NSArray *indexPaths = [NSArray arrayWithObject:lastIndexPath];
-            [self deleteItemsAtIndexPaths:@[indexPath]];
-            [self insertItemsAtIndexPaths:indexPaths];
-            
-        } completion: ^(BOOL finished) {
-            [targetCellsDict  removeObjectForKey:[NSNumber numberWithInt:(int)indexPath.item]];
-            [Utils eliminateEmptyKeysInDict:targetCellsDict];
+            [targetCellsDict removeObjectForKey:[NSNumber numberWithInt:(int)indexPath.item]];
+
+            [SHARED_STATE_INSTANCE setTransactionActive:true]; // indicate that view is in drag state
             
             [self reloadData];
-            
-        }];
+        }
     }
+}
+
+- (void) recoverConsumedElement: (int) item; {
+    
+    DropView* dropView = [targetCellsDict objectForKey:[NSNumber numberWithInt:item]];
+    
+    //Your main thread code goes in here
+    NSArray* consumedViews = [SHARED_STATE_INSTANCE getConsumedItems];
+    
+    UIView* recoveryView;
+    
+    for (DragView* view in consumedViews) {
+        if (view.index == dropView.sourceIndex) {
+            [sourceCellsDict setObject:view forKey:[NSNumber numberWithInt:view.index]];
+            recoveryView = view;
+        }
+    }
+    
+    if (recoveryView) {
+        [SHARED_STATE_INSTANCE removeConsumedItem:recoveryView];
+    }
+    
+    // inform source collection view about change - reload needed
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"restoreElementNotification" object:nil userInfo:nil];
+    
 }
 
 

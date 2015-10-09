@@ -14,6 +14,8 @@
 
 @interface DropView : MoveableView
 
+@property int sourceIndex;
+
 - (id)initWithView:(DragView*)view inCollectionViewCell:(CollectionViewCell*) cell;
     
 @end

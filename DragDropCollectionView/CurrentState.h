@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface CurrentState : NSObject
 
@@ -14,5 +15,9 @@
 
 - (void) setTransactionActive: (bool) value;
 - (bool) isTransactionActive;
+
+- (void) addConsumedItem: (UIView*) view;
+- (void) removeConsumedItem: (UIView*) view;
+- (NSArray*) getConsumedItems;
 
 @end
