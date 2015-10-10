@@ -14,6 +14,8 @@
 #define SHARED_STATE_INSTANCE      [CurrentState sharedInstance]
 #define SHARED_CONFIG_INSTANCE     [ConfigAPI sharedInstance]
 
+#define ALPHA_OFF 0.25
+
 @interface UndoButtonHelper() {
     
     NSMutableDictionary* sourceDictionary;
@@ -50,6 +52,9 @@
     
     undoButton = button;
     [undoButton addTarget:self action:@selector(undoAction:) forControlEvents:UIControlEventTouchUpInside];
+    
+    undoButton.alpha = ALPHA_OFF;
+
 }
 
 - (void) setSourceDictionary: (NSMutableDictionary*) dict {
@@ -62,11 +67,12 @@
 
 - (void) addViewToHistory: (DragView*) dragView andDropView: (DropView*) dropView {
     [historyArray addObject:@[dragView, dropView]];
+    undoButton.alpha = 1.0;
 }
 
 #pragma mark -UIButton touched
 -(void) undoAction:(UIButton*)sender {
-    
+
     if (!historyArray || historyArray.count==0) return; // nothing to do
     
     DragView* lastDragView = [historyArray lastObject][0];
@@ -74,6 +80,8 @@
     
     [SHARED_STATE_INSTANCE removeConsumedItem:lastDragView];
     [historyArray removeLastObject];
+    
+    undoButton.alpha = historyArray.count==0 ? ALPHA_OFF : 1.0;
 
     
     [targetDictionary removeObjectForKey:[NSNumber numberWithInt:lastDropView.index]];

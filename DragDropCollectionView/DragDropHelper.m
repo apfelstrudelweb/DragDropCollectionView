@@ -39,6 +39,9 @@
     
     NSArray* insertCells;
     int insertIndex;
+    
+    // for thread safety
+    //int currentIndex;
 }
 @end
 
@@ -92,11 +95,12 @@
     DragView* dragView = (DragView*)recognizer.view;
     [mainView bringSubviewToFront:dragView];
     
+//    int index = dragView.index;
+//    NSLog(@"INDEX: %d", index);
+    
     // START DRAGGING
     if (recognizer.state == UIGestureRecognizerStateBegan) {
-        
-        //lastHoverCell = nil;
-        
+
         // provide a temporary DragView as snapshot for the dragging process
         // which will be removed again when dragging is finished
         newDragView = (DragView*)[dragView snapshotViewAfterScreenUpdates:NO];

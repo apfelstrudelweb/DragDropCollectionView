@@ -41,6 +41,7 @@
     [super initialize];
 }
 
+
 #pragma mark UIPanGestureRecognizer
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer {
     [dragDropHelper handlePan:recognizer];
