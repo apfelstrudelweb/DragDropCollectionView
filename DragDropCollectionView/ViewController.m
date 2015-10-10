@@ -34,8 +34,8 @@
     
     [self setSourceElements];
     
-    [SHARED_CONFIG_INSTANCE setSourceItemConsumable:false];
-    [SHARED_CONFIG_INSTANCE shouldRemoveAllEmptyCells:false];
+    [SHARED_CONFIG_INSTANCE setSourceItemConsumable:true];
+    [SHARED_CONFIG_INSTANCE shouldRemoveAllEmptyCells:true];
     
     [SHARED_CONFIG_INSTANCE setCellWidthHeightRatio:CELL_WIDTH_HEIGHT_RATIO]; // width:height
     [SHARED_CONFIG_INSTANCE setMinInteritemSpacing:SPACE_BETWEEN_ITEMS];

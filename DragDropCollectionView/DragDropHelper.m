@@ -215,6 +215,37 @@
         return;
     }
     NSIndexPath* dropIndexPath = dropCell.indexPath;
+    
+    
+    // in case of consumable items, recover the underlying item
+    if (dropCell.isPopulated && [SHARED_CONFIG_INSTANCE isSourceItemConsumable]) {
+        
+        [dropCell highlight:false];
+        
+        NSArray* consumedItems = [SHARED_STATE_INSTANCE getConsumedItems];
+        
+        DropView* prevView = [targetCellsDict objectForKey:[NSNumber numberWithInt:(int)dropIndexPath.item]];
+        int prevIndex = prevView.sourceIndex;
+        
+        DragView* recoveryView;
+        
+        for (DragView* view in consumedItems) {
+            if (view.index == prevIndex) {
+                recoveryView = view;
+            }
+        }
+        
+        //if (!recoveryView) return;
+        
+        [SHARED_STATE_INSTANCE removeConsumedItem:recoveryView];
+        [sourceCellsDict setObject:recoveryView forKey:[NSNumber numberWithInt:recoveryView.index]];
+        [targetCellsDict removeObjectForKey:[NSNumber numberWithInt:(int)dropIndexPath.item]];
+        
+        // inform source collection view about change - reload needed
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"restoreElementNotification" object:nil userInfo:nil];
+    }
+    
+    
     // drop view into the cell, making a copy of the dragged element and remove the dragged one
     DropView* dropView = [[DropView alloc] initWithView:targetDragView inCollectionViewCell:dropCell];
     dropView.sourceIndex = dragView.index;
@@ -222,6 +253,7 @@
     [dragView removeFromSuperview];
     // populate dictionary -> we need it for "cellForItemAtIndexPath"
     [targetCellsDict setObject:dropView forKey:[NSNumber numberWithInt:(int)dropIndexPath.item]];
+
 }
 
 - (void)handleInitialDragView:(DragView *)dragView {

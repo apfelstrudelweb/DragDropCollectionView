@@ -26,6 +26,7 @@
 - (void) populateWithContentsOfView: (UIView*) view withinCollectionView:(UICollectionView*) collectionView;
 - (void) expand;
 - (void) shrink;
+- (void) highlight: (bool) flag;
 
 - (void) push: (NSInteger) direction;
 - (void) undoPush;
