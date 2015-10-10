@@ -70,6 +70,10 @@
     undoButton.alpha = 1.0;
 }
 
+- (void) removeViewFromHistory: (DragView*) dragView andDropView: (DropView*) dropView {
+    [historyArray removeObject:@[dragView, dropView]];
+}
+
 #pragma mark -UIButton touched
 -(void) undoAction:(UIButton*)sender {
 

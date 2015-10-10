@@ -21,4 +21,6 @@
 
 - (void) addViewToHistory: (DragView*) dragView andDropView: (DropView*) dropView;
 
+- (void) removeViewFromHistory: (DragView*) dragView andDropView: (DropView*) dropView;
+
 @end

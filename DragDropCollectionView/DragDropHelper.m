@@ -278,6 +278,7 @@
         //if (!recoveryView) return;
         
         [SHARED_STATE_INSTANCE removeConsumedItem:recoveryView];
+        [SHARED_BUTTON_INSTANCE removeViewFromHistory:recoveryView andDropView:prevView];
         [sourceCellsDict setObject:recoveryView forKey:[NSNumber numberWithInt:recoveryView.index]];
         [targetCellsDict removeObjectForKey:[NSNumber numberWithInt:(int)dropIndexPath.item]];
         
