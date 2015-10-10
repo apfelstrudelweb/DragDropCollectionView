@@ -54,6 +54,8 @@
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveDeleteCellNotification:) name:@"deleteCellNotification"
                                                    object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(restoreElementNotification:) name:@"restoreElementNotification"
+                                                   object:nil];
         
     }
     return self;
@@ -61,6 +63,12 @@
 
 
 #pragma mark -NSNotificationCenter
+- (void) restoreElementNotification:(NSNotification *) notification {
+    if ([[notification name] isEqualToString:@"restoreElementNotification"]) {
+        [self reloadData];
+    }
+}
+
 - (void) receiveDeleteCellNotification:(NSNotification *) notification {
     if ([[notification name] isEqualToString:@"deleteCellNotification"]) {
         NSDictionary *userInfo = notification.userInfo;
@@ -94,6 +102,12 @@
                 
                 
                 [SHARED_STATE_INSTANCE setTransactionActive:true]; // indicate that view is in drag state
+                
+                // update indexes -> we need them for UndoButtonHelper
+                for (NSNumber* key in targetCellsDict) {
+                    DropView* view = [targetCellsDict objectForKey:key];
+                    view.index = [key intValue];
+                }
                 
                 [self reloadData];
                 

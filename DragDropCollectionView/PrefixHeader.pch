@@ -12,12 +12,6 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-// open
-//#import "UILabel+size.h"
-//#import "ConfigAPI.h"
-//#import "MainBasicView.h"
-//#import "MainView.h"
-
 
 #define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
@@ -26,8 +20,9 @@
 //#define SPACE_BETWEEN_LINES     IS_IPAD       ? 11.0 : 7
 
 // sum of the following subviews must be 100
-#define PERCENT_HEADER_1    10
-#define PERCENT_HEADER_2    10
+#define PERCENT_HEADER_1    8
+#define PERCENT_HEADER_2    6
+#define PERCENT_UNDO_BTN    6
 #define PERCENT_DRAG_AREA   40
 #define PERCENT_DROP_AREA   40
 

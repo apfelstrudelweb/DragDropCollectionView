@@ -7,6 +7,7 @@
 //
 
 #import "DragDropHelper.h"
+#import "UndoButtonHelper.h"
 #import "Utils.h"
 #import "DragCollectionView.h"
 #import "DropCollectionView.h"
@@ -14,6 +15,7 @@
 
 #define SHARED_STATE_INSTANCE      [CurrentState sharedInstance]
 #define SHARED_CONFIG_INSTANCE     [ConfigAPI sharedInstance]
+#define SHARED_BUTTON_INSTANCE     [UndoButtonHelper sharedInstance]
 
 @interface DragDropHelper() {
     
@@ -42,22 +44,46 @@
 
 @implementation DragDropHelper
 
-
-- (id)initWithView:(UIView*)view collectionViews:(NSArray*) collectionViews cellDictionaries:(NSArray*) cellDictionaries {
++ (DragDropHelper*)sharedInstance {
     
-    self = [super init];
-    if (self) {
-        
-        mainView = view;
-        
+    static DragDropHelper *_sharedInstance = nil;
+    
+    static dispatch_once_t oncePredicate;
+    
+    dispatch_once(&oncePredicate, ^{
+        _sharedInstance = [[DragDropHelper alloc] init];
+    });
+    return _sharedInstance;
+}
+
+
+- (void)initWithView:(UIView*)view collectionViews:(NSArray*) collectionViews cellDictionaries:(NSArray*) cellDictionaries {
+    
+    mainView = view;
+    
+    // countercheck for type safety
+    if ([collectionViews[0] isKindOfClass:[DragCollectionView class                             ]]) {
         dragCollectionView = (DragCollectionView*) collectionViews[0];
         dropCollectionView = (DropCollectionView*) collectionViews[1];
-        
+    } else {
+        dragCollectionView = (DragCollectionView*) collectionViews[1];
+        dropCollectionView = (DropCollectionView*) collectionViews[0];
+    }
+    
+    id testObject = [[(NSMutableDictionary*) cellDictionaries[0] allValues] firstObject];
+    
+    
+    if ([testObject isKindOfClass:[DragView class]]) {
         sourceCellsDict = (NSMutableDictionary*) cellDictionaries[0];
         targetCellsDict = (NSMutableDictionary*) cellDictionaries[1];
-        
+    } else {
+        sourceCellsDict = (NSMutableDictionary*) cellDictionaries[1];
+        targetCellsDict = (NSMutableDictionary*) cellDictionaries[0];
     }
-    return self;
+    
+    [SHARED_STATE_INSTANCE setDragDropHelper:self];
+    [SHARED_BUTTON_INSTANCE setSourceDictionary:sourceCellsDict];
+    [SHARED_BUTTON_INSTANCE setTargetDictionary:targetCellsDict];
 }
 
 
@@ -152,6 +178,7 @@
     }
 }
 
+
 - (void)insertCell:(DragView *)dragView {
     
     [leftCell shrink];
@@ -177,6 +204,7 @@
         dropCell = newCell;
         
         DropView* dropView = [[DropView alloc] initWithView:targetDragView inCollectionViewCell:dropCell];
+        dropView.index = insertIndex;
         dropView.sourceIndex = dragView.index;
         
         // Now update dictionary, shifting all elements right of the insert index to right
@@ -190,9 +218,17 @@
             [targetCellsDict removeObjectForKey:[NSNumber numberWithInt:maxItems]];
         }
         
+        // update indexes -> we need them for UndoButtonHelper
+        for (NSNumber* key in targetCellsDict) {
+            DropView* view = [targetCellsDict objectForKey:key];
+            view.index = [key intValue];
+        }
+        
+        [SHARED_BUTTON_INSTANCE addViewToHistory:dragView andDropView:dropView];
+        
         // when dragged view is dropped, remove it as it is replaced by this drop view
         [dragView removeFromSuperview];
-
+        
         // reload in order to show the new drop view - > "cellForItemAtIndexPath"
         [dropCollectionView reloadData];
         
@@ -245,15 +281,19 @@
         [[NSNotificationCenter defaultCenter] postNotificationName: @"restoreElementNotification" object:nil userInfo:nil];
     }
     
-    
     // drop view into the cell, making a copy of the dragged element and remove the dragged one
     DropView* dropView = [[DropView alloc] initWithView:targetDragView inCollectionViewCell:dropCell];
+    dropView.index = (int)dropIndexPath.item;
     dropView.sourceIndex = dragView.index;
+    [dropView setMainView:mainView];
+    
+    [SHARED_BUTTON_INSTANCE addViewToHistory:dragView andDropView:dropView];
+    
     // when dragged view is dropped, remove it as it is replaced by this drop view
     [dragView removeFromSuperview];
     // populate dictionary -> we need it for "cellForItemAtIndexPath"
-    [targetCellsDict setObject:dropView forKey:[NSNumber numberWithInt:(int)dropIndexPath.item]];
-
+    [targetCellsDict setObject:dropView forKey:[NSNumber numberWithInt:dropView.index]];
+    
 }
 
 - (void)handleInitialDragView:(DragView *)dragView {

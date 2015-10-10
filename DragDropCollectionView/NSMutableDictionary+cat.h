@@ -12,8 +12,4 @@
 
 - (void) insertObject: (id) object atIndex: (int) index;
 
-// for debug purposes
-- (void) log;
-
-
 @end

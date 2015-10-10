@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+
 @interface CurrentState : NSObject
 
 + (CurrentState*) sharedInstance;
@@ -19,5 +20,8 @@
 - (void) addConsumedItem: (UIView*) view;
 - (void) removeConsumedItem: (UIView*) view;
 - (NSArray*) getConsumedItems;
+
+- (NSObject*) getDragDropHelper;
+- (void) setDragDropHelper: (NSObject*) object;
 
 @end

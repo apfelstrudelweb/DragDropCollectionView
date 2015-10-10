@@ -39,6 +39,8 @@
 		1BD968361BA99A3200C243D1 /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD968351BA99A3200C243D1 /* CollectionViewCell.m */; };
 		1BDB12321BAAB672005A5051 /* DragView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDB12311BAAB672005A5051 /* DragView.m */; };
 		1BDB9F701BBD71D0005C62CA /* CustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDB9F6F1BBD71D0005C62CA /* CustomView.m */; };
+		1BDC0A191BC916930097092A /* undo.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BDC0A181BC916930097092A /* undo.png */; };
+		1BDC0A1C1BC968760097092A /* UndoButtonHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC0A1B1BC968760097092A /* UndoButtonHelper.m */; };
 		1BDC75E91BB1B22E00171AA2 /* NSMutableArray+cat.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC75E81BB1B22E00171AA2 /* NSMutableArray+cat.m */; };
 		1BDCD8B81BC3B880000C21A7 /* DragDropHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDCD8B71BC3B880000C21A7 /* DragDropHelper.m */; };
 		1BDD6CAF1BB819DB00AFE92C /* PersistencyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDD6CAE1BB819DB00AFE92C /* PersistencyManager.m */; };
@@ -109,6 +111,9 @@
 		1BDB12311BAAB672005A5051 /* DragView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DragView.m; sourceTree = "<group>"; };
 		1BDB9F6E1BBD71D0005C62CA /* CustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomView.h; sourceTree = "<group>"; };
 		1BDB9F6F1BBD71D0005C62CA /* CustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomView.m; sourceTree = "<group>"; };
+		1BDC0A181BC916930097092A /* undo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = undo.png; sourceTree = "<group>"; };
+		1BDC0A1A1BC968760097092A /* UndoButtonHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UndoButtonHelper.h; sourceTree = "<group>"; };
+		1BDC0A1B1BC968760097092A /* UndoButtonHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UndoButtonHelper.m; sourceTree = "<group>"; };
 		1BDC75E71BB1B22E00171AA2 /* NSMutableArray+cat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+cat.h"; sourceTree = "<group>"; };
 		1BDC75E81BB1B22E00171AA2 /* NSMutableArray+cat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+cat.m"; sourceTree = "<group>"; };
 		1BDCD8B61BC3B880000C21A7 /* DragDropHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DragDropHelper.h; sourceTree = "<group>"; };
@@ -178,6 +183,7 @@
 		1BD924AA1BBED7C200EF90F7 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				1BDC0A171BC916850097092A /* Icons */,
 				1BD924AB1BBED7CE00EF90F7 /* Flags */,
 			);
 			name = Images;
@@ -224,6 +230,14 @@
 			name = Custom;
 			sourceTree = "<group>";
 		};
+		1BDC0A171BC916850097092A /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				1BDC0A181BC916930097092A /* undo.png */,
+			);
+			name = Icons;
+			sourceTree = "<group>";
+		};
 		1BDD6CAC1BB8190700AFE92C /* API */ = {
 			isa = PBXGroup;
 			children = (
@@ -261,6 +275,8 @@
 				1BBDE4111BAC1B7200CD5461 /* Utils.m */,
 				1BDCD8B61BC3B880000C21A7 /* DragDropHelper.h */,
 				1BDCD8B71BC3B880000C21A7 /* DragDropHelper.m */,
+				1BDC0A1A1BC968760097092A /* UndoButtonHelper.h */,
+				1BDC0A1B1BC968760097092A /* UndoButtonHelper.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -471,6 +487,7 @@
 			files = (
 				1BD924C31BBEDBD500EF90F7 /* austria.png in Resources */,
 				1BD924B51BBEDADD00EF90F7 /* denmark.png in Resources */,
+				1BDC0A191BC916930097092A /* undo.png in Resources */,
 				1BD924BB1BBEDB2500EF90F7 /* luxembourg.png in Resources */,
 				1BD924BF1BBEDB7100EF90F7 /* poland.png in Resources */,
 				1BD924D51BBEEFAD00EF90F7 /* liechtenstein.png in Resources */,
@@ -520,6 +537,7 @@
 				1BDB9F701BBD71D0005C62CA /* CustomView.m in Sources */,
 				1BDD6CAF1BB819DB00AFE92C /* PersistencyManager.m in Sources */,
 				1BD924A91BBEC36300EF90F7 /* CurrentState.m in Sources */,
+				1BDC0A1C1BC968760097092A /* UndoButtonHelper.m in Sources */,
 				1BDDE7481BB4426400E54751 /* ConfigAPI.m in Sources */,
 				1BDF7FB41BA833FC00A49AA9 /* ViewController.m in Sources */,
 				1BE7810B1BC5536E00BD13C1 /* ConcreteCustomView.m in Sources */,

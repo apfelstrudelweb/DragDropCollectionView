@@ -28,6 +28,10 @@
     
     bool isSourceItemConsumable;
     bool shouldRemoveAllEmptyCells;
+    
+    NSObject* dragDropHelper;
+    
+    UIButton* undoButton;
 }
 
 @end
@@ -77,6 +81,9 @@
 
 - (void) setShouldRemoveAllEmptyCells: (bool) value {
     shouldRemoveAllEmptyCells = value;
+}
+- (void) setUndoButton: (UIButton*) button {
+    undoButton = button;
 }
 
 
@@ -131,9 +138,11 @@
 - (bool) getIsSourceItemConsumable {
     return isSourceItemConsumable;
 }
-
 - (bool) getShouldRemoveAllEmptyCells {
     return shouldRemoveAllEmptyCells;
+}
+- (UIButton*) getUndoButton {
+    return undoButton;
 }
 
 @end

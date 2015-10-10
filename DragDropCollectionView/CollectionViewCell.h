@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import "MoveableView.h"
 
 
 @interface CollectionViewCell : UICollectionViewCell <UIGestureRecognizerDelegate>
@@ -20,6 +19,7 @@
 @property (nonatomic) BOOL isPushedToRight;
 
 @property UILongPressGestureRecognizer* longPressGesture;
+
 
 
 - (void) reset;

@@ -72,6 +72,9 @@
 - (void) shouldRemoveAllEmptyCells: (bool) value {
     [persistencyManager setShouldRemoveAllEmptyCells:value];
 }
+//- (void) setUndoButton: (UIButton*) button {
+//    [persistencyManager setUndoButton:button];
+//}
 
 
 - (float) getCellWidthHeightRatio {
@@ -107,5 +110,8 @@
 - (bool) isShouldRemoveAllEmptyCells {
     return [persistencyManager getShouldRemoveAllEmptyCells];
 }
+//- (UIButton*) getUndoButton {
+//    return [persistencyManager getUndoButton];
+//}
 
 @end

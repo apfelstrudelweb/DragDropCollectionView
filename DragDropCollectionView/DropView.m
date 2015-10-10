@@ -8,8 +8,22 @@
 
 #import "DropView.h"
 #import "CustomView.h"
+#pragma GCC diagnostic ignored "-Wundeclared-selector"
+
+@interface DropView() {
+    UIView* mainView;
+}
+@end
 
 @implementation DropView
+
+
+
+- (void) setMainView: (UIView*) view {
+    mainView = view;
+}
+
+
 
 - (id)init {
     return [self initWithFrame:CGRectZero];
@@ -46,7 +60,7 @@
 
         [self setContentView:contentView];
         [super initialize];
- 
+
     }
     return self;
 }

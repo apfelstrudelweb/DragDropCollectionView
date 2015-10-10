@@ -86,39 +86,4 @@
  
 }
 
-// for debug purposes -> displays index as key and label title as value on console
-- (void) log {
-    
-    NSMutableArray *allKeys = [[self allKeys] mutableCopy];
-    
-    [allKeys sortUsingComparator:
-     ^NSComparisonResult(NSNumber* n1, NSNumber* n2){
-         
-         if ([n1 intValue] > [n2 intValue]) {
-             return NSOrderedDescending;
-         }
-         else if ([n1 intValue] < [n2 intValue]) {
-             return NSOrderedAscending;
-         }
-         else{
-             return NSOrderedSame;
-         }
-     }
-     ];
-    
-    
-    printf("%s", "\r-------------------------\r");
-    
-//    for (NSNumber *key in allKeys) {
-//        
-//        DragView* view = [self objectForKey: key];
-//        NSString* labelTitle = [view getLabelTitle];
-//        
-//        NSString *fmt = [NSString stringWithFormat:@"\rkey = %2d -- label = %@", [key intValue], labelTitle];
-//        
-//        printf("%s", [fmt cStringUsingEncoding:[NSString defaultCStringEncoding]]);
-//    }
-    
-}
-
 @end

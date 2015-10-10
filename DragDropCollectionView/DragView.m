@@ -8,11 +8,15 @@
 
 #import "DragView.h"
 #import "CustomView.h"
+#import "DragDropHelper.h"
 #import <objc/runtime.h>
-#pragma GCC diagnostic ignored "-Wundeclared-selector"
+//#pragma GCC diagnostic ignored "-Wundeclared-selector"
+
+#define SHARED_STATE_INSTANCE      [CurrentState sharedInstance]
 
 @interface DragView() {
     
+    DragDropHelper* dragDropHelper;
     
 }
 @end
@@ -23,14 +27,23 @@
 
 
 - (void)didMoveToSuperview {
-    UIPanGestureRecognizer* recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self.superview action:@selector(handlePan:)];
+    
+    if (!self.superview) return;
+    
+    dragDropHelper = (DragDropHelper*)[SHARED_STATE_INSTANCE getDragDropHelper];
+    
+    UIPanGestureRecognizer* recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
     
     [recognizer setMaximumNumberOfTouches:1];
     [recognizer setMinimumNumberOfTouches:1];
     [self addGestureRecognizer:recognizer];
     
     [super initialize];
-    
+}
+
+#pragma mark UIPanGestureRecognizer
+- (void)handlePan:(UIPanGestureRecognizer *)recognizer {
+    [dragDropHelper handlePan:recognizer];
 }
 
 - (void) setBorderColor: (UIColor*) color {
@@ -74,17 +87,6 @@
     return newView;
 }
 
-
-
-#pragma mark -UIPanGestureRecognizer
-- (void) move:(UIPanGestureRecognizer *)recognizer inView:(UIView*) view {
-    // perform translation of the drag view
-    CGPoint translation = [recognizer translationInView:view];
-    recognizer.view.center = CGPointMake(recognizer.view.center.x + translation.x,
-                                         recognizer.view.center.y + translation.y);
-    
-    [recognizer setTranslation:CGPointMake(0, 0) inView:view];
-}
 
 
 

@@ -7,6 +7,7 @@
 //
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+#import "UndoButtonHelper.h"
 #import "ConfigAPI.h"
 #import "DragCollectionView.h"
 #import "DropCollectionView.h"

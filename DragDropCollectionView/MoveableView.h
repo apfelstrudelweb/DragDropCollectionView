@@ -14,6 +14,7 @@
 @property (strong, nonatomic) UIColor* borderColor;
 @property (nonatomic) float borderWidth;
 
+- (void) move:(UIPanGestureRecognizer *)recognizer inView:(UIView*) view;
 
 - (void) setContentView: (UIView*) view;
 - (UIView*) getContentView;

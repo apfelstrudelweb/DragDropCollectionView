@@ -44,13 +44,13 @@
         [self.contentView addSubview:placeholderView];
         [self setupViewConstraints:placeholderView isExpanded:false];
         
-        self.longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didLongPress:)];
+        self.userInteractionEnabled = YES;
         
+        // delete an item by long-pressing the cell
+        self.longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didLongPress:)];
         self.longPressGesture.minimumPressDuration = MIN_PRESS_DURATION;
         self.longPressGesture.delegate = self;
         [self addGestureRecognizer:self.longPressGesture];
-        
-        self.userInteractionEnabled = YES;
 
     }
     return self;
@@ -80,6 +80,8 @@
 
 - (void) populateWithContentsOfView: (UIView*) view withinCollectionView: (UICollectionView*) collectionView {
     
+    if (!view) return;
+    
     if ([view isKindOfClass:[DragView class]]) {
         // add an UIView above the main view
         CGRect dragRect = [Utils getCellCoordinates:self fromCollectionView:collectionView];
@@ -100,7 +102,7 @@
 }
 
 
-- (void) didLongPress:(UISwipeGestureRecognizer*)sender  {
+- (void) didLongPress:(UILongPressGestureRecognizer*)sender  {
     
     NSDictionary *userInfo = [NSDictionary dictionaryWithObject:self.indexPath forKey:@"indexPath"];
     
@@ -110,6 +112,8 @@
         [[NSNotificationCenter defaultCenter] postNotificationName: @"deleteCellNotification" object:nil userInfo:userInfo];
     }
 }
+
+
 
 // expands the cell when drag view is above it
 - (void) expand {

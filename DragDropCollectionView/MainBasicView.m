@@ -13,7 +13,7 @@
     // subview proportions
     float totalHeight;
     float totalWidth;
-    int percentHeader1, percentHeader2, percentDragArea, percentDropArea;
+    int percentHeader1, percentHeader2, percentButton, percentDragArea, percentDropArea;
     
     NSMutableArray* layoutConstraints;
     NSArray *visualFormatConstraints;
@@ -64,6 +64,7 @@
     self.viewsDictionary = @{   @"headline1"    : self.headline1,
                                 @"source"       : self.dragCollectionView,
                                 @"headline2"    : self.headline2,
+                                @"button"       : self.undoButton,
                                 @"target"       : self.dropCollectionView };
     
     CGRect screenRect = [[UIScreen mainScreen] bounds];
@@ -72,6 +73,7 @@
     totalWidth  = 0.9*screenRect.size.width;
     percentHeader1 = PERCENT_HEADER_1;
     percentHeader2 = PERCENT_HEADER_2;
+    percentButton  = PERCENT_UNDO_BTN;
     percentDragArea = PERCENT_DRAG_AREA;
     percentDropArea = PERCENT_DROP_AREA;
     
@@ -82,7 +84,7 @@
     [self removeConstraints:layoutConstraints];
     
     
-    NSString* visualFormatText = [NSString stringWithFormat:@"V:|-%d-[headline1]-%d-[source]-%d-[headline2]-%d-[target]",MARGIN, 0, 0, 0];
+    NSString* visualFormatText = [NSString stringWithFormat:@"V:|-%d-[headline1]-%d-[source]-%d-[headline2]-%d-[button]-%d-[target]",MARGIN, 0, 0, 0, 0];
     
     
     
@@ -101,6 +103,7 @@
     
     float heightHeader1  = (float) totalHeight*percentHeader1*0.01;
     float heightHeader2  = (float) totalHeight*percentHeader2*0.01;
+    float heightButton   = (float) totalHeight*percentButton*0.01;
     float heightDragArea = (float) totalHeight*percentDragArea*0.01;
     float heightDropArea = (float) totalHeight*percentDropArea*0.01;
     
@@ -155,7 +158,24 @@
                                                              multiplier:1.0
                                                                constant:0.0]];
     
+
     
+    // Height constraint
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.undoButton
+                                                              attribute:NSLayoutAttributeHeight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self
+                                                              attribute:NSLayoutAttributeHeight
+                                                             multiplier:0.0
+                                                               constant:heightButton]];
+    // Center horizontally
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.undoButton
+                                                              attribute:NSLayoutAttributeRight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self.dragCollectionView
+                                                              attribute:NSLayoutAttributeRight
+                                                             multiplier:1.0
+                                                               constant:0.0]];
     
     
     // Width constraint

@@ -11,8 +11,11 @@
 
 @interface DragDropHelper : NSObject
 
-- (id)initWithView:(UIView*)view collectionViews:(NSArray*) collectionViews cellDictionaries:(NSArray*) cellDictionaries;
++ (DragDropHelper*) sharedInstance;
+
+- (void)initWithView:(UIView*)view collectionViews:(NSArray*) collectionViews cellDictionaries:(NSArray*) cellDictionaries;
 
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer;
+
 
 @end

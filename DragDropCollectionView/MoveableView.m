@@ -41,7 +41,15 @@
     }
 }
 
-
+#pragma mark -UIPanGestureRecognizer
+- (void) move:(UIPanGestureRecognizer *)recognizer inView:(UIView*) view {
+    // perform translation of the drag view
+    CGPoint translation = [recognizer translationInView:view];
+    recognizer.view.center = CGPointMake(recognizer.view.center.x + translation.x,
+                                         recognizer.view.center.y + translation.y);
+    
+    [recognizer setTranslation:CGPointMake(0, 0) inView:view];
+}
 
 #pragma mark -constraint issues
 

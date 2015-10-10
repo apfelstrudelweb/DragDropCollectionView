@@ -12,6 +12,8 @@
     bool transactionActive;
     
     NSMutableArray* consumedItemsArray;
+    
+    NSObject* dragDropHelper;
 }
 @end
 
@@ -57,6 +59,14 @@
 }
 - (NSArray*) getConsumedItems {
     return consumedItemsArray;
+}
+
+
+- (NSObject*) getDragDropHelper {
+    return dragDropHelper;
+}
+- (void) setDragDropHelper: (NSObject*) object {
+    dragDropHelper = object;
 }
 
 @end
