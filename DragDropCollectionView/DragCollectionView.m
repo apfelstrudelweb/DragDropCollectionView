@@ -13,6 +13,7 @@
 #define REUSE_IDENTIFIER @"dragCell"
 #define SHARED_CONFIG_INSTANCE   [ConfigAPI sharedInstance]
 
+
 @interface DragCollectionView() {
     float minInteritemSpacing;
     float minLineSpacing;
@@ -44,9 +45,11 @@
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(restoreElementNotification:) name:@"restoreElementNotification"
                                                    object:nil];
+    
     }
     return self;
 }
+
 
 #pragma mark -NSNotificationCenter
 - (void) restoreElementNotification:(NSNotification *) notification {

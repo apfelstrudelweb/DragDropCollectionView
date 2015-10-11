@@ -89,7 +89,14 @@
 }
 
 
-
+- (void) enablePanGestureRecognizer: (bool) flag {
+    for (UIGestureRecognizer *recognizer in self.gestureRecognizers) {
+        
+        if([recognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+            recognizer.enabled = flag;
+        }
+    }
+}
 
 
 @end

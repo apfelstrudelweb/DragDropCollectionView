@@ -41,7 +41,8 @@
     int insertIndex;
     
     // for thread safety
-    //int currentIndex;
+    DragView* currentDragView;
+    NSMutableArray* concurrentDragViews;
 }
 @end
 
@@ -87,19 +88,31 @@
     [SHARED_STATE_INSTANCE setDragDropHelper:self];
     [SHARED_BUTTON_INSTANCE setSourceDictionary:sourceCellsDict];
     [SHARED_BUTTON_INSTANCE setTargetDictionary:targetCellsDict];
+    
+    concurrentDragViews = [NSMutableArray new];
 }
 
 
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer {
     
     DragView* dragView = (DragView*)recognizer.view;
-    [mainView bringSubviewToFront:dragView];
     
-//    int index = dragView.index;
-//    NSLog(@"INDEX: %d", index);
+    //NSLog(@"concurrent views: %ld", concurrentDragViews.count);
+    
+    // avoid concurrency
+    if (currentDragView && ![dragView isEqual:currentDragView]) {
+        
+        [concurrentDragViews addObject:dragView];
+        [dragView enablePanGestureRecognizer:false];
+        // nothing to do
+        return;
+    }
+    
+    [mainView bringSubviewToFront:dragView];
     
     // START DRAGGING
     if (recognizer.state == UIGestureRecognizerStateBegan) {
+        currentDragView = dragView;
 
         // provide a temporary DragView as snapshot for the dragging process
         // which will be removed again when dragging is finished
@@ -175,10 +188,16 @@
             [self appendCell:recognizer dragView:dragView];
         }
         
-        
         // reload in order to show the new drop view - > "cellForItemAtIndexPath"
         [dropCollectionView reloadData];
         [SHARED_STATE_INSTANCE setTransactionActive:false];
+        
+        // enable gesture recognizers of all concurrent drag views again
+        for (DragView* view in concurrentDragViews) {
+            [view enablePanGestureRecognizer:true];
+        }
+        [concurrentDragViews removeAllObjects];
+        currentDragView = nil;
     }
 }
 
