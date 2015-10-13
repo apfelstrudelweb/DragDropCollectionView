@@ -133,7 +133,11 @@
     }
 }
 - (int) getNumberOfDropItems {
-    return numberOfDropPlaceholders;
+    if (isSourceItemConsumable) {
+        return (int)dataSourceDict.count;
+     } else {
+           return numberOfDropPlaceholders;
+    }
 }
 - (bool) getIsSourceItemConsumable {
     return isSourceItemConsumable;

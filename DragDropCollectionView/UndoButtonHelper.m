@@ -72,6 +72,8 @@
 
 - (void) removeViewFromHistory: (DragView*) dragView andDropView: (DropView*) dropView {
     [historyArray removeObject:@[dragView, dropView]];
+    // set explicity for cell deletion
+    undoButton.alpha = historyArray.count==0 ? ALPHA_OFF : 1.0;
 }
 
 #pragma mark -UIButton touched

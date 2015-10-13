@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CurrentState.h"
+#import "DragView.h"
 
 @interface DragDropHelper : NSObject
 
@@ -17,5 +18,6 @@
 
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer;
 
+- (void)updateHistory:(NSIndexPath *)dropIndexPath dragView:(DragView **)dragView;
 
 @end

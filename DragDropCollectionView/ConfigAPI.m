@@ -72,10 +72,6 @@
 - (void) shouldRemoveAllEmptyCells: (bool) value {
     [persistencyManager setShouldRemoveAllEmptyCells:value];
 }
-//- (void) setUndoButton: (UIButton*) button {
-//    [persistencyManager setUndoButton:button];
-//}
-
 
 - (float) getCellWidthHeightRatio {
     return [persistencyManager getCellWidthHeightRatio];
@@ -102,6 +98,11 @@
     return [persistencyManager getDropPlaceholderColorTouched];
 }
 - (int) getNumberOfDropItems {
+//    if ([persistencyManager getIsSourceItemConsumable]) {
+//        return (int)[persistencyManager getDataSourceDict].count;
+//    } else {
+//        return [persistencyManager getNumberOfDropItems];
+//    }
     return [persistencyManager getNumberOfDropItems];
 }
 - (bool) isSourceItemConsumable {

@@ -11,9 +11,13 @@
 #import "ConfigAPI.h"
 #import "CurrentState.h"
 #import "DropView.h"
+#import "UndoButtonHelper.h"
+#import "DragDropHelper.h"
 
 #define SHARED_CONFIG_INSTANCE     [ConfigAPI sharedInstance]
 #define SHARED_STATE_INSTANCE      [CurrentState sharedInstance]
+#define SHARED_BUTTON_INSTANCE     [UndoButtonHelper sharedInstance]
+#define SHARED_DRAGDROP_INSTANCE   [DragDropHelper sharedInstance]
 
 #define REUSE_IDENTIFIER @"dropCell"
 
@@ -79,6 +83,10 @@
         
         bool cellIsPopulated = [targetCellsDict objectForKey:[NSNumber numberWithInt:(int)indexPath.item]];
         
+        // remove the deletable view also from history (undo button)
+        DragView *dragView;
+        [SHARED_DRAGDROP_INSTANCE updateHistory:indexPath dragView:&dragView];
+
         // append empty cell in order to maintain a constant number of cells - only when user has configured it
         if ([SHARED_CONFIG_INSTANCE isShouldRemoveAllEmptyCells] || !cellIsPopulated)  {
             [self performBatchUpdates:^{
@@ -102,7 +110,7 @@
                 
                 
                 [SHARED_STATE_INSTANCE setTransactionActive:true]; // indicate that view is in drag state
-                
+    
                 // update indexes -> we need them for UndoButtonHelper
                 for (NSNumber* key in targetCellsDict) {
                     DropView* view = [targetCellsDict objectForKey:key];

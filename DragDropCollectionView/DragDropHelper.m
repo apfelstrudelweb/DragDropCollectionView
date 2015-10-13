@@ -113,7 +113,7 @@
     // START DRAGGING
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         currentDragView = dragView;
-
+        
         // provide a temporary DragView as snapshot for the dragging process
         // which will be removed again when dragging is finished
         newDragView = (DragView*)[dragView snapshotViewAfterScreenUpdates:NO];
@@ -258,6 +258,7 @@
     }];
 }
 
+
 - (void)appendCell:(UIPanGestureRecognizer *)recognizer dragView:(DragView *)dragView {
     dropCell = [Utils getTargetCell:dragView inCollectionView:dropCollectionView recognizer:recognizer];
     
@@ -281,24 +282,12 @@
         
         [dropCell highlight:false];
         
-        NSArray* consumedItems = [SHARED_STATE_INSTANCE getConsumedItems];
+        DragView *dragView;
+        [self updateHistory:dropIndexPath dragView:&dragView];
         
-        DropView* prevView = [targetCellsDict objectForKey:[NSNumber numberWithInt:(int)dropIndexPath.item]];
-        int prevIndex = prevView.sourceIndex;
+        [SHARED_STATE_INSTANCE removeConsumedItem:dragView];
         
-        DragView* recoveryView;
-        
-        for (DragView* view in consumedItems) {
-            if (view.index == prevIndex) {
-                recoveryView = view;
-            }
-        }
-        
-        //if (!recoveryView) return;
-        
-        [SHARED_STATE_INSTANCE removeConsumedItem:recoveryView];
-        [SHARED_BUTTON_INSTANCE removeViewFromHistory:recoveryView andDropView:prevView];
-        [sourceCellsDict setObject:recoveryView forKey:[NSNumber numberWithInt:recoveryView.index]];
+        [sourceCellsDict setObject:dragView forKey:[NSNumber numberWithInt:dragView.index]];
         [targetCellsDict removeObjectForKey:[NSNumber numberWithInt:(int)dropIndexPath.item]];
         
         // inform source collection view about change - reload needed
@@ -332,5 +321,20 @@
     [sourceCellsDict setObject:newDragView forKey:[NSNumber numberWithInt:dragView.index]];
 }
 
+// Helper method: removes the drag and the drop view from history (undo button)
+- (void)updateHistory:(NSIndexPath *)dropIndexPath dragView:(DragView **)dragView {
+    NSArray* consumedItems = [SHARED_STATE_INSTANCE getConsumedItems];
+    
+    DropView* dropView = [targetCellsDict objectForKey:[NSNumber numberWithInt:(int)dropIndexPath.item]];
+    int prevIndex = dropView.sourceIndex;
+    
+    for (DragView* view in consumedItems) {
+        if (view.index == prevIndex) {
+            *dragView = view;
+            break;
+        }
+    }
+    [SHARED_BUTTON_INSTANCE removeViewFromHistory:*dragView andDropView:dropView];
+}
 
 @end

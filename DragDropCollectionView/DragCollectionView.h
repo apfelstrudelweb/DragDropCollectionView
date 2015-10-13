@@ -15,7 +15,7 @@
 @interface DragCollectionView : UICollectionView
 
 
-- (id)initWithFrame:(CGRect)frame withinView: (UIView<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>*) view;
+- (id)initWithFrame:(CGRect)frame withinView: (UIView*) view;
 
 - (CollectionViewCell*) getCell: (NSIndexPath*) indexPath;
 

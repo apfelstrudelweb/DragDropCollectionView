@@ -60,7 +60,6 @@
 
 #pragma  mark -getter/setter
 - (void) setLabelText: (NSString*) text {
-    [label setTextForDragDropElement:text];
     
     label.text = text;
     label.textAlignment = NSTextAlignmentCenter;
@@ -68,15 +67,20 @@
     UIFont* font = IS_IPAD ? [UIFont fontWithName:FONT size:2*FONTSIZE] : [UIFont fontWithName:FONT size:FONTSIZE];
     
     label.font = font;
-    
+
 }
 
 - (void) setImageName: (NSString*) name {
-    _imageName = name;
-    // setup image view
-    UIImage *image = [UIImage imageNamed:_imageName];
-    UIImage* _image = [UIImage imageWithCGImage:image.CGImage]; // trick for @2x.png
-    [imageView setImage:_image];
+
+    UIImage* image = [UIImage imageWithCGImage:[UIImage imageNamed:name].CGImage]; // trick for @2x.png
+    // we need to set the accessibility identifier for the getter,
+    // as an UIImage doesn't have any method for retrieving its name
+    [image setAccessibilityIdentifier:name];
+    [imageView setImage:image];
+}
+
+- (NSString*) getImageName {
+    return imageView.image.accessibilityIdentifier;
 }
 
 - (void) setLabelColor: (UIColor*) color {
@@ -92,9 +96,7 @@
     return label.text;
 }
 
-- (NSString*) getImageName {
-    return self.imageName;
-}
+
 
 - (UIColor*) getLabelColor {
     return label.textColor;

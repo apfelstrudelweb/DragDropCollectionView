@@ -24,7 +24,6 @@
 - (void) setNumberOfDropItems: (int) value;
 - (void) setSourceItemConsumable: (bool) value;
 - (void) shouldRemoveAllEmptyCells: (bool) value;
-- (void) setUndoButton: (UIButton*) button;
 
 
 - (float) getCellWidthHeightRatio;
@@ -38,6 +37,5 @@
 - (int) getNumberOfDropItems;
 - (bool) isSourceItemConsumable;
 - (bool) isShouldRemoveAllEmptyCells;
-- (UIButton*) getUndoButton;
 
 @end
