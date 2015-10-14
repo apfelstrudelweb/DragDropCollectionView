@@ -10,6 +10,11 @@
 
 @interface NSMutableDictionary (cat)
 
+/**
+ * Inserts a new object at index position and right-shifts all other
+ * objects at the right-hand side of the inserted object
+ *
+ */
 - (void) insertObject: (id) object atIndex: (int) index;
 
 @end

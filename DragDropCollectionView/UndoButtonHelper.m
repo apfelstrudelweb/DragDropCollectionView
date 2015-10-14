@@ -71,6 +71,9 @@
 }
 
 - (void) removeViewFromHistory: (DragView*) dragView andDropView: (DropView*) dropView {
+    
+    if (!dragView || !dropView) return; // case that user deletes an empty cell
+    
     [historyArray removeObject:@[dragView, dropView]];
     // set explicity for cell deletion
     undoButton.alpha = historyArray.count==0 ? ALPHA_OFF : 1.0;
