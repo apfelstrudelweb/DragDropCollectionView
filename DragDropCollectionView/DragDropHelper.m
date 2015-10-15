@@ -96,9 +96,7 @@
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer {
     
     DragView* dragView = (DragView*)recognizer.view;
-    
-    //NSLog(@"concurrent views: %ld", concurrentDragViews.count);
-    
+  
     // avoid concurrency
     if (currentDragView && ![dragView isEqual:currentDragView]) {
         
@@ -108,17 +106,26 @@
         return;
     }
     
-    [mainView bringSubviewToFront:dragView];
+   // [mainView bringSubviewToFront:dragView];
     
     // START DRAGGING
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         currentDragView = dragView;
         
+        if (![dragView isKindOfClass:[DropView class]]){
+            [Utils bringDraggableViewToFront:recognizer dragView:dragView overCollectionView:dragCollectionView];
+        } else {
+            [Utils bringDraggableViewToFront:recognizer dragView:dragView overCollectionView:dropCollectionView];
+        }
+
         // provide a temporary DragView as snapshot for the dragging process
         // which will be removed again when dragging is finished
-        newDragView = (DragView*)[dragView snapshotViewAfterScreenUpdates:NO];
-        newDragView.frame = dragView.frame;
-        targetDragView = [dragView provideNew];
+        if (![dragView isKindOfClass:[DropView class]]){
+            newDragView = (DragView*)[dragView snapshotViewAfterScreenUpdates:NO];
+            newDragView.frame = dragView.frame;
+            targetDragView = [dragView provideNew];
+        }
+   
         
         if (![SHARED_CONFIG_INSTANCE isSourceItemConsumable]) {
             [mainView addSubview:newDragView];
@@ -158,7 +165,7 @@
         if (!insertCells) {
             lastLeftCell = nil;
             return;
-        }
+        } 
         
         // if insertion intention has been detected, prepare the left and the right cell
         leftCell  = insertCells[0];
@@ -174,22 +181,42 @@
         if (![SHARED_CONFIG_INSTANCE isSourceItemConsumable]) {
             [self handleInitialDragView:dragView];
         } else {
-            // remove consumable item from dictionary
-            [sourceCellsDict removeObjectForKey:[NSNumber numberWithInt:dragView.index]];
             
-            // and add it to an array in order to get it back if needed
-            [SHARED_STATE_INSTANCE addConsumedItem:dragView];
+            if (![dragView isKindOfClass:[DropView class]]){
+                // remove consumable item from dictionary
+                [sourceCellsDict removeObjectForKey:[NSNumber numberWithInt:dragView.index]];
+                
+                // and add it to an array in order to get it back if needed
+                [SHARED_STATE_INSTANCE addConsumedItem:dragView];
+            } else {
+                // remove moved item from dictionary
+                //[targetCellsDict removeObjectForKey:[NSNumber numberWithInt:dragView.index]];
+                
+                // TODO: handle history!
+            }
         }
         
         // insert cell
         if (insertCells) {
-            [self insertCell:dragView];
+            [leftCell undoPush];
+            [rightCell undoPush];
+            
+            double delayInSeconds = 0.25;
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                //code to be executed on the main queue after delay
+                [self insertCell:dragView];
+            });
+            
+            
         } else {
             [self appendCell:recognizer dragView:dragView];
         }
         
         // reload in order to show the new drop view - > "cellForItemAtIndexPath"
-        [dropCollectionView reloadData];
+        if (!insertCells) {
+            [dropCollectionView reloadData];
+        }
         [SHARED_STATE_INSTANCE setTransactionActive:false];
         
         // enable gesture recognizers of all concurrent drag views again
@@ -260,10 +287,11 @@
 
 
 - (void)appendCell:(UIPanGestureRecognizer *)recognizer dragView:(DragView *)dragView {
+    
     dropCell = [Utils getTargetCell:dragView inCollectionView:dropCollectionView recognizer:recognizer];
     
     // if view is not dropped into a valid cell, remove it
-    if (!dropCell) {
+    if (!dropCell && ![SHARED_CONFIG_INSTANCE isSourceItemConsumable]) {
         [dragView removeFromSuperview];
         [dropCollectionView reloadData];
         [SHARED_STATE_INSTANCE setTransactionActive:false];
@@ -274,8 +302,28 @@
         
         return;
     }
+    
+    
+    
     NSIndexPath* dropIndexPath = dropCell.indexPath;
     
+    if (!dropCell && [dragView isKindOfClass:[DropView class]] && [SHARED_CONFIG_INSTANCE isSourceItemConsumable]) {
+        
+        DropView *dropView = (DropView*)dragView;
+//        [self updateHistory:dropIndexPath dragView:&dragView];
+        
+        [SHARED_STATE_INSTANCE removeConsumedItem:dragView];
+        
+        DragView* _dragView = [dragView provideNew];
+        [sourceCellsDict setObject:_dragView forKey:[NSNumber numberWithInt:dropView.sourceIndex]];
+        [targetCellsDict removeObjectForKey:[NSNumber numberWithInt:dropView.index]];
+        [dropView removeFromSuperview];
+        
+        // inform source collection view about change - reload needed
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"restoreElementNotification" object:nil userInfo:nil];
+
+        return;
+    }
     
     // in case of consumable items, recover the underlying item
     if (dropCell.isPopulated && [SHARED_CONFIG_INSTANCE isSourceItemConsumable]) {
@@ -295,9 +343,20 @@
     }
     
     // drop view into the cell, making a copy of the dragged element and remove the dragged one
-    DropView* dropView = [[DropView alloc] initWithView:targetDragView inCollectionViewCell:dropCell];
-    dropView.index = (int)dropIndexPath.item;
-    dropView.sourceIndex = dragView.index;
+    DropView* dropView;
+    
+    if ([dragView isKindOfClass:[DropView class]]) {
+        dropView = (DropView*) dragView;
+        dropView.sourceIndex = dragView.index;
+        dropView.index = (int)dropIndexPath.item;
+        
+    } else {
+        dropView = [[DropView alloc] initWithView:targetDragView inCollectionViewCell:dropCell];
+        dropView.index = (int)dropIndexPath.item;
+        dropView.sourceIndex = dragView.index;
+    }
+    
+
     [dropView setMainView:mainView];
     
     [SHARED_BUTTON_INSTANCE addViewToHistory:dragView andDropView:dropView];
@@ -306,6 +365,23 @@
     [dragView removeFromSuperview];
     // populate dictionary -> we need it for "cellForItemAtIndexPath"
     [targetCellsDict setObject:dropView forKey:[NSNumber numberWithInt:dropView.index]];
+//    [targetCellsDict removeObjectForKey:[NSNumber numberWithInt:dropView.sourceIndex]];
+    
+    //NSNumber* removalKey;
+    NSMutableArray* removalKeys = [NSMutableArray new];
+    
+    for (NSNumber* key in targetCellsDict) {
+        DropView* view = [targetCellsDict objectForKey:key];
+        
+        if (view.subviews.count == 0) {
+            [removalKeys addObject:key];
+        }
+    }
+    
+    for (NSNumber* key in removalKeys) {
+        [targetCellsDict removeObjectForKey:key];
+    }
+    
     
 }
 
@@ -319,6 +395,7 @@
     [mainView addSubview:newDragView];
     // we need to update the dictionary - otherwise we get empty custom views!
     [sourceCellsDict setObject:newDragView forKey:[NSNumber numberWithInt:dragView.index]];
+ 
 }
 
 // Helper method: removes the drag and the drop view from history (undo button)

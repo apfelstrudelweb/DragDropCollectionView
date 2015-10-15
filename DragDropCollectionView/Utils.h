@@ -6,11 +6,13 @@
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
 //
 
+
 #import "NSMutableArray+cat.h"
 #import "NSMutableDictionary+cat.h"
 #import "CollectionViewCell.h"
 #import "DragView.h"
-#import "DropCollectionView.h"
+//#import "DragCollectionView.h"
+//#import "DropCollectionView.h"
 
 @interface Utils : NSObject
 
@@ -22,10 +24,14 @@
 + (void) scrollToLastElement: (UICollectionView*) collectionView ofDictionary: (NSMutableDictionary*) dict;
 
 
-+ (CollectionViewCell*) getTargetCell:(DragView*)dragView inCollectionView:(DropCollectionView*) collectionView recognizer:(UIPanGestureRecognizer*)recognizer;
++ (CollectionViewCell*) getTargetCell:(DragView*)dragView inCollectionView:(UICollectionView*) collectionView recognizer:(UIPanGestureRecognizer*)recognizer;
 
-+ (NSArray*) getInsertCells:(DragView *)dragView inCollectionView:(DropCollectionView*) collectionView recognizer:(UIPanGestureRecognizer*)recognizer;
++ (void)bringDraggableViewToFront:(UIPanGestureRecognizer *)recognizer dragView:(DragView *)dragView overCollectionView:(UICollectionView*) collectionView;
 
-+ (CGPoint) getCenteredTapLocation:(DragView *)dragView inCollectionView:(DropCollectionView*) collectionView recognizer:(UIPanGestureRecognizer *)recognizer;
++ (CGRect)getCellFrame:(DragView *)dragView inCollectionView:(UICollectionView*) collectionView recognizer:(UIPanGestureRecognizer *)recognizer;
+
++ (NSArray*) getInsertCells:(DragView *)dragView inCollectionView:(UICollectionView*) collectionView recognizer:(UIPanGestureRecognizer*)recognizer;
+
++ (CGPoint) getCenteredTapLocation:(DragView *)dragView inCollectionView:(UICollectionView*) collectionView recognizer:(UIPanGestureRecognizer *)recognizer;
 
 @end

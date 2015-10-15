@@ -16,6 +16,8 @@
 
 @property int sourceIndex;
 
+- (DropView*) provideNew;
+
 - (id)initWithView:(DragView*)view inCollectionViewCell:(CollectionViewCell*) cell;
 
 - (void) setMainView: (UIView*) view;

@@ -48,7 +48,7 @@
     [SHARED_CONFIG_INSTANCE setDropPlaceholderColorUntouched:[UIColor colorWithRed:0.79 green:0.85 blue:0.97 alpha:1.0]];
 //    [SHARED_CONFIG_INSTANCE setDropPlaceholderColorTouched:[UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1.0]];
     
-    [SHARED_CONFIG_INSTANCE setNumberOfDropItems:30];
+    [SHARED_CONFIG_INSTANCE setNumberOfDropItems:60];
     
     [SHARED_CONFIG_INSTANCE setDataSourceDict:dataSourceDict];
     
@@ -67,30 +67,30 @@
                            @[@"Denmark", @"denmark.png"],
                            @[@"Finland", @"finland.png"],
                            @[@"France", @"france.png"],
-                           @[@"Germany", @"germany.png"],
-                           @[@"Great Britain", @"greatbritain.png"],
-                           @[@"Greece", @"greece.png"],
-                           @[@"Hungary", @"hungary.png"],
-                           @[@"Iceland", @"iceland.png"],
-                           @[@"Ireland", @"ireland.png"],
-                           @[@"Italy", @"italy.png"],
-                           @[@"Liechtenstein", @"liechtenstein.png"],
-                           @[@"Luxembourg", @"luxembourg.png"],
-                           @[@"Malta", @"malta.png"],
-                           @[@"Netherlands", @"netherlands.png"],
-                           @[@"Norway", @"norway.png"],
-                           @[@"Poland", @"poland.png"],
-                           @[@"Portugal", @"portugal.png"],
-                           @[@"Spain", @"spain.png"],
-                           @[@"Sweden", @"sweden.png"],
-                           @[@"Switzerland", @"switzerland.png"],
+//                           @[@"Germany", @"germany.png"],
+//                           @[@"Great Britain", @"greatbritain.png"],
+//                           @[@"Greece", @"greece.png"],
+//                           @[@"Hungary", @"hungary.png"],
+//                           @[@"Iceland", @"iceland.png"],
+//                           @[@"Ireland", @"ireland.png"],
+//                           @[@"Italy", @"italy.png"],
+//                           @[@"Liechtenstein", @"liechtenstein.png"],
+//                           @[@"Luxembourg", @"luxembourg.png"],
+//                           @[@"Malta", @"malta.png"],
+//                           @[@"Netherlands", @"netherlands.png"],
+//                           @[@"Norway", @"norway.png"],
+//                           @[@"Poland", @"poland.png"],
+//                           @[@"Portugal", @"portugal.png"],
+//                           @[@"Spain", @"spain.png"],
+//                           @[@"Sweden", @"sweden.png"],
+//                           @[@"Switzerland", @"switzerland.png"],
                            @[@"Turkey", @"turkey.png"]
                            ];
     
     for (int i=0; i<countries.count; i++) {
         DragView* view = [DragView new];
         view.index = i;
-        [view setBorderColor:[UIColor lightGrayColor]];
+        [view setBorderColor:[UIColor redColor]];
         [view setBorderWidth:2.0];
         
         ConcreteCustomView* cv = [ConcreteCustomView new];

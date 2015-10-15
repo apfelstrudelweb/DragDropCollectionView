@@ -113,7 +113,7 @@ float cellHeight;
  * it (after dragging it from the source collection view)
  *
  */
-+ (CollectionViewCell*)getTargetCell:(DragView *)dragView inCollectionView:(DropCollectionView*) collectionView recognizer:(UIPanGestureRecognizer *)recognizer {
++ (CollectionViewCell*)getTargetCell:(DragView *)dragView inCollectionView:(UICollectionView*) collectionView recognizer:(UIPanGestureRecognizer *)recognizer {
 
     CGPoint correctedTapLocation = [self getCenteredTapLocation:dragView inCollectionView:collectionView recognizer:recognizer];
     
@@ -121,8 +121,36 @@ float cellHeight;
     return (CollectionViewCell*)[collectionView cellForItemAtIndexPath:dropIndexPath];
 }
 
++ (void)bringDraggableViewToFront:(UIPanGestureRecognizer *)recognizer dragView:(DragView *)dragView overCollectionView:(UICollectionView*) collectionView {
+    UIWindow *frontWindow = [[UIApplication sharedApplication] keyWindow];
+    
+    dragView.frame = [Utils getCellFrame:dragView inCollectionView:collectionView recognizer:recognizer];
+    [frontWindow addSubview:dragView];
+}
+
++ (CGRect)getCellFrame:(DragView *)dragView inCollectionView:(UICollectionView*) collectionView recognizer:(UIPanGestureRecognizer *)recognizer {
+    
+    CGPoint correctedTapLocation = [self getCenteredTapLocation:dragView inCollectionView:collectionView recognizer:recognizer];
+    
+    NSIndexPath* dropIndexPath = [collectionView indexPathForItemAtPoint:correctedTapLocation];
+    CollectionViewCell *cell = (CollectionViewCell*)[collectionView cellForItemAtIndexPath:dropIndexPath];
+    
+    CGRect cvFrame = collectionView.frame;
+    float cvX = cvFrame.origin.x;
+    float cvY = cvFrame.origin.y;
+    
+    CGRect cellFrame = cell.frame;
+    float cellX = cellFrame.origin.x;
+    float cellY = cellFrame.origin.y;
+    float cellW = cellFrame.size.width;
+    float cellH = cellFrame.size.height;
+    
+    return CGRectMake(cvX+cellX, cvY+cellY, cellW, cellH);
+    
+}
+
 // returns an array of max. two "CollectionViewCell" objects
-+ (NSArray*) getInsertCells:(DragView *)dragView inCollectionView:(DropCollectionView*) collectionView recognizer:(UIPanGestureRecognizer*)recognizer {
++ (NSArray*) getInsertCells:(DragView *)dragView inCollectionView:(UICollectionView*) collectionView recognizer:(UIPanGestureRecognizer*)recognizer {
     
     CGPoint correctedTapLocation = [self getCenteredTapLocation:dragView inCollectionView:collectionView recognizer:recognizer];
     float dragCenterX = correctedTapLocation.x;
@@ -155,7 +183,7 @@ float cellHeight;
     
 }
 
-+ (CGPoint) getCenteredTapLocation:(DragView *)dragView inCollectionView:(DropCollectionView*) collectionView recognizer:(UIPanGestureRecognizer *)recognizer {
++ (CGPoint) getCenteredTapLocation:(DragView *)dragView inCollectionView:(UICollectionView*) collectionView recognizer:(UIPanGestureRecognizer *)recognizer {
     
     CGPoint tapLocationInDragView = [recognizer locationInView:dragView];
     CGPoint tapLocationInCollectionView = [recognizer locationInView:collectionView];

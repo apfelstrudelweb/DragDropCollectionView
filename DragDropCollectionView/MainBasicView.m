@@ -100,10 +100,11 @@
     
     layoutConstraints = [NSMutableArray new];
     
-    
+    float largestSide = (totalHeight > totalWidth) ? totalHeight : totalWidth;
+
     float heightHeader1  = (float) totalHeight*percentHeader1*0.01;
     float heightHeader2  = (float) totalHeight*percentHeader2*0.01;
-    float heightButton   = (float) totalHeight*percentButton*0.01;
+    float heightButton   = (float) largestSide*percentButton*0.01;
     float heightDragArea = (float) totalHeight*percentDragArea*0.01;
     float heightDropArea = (float) totalHeight*percentDropArea*0.01;
     
@@ -166,6 +167,15 @@
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self
                                                               attribute:NSLayoutAttributeHeight
+                                                             multiplier:0.0
+                                                               constant:heightButton]];
+    
+    // Width constraint
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.undoButton
+                                                              attribute:NSLayoutAttributeWidth
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self
+                                                              attribute:NSLayoutAttributeWidth
                                                              multiplier:0.0
                                                                constant:heightButton]];
     // Center horizontally

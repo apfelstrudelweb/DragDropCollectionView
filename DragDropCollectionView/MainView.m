@@ -126,6 +126,7 @@
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     return self.cellSize;
+    //return CGSizeMake(70, 40);
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
@@ -135,8 +136,9 @@
         return UIEdgeInsetsMake(0, 0, 0, 0);
     } else {
         // let small space above - so when cell is to be inserted, the left and right cell has enough place to expand to the top as well
-        return UIEdgeInsetsMake(0.5*minLineSpacing, 0, 0, 0);
+        return UIEdgeInsetsMake(minLineSpacing, 0, 0, 0);
     }
 }
+
 
 @end

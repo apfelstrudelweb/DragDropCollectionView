@@ -20,8 +20,7 @@
 
 - (UIView*) getContentView;
 
-- (void) initialize;
 
-- (void) setupConstraints: (UIView*) element;
+- (void) initialize;
 
 @end
