@@ -138,26 +138,26 @@
 
 - (void) recoverConsumedElement: (int) item; {
     
-    DropView* dropView = [targetCellsDict objectForKey:[NSNumber numberWithInt:item]];
-    
-    //Your main thread code goes in here
-    NSArray* consumedViews = [SHARED_STATE_INSTANCE getConsumedItems];
-    
-    UIView* recoveryView;
-    
-    for (DragView* view in consumedViews) {
-        if (view.index == dropView.sourceIndex) {
-            [sourceCellsDict setObject:view forKey:[NSNumber numberWithInt:view.index]];
-            recoveryView = view;
-        }
-    }
-    
-    if (recoveryView) {
-        [SHARED_STATE_INSTANCE removeConsumedItem:recoveryView];
-    }
-    
-    // inform source collection view about change - reload needed
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"restoreElementNotification" object:nil userInfo:nil];
+//    DropView* dropView = [targetCellsDict objectForKey:[NSNumber numberWithInt:item]];
+//    
+//    //Your main thread code goes in here
+//    NSArray* consumedViews = [SHARED_STATE_INSTANCE getConsumedItems];
+//    
+//    UIView* recoveryView;
+//    
+//    for (DragView* view in consumedViews) {
+//        if (view.index == dropView.sourceIndex) {
+//            [sourceCellsDict setObject:view forKey:[NSNumber numberWithInt:view.index]];
+//            recoveryView = view;
+//        }
+//    }
+//    
+//    if (recoveryView) {
+//        [SHARED_STATE_INSTANCE removeConsumedItem:recoveryView];
+//    }
+//    
+//    // inform source collection view about change - reload needed
+//    [[NSNotificationCenter defaultCenter] postNotificationName: @"restoreElementNotification" object:nil userInfo:nil];
     
 }
 

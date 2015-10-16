@@ -7,22 +7,47 @@
 //
 
 #import "MoveableView.h"
-#import "CustomView.h"
-#import <objc/runtime.h>
+#import "DragDropHelper.h"
+
+//#import <objc/runtime.h>
+
+#define SHARED_STATE_INSTANCE      [CurrentState sharedInstance]
 
 @interface MoveableView() {
     
-    UIView* customView;
+    CustomView* customView;
+    DragDropHelper* dragDropHelper;
 }
 @end
 
 @implementation MoveableView
 
-- (void) setContentView: (UIView*) view {
+- (void)didMoveToSuperview {
+    
+    //if (!self.superview) return;
+    
+    dragDropHelper = (DragDropHelper*)[SHARED_STATE_INSTANCE getDragDropHelper];
+    
+    UIPanGestureRecognizer* recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+    
+    [recognizer setMaximumNumberOfTouches:1];
+    [recognizer setMinimumNumberOfTouches:1];
+    [self addGestureRecognizer:recognizer];
+    
+    [self initialize];
+}
+
+
+#pragma mark UIPanGestureRecognizer
+- (void)handlePan:(UIPanGestureRecognizer *)recognizer {
+    [dragDropHelper handlePan:recognizer];
+}
+
+- (void) setContentView: (CustomView*) view {
     customView = view;
 }
 
-- (UIView*) getContentView {
+- (CustomView*) getContentView {
     return customView;
 }
 
@@ -50,39 +75,9 @@
                                          recognizer.view.center.y + translation.y);
     
     [recognizer setTranslation:CGPointMake(0, 0) inView:view];
+    
+    //NSLog(@"translation x-y: %f - %f", translation.x, translation.y);
 }
-
-//- (DragView*) provideNew {
-//    DragView *newView = [DragView new];
-//    newView.frame = self.frame;
-//    newView.index = self.index;
-//    newView.borderColor = self.borderColor;
-//    newView.borderWidth = self.borderWidth;
-//    
-//    CustomView* contentView = (CustomView*)[self getContentView];
-//    
-//    //NSString *className = NSStringFromClass([contentView class]);
-//    id theClass = NSClassFromString(contentView.concreteClassName);
-//    
-//    UIView* newContentView = [theClass new];
-//    
-//    
-//    unsigned int outCount, i;
-//    objc_property_t *propertiesSource = class_copyPropertyList([contentView class], &outCount);
-//    
-//    // get all members by introspection
-//    for (i = 0; i < outCount; i++) {
-//        objc_property_t propertySource = propertiesSource[i];
-//        NSString *propertyName = [NSString stringWithUTF8String:property_getName(propertySource)];
-//        id propertyValue = [contentView valueForKey:(NSString *)propertyName];
-//        
-//        [newContentView setValue:propertyValue forKey:(NSString *)propertyName];
-//    }
-//    
-//    [newView setContentView:newContentView];
-//    
-//    return newView;
-//}
 
 
 @end

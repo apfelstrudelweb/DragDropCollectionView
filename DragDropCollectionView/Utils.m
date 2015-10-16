@@ -113,24 +113,24 @@ float cellHeight;
  * it (after dragging it from the source collection view)
  *
  */
-+ (CollectionViewCell*)getTargetCell:(DragView *)dragView inCollectionView:(UICollectionView*) collectionView recognizer:(UIPanGestureRecognizer *)recognizer {
++ (CollectionViewCell*)getTargetCell:(MoveableView *)moveableView inCollectionView:(UICollectionView*) collectionView recognizer:(UIPanGestureRecognizer *)recognizer {
 
-    CGPoint correctedTapLocation = [self getCenteredTapLocation:dragView inCollectionView:collectionView recognizer:recognizer];
+    CGPoint correctedTapLocation = [self getCenteredTapLocation:moveableView inCollectionView:collectionView recognizer:recognizer];
     
     NSIndexPath* dropIndexPath = [collectionView indexPathForItemAtPoint:correctedTapLocation];
     return (CollectionViewCell*)[collectionView cellForItemAtIndexPath:dropIndexPath];
 }
 
-+ (void)bringDraggableViewToFront:(UIPanGestureRecognizer *)recognizer dragView:(DragView *)dragView overCollectionView:(UICollectionView*) collectionView {
++ (void)bringMoveableViewToFront:(UIPanGestureRecognizer *)recognizer moveableView:(MoveableView *)moveableView overCollectionView:(UICollectionView*) collectionView {
     UIWindow *frontWindow = [[UIApplication sharedApplication] keyWindow];
     
-    dragView.frame = [Utils getCellFrame:dragView inCollectionView:collectionView recognizer:recognizer];
-    [frontWindow addSubview:dragView];
+    moveableView.frame = [Utils getCellFrame:moveableView inCollectionView:collectionView recognizer:recognizer];
+    [frontWindow addSubview:moveableView];
 }
 
-+ (CGRect)getCellFrame:(DragView *)dragView inCollectionView:(UICollectionView*) collectionView recognizer:(UIPanGestureRecognizer *)recognizer {
++ (CGRect)getCellFrame:(MoveableView *)moveableView inCollectionView:(UICollectionView*) collectionView recognizer:(UIPanGestureRecognizer *)recognizer {
     
-    CGPoint correctedTapLocation = [self getCenteredTapLocation:dragView inCollectionView:collectionView recognizer:recognizer];
+    CGPoint correctedTapLocation = [self getCenteredTapLocation:moveableView inCollectionView:collectionView recognizer:recognizer];
     
     NSIndexPath* dropIndexPath = [collectionView indexPathForItemAtPoint:correctedTapLocation];
     CollectionViewCell *cell = (CollectionViewCell*)[collectionView cellForItemAtIndexPath:dropIndexPath];
@@ -150,9 +150,9 @@ float cellHeight;
 }
 
 // returns an array of max. two "CollectionViewCell" objects
-+ (NSArray*) getInsertCells:(DragView *)dragView inCollectionView:(UICollectionView*) collectionView recognizer:(UIPanGestureRecognizer*)recognizer {
++ (NSArray*) getInsertCells:(MoveableView *)moveableView inCollectionView:(UICollectionView*) collectionView recognizer:(UIPanGestureRecognizer*)recognizer {
     
-    CGPoint correctedTapLocation = [self getCenteredTapLocation:dragView inCollectionView:collectionView recognizer:recognizer];
+    CGPoint correctedTapLocation = [self getCenteredTapLocation:moveableView inCollectionView:collectionView recognizer:recognizer];
     float dragCenterX = correctedTapLocation.x;
     float dragCenterY = correctedTapLocation.y;
     
@@ -183,9 +183,9 @@ float cellHeight;
     
 }
 
-+ (CGPoint) getCenteredTapLocation:(DragView *)dragView inCollectionView:(UICollectionView*) collectionView recognizer:(UIPanGestureRecognizer *)recognizer {
++ (CGPoint) getCenteredTapLocation:(MoveableView *)moveableView inCollectionView:(UICollectionView*) collectionView recognizer:(UIPanGestureRecognizer *)recognizer {
     
-    CGPoint tapLocationInDragView = [recognizer locationInView:dragView];
+    CGPoint tapLocationInDragView = [recognizer locationInView:moveableView];
     CGPoint tapLocationInCollectionView = [recognizer locationInView:collectionView];
     
     // negative offset -> left cell should not be highlighted when touch point is in the middle of two cells

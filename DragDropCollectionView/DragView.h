@@ -11,12 +11,9 @@
 
 @interface DragView : MoveableView
 
-- (DragView*) provideNew;
-
 
 - (void) setBorderColor: (UIColor*) color;
 - (void) setBorderWidth: (float) value;
 
-- (void) enablePanGestureRecognizer: (bool) flag;
 
 @end

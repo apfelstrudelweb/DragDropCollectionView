@@ -9,17 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "MoveableView.h"
 #import "CollectionViewCell.h"
-#import "DragView.h"
 #import "DragCollectionView.h"
 
 @interface DropView : MoveableView
 
-@property int sourceIndex;
+@property int previousDragViewIndex; // previous index in source collection view
+@property int previousDropViewIndex; // previous index in target collection view (when item has moved from one cell to another)
 
-- (DropView*) provideNew;
-
-- (id)initWithView:(DragView*)view inCollectionViewCell:(CollectionViewCell*) cell;
-
-- (void) setMainView: (UIView*) view;
+- (void) move:(NSMutableDictionary *)targetCellsDict toIndex:(int)index;
 
 @end

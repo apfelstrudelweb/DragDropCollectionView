@@ -9,6 +9,7 @@
 #import "CollectionViewCell.h"
 #import "Utils.h"
 #import "ConfigAPI.h"
+#import "DragView.h"
 #import "DropView.h"
 #import "utils.h"
 
@@ -87,6 +88,9 @@
         self.backgroundColor = [SHARED_CONFIG_INSTANCE getDropPlaceholderColorUntouched];
         
         view.frame = self.contentView.bounds;
+        
+        //CGRect frame = view.frame;
+        
         view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         [self.contentView addSubview:view];
         

@@ -82,8 +82,24 @@
         //NSLog(@"%@ = %@", key, object);
         [self setObject:object forKey:key];
     }];
-    
- 
 }
+
+- (void) removeMoveableView: (MoveableView*) view {
+    int index = view.index;
+    [self removeObjectForKey:[NSNumber numberWithInt:index]];
+}
+
+- (void) addMoveableView: (MoveableView*) view atIndex: (int) index {
+    
+//    // in the case that a cell already contains a view, handle it!
+//    MoveableView* underlyingView = [self objectForKey:[NSNumber numberWithInt:index]];
+//    
+//    if (underlyingView) {
+//        [self setObject:underlyingView forKey:[NSNumber numberWithInt:-index]];
+//    }
+    
+    [self setObject:view forKey:[NSNumber numberWithInt:index]];
+}
+
 
 @end

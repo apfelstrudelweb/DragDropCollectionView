@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MoveableView.h"
+
 
 @interface NSMutableDictionary (cat)
 
@@ -16,5 +18,8 @@
  *
  */
 - (void) insertObject: (id) object atIndex: (int) index;
+
+- (void) removeMoveableView: (MoveableView*) view;
+- (void) addMoveableView: (MoveableView*) view atIndex: (int) index;
 
 @end

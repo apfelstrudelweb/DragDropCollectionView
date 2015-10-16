@@ -7,18 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CustomView.h"
 
 @interface MoveableView : UIView
 
-@property int index;
+@property int index; // index of current collectionView
+
 @property (strong, nonatomic) UIColor* borderColor;
 @property (nonatomic) float borderWidth;
 
 - (void) move:(UIPanGestureRecognizer *)recognizer inView:(UIView*) view;
 
-- (void) setContentView: (UIView*) view;
+- (void) setContentView: (CustomView*) view;
 
-- (UIView*) getContentView;
+- (CustomView*) getContentView;
 
 
 - (void) initialize;
