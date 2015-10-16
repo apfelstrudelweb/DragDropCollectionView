@@ -24,7 +24,7 @@
 
 - (id)initWithFrame:(CGRect)frame withinView: (UIView<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>*) view  {
     
-    //self = [super initWithFrame:frame];
+
     if (self) {
         
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
@@ -36,14 +36,13 @@
         minLineSpacing = [SHARED_CONFIG_INSTANCE getMinLineSpacing];// set member variable AFTER  instantiation - otherwise it will be lost later
         [flowLayout setMinimumInteritemSpacing:minInteritemSpacing];
         [flowLayout setMinimumLineSpacing:minLineSpacing];
-        //[flowLayout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
-        
-        //self.contentSize = CGSizeMake(100, 100);
+        [flowLayout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
         
         self.delegate = view;
         self.dataSource = view;
         self.showsHorizontalScrollIndicator = NO;
         self.showsVerticalScrollIndicator = NO;
+
         
         [self registerClass:[CollectionViewCell class] forCellWithReuseIdentifier:REUSE_IDENTIFIER];
         
@@ -53,6 +52,7 @@
     }
     return self;
 }
+
 
 
 #pragma mark -NSNotificationCenter

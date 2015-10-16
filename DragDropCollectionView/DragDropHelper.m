@@ -99,11 +99,11 @@
     
     // We can get a drag or drop view - so generalize at beginning!
     MoveableView* moveableView = (MoveableView*)recognizer.view;
-    
+
     
     // START DRAGGING
     if (recognizer.state == UIGestureRecognizerStateBegan) {
-        
+
         // bring view in front so there are no overlays from
         // other cells
         UICollectionView* collectionView = [moveableView isKindOfClass:[DragView class]] ? dragCollectionView : dropCollectionView;
@@ -114,7 +114,7 @@
     // DURING DRAGGING
     else if (recognizer.state == UIGestureRecognizerStateChanged) {
         
-        [moveableView move:recognizer inView:mainView];
+           [moveableView move:recognizer inView:mainView];
         
     }
     
@@ -142,7 +142,7 @@
             // Move inside the target grid
             
             // TEST ONLY - use calculated drop index
-            int index = 3;//arc4random_uniform(8);
+            int index = 1;//arc4random_uniform(8);
             // 1. bring back underlying element to source view
             [self handleUnderlyingElement:moveableView atIndex:index];
             // 2. update all indices from drop view
@@ -158,6 +158,7 @@
     
     else {
         // TODO: handle cancel process
+        NSLog(@"*******CANCEL*********");
     }
 }
 

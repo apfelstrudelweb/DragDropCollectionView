@@ -56,15 +56,17 @@
 
 - (void) reset {
     
-    // remove previous drop view -> important for scrolling
-    for (UIView *view in self.contentView.subviews) {
-        for (UIView *subview in view.subviews) {
-            if ([subview isKindOfClass:[MoveableView class]]) {
-                [subview removeFromSuperview];
-                break;
-            }
-        }
-    }
+     [self setNeedsDisplay];
+    
+//    // remove previous drop view -> important for scrolling
+//    for (UIView *view in self.contentView.subviews) {
+//        for (UIView *subview in view.subviews) {
+//            if ([subview isKindOfClass:[MoveableView class]]) {
+//                [subview removeFromSuperview];
+//                break;
+//            }
+//        }
+//    }
     
     placeholderView.backgroundColor = [SHARED_CONFIG_INSTANCE getDropPlaceholderColorUntouched];
     
@@ -77,6 +79,17 @@
     self.isPopulated = false;
     self.isExpanded = false;
     
+}
+
+// IMPORTANT: this method MUST be implemented,
+// otherwise we get trouble with cell contents after scrolling!
+- (void) prepareForReuse {
+    for (UIView* view in self.contentView.subviews) {
+        if ([view isKindOfClass:[MoveableView class]]) {
+            [view removeFromSuperview];
+            break;
+        }
+    }
 }
 
 - (void) populateWithContentsOfView: (UIView*) view withinCollectionView: (UICollectionView*) collectionView {

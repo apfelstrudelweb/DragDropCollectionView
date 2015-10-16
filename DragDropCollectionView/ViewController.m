@@ -67,9 +67,9 @@
                            @[@"Denmark", @"denmark.png"],
                            @[@"Finland", @"finland.png"],
                            @[@"France", @"france.png"],
-//                           @[@"Germany", @"germany.png"],
-//                           @[@"Great Britain", @"greatbritain.png"],
-//                           @[@"Greece", @"greece.png"],
+                           @[@"Germany", @"germany.png"],
+                           @[@"Great Britain", @"greatbritain.png"],
+                           @[@"Greece", @"greece.png"],
 //                           @[@"Hungary", @"hungary.png"],
 //                           @[@"Iceland", @"iceland.png"],
 //                           @[@"Ireland", @"ireland.png"],
@@ -84,7 +84,7 @@
 //                           @[@"Spain", @"spain.png"],
 //                           @[@"Sweden", @"sweden.png"],
 //                           @[@"Switzerland", @"switzerland.png"],
-                           @[@"Turkey", @"turkey.png"]
+//                           @[@"Turkey", @"turkey.png"]
                            ];
     
     for (int i=0; i<countries.count; i++) {

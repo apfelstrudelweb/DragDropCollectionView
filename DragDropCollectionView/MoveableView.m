@@ -70,12 +70,8 @@
 #pragma mark -UIPanGestureRecognizer
 - (void) move:(UIPanGestureRecognizer *)recognizer inView:(UIView*) view {
     // perform translation of the drag view
-    CGPoint translation = [recognizer translationInView:view];
-    recognizer.view.center = CGPointMake(recognizer.view.center.x + translation.x,
-                                         recognizer.view.center.y + translation.y);
-    
+    recognizer.view.center = [recognizer locationInView:view];
     [recognizer setTranslation:CGPointMake(0, 0) inView:view];
-    
     //NSLog(@"translation x-y: %f - %f", translation.x, translation.y);
 }
 
