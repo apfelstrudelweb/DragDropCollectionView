@@ -17,6 +17,8 @@
     
     CustomView* customView;
     DragDropHelper* dragDropHelper;
+    
+    CGRect newBounds;
 }
 @end
 
@@ -30,9 +32,19 @@
     
     UIPanGestureRecognizer* recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
     
-    [recognizer setMaximumNumberOfTouches:1];
-    [recognizer setMinimumNumberOfTouches:1];
+    recognizer.maximumNumberOfTouches = 1;
+    recognizer.minimumNumberOfTouches = 1;
+    recognizer.delegate = self;
     [self addGestureRecognizer:recognizer];
+    
+    
+    // attach long press gesture to each cell
+    UILongPressGestureRecognizer *lpgr
+    = [[UILongPressGestureRecognizer alloc]
+       initWithTarget:self action:@selector(handleLongPress:)];
+    lpgr.minimumPressDuration = 0.5;
+    lpgr.delegate = self;
+    [self addGestureRecognizer:lpgr];
     
     [self initialize];
 }
@@ -40,7 +52,40 @@
 
 #pragma mark UIPanGestureRecognizer
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer {
+
+    if (![SHARED_STATE_INSTANCE isDragAllowed]) return;
+
+    self.bounds = newBounds;
+    customView.frame = CGRectInset(self.bounds, 0.5*self.borderWidth, 0.5*self.borderWidth);
+
     [dragDropHelper handlePan:recognizer];
+}
+
+-(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer
+{
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        NSLog(@"handleLongPress start");
+        
+        [[CurrentState sharedInstance] setDragAllowed:true];
+        
+        CGRect bounds = self.bounds;
+        newBounds = CGRectMake(bounds.origin.x, bounds.origin.y, floorf(1.05*bounds.size.width), floorf(1.05*bounds.size.height));
+        
+        self.bounds = newBounds;
+        
+    } else {
+        NSLog(@"handleLongPress end");
+        
+    }
+}
+
+- (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
+shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    
+    if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+        return YES;
+    }
+    return NO;
 }
 
 - (void) setContentView: (CustomView*) view {

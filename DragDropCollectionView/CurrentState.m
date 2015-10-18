@@ -10,6 +10,7 @@
 
 @interface CurrentState () {
     bool transactionActive;
+    bool dragAllowed;
     
     NSMutableArray* consumedItemsArray;
     
@@ -31,7 +32,7 @@
     return _sharedInstance;
 }
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self) {
@@ -48,6 +49,14 @@
 
 - (bool) isTransactionActive {
     return transactionActive;
+}
+
+- (void) setDragAllowed: (bool) value {
+    dragAllowed = value;
+}
+
+- (bool) isDragAllowed{
+    return dragAllowed;
 }
 
 

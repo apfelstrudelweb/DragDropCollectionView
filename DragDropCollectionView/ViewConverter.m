@@ -71,7 +71,7 @@
     // get all members by introspection
     for (i = 0; i < outCount; i++) {
         objc_property_t propertySource = propertiesSource[i];
-        NSString *propertyName = [NSString stringWithUTF8String:property_getName(propertySource)];
+        NSString *propertyName = @(property_getName(propertySource));
         id propertyValue = [contentView valueForKey:(NSString *)propertyName];
         
         [newContentView setValue:propertyValue forKey:(NSString *)propertyName];

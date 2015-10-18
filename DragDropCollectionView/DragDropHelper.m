@@ -76,7 +76,7 @@
         dropCollectionView = (DropCollectionView*) collectionViews[0];
     }
     
-    id testObject = [[(NSMutableDictionary*) cellDictionaries[0] allValues] firstObject];
+    id testObject = ((NSMutableDictionary*) cellDictionaries[0]).allValues.firstObject;
     
     
     if ([testObject isKindOfClass:[DragView class]]) {
@@ -96,7 +96,7 @@
 
 
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer {
-    
+
     // We can get a drag or drop view - so generalize at beginning!
     MoveableView* moveableView = (MoveableView*)recognizer.view;
 
@@ -114,7 +114,32 @@
     // DURING DRAGGING
     else if (recognizer.state == UIGestureRecognizerStateChanged) {
         
-           [moveableView move:recognizer inView:mainView];
+        [moveableView move:recognizer inView:mainView];
+        
+        if ([moveableView isKindOfClass:[DropView class]]) {
+            
+            
+            CGPoint center = recognizer.view.center;
+            
+            //float middle = dropCollectionView.frame.origin.x + dropCollectionView.frame.size.width;
+            
+//            bool flag = true;
+//            int i=0;
+//            
+//            //NSLog(@"center  - x: %d", center.x);
+//            if (center.x -50 < dropCollectionView.frame.origin.x) {
+//                NSLog(@"PUSH LEFT");
+//                do {
+//                      dropCollectionView.contentOffset = CGPointMake(dropCollectionView.contentOffset.x-1, dropCollectionView.contentOffset.y);
+//                } while (++i<10);
+//              
+//            } else if (center.x + 50 > dropCollectionView.frame.origin.x + dropCollectionView.frame.size.width) {
+//                NSLog(@"PUSH RIGHT");
+//                dropCollectionView.contentOffset = CGPointMake(dropCollectionView.contentOffset.x+1, dropCollectionView.contentOffset.y);
+//            }
+            
+           
+        }
         
     }
     
@@ -154,6 +179,8 @@
         [dropCollectionView reloadData];
         
         NSLog(@"targetCellsDict len: %lu", (unsigned long)targetCellsDict.count);
+        
+        [SHARED_STATE_INSTANCE setDragAllowed:false];
     }
     
     else {
@@ -168,7 +195,7 @@
 // if so, bring back to source grid and remove from view
 - (void)handleUnderlyingElement:(MoveableView*) moveableView atIndex:(int) index {
     
-    DropView* underlyingView = [targetCellsDict objectForKey:[NSNumber numberWithInt:index]];
+    DropView* underlyingView = targetCellsDict[@(index)];
     
     // if drop view view is dropped back into the same cell, do nothing!
     if ([(DropView*)moveableView isEqual:underlyingView]) return;

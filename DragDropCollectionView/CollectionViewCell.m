@@ -11,8 +11,9 @@
 #import "ConfigAPI.h"
 #import "DragView.h"
 #import "DropView.h"
-#import "utils.h"
+#import "Utils.h"
 #import "UILabel+size.h"
+#import "CurrentState.h"
 
 #define ANIMATION_DURATION 0.5
 #define MIN_PRESS_DURATION 0.5
@@ -32,6 +33,7 @@
     UIView* dropView;
     
     UILabel* numberLabel;
+
 }
 
 @end
@@ -39,7 +41,7 @@
 
 @implementation CollectionViewCell
 
-- (id)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame {
     
     self = [super initWithFrame:frame];
     if (self) {
@@ -60,7 +62,6 @@
     }
     return self;
 }
-
 
 - (void) reset {
     

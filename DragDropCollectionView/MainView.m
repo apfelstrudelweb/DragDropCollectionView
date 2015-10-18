@@ -24,12 +24,12 @@
 
 
 
-- (id)init {
+- (instancetype)init {
     return [self initWithFrame:CGRectZero];
 }
 
 
-- (id)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame {
     
     self = [super initWithFrame:frame];
     if (self) {
@@ -114,14 +114,14 @@
     if ([collectionView isKindOfClass:[DragCollectionView class]]) {
         // fill all cells from DragCollectionView
         cell = [((DragCollectionView*)collectionView) getCell:indexPath];
-        DragView* dragView = [self.sourceCellsDict objectForKey:[NSNumber numberWithInt:(int)indexPath.item]];
+        DragView* dragView = (self.sourceCellsDict)[@((int)indexPath.item)];
 
         [cell populateWithContentsOfView:dragView withinCollectionView:collectionView];
         
     } else {
         // fill all cells from DropCollectionView
         cell = [((DropCollectionView*)collectionView) getCell:indexPath];
-        DropView* dropView = [self.targetCellsDict objectForKey:[NSNumber numberWithInt:(int)indexPath.item]];
+        DropView* dropView = (self.targetCellsDict)[@((int)indexPath.item)];
 
         [cell populateWithContentsOfView:dropView withinCollectionView:collectionView];
     }

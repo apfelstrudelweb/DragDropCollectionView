@@ -24,7 +24,7 @@
 @implementation DragCollectionView
 
 
-- (id)initWithFrame:(CGRect)frame withinView: (UIView<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>*) view  {
+- (instancetype)initWithFrame:(CGRect)frame withinView: (UIView<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>*) view  {
     
 
     if (self) {
@@ -35,11 +35,11 @@
         
         minInteritemSpacing = [SHARED_CONFIG_INSTANCE getMinInteritemSpacing];
         minLineSpacing = [SHARED_CONFIG_INSTANCE getMinLineSpacing];// set member variable AFTER  instantiation - otherwise it will be lost later
-        [flowLayout setMinimumInteritemSpacing:minInteritemSpacing];
-        [flowLayout setMinimumLineSpacing:minLineSpacing];
+        flowLayout.minimumInteritemSpacing = minInteritemSpacing;
+        flowLayout.minimumLineSpacing = minLineSpacing;
 
         if ([SHARED_CONFIG_INSTANCE getScrollDirection] == horizontal) {
-            [flowLayout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
+            flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         } // else vertical as default
         
         self.backgroundColor = [SHARED_CONFIG_INSTANCE getBackgroundColorSourceView];
@@ -63,7 +63,7 @@
 
 #pragma mark -NSNotificationCenter
 - (void) restoreElementNotification:(NSNotification *) notification {
-    if ([[notification name] isEqualToString:@"restoreElementNotification"]) {
+    if ([notification.name isEqualToString:@"restoreElementNotification"]) {
         [self reloadData];
     }
 }
@@ -98,9 +98,9 @@
     
     
     NSMutableArray *matrixArray = [NSMutableArray new];
-    [matrixArray insertObject:[NSNumber numberWithInt:N] atIndex:0];
+    [matrixArray insertObject:@(N) atIndex:0];
     for (int i=1; i<N; i++) {
-        [matrixArray insertObject:[NSNumber numberWithInt:0] atIndex:i];
+        [matrixArray insertObject:@0 atIndex:i];
     }
     
     int newVal;
@@ -131,10 +131,10 @@
         }
         
         newVal = [matrixArray[0] intValue] - 1;
-        [matrixArray replaceObjectAtIndex:0 withObject:[NSNumber numberWithInt:newVal]];
+        matrixArray[0] = @(newVal);
         
         newVal = [matrixArray[1] intValue] + 1;
-        [matrixArray replaceObjectAtIndex:1 withObject:[NSNumber numberWithInt:newVal]];
+        matrixArray[1] = @(newVal);
         
         // case when matrix contains only two elements
         if (matrixArray.count<3) {
@@ -143,7 +143,7 @@
         
         if ([matrixArray[2] intValue] > 0) {
             newVal = [matrixArray[2] intValue] + 1;
-            [matrixArray replaceObjectAtIndex:2 withObject:[NSNumber numberWithInt:newVal]];
+            matrixArray[2] = @(newVal);
         }
         
         
@@ -152,14 +152,14 @@
             
             if (diff > 0) {
                 newVal = [matrixArray[j] intValue] - diff;
-                [matrixArray replaceObjectAtIndex:j withObject:[NSNumber numberWithInt:newVal]];
+                matrixArray[j] = @(newVal);
                 
                 int sum = 0;
                 for (int k=0;k<j+1;k++) {
                     sum += [matrixArray[k] intValue];
                 }
                 newVal = N - sum;
-                [matrixArray replaceObjectAtIndex:j+1 withObject:[NSNumber numberWithInt:newVal]];
+                matrixArray[j+1] = @(newVal);
             }
         }
         

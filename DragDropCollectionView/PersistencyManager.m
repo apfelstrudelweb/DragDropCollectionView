@@ -42,7 +42,7 @@
 
 @implementation PersistencyManager
 
--(id) init {
+-(instancetype) init {
     
     cellWidthHeightRatio = INVALID;
     minInteritemSpacing = INVALID;

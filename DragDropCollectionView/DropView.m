@@ -21,11 +21,11 @@
 @implementation DropView
 
 
-- (id)init {
+- (instancetype)init {
     return [self initWithFrame:CGRectZero];
 }
 
-- (id)initWithView:(DropView*)view inCollectionViewCell:(CollectionViewCell*) cell {
+- (instancetype)initWithView:(DropView*)view inCollectionViewCell:(CollectionViewCell*) cell {
     
     self = [super initWithFrame:cell.frame];
     if (self) {

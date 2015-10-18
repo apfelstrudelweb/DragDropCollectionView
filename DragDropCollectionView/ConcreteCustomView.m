@@ -30,11 +30,11 @@
 
 @implementation ConcreteCustomView
 
-- (id)init {
+- (instancetype)init {
     return [self initWithFrame:CGRectZero];
 }
 
-- (id)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame {
     
     self = [super initWithFrame:frame];
     if (self) {
@@ -75,8 +75,8 @@
     UIImage* image = [UIImage imageWithCGImage:[UIImage imageNamed:name].CGImage]; // trick for @2x.png
     // we need to set the accessibility identifier for the getter,
     // as an UIImage doesn't have any method for retrieving its name
-    [image setAccessibilityIdentifier:name];
-    [imageView setImage:image];
+    image.accessibilityIdentifier = name;
+    imageView.image = image;
 }
 
 - (NSString*) getImageName {
@@ -84,11 +84,11 @@
 }
 
 - (void) setLabelColor: (UIColor*) color {
-    [label setTextColor:color];
+    label.textColor = color;
 }
 
 - (void) setBackgroundColorOfView: (UIColor*) color {
-    [self setBackgroundColor:color];
+    self.backgroundColor = color;
 }
 
 

@@ -35,7 +35,7 @@
 
 @implementation DropCollectionView
 
-- (id)initWithFrame:(CGRect)frame withinView: (UIView<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>*) view sourceDictionary:(NSMutableDictionary*) sourceDict targetDictionary:(NSMutableDictionary*) targetDict  {
+- (instancetype)initWithFrame:(CGRect)frame withinView: (UIView<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>*) view sourceDictionary:(NSMutableDictionary*) sourceDict targetDictionary:(NSMutableDictionary*) targetDict  {
     
     if (self) {
         
@@ -49,11 +49,11 @@
         
         minInteritemSpacing = [SHARED_CONFIG_INSTANCE getMinInteritemSpacing];
         minLineSpacing = [SHARED_CONFIG_INSTANCE getMinLineSpacing]; // set member variable AFTER  instantiation - otherwise it will be lost later
-        [flowLayout setMinimumInteritemSpacing:minInteritemSpacing];
-        [flowLayout setMinimumLineSpacing:minLineSpacing];
+        flowLayout.minimumInteritemSpacing = minInteritemSpacing;
+        flowLayout.minimumLineSpacing = minLineSpacing;
         
         if ([SHARED_CONFIG_INSTANCE getScrollDirection] == horizontal) {
-            [flowLayout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
+            flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         } // else vertical as default
         
         self.delegate = view;
@@ -74,20 +74,20 @@
 
 #pragma mark -NSNotificationCenter
 - (void) restoreElementNotification:(NSNotification *) notification {
-    if ([[notification name] isEqualToString:@"restoreElementNotification"]) {
+    if ([notification.name isEqualToString:@"restoreElementNotification"]) {
         [self reloadData];
     }
 }
 
 - (void) receiveDeleteCellNotification:(NSNotification *) notification {
-    if ([[notification name] isEqualToString:@"deleteCellNotification"]) {
+    if ([notification.name isEqualToString:@"deleteCellNotification"]) {
         NSDictionary *userInfo = notification.userInfo;
-        NSIndexPath* indexPath = [userInfo objectForKey:@"indexPath"];
+        NSIndexPath* indexPath = userInfo[@"indexPath"];
         
         NSInteger numberOfItems = [self numberOfItemsInSection:0];
         NSIndexPath* lastIndexPath = [NSIndexPath indexPathForItem:numberOfItems-1 inSection:0];
         
-        bool cellIsPopulated = [targetCellsDict objectForKey:[NSNumber numberWithInt:(int)indexPath.item]];
+        bool cellIsPopulated = targetCellsDict[@((int)indexPath.item)];
         
         // remove the deletable view also from history (undo button)
         DragView *dragView;
@@ -97,7 +97,7 @@
         if ([SHARED_CONFIG_INSTANCE isShouldRemoveAllEmptyCells] || !cellIsPopulated)  {
             [self performBatchUpdates:^{
                 
-                NSArray *indexPaths = [NSArray arrayWithObject:lastIndexPath];
+                NSArray *indexPaths = @[lastIndexPath];
                 [self deleteItemsAtIndexPaths:@[indexPath]];
                 [self insertItemsAtIndexPaths:indexPaths];
  
@@ -109,7 +109,7 @@
                     [self recoverConsumedElement:(int)indexPath.item];
                 }
                 
-                [targetCellsDict removeObjectForKey:[NSNumber numberWithInt:(int)indexPath.item]];
+                [targetCellsDict removeObjectForKey:@((int)indexPath.item)];
                 
                 
                 [Utils eliminateEmptyKeysInDict:targetCellsDict];
@@ -119,8 +119,8 @@
     
                 // update indexes -> we need them for UndoButtonHelper
                 for (NSNumber* key in targetCellsDict) {
-                    DropView* view = [targetCellsDict objectForKey:key];
-                    view.index = [key intValue];
+                    DropView* view = targetCellsDict[key];
+                    view.index = key.intValue;
                 }
                 
                 [self reloadData];
@@ -133,7 +133,7 @@
                 [self recoverConsumedElement:(int)indexPath.item];
             }
             
-            [targetCellsDict removeObjectForKey:[NSNumber numberWithInt:(int)indexPath.item]];
+            [targetCellsDict removeObjectForKey:@((int)indexPath.item)];
 
             [SHARED_STATE_INSTANCE setTransactionActive:true]; // indicate that view is in drag state
             

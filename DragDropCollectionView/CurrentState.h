@@ -14,14 +14,15 @@
 
 + (CurrentState*) sharedInstance;
 
-- (void) setTransactionActive: (bool) value;
-- (bool) isTransactionActive;
+@property (NS_NONATOMIC_IOSONLY, getter=isTransactionActive) bool transactionActive;
+@property (NS_NONATOMIC_IOSONLY, getter=isDragAllowed) bool dragAllowed;
+
+@property (NS_NONATOMIC_IOSONLY, getter=getConsumedItems, readonly, copy) NSArray *consumedItems;
+@property (NS_NONATOMIC_IOSONLY, getter=getDragDropHelper, strong) NSObject *dragDropHelper;
+
+
 
 - (void) addConsumedItem: (UIView*) view;
 - (void) removeConsumedItem: (UIView*) view;
-- (NSArray*) getConsumedItems;
-
-- (NSObject*) getDragDropHelper;
-- (void) setDragDropHelper: (NSObject*) object;
 
 @end

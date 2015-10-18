@@ -24,7 +24,7 @@ float cellHeight;
  */
 + (void) eliminateEmptyKeysInDict: (NSMutableDictionary*) dict {
     // get the highest index (=key) of the elements in collection view
-    NSArray *sortedKeys = [[dict allKeys] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+    NSArray *sortedKeys = [dict.allKeys sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
         return [obj2 compare:obj1];
     }];
     
@@ -37,7 +37,7 @@ float cellHeight;
     
     // delete all empty elements and left-shift all populated ones
     for (int i=0; i<lastElementIndex+1; i++) {
-        id value = [dict objectForKey:[NSNumber numberWithInt:i]];
+        id value = dict[@(i)];
         if (value) {
             [valuesArray insertObject:value atIndex:index];
             index++;
@@ -48,8 +48,8 @@ float cellHeight;
     
     // rewrite dictionary with reordered elements
     for (int i=0; i<valuesArray.count; i++) {
-        id value = [valuesArray objectAtIndex:i];
-        [dict setObject:value forKey:[NSNumber numberWithInt:i]];
+        id value = valuesArray[i];
+        dict[@(i)] = value;
     }
 }
 
@@ -89,7 +89,7 @@ float cellHeight;
  *
  */
 + (int) getHighestKeyInDict: (NSMutableDictionary*) dict {
-    NSArray * keys = [dict allKeys];
+    NSArray * keys = dict.allKeys;
     return [[keys valueForKeyPath:@"@max.intValue"] intValue];
 }
 
@@ -122,7 +122,7 @@ float cellHeight;
 }
 
 + (void)bringMoveableViewToFront:(UIPanGestureRecognizer *)recognizer moveableView:(MoveableView *)moveableView overCollectionView:(UICollectionView*) collectionView {
-    UIWindow *frontWindow = [[UIApplication sharedApplication] keyWindow];
+    UIWindow *frontWindow = [UIApplication sharedApplication].keyWindow;
     
     moveableView.frame = [Utils getCellFrame:moveableView inCollectionView:collectionView recognizer:recognizer];
     [frontWindow addSubview:moveableView];

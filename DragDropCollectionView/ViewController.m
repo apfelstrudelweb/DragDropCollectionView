@@ -98,18 +98,18 @@
         
         ConcreteCustomView* cv = [ConcreteCustomView new];
         if (i%2==0) {
-            [cv setBackgroundColorOfView:[UIColor colorWithRed:0.64 green:0.76 blue:0.96 alpha:1.0]];
+            cv.backgroundColorOfView = [UIColor colorWithRed:0.64 green:0.76 blue:0.96 alpha:1.0];
         } else {
-            [cv setBackgroundColorOfView:[UIColor colorWithRed:0.43 green:0.62 blue:0.92 alpha:1.0]];
+            cv.backgroundColorOfView = [UIColor colorWithRed:0.43 green:0.62 blue:0.92 alpha:1.0];
         }
-        [cv setLabelText:countries[i][0]];
-        [cv setLabelColor:[UIColor colorWithRed:0.11 green:0.27 blue:0.53 alpha:1.0]];
-        [cv setImageName:countries[i][1]];
+        cv.labelText = countries[i][0];
+        cv.labelColor = [UIColor colorWithRed:0.11 green:0.27 blue:0.53 alpha:1.0];
+        cv.imageName = countries[i][1];
         
         [view setContentView:cv];
         //[view initialize];
         
-        [dataSourceDict setObject:view forKey:[NSNumber numberWithInt:i]];
+        dataSourceDict[@(i)] = view;
     }
 }
 

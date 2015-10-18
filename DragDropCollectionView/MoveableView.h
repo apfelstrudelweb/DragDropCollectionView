@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CustomView.h"
 
-@interface MoveableView : UIView
+@interface MoveableView : UIView<UIGestureRecognizerDelegate>
 
 @property int index; // index of current collectionView
 
@@ -18,9 +18,8 @@
 
 - (void) move:(UIPanGestureRecognizer *)recognizer inView:(UIView*) view;
 
-- (void) setContentView: (CustomView*) view;
 
-- (CustomView*) getContentView;
+@property (NS_NONATOMIC_IOSONLY, getter=getContentView, strong) CustomView *contentView;
 
 
 - (void) initialize;

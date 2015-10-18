@@ -20,15 +20,15 @@
     NSMutableDictionary* newDict = [NSMutableDictionary new];
     
     // 1. get all keys in ascending order
-    NSMutableArray *allKeys = [[self allKeys] mutableCopy];
+    NSMutableArray *allKeys = [self.allKeys mutableCopy];
     
     [allKeys sortUsingComparator:
      ^NSComparisonResult(NSNumber* n1, NSNumber* n2){
          
-         if ([n1 intValue] > [n2 intValue]) {
+         if (n1.intValue > n2.intValue) {
              return NSOrderedDescending;
          }
-         else if ([n1 intValue] < [n2 intValue]) {
+         else if (n1.intValue < n2.intValue) {
              return NSOrderedAscending;
          }
          else{
@@ -44,11 +44,11 @@
         
         NSNumber* key = allKeys[i];
         
-        if ([key intValue] < index) {
-            id object = [self objectForKey:key];
+        if (key.intValue < index) {
+            id object = self[key];
             // watch out for empty cells left to the insertion index
             if (object) {
-                [newDict setObject:object forKey:key];
+                newDict[key] = object;
             }
         }
         
@@ -61,17 +61,17 @@
         
         NSNumber* key = allKeys[i];
         
-        if([key intValue] >= index) {
-            NSNumber* newKey = [NSNumber numberWithInt:[key intValue]+1];
+        if(key.intValue >= index) {
+            NSNumber* newKey = @(key.intValue+1);
             
-            id object = [self objectForKey:key];
-            [newDict setObject:object forKey:newKey];
+            id object = self[key];
+            newDict[newKey] = object;
         }
     }
     //[newDict log];
     
     // 4. copy new element at insertion index
-    [newDict setObject:object forKey:[NSNumber numberWithInt:index]];
+    newDict[@(index)] = object;
     
     //[newDict log];
     
@@ -80,13 +80,13 @@
     
     [newDict enumerateKeysAndObjectsUsingBlock:^(id key, id object, BOOL *stop) {
         //NSLog(@"%@ = %@", key, object);
-        [self setObject:object forKey:key];
+        self[key] = object;
     }];
 }
 
 - (void) removeMoveableView: (MoveableView*) view {
     int index = view.index;
-    [self removeObjectForKey:[NSNumber numberWithInt:index]];
+    [self removeObjectForKey:@(index)];
 }
 
 - (void) addMoveableView: (MoveableView*) view atIndex: (int) index {
@@ -98,7 +98,7 @@
 //        [self setObject:underlyingView forKey:[NSNumber numberWithInt:-index]];
 //    }
     
-    [self setObject:view forKey:[NSNumber numberWithInt:index]];
+    self[@(index)] = view;
 }
 
 

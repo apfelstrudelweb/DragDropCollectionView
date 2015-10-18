@@ -40,7 +40,7 @@
     return _sharedInstance;
 }
 
-- (id)init {
+- (instancetype)init {
     self = [super init];
     if (self) {
         historyArray = [NSMutableArray new];
@@ -84,8 +84,8 @@
 
     if (!historyArray || historyArray.count==0) return; // nothing to do
     
-    DragView* lastDragView = [historyArray lastObject][0];
-    DropView* lastDropView = [historyArray lastObject][1];
+    DragView* lastDragView = historyArray.lastObject[0];
+    DropView* lastDropView = historyArray.lastObject[1];
     
     [SHARED_STATE_INSTANCE removeConsumedItem:lastDragView];
     [historyArray removeLastObject];
@@ -93,10 +93,10 @@
     undoButton.alpha = historyArray.count==0 ? ALPHA_OFF : 1.0;
 
     
-    [targetDictionary removeObjectForKey:[NSNumber numberWithInt:lastDropView.index]];
+    [targetDictionary removeObjectForKey:@(lastDropView.index)];
     
     if ([SHARED_CONFIG_INSTANCE isSourceItemConsumable]) {
-        [sourceDictionary setObject:lastDragView forKey:[NSNumber numberWithInt:lastDragView.index]];
+        sourceDictionary[@(lastDragView.index)] = lastDragView;
     }
 
     

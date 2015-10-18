@@ -22,11 +22,11 @@
 
 - (void) setBorderColor: (UIColor*) color {
     //[super setBackgroundColor:color];
-    [super setBorderColor:color];
+    super.borderColor = color;
 }
 
 - (void) setBorderWidth: (float) value {
-    [super setBorderWidth:value];
+    super.borderWidth = value;
 }
 
 

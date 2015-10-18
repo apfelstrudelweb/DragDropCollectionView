@@ -10,6 +10,6 @@
 
 @interface NSMutableArray (cat)
 
-- (int) getNumberOfActiveElements;
+@property (NS_NONATOMIC_IOSONLY, getter=getNumberOfActiveElements, readonly) int numberOfActiveElements;
 
 @end

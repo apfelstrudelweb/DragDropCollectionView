@@ -23,7 +23,7 @@
 @implementation MainBasicView
 
 
-- (id)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame {
     
     self = [super initWithFrame:frame];
     if (self) {
@@ -69,7 +69,7 @@
                                 @"button"       : self.undoButton,
                                 @"target"       : self.dropCollectionView };
     
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGRect screenRect = [UIScreen mainScreen].bounds;
     
     totalHeight = 0.9*screenRect.size.height;
     totalWidth  = 0.9*screenRect.size.width;

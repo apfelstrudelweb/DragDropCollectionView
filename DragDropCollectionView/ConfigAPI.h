@@ -15,34 +15,21 @@
 
 + (ConfigAPI*) sharedInstance;
 
-- (void) setCellWidthHeightRatio: (float) value;
-- (void) setMinInteritemSpacing: (float) value;
-- (void) setMinLineSpacing: (float) value;
-- (void) setBackgroundColorSourceView: (UIColor*) color;
-- (void) setBackgroundColorTargetView: (UIColor*) color;
-- (void) setDataSourceDict: (NSMutableDictionary*) dict;
-- (void) setDropPlaceholderColorUntouched: (UIColor*) color;
-- (void) setDropPlaceholderColorTouched: (UIColor*) color;
-- (void) setNumberOfDropItems: (int) value;
-- (void) setSourceItemConsumable: (bool) value;
 - (void) shouldRemoveAllEmptyCells: (bool) value;
-- (void) setScrollDirection: (NSInteger) value;
-- (void) setHasAutomaticCellSize: (bool) value;
 
 
-- (float) getCellWidthHeightRatio;
-- (float) getMinInteritemSpacing;
-- (float) getMinLineSpacing;
-- (UIColor*) getBackgroundColorSourceView;
-- (UIColor*) getBackgroundColorTargetView;
-- (NSMutableDictionary*) getDataSourceDict;
-- (UIColor*) getDropPlaceholderColorUntouched;
-- (UIColor*) getDropPlaceholderColorTouched;
-- (int) getNumberOfDropItems;
-- (bool) isSourceItemConsumable;
-- (bool) isShouldRemoveAllEmptyCells;
-- (NSInteger) getScrollDirection;
-- (bool) getHasAutomaticCellSize;
-
+@property (NS_NONATOMIC_IOSONLY, getter=getCellWidthHeightRatio) float cellWidthHeightRatio;
+@property (NS_NONATOMIC_IOSONLY, getter=getMinInteritemSpacing) float minInteritemSpacing;
+@property (NS_NONATOMIC_IOSONLY, getter=getMinLineSpacing) float minLineSpacing;
+@property (NS_NONATOMIC_IOSONLY, getter=getBackgroundColorSourceView, copy) UIColor *backgroundColorSourceView;
+@property (NS_NONATOMIC_IOSONLY, getter=getBackgroundColorTargetView, copy) UIColor *backgroundColorTargetView;
+@property (NS_NONATOMIC_IOSONLY, getter=getDataSourceDict, copy) NSMutableDictionary *dataSourceDict;
+@property (NS_NONATOMIC_IOSONLY, getter=getDropPlaceholderColorUntouched, copy) UIColor *dropPlaceholderColorUntouched;
+@property (NS_NONATOMIC_IOSONLY, getter=getDropPlaceholderColorTouched, copy) UIColor *dropPlaceholderColorTouched;
+@property (NS_NONATOMIC_IOSONLY, getter=getNumberOfDropItems) int numberOfDropItems;
+@property (NS_NONATOMIC_IOSONLY, getter=isSourceItemConsumable) bool sourceItemConsumable;
+@property (NS_NONATOMIC_IOSONLY, getter=isShouldRemoveAllEmptyCells, readonly) bool shouldRemoveAllEmptyCells;
+@property (NS_NONATOMIC_IOSONLY, getter=getScrollDirection) NSInteger scrollDirection;
+@property (NS_NONATOMIC_IOSONLY, getter=getHasAutomaticCellSize) bool hasAutomaticCellSize;
 
 @end
