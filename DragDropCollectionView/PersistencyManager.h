@@ -11,6 +11,12 @@
 
 @interface PersistencyManager : NSObject
 
+// define scroll direction for collection view flow layout
+typedef NS_ENUM (NSInteger, ScrollDirection) {
+    vertical,
+    horizontal
+};
+
 // Config API
 - (void) setCellWidthHeightRatio: (float) value;
 - (void) setMinInteritemSpacing: (float) value;
@@ -24,6 +30,9 @@
 - (void) setIsSourceItemConsumable: (bool) value;
 - (void) setShouldRemoveAllEmptyCells: (bool) value;
 - (void) setUndoButton: (UIButton*) button;
+- (void) setScrollDirection: (NSInteger) value;
+- (void) setHasAutomaticCellSize: (bool) value;
+
 
 - (float) getCellWidthHeightRatio;
 - (float) getMinInteritemSpacing;
@@ -37,5 +46,7 @@
 - (bool) getIsSourceItemConsumable;
 - (bool) getShouldRemoveAllEmptyCells;
 - (UIButton*) getUndoButton;
+- (NSInteger) getScrollDirection;
+- (bool) getHasAutomaticCellSize;
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "ConfigAPI.h"
-#import "PersistencyManager.h"
+
 
 @interface ConfigAPI () {
     PersistencyManager *persistencyManager;
@@ -39,6 +39,7 @@
     return self;
 }
 
+// Setter
 - (void) setCellWidthHeightRatio: (float) value {
     [persistencyManager setCellWidthHeightRatio:value];
 }
@@ -72,7 +73,15 @@
 - (void) shouldRemoveAllEmptyCells: (bool) value {
     [persistencyManager setShouldRemoveAllEmptyCells:value];
 }
+- (void) setScrollDirection: (NSInteger) value {
+    [persistencyManager setScrollDirection:value];
+}
+- (void) setHasAutomaticCellSize: (bool) value {
+    [persistencyManager setHasAutomaticCellSize:value];
+}
 
+
+// Getter
 - (float) getCellWidthHeightRatio {
     return [persistencyManager getCellWidthHeightRatio];
 }
@@ -98,11 +107,6 @@
     return [persistencyManager getDropPlaceholderColorTouched];
 }
 - (int) getNumberOfDropItems {
-//    if ([persistencyManager getIsSourceItemConsumable]) {
-//        return (int)[persistencyManager getDataSourceDict].count;
-//    } else {
-//        return [persistencyManager getNumberOfDropItems];
-//    }
     return [persistencyManager getNumberOfDropItems];
 }
 - (bool) isSourceItemConsumable {
@@ -111,8 +115,11 @@
 - (bool) isShouldRemoveAllEmptyCells {
     return [persistencyManager getShouldRemoveAllEmptyCells];
 }
-//- (UIButton*) getUndoButton {
-//    return [persistencyManager getUndoButton];
-//}
+- (NSInteger) getScrollDirection {
+    return [persistencyManager getScrollDirection];
+}
+- (bool) getHasAutomaticCellSize {
+    return [persistencyManager getHasAutomaticCellSize];
+}
 
 @end

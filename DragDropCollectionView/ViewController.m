@@ -52,6 +52,9 @@
     
     [SHARED_CONFIG_INSTANCE setDataSourceDict:dataSourceDict];
     
+    [SHARED_CONFIG_INSTANCE setScrollDirection:horizontal];
+    //[SHARED_CONFIG_INSTANCE setScrollDirection:vertical];
+    
     self.view = [MainView new];
     
 }
@@ -70,21 +73,21 @@
                            @[@"Germany", @"germany.png"],
                            @[@"Great Britain", @"greatbritain.png"],
                            @[@"Greece", @"greece.png"],
-//                           @[@"Hungary", @"hungary.png"],
-//                           @[@"Iceland", @"iceland.png"],
-//                           @[@"Ireland", @"ireland.png"],
-//                           @[@"Italy", @"italy.png"],
-//                           @[@"Liechtenstein", @"liechtenstein.png"],
-//                           @[@"Luxembourg", @"luxembourg.png"],
-//                           @[@"Malta", @"malta.png"],
-//                           @[@"Netherlands", @"netherlands.png"],
-//                           @[@"Norway", @"norway.png"],
-//                           @[@"Poland", @"poland.png"],
-//                           @[@"Portugal", @"portugal.png"],
-//                           @[@"Spain", @"spain.png"],
-//                           @[@"Sweden", @"sweden.png"],
-//                           @[@"Switzerland", @"switzerland.png"],
-//                           @[@"Turkey", @"turkey.png"]
+                           @[@"Hungary", @"hungary.png"],
+                           @[@"Iceland", @"iceland.png"],
+                           @[@"Ireland", @"ireland.png"],
+                           @[@"Italy", @"italy.png"],
+                           @[@"Liechtenstein", @"liechtenstein.png"],
+                           @[@"Luxembourg", @"luxembourg.png"],
+                           @[@"Malta", @"malta.png"],
+                           @[@"Netherlands", @"netherlands.png"],
+                           @[@"Norway", @"norway.png"],
+                           @[@"Poland", @"poland.png"],
+                           @[@"Portugal", @"portugal.png"],
+                           @[@"Spain", @"spain.png"],
+                           @[@"Sweden", @"sweden.png"],
+                           @[@"Switzerland", @"switzerland.png"],
+                           @[@"Turkey", @"turkey.png"]
                            ];
     
     for (int i=0; i<countries.count; i++) {

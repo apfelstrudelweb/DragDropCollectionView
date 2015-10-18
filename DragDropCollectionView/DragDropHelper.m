@@ -142,7 +142,7 @@
             // Move inside the target grid
             
             // TEST ONLY - use calculated drop index
-            int index = 1;//arc4random_uniform(8);
+            int index = arc4random_uniform(8);
             // 1. bring back underlying element to source view
             [self handleUnderlyingElement:moveableView atIndex:index];
             // 2. update all indices from drop view

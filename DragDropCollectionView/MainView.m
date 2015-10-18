@@ -28,6 +28,7 @@
     return [self initWithFrame:CGRectZero];
 }
 
+
 - (id)initWithFrame:(CGRect)frame {
     
     self = [super initWithFrame:frame];
@@ -74,10 +75,17 @@
         // calculate the ideal cell size in order to use most of the available
         // space within the collection view - we need to call the method otherwise
         // we get problems after an interface rotation!
-        self.cellSize = [self.dragCollectionView getBestFillingCellSize:self.dragCollectionViewSize];
+        
+        if (true) {
+            self.cellSize = CGSizeMake(100, 50);
+        } else {
+            self.cellSize = [self.dragCollectionView getBestFillingCellSize:self.dragCollectionViewSize];
+        }
+        
         
         // Important - we need it for drag & drop functionality!
         [[DragDropHelper sharedInstance] initWithView:self collectionViews:@[self.dragCollectionView, self.dropCollectionView] cellDictionaries:@[self.sourceCellsDict, self.targetCellsDict]];
+        
         
     }
     return self;
@@ -92,7 +100,7 @@
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
     if ([collectionView isKindOfClass:[DragCollectionView class]]) {
-        return self.numberOfDragItems + 2;
+        return self.numberOfDragItems;
     } else {
         return self.numberOfDropItems;
     }
@@ -105,37 +113,8 @@
     // IMPORTANT: all cells are populated by "UIView objects" stored in dictionaries
     if ([collectionView isKindOfClass:[DragCollectionView class]]) {
         // fill all cells from DragCollectionView
-        
-        
-        int numItems = self.numberOfDragItems;
-        int rows = 4; // TODO get from collectionview and cell size
-        int cols = ceil((float)numItems / (float)rows);
-        
-//        NSMutableArray* colsArray = [NSMutableArray new];
-//        [colsArray addObject:[NSNumber numberWithInt:cols]];
-        
-        int item = (int)indexPath.item;
-        int index = item;
-        
-//        switch (item) {
-//            case 0: index = 0; break;
-//            case 1: index = 4; break;
-//            case 2: index = 8; break;
-//            case 3: index = 1; break;
-//            case 4: index = 5; break;
-//            case 5: index = 9; break;
-//            case 6: index = 2; break;
-//            case 7: index = 6; break;
-//            case 8: index = 10; break;
-//            case 9: index = 3; break;
-//            case 10: index = 7; break;
-//            case 11: index = 11; break;
-//            //default: index = -1;
-//        }
-        
-
         cell = [((DragCollectionView*)collectionView) getCell:indexPath];
-        DragView* dragView = [self.sourceCellsDict objectForKey:[NSNumber numberWithInt:index]];
+        DragView* dragView = [self.sourceCellsDict objectForKey:[NSNumber numberWithInt:(int)indexPath.item]];
 
         [cell populateWithContentsOfView:dragView withinCollectionView:collectionView];
         
@@ -149,11 +128,12 @@
     return cell;
 }
 
+
 #pragma mark <UICollectionViewDelegate>
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    //return self.cellSize;
-    return CGSizeMake(100, 50);
+
+    return self.cellSize;
+//    return CGSizeMake(100, 50);
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
@@ -164,6 +144,19 @@
     } else {
         // let small space above - so when cell is to be inserted, the left and right cell has enough place to expand to the top as well
         return UIEdgeInsetsMake(minLineSpacing, 0, 0, 0);
+    }
+}
+
+#pragma mark <UIScrollViewDelegate>
+// synchronize scrolling
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    CGPoint currentOffset = scrollView.contentOffset;
+    
+    if ([scrollView isKindOfClass:[DragCollectionView class]]) {
+        self.dropCollectionView.contentOffset = currentOffset;
+    } else {
+        //self.dragCollectionView.contentOffset = currentOffset;
     }
 }
 

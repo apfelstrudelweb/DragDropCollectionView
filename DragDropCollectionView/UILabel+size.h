@@ -12,5 +12,6 @@
 
 - (void) setTextForDragDropElement: (NSString*) text;
 - (void) setTextForHeadline: (NSString*) text;
+- (void) setPlaceholderText: (NSString*) text;
 
 @end

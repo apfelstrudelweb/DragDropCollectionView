@@ -32,6 +32,10 @@
     NSObject* dragDropHelper;
     
     UIButton* undoButton;
+    
+    NSInteger scrollDirection;
+    
+    bool hasAutomaticCellSize;
 }
 
 @end
@@ -84,6 +88,12 @@
 }
 - (void) setUndoButton: (UIButton*) button {
     undoButton = button;
+}
+- (void) setScrollDirection: (NSInteger) value {
+    scrollDirection = value;
+}
+- (void) setHasAutomaticCellSize: (bool) value {
+    hasAutomaticCellSize = value;
 }
 
 
@@ -147,6 +157,12 @@
 }
 - (UIButton*) getUndoButton {
     return undoButton;
+}
+- (NSInteger) getScrollDirection {
+    return scrollDirection;
+}
+- (bool) getHasAutomaticCellSize {
+    return hasAutomaticCellSize;
 }
 
 @end

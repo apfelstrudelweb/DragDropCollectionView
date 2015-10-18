@@ -46,7 +46,9 @@
     }
     
     [self setupConstraints];
-    self.cellSize = [self.dragCollectionView getBestFillingCellSize:self.dragCollectionViewSize];
+    
+    // Only use when variable cell size!
+    //self.cellSize = [self.dragCollectionView getBestFillingCellSize:self.dragCollectionViewSize];
     
     [self.dragCollectionView reloadData];
     [self.dropCollectionView reloadData];

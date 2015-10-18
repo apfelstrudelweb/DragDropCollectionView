@@ -9,6 +9,7 @@
 #import "DragCollectionView.h"
 #import "Utils.h"
 #import "ConfigAPI.h"
+#import "CollectionViewFlowLayout.h"
 
 #define REUSE_IDENTIFIER @"dragCell"
 #define SHARED_CONFIG_INSTANCE   [ConfigAPI sharedInstance]
@@ -22,28 +23,33 @@
 
 @implementation DragCollectionView
 
-- (id)initWithFrame:(CGRect)frame withinView: (UIView<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>*) view  {
+
+- (id)initWithFrame:(CGRect)frame withinView: (UIView<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>*) view  {
     
 
     if (self) {
         
-        UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        
+        CollectionViewFlowLayout *flowLayout = [[CollectionViewFlowLayout alloc] init];
+
         self = [[DragCollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
-        self.backgroundColor = [SHARED_CONFIG_INSTANCE getBackgroundColorSourceView];
         
         minInteritemSpacing = [SHARED_CONFIG_INSTANCE getMinInteritemSpacing];
         minLineSpacing = [SHARED_CONFIG_INSTANCE getMinLineSpacing];// set member variable AFTER  instantiation - otherwise it will be lost later
         [flowLayout setMinimumInteritemSpacing:minInteritemSpacing];
         [flowLayout setMinimumLineSpacing:minLineSpacing];
-        [flowLayout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
+
+        if ([SHARED_CONFIG_INSTANCE getScrollDirection] == horizontal) {
+            [flowLayout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
+        } // else vertical as default
         
+        self.backgroundColor = [SHARED_CONFIG_INSTANCE getBackgroundColorSourceView];
+
         self.delegate = view;
         self.dataSource = view;
         self.showsHorizontalScrollIndicator = NO;
         self.showsVerticalScrollIndicator = NO;
+    
 
-        
         [self registerClass:[CollectionViewCell class] forCellWithReuseIdentifier:REUSE_IDENTIFIER];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(restoreElementNotification:) name:@"restoreElementNotification"
@@ -77,7 +83,6 @@
  */
 - (CGSize) getBestFillingCellSize: (CGSize) containerSize {
     
-    
     float cellWidth = 0.0;
     float cellHeight = 0.0;
     float cellSizeRatio = [SHARED_CONFIG_INSTANCE getCellWidthHeightRatio];
@@ -87,12 +92,9 @@
     
     float occupiedHeight = 0.0;
     
-    int N;
-    
-    
     collectionViewWidth  = containerSize.width;
     collectionViewHeight = containerSize.height; //totalHeight*percentDragArea*0.01;
-    N = (int)[self numberOfItemsInSection:0];
+    int N = (int)[self numberOfItemsInSection:0];
     
     
     NSMutableArray *matrixArray = [NSMutableArray new];
@@ -161,12 +163,11 @@
             }
         }
         
-        //NSLog(@"matrixArray:%@", matrixArray);
-        
         if ([matrixArray[0] intValue] == 1) {
             break;
         }
     }
+    
     return CGSizeMake(cellWidth, cellHeight);
 }
 

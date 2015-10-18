@@ -8,8 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "PersistencyManager.h"
 
 @interface ConfigAPI : NSObject
+
 
 + (ConfigAPI*) sharedInstance;
 
@@ -24,6 +26,8 @@
 - (void) setNumberOfDropItems: (int) value;
 - (void) setSourceItemConsumable: (bool) value;
 - (void) shouldRemoveAllEmptyCells: (bool) value;
+- (void) setScrollDirection: (NSInteger) value;
+- (void) setHasAutomaticCellSize: (bool) value;
 
 
 - (float) getCellWidthHeightRatio;
@@ -37,5 +41,8 @@
 - (int) getNumberOfDropItems;
 - (bool) isSourceItemConsumable;
 - (bool) isShouldRemoveAllEmptyCells;
+- (NSInteger) getScrollDirection;
+- (bool) getHasAutomaticCellSize;
+
 
 @end

@@ -12,6 +12,7 @@
 #import "DragView.h"
 #import "DropView.h"
 #import "utils.h"
+#import "UILabel+size.h"
 
 #define ANIMATION_DURATION 0.5
 #define MIN_PRESS_DURATION 0.5
@@ -20,7 +21,7 @@
 
 @interface CollectionViewCell() {
     NSMutableArray* layoutViewConstraints;
-    
+    NSMutableArray* layoutLabelConstraints;
     
     bool isTransformedLeft;
     bool isTransformedRight;
@@ -29,6 +30,8 @@
     UIView* moveableView;
     
     UIView* dropView;
+    
+    UILabel* numberLabel;
 }
 
 @end
@@ -49,6 +52,11 @@
         
         self.userInteractionEnabled = YES;
         
+        numberLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        [numberLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [placeholderView addSubview:numberLabel];
+        [self setupLabelConstraints];
+    
     }
     return self;
 }
@@ -56,25 +64,16 @@
 
 - (void) reset {
     
-     [self setNeedsDisplay];
-    
-//    // remove previous drop view -> important for scrolling
-//    for (UIView *view in self.contentView.subviews) {
-//        for (UIView *subview in view.subviews) {
-//            if ([subview isKindOfClass:[MoveableView class]]) {
-//                [subview removeFromSuperview];
-//                break;
-//            }
-//        }
-//    }
+    if (self.isTargetCell) {
+        NSString* str = [NSString stringWithFormat:@"%d", (int)self.indexPath.item];
+        [numberLabel setPlaceholderText:str];
+    }
+
+    [self setNeedsDisplay];
     
     placeholderView.backgroundColor = [SHARED_CONFIG_INSTANCE getDropPlaceholderColorUntouched];
     
     [self setupViewConstraints:placeholderView isExpanded:false];
-    
-//    if (self.isPopulated) {
-//        [self undoPush];
-//    }
     
     self.isPopulated = false;
     self.isExpanded = false;
@@ -94,16 +93,13 @@
 
 - (void) populateWithContentsOfView: (UIView*) view withinCollectionView: (UICollectionView*) collectionView {
     
-    if (!view) return;
+   // if (!view) return;
     
     if ([view isKindOfClass:[DragView class]]) {
         // placeholder color for consumable source items
         self.backgroundColor = [SHARED_CONFIG_INSTANCE getDropPlaceholderColorUntouched];
         
         view.frame = self.contentView.bounds;
-        
-        //CGRect frame = view.frame;
-        
         view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         [self.contentView addSubview:view];
         
@@ -117,6 +113,7 @@
         view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         [self.contentView addSubview:view];
         dropView = view;
+
     }
 }
 
@@ -241,6 +238,50 @@
                                                                    constant:0.0]];
     // add all constraints at once
     [self addConstraints:layoutViewConstraints];
+}
+
+- (void) setupLabelConstraints {
+    [self removeConstraints:layoutLabelConstraints];
+    layoutLabelConstraints = [NSMutableArray new];
+    
+    
+    // Width constraint
+    [layoutLabelConstraints addObject:[NSLayoutConstraint constraintWithItem:numberLabel
+                                                                  attribute:NSLayoutAttributeWidth
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:placeholderView
+                                                                  attribute:NSLayoutAttributeWidth
+                                                                 multiplier:1.0
+                                                                   constant:0]];
+    
+    // Height constraint
+    [layoutLabelConstraints addObject:[NSLayoutConstraint constraintWithItem:numberLabel
+                                                                  attribute:NSLayoutAttributeHeight
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:placeholderView
+                                                                  attribute:NSLayoutAttributeHeight
+                                                                 multiplier:1.0
+                                                                   constant:0]];
+    
+    // Center horizontally
+    [layoutLabelConstraints addObject:[NSLayoutConstraint constraintWithItem:numberLabel
+                                                                  attribute:NSLayoutAttributeCenterX
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:placeholderView
+                                                                  attribute:NSLayoutAttributeCenterX
+                                                                 multiplier:1.0
+                                                                   constant:0.0]];
+    
+    // Center vertically
+    [layoutLabelConstraints addObject:[NSLayoutConstraint constraintWithItem:numberLabel
+                                                                  attribute:NSLayoutAttributeCenterY
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:placeholderView
+                                                                  attribute:NSLayoutAttributeCenterY
+                                                                 multiplier:1.0
+                                                                   constant:0.0]];
+    // add all constraints at once
+    [self addConstraints:layoutLabelConstraints];
 }
 
 

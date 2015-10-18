@@ -18,6 +18,8 @@
 @property (nonatomic) BOOL isPushedToLeft;
 @property (nonatomic) BOOL isPushedToRight;
 
+@property (nonatomic) BOOL isTargetCell;
+
 @property UILongPressGestureRecognizer* longPressGesture;
 
 

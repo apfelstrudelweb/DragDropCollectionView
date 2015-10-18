@@ -13,6 +13,8 @@
 #import "DropView.h"
 #import "UndoButtonHelper.h"
 #import "DragDropHelper.h"
+#import "CollectionViewFlowLayout.h"
+
 
 #define SHARED_CONFIG_INSTANCE     [ConfigAPI sharedInstance]
 #define SHARED_STATE_INSTANCE      [CurrentState sharedInstance]
@@ -33,11 +35,11 @@
 
 @implementation DropCollectionView
 
-- (id)initWithFrame:(CGRect)frame withinView: (UIView<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>*) view sourceDictionary:(NSMutableDictionary*) sourceDict targetDictionary:(NSMutableDictionary*) targetDict  {
+- (id)initWithFrame:(CGRect)frame withinView: (UIView<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>*) view sourceDictionary:(NSMutableDictionary*) sourceDict targetDictionary:(NSMutableDictionary*) targetDict  {
     
     if (self) {
         
-        UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+        CollectionViewFlowLayout *flowLayout = [[CollectionViewFlowLayout alloc] init];
         
         self = [[DropCollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
         self.backgroundColor = [SHARED_CONFIG_INSTANCE getBackgroundColorTargetView];
@@ -49,6 +51,10 @@
         minLineSpacing = [SHARED_CONFIG_INSTANCE getMinLineSpacing]; // set member variable AFTER  instantiation - otherwise it will be lost later
         [flowLayout setMinimumInteritemSpacing:minInteritemSpacing];
         [flowLayout setMinimumLineSpacing:minLineSpacing];
+        
+        if ([SHARED_CONFIG_INSTANCE getScrollDirection] == horizontal) {
+            [flowLayout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
+        } // else vertical as default
         
         self.delegate = view;
         self.dataSource = view;
@@ -166,6 +172,7 @@
 - (CollectionViewCell*) getCell: (NSIndexPath*) indexPath {
     CollectionViewCell* cell = [self dequeueReusableCellWithReuseIdentifier:REUSE_IDENTIFIER forIndexPath:indexPath];
     cell.indexPath = indexPath;
+    cell.isTargetCell = true;
     [cell reset];
     return cell;
 }
