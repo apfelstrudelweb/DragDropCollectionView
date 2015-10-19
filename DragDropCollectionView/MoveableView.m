@@ -18,33 +18,48 @@
     CustomView* customView;
     DragDropHelper* dragDropHelper;
     
+    CGRect oldBounds;
     CGRect newBounds;
+    
+    UIPanGestureRecognizer* panRecognizer;
+    UILongPressGestureRecognizer *longPressRecognizer;
+    
+    bool isInitialized;
 }
 @end
 
 @implementation MoveableView
 
+//- (void)willMoveToWindow {
+//    NSLog(@"willMoveToWindow");
+//}
+
+
 - (void)didMoveToSuperview {
     
-    //if (!self.superview) return;
+    if (!self.superview) return;
     
-    dragDropHelper = (DragDropHelper*)[SHARED_STATE_INSTANCE getDragDropHelper];
-    
-    UIPanGestureRecognizer* recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
-    
-    recognizer.maximumNumberOfTouches = 1;
-    recognizer.minimumNumberOfTouches = 1;
-    recognizer.delegate = self;
-    [self addGestureRecognizer:recognizer];
-    
-    
-    // attach long press gesture to each cell
-    UILongPressGestureRecognizer *lpgr
-    = [[UILongPressGestureRecognizer alloc]
-       initWithTarget:self action:@selector(handleLongPress:)];
-    lpgr.minimumPressDuration = 0.5;
-    lpgr.delegate = self;
-    [self addGestureRecognizer:lpgr];
+    if (!dragDropHelper) {
+         dragDropHelper = (DragDropHelper*)[SHARED_STATE_INSTANCE getDragDropHelper];
+    }
+
+    if (!panRecognizer) {
+        panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+        
+        panRecognizer.maximumNumberOfTouches = 1;
+        panRecognizer.minimumNumberOfTouches = 1;
+        panRecognizer.delegate = self;
+        [self addGestureRecognizer:panRecognizer];
+    }
+
+    if (!longPressRecognizer) {
+        longPressRecognizer = [[UILongPressGestureRecognizer alloc]
+           initWithTarget:self action:@selector(handleLongPress:)];
+        longPressRecognizer.minimumPressDuration = 0.5;
+        longPressRecognizer.delegate = self;
+        [self addGestureRecognizer:longPressRecognizer];
+    }
+
     
     [self initialize];
 }
@@ -53,7 +68,7 @@
 #pragma mark UIPanGestureRecognizer
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer {
 
-    if (![SHARED_STATE_INSTANCE isDragAllowed]) return;
+    if (![SHARED_STATE_INSTANCE isDragAllowed]) return; // allowed only after longpress
 
     self.bounds = newBounds;
     customView.frame = CGRectInset(self.bounds, 0.5*self.borderWidth, 0.5*self.borderWidth);
@@ -61,28 +76,29 @@
     [dragDropHelper handlePan:recognizer];
 }
 
--(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer
-{
+-(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
+    
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
-        NSLog(@"handleLongPress start");
-        
+
         [[CurrentState sharedInstance] setDragAllowed:true];
         
         CGRect bounds = self.bounds;
+        oldBounds = self.bounds;
         newBounds = CGRectMake(bounds.origin.x, bounds.origin.y, floorf(1.05*bounds.size.width), floorf(1.05*bounds.size.height));
         
         self.bounds = newBounds;
         
-    } else {
-        NSLog(@"handleLongPress end");
-        
+    } else if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        // TODO: block panning
+        //[[CurrentState sharedInstance] setDragAllowed:false];
+        self.bounds = oldBounds;
     }
 }
 
 - (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
 shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     
-    if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+    if ([gestureRecognizer isKindOfClass:[UILongPressGestureRecognizer class]]) {
         return YES;
     }
     return NO;
@@ -99,17 +115,23 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
 
 - (void) initialize {
     
-    self.backgroundColor = self.borderColor;
-    
-    if (customView) {
-        //[customView setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self addSubview:customView];
-
-        customView.frame = CGRectInset(self.bounds, 0.5*self.borderWidth, 0.5*self.borderWidth);
-        // resize subviews
-        customView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-        customView.translatesAutoresizingMaskIntoConstraints = YES;
+    if (!isInitialized) {
+        self.backgroundColor = self.borderColor;
+        
+        if (customView) {
+            //[customView setTranslatesAutoresizingMaskIntoConstraints:NO];
+            [self addSubview:customView];
+            
+            customView.frame = CGRectInset(self.bounds, 0.5*self.borderWidth, 0.5*self.borderWidth);
+            // resize subviews
+            customView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+            customView.translatesAutoresizingMaskIntoConstraints = YES;
+        }
+        
+        isInitialized = true;
     }
+    
+
 }
 
 #pragma mark -UIPanGestureRecognizer
@@ -117,7 +139,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     // perform translation of the drag view
     recognizer.view.center = [recognizer locationInView:view];
     [recognizer setTranslation:CGPointMake(0, 0) inView:view];
-    //NSLog(@"translation x-y: %f - %f", translation.x, translation.y);
+    //NSLog(@"translation x-y: %f - %f", recognizer.view.center.x, recognizer.view.center.y);
 }
 
 

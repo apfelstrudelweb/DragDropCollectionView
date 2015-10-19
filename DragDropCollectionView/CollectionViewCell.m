@@ -30,7 +30,7 @@
     UIView* placeholderView; // basic subview of a cell - initially represented by a gray square
     UIView* moveableView;
     
-    UIView* dropView;
+    //UIView* dropView;
     
     UILabel* numberLabel;
 
@@ -58,10 +58,26 @@
         [numberLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
         [placeholderView addSubview:numberLabel];
         [self setupLabelConstraints];
+        
+//        [[NSNotificationCenter defaultCenter] addObserver:self
+//                                                 selector:@selector(receiveTestNotification:)
+//                                                     name:@"TestNotification"
+//                                                   object:nil];
     
     }
     return self;
 }
+
+//- (void) receiveTestNotification:(NSNotification *) notification {
+//
+//    if ([[notification name] isEqualToString:@"TestNotification"]) {
+//        NSLog (@"Successfully received the test notification!");
+//        
+//        //
+//    }
+//    
+//}
+
 
 - (void) reset {
     
@@ -113,7 +129,7 @@
         view.frame = self.contentView.bounds;
         view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         [self.contentView addSubview:view];
-        dropView = view;
+        //dropView = view;
 
     }
 }

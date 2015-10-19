@@ -14,6 +14,8 @@
 #import "ConfigAPI.h"
 #import "ViewConverter.h"
 
+
+
 #define SHARED_STATE_INSTANCE      [CurrentState sharedInstance]
 #define SHARED_CONFIG_INSTANCE     [ConfigAPI sharedInstance]
 #define SHARED_BUTTON_INSTANCE     [UndoButtonHelper sharedInstance]
@@ -45,6 +47,13 @@
     // for thread safety
     DragView* currentDragView;
     NSMutableArray* concurrentDragViews;
+    
+    // scroll issues
+    NSTimer* timer;
+    float centerX;
+    float centerY;
+    bool isScrollHorizontally;
+    bool comesFromSourceCollectionView;
 }
 @end
 
@@ -92,22 +101,29 @@
     [SHARED_BUTTON_INSTANCE setTargetDictionary:targetCellsDict];
     
     concurrentDragViews = [NSMutableArray new];
+    
 }
 
 
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer {
-
+    
     // We can get a drag or drop view - so generalize at beginning!
     MoveableView* moveableView = (MoveableView*)recognizer.view;
-
+    
     
     // START DRAGGING
     if (recognizer.state == UIGestureRecognizerStateBegan) {
-
+        
         // bring view in front so there are no overlays from
         // other cells
         UICollectionView* collectionView = [moveableView isKindOfClass:[DragView class]] ? dragCollectionView : dropCollectionView;
         [Utils bringMoveableViewToFront:recognizer moveableView:moveableView overCollectionView:collectionView];
+        
+        if ([moveableView isKindOfClass:[DragView class]]) {
+            comesFromSourceCollectionView = true;
+        } else {
+            comesFromSourceCollectionView = false;
+        }
         
     }
     
@@ -116,40 +132,48 @@
         
         [moveableView move:recognizer inView:mainView];
         
-        if ([moveableView isKindOfClass:[DropView class]]) {
-            
-            
-            CGPoint center = recognizer.view.center;
-            
-            //float middle = dropCollectionView.frame.origin.x + dropCollectionView.frame.size.width;
-            
-//            bool flag = true;
-//            int i=0;
-//            
-//            //NSLog(@"center  - x: %d", center.x);
-//            if (center.x -50 < dropCollectionView.frame.origin.x) {
-//                NSLog(@"PUSH LEFT");
-//                do {
-//                      dropCollectionView.contentOffset = CGPointMake(dropCollectionView.contentOffset.x-1, dropCollectionView.contentOffset.y);
-//                } while (++i<10);
-//              
-//            } else if (center.x + 50 > dropCollectionView.frame.origin.x + dropCollectionView.frame.size.width) {
-//                NSLog(@"PUSH RIGHT");
-//                dropCollectionView.contentOffset = CGPointMake(dropCollectionView.contentOffset.x+1, dropCollectionView.contentOffset.y);
-//            }
-            
-           
+        // scroll issue
+        centerX = recognizer.view.center.x;
+        centerY = recognizer.view.center.y;
+
+        
+
+        
+        UICollectionViewFlowLayout* layout = (UICollectionViewFlowLayout*)dropCollectionView.collectionViewLayout;
+        isScrollHorizontally = layout.scrollDirection == UICollectionViewScrollDirectionHorizontal;
+        
+        bool flag = false;
+        
+        for (UIView* view in mainView.subviews) {
+            if ([view isKindOfClass:[MoveableView class]]) {
+                flag = true;
+                break;
+            }
         }
+        
+        if (!flag) {
+            [mainView addSubview:moveableView];
+            NSLog(@"addSubview");
+//            [[NSNotificationCenter defaultCenter]
+//             postNotificationName:@"TestNotification"
+//             object:self];
+        }
+        
+
+        [timer invalidate];
+        timer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(scrollCollectionView) userInfo:nil repeats:true];
         
     }
     
     // END DRAGGING AND START DROPPING
     else if (recognizer.state == UIGestureRecognizerStateEnded) {
         
+        [timer invalidate];
+
         if ([moveableView isKindOfClass:[DragView class]]) {
             // Move from source grid to target grid
             // TEST ONLY - use calculated drop index
-            int index = 1;
+            int index = 22;
             
             // 1. remove drag view from source dict
             if ([SHARED_CONFIG_INSTANCE isSourceItemConsumable]) {
@@ -165,9 +189,8 @@
             [moveableView removeFromSuperview];
         } else {
             // Move inside the target grid
-            
             // TEST ONLY - use calculated drop index
-            int index = arc4random_uniform(8);
+            int index = 17;//arc4random_uniform(8);
             // 1. bring back underlying element to source view
             [self handleUnderlyingElement:moveableView atIndex:index];
             // 2. update all indices from drop view
@@ -186,6 +209,110 @@
     else {
         // TODO: handle cancel process
         NSLog(@"*******CANCEL*********");
+        [timer invalidate];
+    }
+}
+
+
+-(void) scrollCollectionView {
+    
+    float collectionViewTop = dropCollectionView.frame.origin.y;
+    
+    // only scroll when collection view has been reached from top
+    if (centerY < collectionViewTop) {
+        [timer invalidate];
+        return;
+    }
+    
+    if (isScrollHorizontally) {
+        [self scrollHorizontally];
+    } else {
+        [self scrollVertically];
+    }
+    
+    
+}
+
+- (void) scrollHorizontally {
+    
+    // middle of the collection view
+    float collectionViewWidth = dropCollectionView.frame.size.width;
+    float collectionViewMiddle = dropCollectionView.frame.origin.x + 0.5*dropCollectionView.frame.size.width;
+    
+    
+    float contentWidth = dropCollectionView.contentSize.width;
+    float contentOffsetX = dropCollectionView.contentOffset.x;
+    float contentOffsetY = dropCollectionView.contentOffset.y;
+    
+    float relDistanceFromMiddle = fabs(collectionViewMiddle - centerX) / collectionViewWidth;
+    
+    float threshold = 0.2; // min relative distance from the middle
+    
+    
+    if (relDistanceFromMiddle < threshold) {
+        [timer invalidate];
+        return;
+    }
+    
+    
+    if ((contentOffsetX < 0 && centerX < collectionViewMiddle) || (contentOffsetX > contentWidth - collectionViewWidth && centerX > collectionViewMiddle)) {
+        [timer invalidate];
+        return;
+    }
+    
+    
+    float distX = 20*(expf(relDistanceFromMiddle - threshold) - 1);
+    
+    if (centerX < collectionViewMiddle) {
+        dropCollectionView.contentOffset = CGPointMake(contentOffsetX-distX, contentOffsetY);
+    }
+    
+    else if (centerX > collectionViewMiddle) {
+        dropCollectionView.contentOffset = CGPointMake(contentOffsetX+distX, contentOffsetY);
+    }
+}
+
+
+- (void) scrollVertically {
+    
+    // middle of the collection view
+    float collectionViewHeight = dropCollectionView.frame.size.height;
+    float collectionViewMiddle = dropCollectionView.frame.origin.y + 0.5*dropCollectionView.frame.size.height;
+    
+    float contentHeight = dropCollectionView.contentSize.height;
+    float contentOffsetX = dropCollectionView.contentOffset.x;
+    float contentOffsetY = dropCollectionView.contentOffset.y;
+    
+    float relDistanceFromMiddle = fabs(collectionViewMiddle - centerY) / collectionViewHeight;
+    
+    float threshold = 0.2; // min relative distance from the middle
+    
+    
+//    if(comesFromSourceCollectionView && centerY < collectionViewMiddle) {
+//        [timer invalidate];
+//        return;
+//    }
+    
+    if (relDistanceFromMiddle < threshold) {
+        [timer invalidate];
+        return;
+    }
+    
+    if ((contentOffsetY < 0 && centerY < collectionViewMiddle) || (contentOffsetY > contentHeight - collectionViewHeight && centerY > collectionViewMiddle)) {
+        [timer invalidate];
+        return;
+    }
+    
+    float distY = 20*(expf(relDistanceFromMiddle - threshold) - 1);
+    
+    
+    if (centerY < collectionViewMiddle) {
+        dropCollectionView.contentOffset = CGPointMake(contentOffsetX, contentOffsetY-distY);
+    }
+    
+    else if (centerY > collectionViewMiddle) {
+        comesFromSourceCollectionView = false;
+        dropCollectionView.contentOffset = CGPointMake(contentOffsetX, contentOffsetY+distY);
     }
 }
 

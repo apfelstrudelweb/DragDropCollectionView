@@ -144,7 +144,11 @@
  **/
 - (CGSize)collectionViewContentSize {
     
-    return CGSizeMake(maxRowWidth, self.collectionView.frame.size.height);
+    if (self.scrollDirection == UICollectionViewScrollDirectionVertical) {
+        return [super collectionViewContentSize];
+    } else {
+        return CGSizeMake(maxRowWidth, self.collectionView.frame.size.height);
+    }
 }
 
 /**

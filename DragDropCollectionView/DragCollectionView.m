@@ -40,7 +40,9 @@
 
         if ([SHARED_CONFIG_INSTANCE getScrollDirection] == horizontal) {
             flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        } // else vertical as default
+        } else {
+            flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
+        }
         
         self.backgroundColor = [SHARED_CONFIG_INSTANCE getBackgroundColorSourceView];
 

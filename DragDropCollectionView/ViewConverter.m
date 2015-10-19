@@ -20,6 +20,7 @@
     dispatch_once(&oncePredicate, ^{
         _sharedInstance = [[ViewConverter alloc] init];
     });
+    
     return _sharedInstance;
 }
 
