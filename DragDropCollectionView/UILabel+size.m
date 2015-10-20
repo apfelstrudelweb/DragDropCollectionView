@@ -39,7 +39,7 @@
     self.textAlignment = NSTextAlignmentCenter;
     self.textColor = [UIColor colorWithRed:0.51 green:0.62 blue:0.80 alpha:1.0];
     
-    UIFont* font = IS_IPAD ? [UIFont fontWithName:@"Helvetica-Bold" size:28] : [UIFont fontWithName:@"Helvetica-Bold" size:16];
+    UIFont* font = IS_IPAD ? [UIFont fontWithName:@"Helvetica-Bold" size:24] : [UIFont fontWithName:@"Helvetica-Bold" size:12];
     
     self.font = font;
 }

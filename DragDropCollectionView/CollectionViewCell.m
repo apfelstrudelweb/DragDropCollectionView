@@ -58,25 +58,10 @@
         [numberLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
         [placeholderView addSubview:numberLabel];
         [self setupLabelConstraints];
-        
-//        [[NSNotificationCenter defaultCenter] addObserver:self
-//                                                 selector:@selector(receiveTestNotification:)
-//                                                     name:@"TestNotification"
-//                                                   object:nil];
     
     }
     return self;
 }
-
-//- (void) receiveTestNotification:(NSNotification *) notification {
-//
-//    if ([[notification name] isEqualToString:@"TestNotification"]) {
-//        NSLog (@"Successfully received the test notification!");
-//        
-//        //
-//    }
-//    
-//}
 
 
 - (void) reset {
@@ -95,6 +80,8 @@
     self.isPopulated = false;
     self.isExpanded = false;
     
+    [self shrink];
+    
 }
 
 // IMPORTANT: this method MUST be implemented,
@@ -110,7 +97,11 @@
 
 - (void) populateWithContentsOfView: (UIView*) view withinCollectionView: (UICollectionView*) collectionView {
     
-   // if (!view) return;
+    [self shrink];
+    
+    if (!view) {
+        return;
+    }
     
     if ([view isKindOfClass:[DragView class]]) {
         // placeholder color for consumable source items
@@ -122,7 +113,7 @@
         
     } else {
         [self reset];
-        [self expand];
+        //[self expand];
         self.isPopulated = true;
         [self undoPush];
         
@@ -139,22 +130,20 @@
 
 // expands the cell when drag view is above it
 - (void) expand {
-    if (!self.isPopulated) {
-        [self setupViewConstraints:placeholderView isExpanded:true];
-        //placeholderView.backgroundColor = [SHARED_CONFIG_INSTANCE getDropPlaceholderColorTouched];
-    } else {
-        // highlight populated cell
+    
+    [self setupViewConstraints:placeholderView isExpanded:true];
+    
+    if (self.isPopulated) {
         [self highlight:true];
     }
 }
 
 // shrinks the cell when drag view leaves it again
 - (void) shrink {
-    if (!self.isPopulated) {
-        //placeholderView.backgroundColor = [SHARED_CONFIG_INSTANCE getDropPlaceholderColorUntouched];
-        [self setupViewConstraints:placeholderView isExpanded:false];
-    } else {
-        // unhighlight populated cell
+    
+    [self setupViewConstraints:placeholderView isExpanded:false];
+    
+    if (self.isPopulated) {
         [self highlight:false];
     }
 }
@@ -212,7 +201,7 @@
     layoutViewConstraints = [NSMutableArray new];
     
     UIView* referenceView;
-    float fact = expand ? 1.0 : 0.7;
+    float fact = expand ? 1.1 : 0.8;
     
     referenceView = self.contentView;
     

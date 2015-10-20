@@ -133,35 +133,40 @@
         [moveableView move:recognizer inView:mainView];
         
         // scroll issue
-        centerX = recognizer.view.center.x;
-        centerY = recognizer.view.center.y;
-
+        [self handleScrolling:recognizer forView:moveableView];
         
-
         
-        UICollectionViewFlowLayout* layout = (UICollectionViewFlowLayout*)dropCollectionView.collectionViewLayout;
-        isScrollHorizontally = layout.scrollDirection == UICollectionViewScrollDirectionHorizontal;
         
-        bool flag = false;
-        
-        for (UIView* view in mainView.subviews) {
-            if ([view isKindOfClass:[MoveableView class]]) {
-                flag = true;
-                break;
-            }
+        if (leftCell.isPopulated && rightCell.isPopulated) {
+            [leftCell undoPush];
+            [rightCell undoPush];
         }
         
-        if (!flag) {
-            [mainView addSubview:moveableView];
-            NSLog(@"addSubview");
-//            [[NSNotificationCenter defaultCenter]
-//             postNotificationName:@"TestNotification"
-//             object:self];
+        // reset all cells (from previous touches)
+        [dropCollectionView resetAllCells];
+        
+        CollectionViewCell* hoverCell = [Utils getTargetCell:moveableView inCollectionView:dropCollectionView recognizer:recognizer];
+        
+        // nothing more to do - wait until end position
+        if (hoverCell) {
+            [hoverCell expand];
+            return;
         }
         
-
-        [timer invalidate];
-        timer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(scrollCollectionView) userInfo:nil repeats:true];
+        //        insertCells = [Utils getInsertCells:moveableView inCollectionView:dropCollectionView recognizer:recognizer];
+        //
+        //        // nothing more to do - wait until end position
+        //        if (!insertCells) {
+        //            lastLeftCell = nil;
+        //            return;
+        //        }
+        //
+        //        // if insertion intention has been detected, prepare the left and the right cell
+        //        leftCell  = insertCells[0];
+        //        rightCell = insertCells[1];
+        //
+        //        [leftCell push:Left];
+        //        [rightCell push:Right];
         
     }
     
@@ -169,33 +174,8 @@
     else if (recognizer.state == UIGestureRecognizerStateEnded) {
         
         [timer invalidate];
-
-        if ([moveableView isKindOfClass:[DragView class]]) {
-            // Move from source grid to target grid
-            // TEST ONLY - use calculated drop index
-            int index = 22;
-            
-            // 1. remove drag view from source dict
-            if ([SHARED_CONFIG_INSTANCE isSourceItemConsumable]) {
-                [sourceCellsDict removeMoveableView:moveableView];
-            }
-            // 2. convert to drop view
-            DropView* dropView = [SHARED_CONVERTER_INSTANCE convertToDropView:(DragView*)moveableView widthIndex:index];
-            // 3. bring back underlying element to source view
-            [self handleUnderlyingElement:dropView atIndex:index];
-            // 4. add drop view to target dict
-            [targetCellsDict addMoveableView:dropView atIndex:index];
-            // 5. remove drag view from main view
-            [moveableView removeFromSuperview];
-        } else {
-            // Move inside the target grid
-            // TEST ONLY - use calculated drop index
-            int index = 17;//arc4random_uniform(8);
-            // 1. bring back underlying element to source view
-            [self handleUnderlyingElement:moveableView atIndex:index];
-            // 2. update all indices from drop view
-            [(DropView*)moveableView move:targetCellsDict toIndex:index];
-        }
+        
+        [self appendCell:moveableView recognizer:recognizer];
         
         // refresh table views
         [dragCollectionView reloadData];
@@ -214,6 +194,99 @@
 }
 
 
+
+- (void)appendCell:(MoveableView *)moveableView recognizer:(UIPanGestureRecognizer*)recognizer {
+    
+
+    dropCell = [Utils getTargetCell:moveableView inCollectionView:dropCollectionView recognizer:recognizer];
+    [dropCell highlight:false];
+    int dropIndex = (int)dropCell.indexPath.item;
+    
+    // if view is not dropped into a valid cell, handle it
+    if (!dropCell) {
+        [self flipBackToOrigin:moveableView];
+        return;
+    }
+    
+    if ([moveableView isKindOfClass:[DragView class]]) {
+        // Move from source grid to target grid
+        // 1. remove drag view from source dict
+        if ([SHARED_CONFIG_INSTANCE isSourceItemConsumable]) {
+            [sourceCellsDict removeMoveableView:moveableView];
+        }
+
+
+        DropView* dropView = [SHARED_CONVERTER_INSTANCE convertToDropView:(DragView*)moveableView widthIndex:dropIndex];
+        
+        // first remove underlying element ...
+        [self handleUnderlyingElement:dropView atIndex:dropIndex];
+        // ... and the populate dictionary!
+        [targetCellsDict addMoveableView:dropView atIndex:dropIndex];
+        // 5. remove drag view from main view
+        [moveableView removeFromSuperview];
+    } else {
+        // Move inside the target grid
+        // 1. bring back underlying element to source view
+        [self handleUnderlyingElement:moveableView atIndex:dropIndex];
+        // 2. update all indices from drop view
+        [(DropView*)moveableView move:targetCellsDict toIndex:dropIndex];
+    }
+}
+
+/**
+ *
+ * If cell is not dropped into a valid indexpath of collection view,
+ * flip it back to source collection view (= to its origin)
+ *
+ **/
+- (void)flipBackToOrigin:(MoveableView *)moveableView {
+    [moveableView removeFromSuperview];
+    
+    [SHARED_STATE_INSTANCE setTransactionActive:false];
+    
+    if ([moveableView isKindOfClass:[DragView class]]) {
+        if ([SHARED_CONFIG_INSTANCE isSourceItemConsumable]) {
+            [sourceCellsDict addMoveableView:moveableView atIndex:moveableView.index];
+        }
+    } else {
+        DragView* dragView = [SHARED_CONVERTER_INSTANCE convertToDragView:(DropView*)moveableView];
+        // add it to source dict again (recovery)
+        [sourceCellsDict addMoveableView:dragView atIndex:((DropView*)moveableView).previousDragViewIndex];
+        [targetCellsDict removeMoveableView:moveableView];
+    }
+}
+
+
+
+- (void)handleScrolling:(UIPanGestureRecognizer *)recognizer forView:(MoveableView *)moveableView {
+    
+    // check if scrolling is necessary - if not, do nothing!
+    CGSize collectionViewSize = dropCollectionView.frame.size;
+    CGSize contentViewSize = dropCollectionView.contentSize;
+    
+    if ([Utils size:contentViewSize isSmallerThanOrEqualToSize:collectionViewSize]) {
+        return;
+    }
+    
+    
+    centerX = recognizer.view.center.x;
+    centerY = recognizer.view.center.y;
+    
+    UICollectionViewFlowLayout* layout = (UICollectionViewFlowLayout*)dropCollectionView.collectionViewLayout;
+    isScrollHorizontally = layout.scrollDirection == UICollectionViewScrollDirectionHorizontal;
+    
+    if(![mainView isDescendantOfView:moveableView]) {
+        [mainView addSubview:moveableView];
+    }
+    
+    
+    [timer invalidate];
+    timer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(scrollCollectionView) userInfo:nil repeats:true];
+}
+
+
+
+#pragma mark -NSTimer
 -(void) scrollCollectionView {
     
     float collectionViewTop = dropCollectionView.frame.origin.y;
@@ -229,7 +302,6 @@
     } else {
         [self scrollVertically];
     }
-    
     
 }
 
@@ -288,10 +360,10 @@
     float threshold = 0.2; // min relative distance from the middle
     
     
-//    if(comesFromSourceCollectionView && centerY < collectionViewMiddle) {
-//        [timer invalidate];
-//        return;
-//    }
+    //    if(comesFromSourceCollectionView && centerY < collectionViewMiddle) {
+    //        [timer invalidate];
+    //        return;
+    //    }
     
     if (relDistanceFromMiddle < threshold) {
         [timer invalidate];
@@ -339,5 +411,17 @@
         [underlyingView removeFromSuperview];
     }
 }
+
+//- (void)handleInitialDragView:(DragView *)dragView {
+//    // Remove temporary DragView (it's only a snapshot) and replace it by a real one
+//    CGRect frame = newDragView.frame;
+//    [newDragView removeFromSuperview];
+//    
+//    newDragView = [dragView provideNew];
+//    newDragView.frame = frame;
+//    [mainView addSubview:newDragView];
+//    // we need to update the dictionary - otherwise we get empty custom views!
+//    [sourceCellsDict setObject:newDragView forKey:[NSNumber numberWithInt:dragView.index]];
+//}
 
 @end

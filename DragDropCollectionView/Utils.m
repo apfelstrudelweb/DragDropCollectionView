@@ -114,7 +114,7 @@ float cellHeight;
  *
  */
 + (CollectionViewCell*)getTargetCell:(MoveableView *)moveableView inCollectionView:(UICollectionView*) collectionView recognizer:(UIPanGestureRecognizer *)recognizer {
-
+    
     CGPoint correctedTapLocation = [self getCenteredTapLocation:moveableView inCollectionView:collectionView recognizer:recognizer];
     
     NSIndexPath* dropIndexPath = [collectionView indexPathForItemAtPoint:correctedTapLocation];
@@ -219,6 +219,15 @@ float cellHeight;
     
     CGPoint centeredTapLocation = CGPointMake(centerX, centerY);
     return centeredTapLocation;
+}
+
+// compares two sizes - if first size is within second size, return true, otherwise false
++ (bool) size:(CGSize)smallerSize isSmallerThanOrEqualToSize:(CGSize)largerSize {
+    
+    return CGRectContainsRect(
+                              CGRectMake(0.0f, 0.0f, largerSize.width, largerSize.height),
+                              CGRectMake(0.0f, 0.0f, smallerSize.width, smallerSize.height)
+                              );
 }
 
 @end

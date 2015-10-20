@@ -33,4 +33,6 @@
 
 + (CGPoint) getCenteredTapLocation:(MoveableView *)moveableView inCollectionView:(UICollectionView*) collectionView recognizer:(UIPanGestureRecognizer *)recognizer;
 
++ (bool) size:(CGSize)smallerSize isSmallerThanOrEqualToSize:(CGSize)largerSize;
+
 @end

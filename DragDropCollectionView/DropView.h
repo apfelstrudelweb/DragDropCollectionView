@@ -16,6 +16,8 @@
 @property int previousDragViewIndex; // previous index in source collection view
 @property int previousDropViewIndex; // previous index in target collection view (when item has moved from one cell to another)
 
+- (instancetype)initWithView:(DropView*)view inCollectionViewCell:(CollectionViewCell*) cell;
+
 - (void) move:(NSMutableDictionary *)targetCellsDict toIndex:(int)index;
 
 @end

@@ -77,7 +77,7 @@
         // we get problems after an interface rotation!
         
         if (true) {
-            self.cellSize = CGSizeMake(80, 40);
+            self.cellSize = CGSizeMake(200, 100);
         } else {
             self.cellSize = [self.dragCollectionView getBestFillingCellSize:self.dragCollectionViewSize];
         }
