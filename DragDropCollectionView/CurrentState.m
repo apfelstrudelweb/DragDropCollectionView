@@ -10,7 +10,7 @@
 
 @interface CurrentState () {
     bool transactionActive;
-    bool dragAllowed;
+    //bool dragAllowed;
     
     NSMutableArray* consumedItemsArray;
     
@@ -51,13 +51,13 @@
     return transactionActive;
 }
 
-- (void) setDragAllowed: (bool) value {
-    dragAllowed = value;
-}
-
-- (bool) isDragAllowed{
-    return dragAllowed;
-}
+//- (void) setDragAllowed: (bool) value {
+//    dragAllowed = value;
+//}
+//
+//- (bool) isDragAllowed{
+//    return dragAllowed;
+//}
 
 
 - (void) addConsumedItem: (UIView*) view {

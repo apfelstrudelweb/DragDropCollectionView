@@ -18,22 +18,6 @@
     self.viewIsInDragState = [[CurrentState sharedInstance] isTransactionActive];
     
     self.center = self.superview.center;
-    self.backgroundColor = [UIColor greenColor];
 }
-
-//- (id)initWithFrame:(CGRect)frame {
-//    
-//    self = [super initWithFrame:frame];
-//    if (self) {
-//        self.center = self.superview.center;
-//        self.backgroundColor = [UIColor greenColor];
-//        
-//         self.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-//        self.translatesAutoresizingMaskIntoConstraints = YES;
-//        
-//    }
-//    return self;
-//}
-
 
 @end

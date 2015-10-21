@@ -64,6 +64,9 @@
 - (void) setDropPlaceholderColorTouched: (UIColor*) color {
     [persistencyManager setDropPlaceholderColorTouched:color];
 }
+- (void) setShouldDropPlaceholderContainIndex: (bool) value {
+    [persistencyManager setShouldDropPlaceholderContainIndex:value];
+}
 - (void) setNumberOfDropItems: (int) value {
     [persistencyManager setNumberOfDropItems:value];
 }
@@ -78,6 +81,9 @@
 }
 - (void) setHasAutomaticCellSize: (bool) value {
     [persistencyManager setHasAutomaticCellSize:value];
+}
+- (void) setLongPressDurationBeforeDrag: (float) value {
+    [persistencyManager setLongPressDurationBeforeDrag:value];
 }
 
 
@@ -106,6 +112,9 @@
 - (UIColor*) getDropPlaceholderColorTouched {
     return [persistencyManager getDropPlaceholderColorTouched];
 }
+- (bool) getShouldDropPlaceholderContainIndex {
+    return [persistencyManager getShouldDropPlaceholderContainIndex];
+}
 - (int) getNumberOfDropItems {
     return [persistencyManager getNumberOfDropItems];
 }
@@ -120,6 +129,9 @@
 }
 - (bool) getHasAutomaticCellSize {
     return [persistencyManager getHasAutomaticCellSize];
+}
+- (float) getLongPressDurationBeforeDrag {
+    return [persistencyManager getLongPressDurationBeforeDrag];
 }
 
 @end

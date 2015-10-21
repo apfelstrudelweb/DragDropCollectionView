@@ -76,7 +76,12 @@
         id propertyValue = [contentView valueForKey:(NSString *)propertyName];
         
         [newContentView setValue:propertyValue forKey:(NSString *)propertyName];
+        
+        //propertySource = nil;
     }
+    
+    free(propertiesSource);
+    
     return newContentView;
 }
 

@@ -16,7 +16,6 @@
 #import "CurrentState.h"
 
 #define ANIMATION_DURATION 0.5
-#define MIN_PRESS_DURATION 0.5
 
 #define SHARED_CONFIG_INSTANCE   [ConfigAPI sharedInstance]
 
@@ -28,12 +27,10 @@
     bool isTransformedRight;
     
     UIView* placeholderView; // basic subview of a cell - initially represented by a gray square
+    UILabel* numberLabel;
     UIView* moveableView;
     
-    //UIView* dropView;
-    
-    UILabel* numberLabel;
-
+    CGRect originalFrame;
 }
 
 @end
@@ -54,11 +51,13 @@
         
         self.userInteractionEnabled = YES;
         
-        numberLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        [numberLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [placeholderView addSubview:numberLabel];
-        [self setupLabelConstraints];
-    
+        if ([SHARED_CONFIG_INSTANCE getShouldDropPlaceholderContainIndex]) {
+            numberLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+            [numberLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+            [placeholderView addSubview:numberLabel];
+            [self setupLabelConstraints];
+        }
+        
     }
     return self;
 }
@@ -70,17 +69,18 @@
         NSString* str = [NSString stringWithFormat:@"%d", (int)self.indexPath.item];
         [numberLabel setPlaceholderText:str];
     }
-
-    [self setNeedsDisplay];
+    
     
     placeholderView.backgroundColor = [SHARED_CONFIG_INSTANCE getDropPlaceholderColorUntouched];
+    placeholderView.alpha = 1.0;
     
     [self setupViewConstraints:placeholderView isExpanded:false];
+    [self highlight:false];
     
     self.isPopulated = false;
     self.isExpanded = false;
     
-    [self shrink];
+    [self setNeedsDisplay];
     
 }
 
@@ -97,34 +97,22 @@
 
 - (void) populateWithContentsOfView: (UIView*) view withinCollectionView: (UICollectionView*) collectionView {
     
-    [self shrink];
+    [self reset];
     
     if (!view) {
         return;
     }
     
-    if ([view isKindOfClass:[DragView class]]) {
-        // placeholder color for consumable source items
-        self.backgroundColor = [SHARED_CONFIG_INSTANCE getDropPlaceholderColorUntouched];
-        
-        view.frame = self.contentView.bounds;
-        view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        [self.contentView addSubview:view];
-        
-    } else {
-        [self reset];
-        //[self expand];
+    view.frame = self.contentView.bounds;
+    view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self.contentView addSubview:view];
+    
+    moveableView = view;
+    
+    if ([view isKindOfClass:[DropView class]]) {
         self.isPopulated = true;
-        [self undoPush];
-        
-        view.frame = self.contentView.bounds;
-        view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        [self.contentView addSubview:view];
-        //dropView = view;
-
     }
 }
-
 
 
 
@@ -135,6 +123,8 @@
     
     if (self.isPopulated) {
         [self highlight:true];
+    } else {
+        placeholderView.backgroundColor = [SHARED_CONFIG_INSTANCE getDropPlaceholderColorTouched];
     }
 }
 
@@ -145,12 +135,15 @@
     
     if (self.isPopulated) {
         [self highlight:false];
+    } else {
+        placeholderView.backgroundColor = [SHARED_CONFIG_INSTANCE getDropPlaceholderColorUntouched];
     }
 }
 
 // highlights/unhighlights the drop view (which is above this cell)
 - (void) highlight: (bool) flag {
     self.contentView.alpha = flag ? 0.5 : 1.0;
+    
 }
 
 - (void) push: (NSInteger) direction {
@@ -170,13 +163,22 @@
     
     float deltaY = [SHARED_CONFIG_INSTANCE getMinLineSpacing];
     
+    placeholderView.alpha = 0.0;
+    originalFrame = moveableView.frame;
+    
+//    if (self.indexPath.item == 5) {
+//        NSLog(@"CROATIA");
+//    }
+    
     [UIView animateWithDuration:ANIMATION_DURATION
                      animations:^{
                          float offX = (direction == Left) ? 0 : 0.5*w;
                          float offY = -deltaY;
-                         self.contentView.frame = CGRectMake(offX, offY, 0.5*w, h+2*deltaY);
+                         moveableView.frame = CGRectMake(offX, offY, 0.5*w, h+2*deltaY);
+                         //self.contentView.frame = CGRectMake(offX, offY, 0.5*w, h+2*deltaY);
+                         //self.contentView.frame = CGRectMake(offX, offY, 50, 50);
+                         //NSLog(@"moveableView: %f - %f", moveableView.frame.size.width, moveableView.frame.size.height);
                      }];
-    
 }
 
 - (void) undoPush {
@@ -184,14 +186,15 @@
     float w = self.frame.size.width;
     float h = self.frame.size.height;
     
-    self.isPushedToLeft = false;
+    self.isPushedToLeft  = false;
     self.isPushedToRight = false;
-
+    
     [UIView animateWithDuration:ANIMATION_DURATION
                      animations:^{
-                         self.contentView.frame = CGRectMake(0, 0, w, h);
+                         moveableView.frame = originalFrame;
+                         //self.contentView.frame = CGRectMake(0, 0, w, h);
                      }];
-    
+    //[self.contentView.layer removeAllAnimations];
 }
 
 
@@ -253,39 +256,39 @@
     
     // Width constraint
     [layoutLabelConstraints addObject:[NSLayoutConstraint constraintWithItem:numberLabel
-                                                                  attribute:NSLayoutAttributeWidth
-                                                                  relatedBy:NSLayoutRelationEqual
-                                                                     toItem:placeholderView
-                                                                  attribute:NSLayoutAttributeWidth
-                                                                 multiplier:1.0
-                                                                   constant:0]];
+                                                                   attribute:NSLayoutAttributeWidth
+                                                                   relatedBy:NSLayoutRelationEqual
+                                                                      toItem:placeholderView
+                                                                   attribute:NSLayoutAttributeWidth
+                                                                  multiplier:1.0
+                                                                    constant:0]];
     
     // Height constraint
     [layoutLabelConstraints addObject:[NSLayoutConstraint constraintWithItem:numberLabel
-                                                                  attribute:NSLayoutAttributeHeight
-                                                                  relatedBy:NSLayoutRelationEqual
-                                                                     toItem:placeholderView
-                                                                  attribute:NSLayoutAttributeHeight
-                                                                 multiplier:1.0
-                                                                   constant:0]];
+                                                                   attribute:NSLayoutAttributeHeight
+                                                                   relatedBy:NSLayoutRelationEqual
+                                                                      toItem:placeholderView
+                                                                   attribute:NSLayoutAttributeHeight
+                                                                  multiplier:1.0
+                                                                    constant:0]];
     
     // Center horizontally
     [layoutLabelConstraints addObject:[NSLayoutConstraint constraintWithItem:numberLabel
-                                                                  attribute:NSLayoutAttributeCenterX
-                                                                  relatedBy:NSLayoutRelationEqual
-                                                                     toItem:placeholderView
-                                                                  attribute:NSLayoutAttributeCenterX
-                                                                 multiplier:1.0
-                                                                   constant:0.0]];
+                                                                   attribute:NSLayoutAttributeCenterX
+                                                                   relatedBy:NSLayoutRelationEqual
+                                                                      toItem:placeholderView
+                                                                   attribute:NSLayoutAttributeCenterX
+                                                                  multiplier:1.0
+                                                                    constant:0.0]];
     
     // Center vertically
     [layoutLabelConstraints addObject:[NSLayoutConstraint constraintWithItem:numberLabel
-                                                                  attribute:NSLayoutAttributeCenterY
-                                                                  relatedBy:NSLayoutRelationEqual
-                                                                     toItem:placeholderView
-                                                                  attribute:NSLayoutAttributeCenterY
-                                                                 multiplier:1.0
-                                                                   constant:0.0]];
+                                                                   attribute:NSLayoutAttributeCenterY
+                                                                   relatedBy:NSLayoutRelationEqual
+                                                                      toItem:placeholderView
+                                                                   attribute:NSLayoutAttributeCenterY
+                                                                  multiplier:1.0
+                                                                    constant:0.0]];
     // add all constraints at once
     [self addConstraints:layoutLabelConstraints];
 }

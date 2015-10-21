@@ -57,6 +57,7 @@
 
 // move from one cell to another
 - (void) move:(NSMutableDictionary *)targetCellsDict toIndex:(int)index {
+    
     [targetCellsDict removeMoveableView:self];
     self.previousDropViewIndex = self.index;
     self.index = index;

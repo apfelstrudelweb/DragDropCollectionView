@@ -21,6 +21,7 @@
     
     UIColor* dropPlaceholderColorUntouched;
     UIColor* dropPlaceholderColorTouched;
+    bool shouldDropPlaceholderContainIndex; // indexpath.item
     
     int numberOfDropPlaceholders;
 
@@ -36,6 +37,8 @@
     NSInteger scrollDirection;
     
     bool hasAutomaticCellSize;
+    
+    float longPressDurationBeforeDrag;
 }
 
 @end
@@ -76,6 +79,9 @@
 - (void) setDropPlaceholderColorTouched: (UIColor*) color {
     dropPlaceholderColorTouched = color;
 }
+- (void) setShouldDropPlaceholderContainIndex: (bool) value {
+    shouldDropPlaceholderContainIndex = value;
+}
 - (void) setNumberOfDropItems: (int) value {
     numberOfDropPlaceholders = value;
 }
@@ -94,6 +100,9 @@
 }
 - (void) setHasAutomaticCellSize: (bool) value {
     hasAutomaticCellSize = value;
+}
+- (void) setLongPressDurationBeforeDrag: (float) value {
+    longPressDurationBeforeDrag = value;
 }
 
 
@@ -142,6 +151,9 @@
         return [UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1.0];
     }
 }
+- (bool) getShouldDropPlaceholderContainIndex {
+    return shouldDropPlaceholderContainIndex;
+}
 - (int) getNumberOfDropItems {
     if (isSourceItemConsumable) {
         return (int)dataSourceDict.count;
@@ -163,6 +175,10 @@
 }
 - (bool) getHasAutomaticCellSize {
     return hasAutomaticCellSize;
+}
+
+- (float) getLongPressDurationBeforeDrag {
+    return longPressDurationBeforeDrag;
 }
 
 @end

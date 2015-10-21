@@ -45,8 +45,8 @@
     int insertIndex;
     
     // for thread safety
-    DragView* currentDragView;
-    NSMutableArray* concurrentDragViews;
+    MoveableView* currentBusyView;
+    NSMutableArray* concurrentBusyViews;
     
     // scroll issues
     NSTimer* timer;
@@ -54,6 +54,7 @@
     float centerY;
     bool isScrollHorizontally;
     bool comesFromSourceCollectionView;
+
 }
 @end
 
@@ -100,7 +101,7 @@
     [SHARED_BUTTON_INSTANCE setSourceDictionary:sourceCellsDict];
     [SHARED_BUTTON_INSTANCE setTargetDictionary:targetCellsDict];
     
-    concurrentDragViews = [NSMutableArray new];
+    concurrentBusyViews = [NSMutableArray new];
     
 }
 
@@ -110,9 +111,20 @@
     // We can get a drag or drop view - so generalize at beginning!
     MoveableView* moveableView = (MoveableView*)recognizer.view;
     
+    // avoid concurrency
+    if (currentBusyView && ![moveableView isEqual:currentBusyView]) {
+        
+        [concurrentBusyViews addObject:moveableView];
+        [moveableView enablePanGestureRecognizer:false];
+        // nothing to do
+        return;
+    }
+    
     
     // START DRAGGING
     if (recognizer.state == UIGestureRecognizerStateBegan) {
+        
+        currentBusyView = moveableView;
         
         // bring view in front so there are no overlays from
         // other cells
@@ -125,20 +137,31 @@
             comesFromSourceCollectionView = false;
         }
         
+        [SHARED_STATE_INSTANCE setTransactionActive:true]; // indicate that view is in drag state
+        
     }
     
     // DURING DRAGGING
     else if (recognizer.state == UIGestureRecognizerStateChanged) {
         
+        //NSLog(@"moveableView: %f - %f", moveableView.frame.origin.x, moveableView.frame.origin.y);
+        
+        
         [moveableView move:recognizer inView:mainView];
         
         // scroll issue
         [self handleScrolling:recognizer forView:moveableView];
+
+//        if (leftCell.isPopulated && rightCell.isPopulated) {
+//            [leftCell undoPush];
+//            [rightCell undoPush];
+//        }
         
-        
-        
-        if (leftCell.isPopulated && rightCell.isPopulated) {
+        if (leftCell.isPushedToLeft) {
             [leftCell undoPush];
+        }
+        
+        if (rightCell.isPushedToRight) {
             [rightCell undoPush];
         }
         
@@ -150,23 +173,31 @@
         // nothing more to do - wait until end position
         if (hoverCell) {
             [hoverCell expand];
+            insertCells = nil;
             return;
         }
         
-        //        insertCells = [Utils getInsertCells:moveableView inCollectionView:dropCollectionView recognizer:recognizer];
-        //
-        //        // nothing more to do - wait until end position
-        //        if (!insertCells) {
-        //            lastLeftCell = nil;
-        //            return;
-        //        }
-        //
-        //        // if insertion intention has been detected, prepare the left and the right cell
-        //        leftCell  = insertCells[0];
-        //        rightCell = insertCells[1];
-        //
-        //        [leftCell push:Left];
-        //        [rightCell push:Right];
+        insertCells = [Utils getInsertCells:moveableView inCollectionView:dropCollectionView recognizer:recognizer];
+        
+        // nothing more to do - wait until end position
+        if (!insertCells) {
+            lastLeftCell = nil;
+            return;
+        }
+        
+        // if insertion intention has been detected, prepare the left and the right cell
+        leftCell  = insertCells[0];
+        rightCell = insertCells[1];
+        insertIndex = (int)rightCell.indexPath.item;
+        
+        [leftCell push:Left];
+        [rightCell push:Right];
+        
+        
+        // calls "prepareLayout" form CollectionViewFlowLayout and populates the cache:
+        // it seems that "layoutAttributesForElementsInRect" sometimes returns an empty
+        // array, thus the app crashes
+        //[dropCollectionView.collectionViewLayout invalidateLayout];
         
     }
     
@@ -175,7 +206,11 @@
         
         [timer invalidate];
         
-        [self appendCell:moveableView recognizer:recognizer];
+        if (insertCells) {
+            [self insertCell:moveableView];
+        } else {
+            [self appendCell:moveableView recognizer:recognizer];
+        }
         
         // refresh table views
         [dragCollectionView reloadData];
@@ -183,7 +218,16 @@
         
         NSLog(@"targetCellsDict len: %lu", (unsigned long)targetCellsDict.count);
         
-        [SHARED_STATE_INSTANCE setDragAllowed:false];
+        [SHARED_STATE_INSTANCE setTransactionActive:false];
+        [[CurrentState sharedInstance] setDragAllowed:false];
+        
+        
+        // enable gesture recognizers of all concurrent drag views again
+        for (MoveableView* view in concurrentBusyViews) {
+            [view enablePanGestureRecognizer:true];
+        }
+        [concurrentBusyViews removeAllObjects];
+        currentBusyView = nil;
     }
     
     else {
@@ -194,10 +238,11 @@
 }
 
 
-
+/**
+ * Append cell without replacing adjacent ones (= into empty spaces or overwritimg existing ones)
+ */
 - (void)appendCell:(MoveableView *)moveableView recognizer:(UIPanGestureRecognizer*)recognizer {
     
-
     dropCell = [Utils getTargetCell:moveableView inCollectionView:dropCollectionView recognizer:recognizer];
     [dropCell highlight:false];
     int dropIndex = (int)dropCell.indexPath.item;
@@ -214,8 +259,7 @@
         if ([SHARED_CONFIG_INSTANCE isSourceItemConsumable]) {
             [sourceCellsDict removeMoveableView:moveableView];
         }
-
-
+        
         DropView* dropView = [SHARED_CONVERTER_INSTANCE convertToDropView:(DragView*)moveableView widthIndex:dropIndex];
         
         // first remove underlying element ...
@@ -231,6 +275,53 @@
         // 2. update all indices from drop view
         [(DropView*)moveableView move:targetCellsDict toIndex:dropIndex];
     }
+}
+
+/**
+ * Insert cell between two adjacent cells - the right-hand cell is shifted one cell towards right
+ */
+- (void)insertCell:(MoveableView *)moveableView  {
+    
+    // TODO: fix BUG -> element crashes after it has been moved and inserted (moving it aigain)!
+    
+    NSIndexPath* insertionIndexPath = rightCell.indexPath;
+    int highestInsertionIndex = (int)[dropCollectionView numberOfItemsInSection:0];
+    insertIndex = (int)insertionIndexPath.item;
+    
+    DropView* dropView;
+    
+    if ([moveableView isKindOfClass:[DragView class]]) {
+        
+        // 1. view comes from source collection view
+        dropView = [SHARED_CONVERTER_INSTANCE convertToDropView:(DragView*)moveableView widthIndex:insertIndex];
+        dropView.index = insertIndex;
+        dropView.previousDragViewIndex = moveableView.index;
+        
+        if ([SHARED_CONFIG_INSTANCE isSourceItemConsumable]) {
+            [sourceCellsDict removeMoveableView:moveableView];
+        }
+
+    } else {
+        
+        // 2. view comes from target collection view
+        [targetCellsDict removeMoveableView:(DropView*)moveableView];
+
+        dropView = (DropView*)moveableView;
+        dropView.previousDropViewIndex = dropView.index;
+        dropView.index = insertIndex;
+
+    }
+    
+    // if limit of collection view has arrived, recover last element
+    DropView* droppedView = (DropView*) [targetCellsDict insertObject: dropView atIndex:insertIndex withMaxCapacity:highestInsertionIndex];
+    
+    if (droppedView && [SHARED_CONFIG_INSTANCE isSourceItemConsumable]) {
+        int prevDragIndex = droppedView.previousDragViewIndex;
+        DragView* dragView = [SHARED_CONVERTER_INSTANCE convertToDragView:droppedView];
+        [sourceCellsDict addMoveableView:dragView atIndex:prevDragIndex];
+    }
+
+    [moveableView removeFromSuperview];
 }
 
 /**
@@ -416,7 +507,7 @@
 //    // Remove temporary DragView (it's only a snapshot) and replace it by a real one
 //    CGRect frame = newDragView.frame;
 //    [newDragView removeFromSuperview];
-//    
+//
 //    newDragView = [dragView provideNew];
 //    newDragView.frame = frame;
 //    [mainView addSubview:newDragView];

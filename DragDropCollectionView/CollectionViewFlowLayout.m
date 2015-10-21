@@ -74,6 +74,10 @@
         return cache;
     }
     
+    if (attributesArray.count == 0) {
+        return cache;
+    }
+    
     
     // height of collection view
     float availableHeight = self.collectionViewContentSize.height;

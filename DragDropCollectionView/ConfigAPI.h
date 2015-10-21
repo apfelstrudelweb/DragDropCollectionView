@@ -26,10 +26,12 @@
 @property (NS_NONATOMIC_IOSONLY, getter=getDataSourceDict, copy) NSMutableDictionary *dataSourceDict;
 @property (NS_NONATOMIC_IOSONLY, getter=getDropPlaceholderColorUntouched, copy) UIColor *dropPlaceholderColorUntouched;
 @property (NS_NONATOMIC_IOSONLY, getter=getDropPlaceholderColorTouched, copy) UIColor *dropPlaceholderColorTouched;
+@property (NS_NONATOMIC_IOSONLY, getter=getShouldDropPlaceholderContainIndex) bool shouldDropPlaceholderContainIndex;
 @property (NS_NONATOMIC_IOSONLY, getter=getNumberOfDropItems) int numberOfDropItems;
 @property (NS_NONATOMIC_IOSONLY, getter=isSourceItemConsumable) bool sourceItemConsumable;
 @property (NS_NONATOMIC_IOSONLY, getter=isShouldRemoveAllEmptyCells, readonly) bool shouldRemoveAllEmptyCells;
 @property (NS_NONATOMIC_IOSONLY, getter=getScrollDirection) NSInteger scrollDirection;
 @property (NS_NONATOMIC_IOSONLY, getter=getHasAutomaticCellSize) bool hasAutomaticCellSize;
+@property (NS_NONATOMIC_IOSONLY, getter=getLongPressDurationBeforeDrag) float longPressDurationBeforeDrag;
 
 @end

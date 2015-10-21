@@ -28,11 +28,14 @@ typedef NS_ENUM (NSInteger, ScrollDirection) {
 @property (NS_NONATOMIC_IOSONLY, getter=getDataSourceDict, copy) NSMutableDictionary *dataSourceDict;
 @property (NS_NONATOMIC_IOSONLY, getter=getDropPlaceholderColorUntouched, copy) UIColor *dropPlaceholderColorUntouched;
 @property (NS_NONATOMIC_IOSONLY, getter=getDropPlaceholderColorTouched, copy) UIColor *dropPlaceholderColorTouched;
+@property (NS_NONATOMIC_IOSONLY, getter=getShouldDropPlaceholderContainIndex) bool shouldDropPlaceholderContainIndex;
 @property (NS_NONATOMIC_IOSONLY, getter=getNumberOfDropItems) int numberOfDropItems;
 @property (NS_NONATOMIC_IOSONLY, getter=getIsSourceItemConsumable) bool isSourceItemConsumable;
 @property (NS_NONATOMIC_IOSONLY, getter=getShouldRemoveAllEmptyCells) bool shouldRemoveAllEmptyCells;
 @property (NS_NONATOMIC_IOSONLY, getter=getUndoButton, strong) UIButton *undoButton;
 @property (NS_NONATOMIC_IOSONLY, getter=getScrollDirection) NSInteger scrollDirection;
 @property (NS_NONATOMIC_IOSONLY, getter=getHasAutomaticCellSize) bool hasAutomaticCellSize;
+@property (NS_NONATOMIC_IOSONLY, getter=getLongPressDurationBeforeDrag) float longPressDurationBeforeDrag;
+
 
 @end

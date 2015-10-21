@@ -18,6 +18,7 @@
 
 - (void) move:(UIPanGestureRecognizer *)recognizer inView:(UIView*) view;
 
+- (void) enablePanGestureRecognizer: (bool) flag;
 
 @property (NS_NONATOMIC_IOSONLY, getter=getContentView, strong) CustomView *contentView;
 

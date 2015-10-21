@@ -17,7 +17,7 @@
  * objects at the right-hand side of the inserted object
  *
  */
-- (void) insertObject: (id) object atIndex: (int) index;
+- (MoveableView*) insertObject: (id) object atIndex: (int) index withMaxCapacity: (int) lastIndex;
 
 - (void) removeMoveableView: (MoveableView*) view;
 - (void) addMoveableView: (MoveableView*) view atIndex: (int) index;

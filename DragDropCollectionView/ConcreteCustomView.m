@@ -169,7 +169,7 @@
         imageWidth = ratio * imageHeight;
     } else if (imageviewWidth < imageWidth) {
         imageWidth = imageviewWidth;
-        imageviewHeight = imageWidth / ratio;
+       // imageviewHeight = imageWidth / ratio;
     }
     
     
