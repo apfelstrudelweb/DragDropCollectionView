@@ -18,6 +18,7 @@
 #define ANIMATION_DURATION 0.5
 
 #define SHARED_CONFIG_INSTANCE   [ConfigAPI sharedInstance]
+#define SHARED_STATE_INSTANCE      [CurrentState sharedInstance]
 
 @interface CollectionViewCell() {
     NSMutableArray* layoutViewConstraints;
@@ -50,6 +51,7 @@
         [self setupViewConstraints:placeholderView isExpanded:false];
         
         self.userInteractionEnabled = YES;
+
         
         if ([SHARED_CONFIG_INSTANCE getShouldDropPlaceholderContainIndex]) {
             numberLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -60,6 +62,23 @@
         
     }
     return self;
+}
+
+// MUST be called (for the iPad)
+- (void)layoutSubviews {
+    //NSLog(@"layoutSubviews");
+    //[super layoutSubviews];
+    
+    if (![SHARED_STATE_INSTANCE isTransactionActive]) {
+        //[self undoPush];
+        
+        float w = self.frame.size.width;
+        float h = self.frame.size.height;
+        self.contentView.frame = CGRectMake(0, 0, w, h);
+        
+        self.isPushedToLeft  = false;
+        self.isPushedToRight = false;
+    }
 }
 
 
@@ -103,6 +122,7 @@
         return;
     }
     
+
     view.frame = self.contentView.bounds;
     view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.contentView addSubview:view];
@@ -166,35 +186,27 @@
     placeholderView.alpha = 0.0;
     originalFrame = moveableView.frame;
     
-//    if (self.indexPath.item == 5) {
-//        NSLog(@"CROATIA");
-//    }
     
     [UIView animateWithDuration:ANIMATION_DURATION
                      animations:^{
                          float offX = (direction == Left) ? 0 : 0.5*w;
                          float offY = -deltaY;
-                         moveableView.frame = CGRectMake(offX, offY, 0.5*w, h+2*deltaY);
-                         //self.contentView.frame = CGRectMake(offX, offY, 0.5*w, h+2*deltaY);
+                         //moveableView.frame = CGRectMake(offX, offY, 0.5*w, h+2*deltaY);
+                         self.contentView.frame = CGRectMake(offX, offY, 0.5*w, h+2*deltaY);
                          //self.contentView.frame = CGRectMake(offX, offY, 50, 50);
-                         //NSLog(@"moveableView: %f - %f", moveableView.frame.size.width, moveableView.frame.size.height);
                      }];
 }
 
 - (void) undoPush {
-    
-    float w = self.frame.size.width;
-    float h = self.frame.size.height;
-    
+
     self.isPushedToLeft  = false;
     self.isPushedToRight = false;
     
     [UIView animateWithDuration:ANIMATION_DURATION
                      animations:^{
-                         moveableView.frame = originalFrame;
-                         //self.contentView.frame = CGRectMake(0, 0, w, h);
+                         //moveableView.frame = originalFrame;
+                         self.contentView.frame = originalFrame;
                      }];
-    //[self.contentView.layer removeAllAnimations];
 }
 
 

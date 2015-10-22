@@ -145,17 +145,11 @@
     else if (recognizer.state == UIGestureRecognizerStateChanged) {
         
         //NSLog(@"moveableView: %f - %f", moveableView.frame.origin.x, moveableView.frame.origin.y);
-        
-        
+
         [moveableView move:recognizer inView:mainView];
         
         // scroll issue
         [self handleScrolling:recognizer forView:moveableView];
-
-//        if (leftCell.isPopulated && rightCell.isPopulated) {
-//            [leftCell undoPush];
-//            [rightCell undoPush];
-//        }
         
         if (leftCell.isPushedToLeft) {
             [leftCell undoPush];
@@ -190,6 +184,11 @@
         rightCell = insertCells[1];
         insertIndex = (int)rightCell.indexPath.item;
         
+        // Prevent that the dragged cell is treated like an embedding cell group
+        if (leftCell.indexPath.item == moveableView.index || rightCell.indexPath.item == moveableView.index) {
+            return;
+        }
+        
         [leftCell push:Left];
         [rightCell push:Right];
         
@@ -197,7 +196,7 @@
         // calls "prepareLayout" form CollectionViewFlowLayout and populates the cache:
         // it seems that "layoutAttributesForElementsInRect" sometimes returns an empty
         // array, thus the app crashes
-        //[dropCollectionView.collectionViewLayout invalidateLayout];
+        [dropCollectionView.collectionViewLayout invalidateLayout];
         
     }
     
@@ -228,6 +227,8 @@
         }
         [concurrentBusyViews removeAllObjects];
         currentBusyView = nil;
+        
+        //[dropCollectionView.collectionViewLayout invalidateLayout];
     }
     
     else {
@@ -312,7 +313,7 @@
 
     }
     
-    // if limit of collection view has arrived, recover last element
+    // when target collection view is full, recover last element (which falls out)
     DropView* droppedView = (DropView*) [targetCellsDict insertObject: dropView atIndex:insertIndex withMaxCapacity:highestInsertionIndex];
     
     if (droppedView && [SHARED_CONFIG_INSTANCE isSourceItemConsumable]) {
