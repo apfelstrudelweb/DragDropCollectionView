@@ -88,62 +88,18 @@
 }
 
 - (void) receiveDeleteCellNotification:(NSNotification *) notification {
+    
     if ([notification.name isEqualToString:@"deleteCellNotification"]) {
-        NSDictionary *userInfo = notification.userInfo;
-        NSIndexPath* indexPath = userInfo[@"indexPath"];
         
-        NSInteger numberOfItems = [self numberOfItemsInSection:0];
-        NSIndexPath* lastIndexPath = [NSIndexPath indexPathForItem:numberOfItems-1 inSection:0];
-        
+        NSIndexPath* indexPath = notification.userInfo[@"indexPath"];
         bool cellIsPopulated = targetCellsDict[@((int)indexPath.item)];
         
         // remove the deletable view also from history (undo button)
-        DragView *dragView;
-        [SHARED_DRAGDROP_INSTANCE updateHistory:indexPath dragView:&dragView];
-
-        // append empty cell in order to maintain a constant number of cells - only when user has configured it
-        if ([SHARED_CONFIG_INSTANCE isShouldRemoveAllEmptyCells] || !cellIsPopulated)  {
-            [self performBatchUpdates:^{
-                
-                NSArray *indexPaths = @[lastIndexPath];
-                [self deleteItemsAtIndexPaths:@[indexPath]];
-                [self insertItemsAtIndexPaths:indexPaths];
- 
-            } completion: ^(BOOL finished) {
-                
-                // if consumable item, get it back into the source collection view
-                if (sourceCellsDict && [SHARED_CONFIG_INSTANCE isSourceItemConsumable]) {
-                    
-                    [self recoverConsumedElement:(int)indexPath.item];
-                }
-                
-                [targetCellsDict removeObjectForKey:@((int)indexPath.item)];
-                
-                
-                [Utils eliminateEmptyKeysInDict:targetCellsDict];
-                
-                
-                [SHARED_STATE_INSTANCE setTransactionActive:true]; // indicate that view is in drag state
-    
-                // update indexes -> we need them for UndoButtonHelper
-                for (NSNumber* key in targetCellsDict) {
-                    DropView* view = targetCellsDict[key];
-                    view.index = key.intValue;
-                }
-                
-                [self reloadData];
-                
-            }];
-        } else {
-            // if consumable item, get it back into the source collection view
-            if (sourceCellsDict && [SHARED_CONFIG_INSTANCE isSourceItemConsumable]) {
-                
-                [self recoverConsumedElement:(int)indexPath.item];
-            }
+        // [SHARED_DRAGDROP_INSTANCE updateHistory:indexPath dragView:&dragView];
+        
+        if (!cellIsPopulated) {
             
-            [targetCellsDict removeObjectForKey:@((int)indexPath.item)];
-
-            [SHARED_STATE_INSTANCE setTransactionActive:true]; // indicate that view is in drag state
+            [targetCellsDict shiftAllElementsToLeftFromIndex:(int)indexPath.item];
             
             [self reloadData];
         }

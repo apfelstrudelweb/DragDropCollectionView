@@ -20,7 +20,7 @@
 
 @property (nonatomic) BOOL isTargetCell;
 
-@property UILongPressGestureRecognizer* longPressGesture;
+//@property UILongPressGestureRecognizer* longPressGesture;
 
 
 

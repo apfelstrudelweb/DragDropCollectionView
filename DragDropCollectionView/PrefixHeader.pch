@@ -16,7 +16,7 @@
 #define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
 #define CELL_WIDTH_HEIGHT_RATIO 2.0
-#define SPACE_BETWEEN_ITEMS     IS_IPAD       ? 20.0 : 10.0
+#define SPACE_BETWEEN_ITEMS     IS_IPAD       ? 40.0 : 20.0
 //#define SPACE_BETWEEN_LINES     IS_IPAD       ? 11.0 : 7
 
 // sum of the following subviews must be 100

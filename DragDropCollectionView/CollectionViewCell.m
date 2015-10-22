@@ -16,11 +16,13 @@
 #import "CurrentState.h"
 
 #define ANIMATION_DURATION 0.5
+#define MIN_PRESS_DURATION 0.5
 
 #define SHARED_CONFIG_INSTANCE   [ConfigAPI sharedInstance]
 #define SHARED_STATE_INSTANCE      [CurrentState sharedInstance]
 
 @interface CollectionViewCell() {
+    
     NSMutableArray* layoutViewConstraints;
     NSMutableArray* layoutLabelConstraints;
     
@@ -32,6 +34,11 @@
     UIView* moveableView;
     
     CGRect originalFrame;
+    
+   // UILongPressGestureRecognizer* longPressGesture;
+    UIPanGestureRecognizer* panRecognizer;
+    float initialX;
+    float initialY;
 }
 
 @end
@@ -60,17 +67,73 @@
             [self setupLabelConstraints];
         }
         
+//        if (!longPressGesture) {
+//            longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didLongPress:)];
+//            
+//            longPressGesture.minimumPressDuration = MIN_PRESS_DURATION;
+//            longPressGesture.delegate = self;
+//            [self addGestureRecognizer:longPressGesture];
+//        }
+       
+        
+        
+        if (!panRecognizer) {
+            panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+            
+            panRecognizer.maximumNumberOfTouches = 1;
+            panRecognizer.minimumNumberOfTouches = 1;
+            panRecognizer.delegate = self;
+            [self addGestureRecognizer:panRecognizer];
+        }
+        
+        self.userInteractionEnabled = YES;
+        
     }
     return self;
 }
 
+- (void)handlePan:(UIPanGestureRecognizer *)recognizer {
+    
+    if (recognizer.state == UIGestureRecognizerStateBegan) {
+
+        initialX = [recognizer locationInView:self.window].x;
+        initialY = [recognizer locationInView:self.window].y;
+     
+    }
+    
+    if (recognizer.state == UIGestureRecognizerStateEnded) {
+        
+        float finalX = [recognizer locationInView:self.window].x;
+        float finalY = [recognizer locationInView:self.window].y;
+        
+        float diffX = fabsf(finalX - initialX);
+        float diffY = initialY - finalY;
+        
+        float horizontalTolerance = 0.5*self.contentView.frame.size.width;
+        
+        if(diffX < horizontalTolerance && finalY < initialY && diffY > diffX) {
+            NSDictionary *userInfo = [NSDictionary dictionaryWithObject:self.indexPath forKey:@"indexPath"];
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"deleteCellNotification" object:nil userInfo:userInfo];
+        }
+        
+    }
+
+}
+
+//- (void) didLongPress:(UISwipeGestureRecognizer*)sender  {
+//    
+//    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:self.indexPath forKey:@"indexPath"];
+//    
+//    // inform DragCollectionView
+//    if (sender.state == UIGestureRecognizerStateBegan){
+//        [[NSNotificationCenter defaultCenter] postNotificationName: @"deleteCellNotification" object:nil userInfo:userInfo];
+//    }
+//}
+
 // MUST be called (for the iPad)
 - (void)layoutSubviews {
-    //NSLog(@"layoutSubviews");
-    //[super layoutSubviews];
-    
+    // omit super!
     if (![SHARED_STATE_INSTANCE isTransactionActive]) {
-        //[self undoPush];
         
         float w = self.frame.size.width;
         float h = self.frame.size.height;

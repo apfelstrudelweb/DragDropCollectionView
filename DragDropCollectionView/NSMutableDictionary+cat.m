@@ -45,8 +45,6 @@
      }
      ];
     
-    //NSLog(@"allKeys: %@", allKeys);
-    
     // 2. copy all elements left to insertion index
     for (int i=0; i<allKeys.count; i++) {
         
@@ -62,7 +60,6 @@
         
 
     }
-    //[newDict log];
 
     // 3. right-shift all other elements starting from insertion index
     for (int i=0; i<allKeys.count; i++) {
@@ -88,17 +85,70 @@
     [self removeAllObjects];
     
     [newDict enumerateKeysAndObjectsUsingBlock:^(id key, id object, BOOL *stop) {
-        //NSLog(@"%@ = %@", key, object);
-        
-//        if ([key intValue] > lastIndex) {
-//            *stop =YES;
-//            return;
-//        }
-        
+
         self[key] = object;
     }];
     
     return droppedView;
+}
+
+- (void) shiftAllElementsToLeftFromIndex: (int) index {
+    
+    NSMutableDictionary* newDict = [NSMutableDictionary new];
+    
+    // 1. get all keys in ascending order
+    NSMutableArray *allKeys = [self.allKeys mutableCopy];
+    
+    [allKeys sortUsingComparator:
+     ^NSComparisonResult(NSNumber* n1, NSNumber* n2){
+         
+         if (n1.intValue > n2.intValue) {
+             return NSOrderedDescending;
+         }
+         else if (n1.intValue < n2.intValue) {
+             return NSOrderedAscending;
+         }
+         else{
+             return NSOrderedSame;
+         }
+     }
+     ];
+    
+    // 2. copy all elements left to deletion index
+    for (int i=0; i<allKeys.count; i++) {
+        
+        NSNumber* key = allKeys[i];
+        
+        if (key.intValue < index) {
+            id object = self[key];
+            // watch out for empty cells left to the insertion index
+            if (object) {
+                newDict[key] = object;
+            }
+        }
+    }
+    
+    // 3. left-shift all other elements starting from deletion index
+    for (int i=0; i<allKeys.count; i++) {
+        
+        NSNumber* key = allKeys[i];
+        NSNumber* newKey = @(key.intValue-1);
+        
+        if (key.intValue >= index) {
+            
+            MoveableView* object = self[key];
+            object.index = key.intValue-1;
+            newDict[newKey] = object;
+        }
+    }
+    
+    // 4. overwrite initial dictionary
+    [self removeAllObjects];
+    
+    [newDict enumerateKeysAndObjectsUsingBlock:^(id key, id object, BOOL *stop) {
+        
+        self[key] = object;
+    }];
 }
 
 - (void) removeMoveableView: (MoveableView*) view {
@@ -108,18 +158,8 @@
 
 - (void) addMoveableView: (MoveableView*) view atIndex: (int) index {
     
-    //[self removeObjectForKey:@(index)];
-    
-//    // in the case that a cell already contains a view, handle it!
-//    MoveableView* underlyingView = [self objectForKey:[NSNumber numberWithInt:index]];
-//    
-//    if (underlyingView) {
-//        [self setObject:underlyingView forKey:[NSNumber numberWithInt:-index]];
-//    }
-    
     [self setObject:view forKey:@(index)];
-    
-    //self[@(index)] = view;
+
 }
 
 
