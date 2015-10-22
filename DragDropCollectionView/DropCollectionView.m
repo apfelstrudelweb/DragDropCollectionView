@@ -39,7 +39,13 @@
     
     if (self) {
         
-        CollectionViewFlowLayout *flowLayout = [[CollectionViewFlowLayout alloc] init];
+        UICollectionViewFlowLayout* flowLayout;
+        
+        if ([SHARED_CONFIG_INSTANCE getShouldItemsBePlacedFromLeftToRight]) {
+            flowLayout = [[CollectionViewFlowLayout alloc] init];
+        } else {
+            flowLayout = [[UICollectionViewFlowLayout alloc] init];
+        }
         
         self = [[DropCollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
         self.backgroundColor = [SHARED_CONFIG_INSTANCE getBackgroundColorTargetView];

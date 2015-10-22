@@ -23,14 +23,37 @@
 
 @implementation DragCollectionView
 
+//- (void)layoutSubviews {
+//    [super layoutSubviews];
+//    
+//    BOOL isInPortrait = UIDeviceOrientationIsPortrait([[UIDevice currentDevice] orientation]);
+//    
+//    if (isInPortrait) {
+//        NSLog(@"Portrait");
+//    } else {
+//        NSLog(@"Landscape");
+//    }
+//    
+//    CollectionViewFlowLayout *flowLayout = (id)self.collectionViewLayout;
+//    flowLayout.itemSize = CGSizeMake(50, 50); //[self getBestFillingCellSize:self.contentSize];
+//   // [flowLayout invalidateLayout];
+//}
+
+
 
 - (instancetype)initWithFrame:(CGRect)frame withinView: (UIView<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>*) view  {
     
 
     if (self) {
         
-        CollectionViewFlowLayout *flowLayout = [[CollectionViewFlowLayout alloc] init];
-
+        UICollectionViewFlowLayout* flowLayout;
+        
+        if ([SHARED_CONFIG_INSTANCE getShouldItemsBePlacedFromLeftToRight]) {
+            flowLayout = [[CollectionViewFlowLayout alloc] init];
+        } else {
+            flowLayout = [[UICollectionViewFlowLayout alloc] init];
+        }
+        
         self = [[DragCollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
         
         minInteritemSpacing = [SHARED_CONFIG_INSTANCE getMinInteritemSpacing];
@@ -43,6 +66,7 @@
         } else {
             flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
         }
+
         
         self.backgroundColor = [SHARED_CONFIG_INSTANCE getBackgroundColorSourceView];
 
@@ -50,7 +74,6 @@
         self.dataSource = view;
         self.showsHorizontalScrollIndicator = NO;
         self.showsVerticalScrollIndicator = NO;
-    
 
         [self registerClass:[CollectionViewCell class] forCellWithReuseIdentifier:REUSE_IDENTIFIER];
         

@@ -55,6 +55,7 @@
     
     [SHARED_CONFIG_INSTANCE setScrollDirection:horizontal];
     //[SHARED_CONFIG_INSTANCE setScrollDirection:vertical];
+    [SHARED_CONFIG_INSTANCE setShouldItemsBePlacedFromLeftToRight:true]; // only for horizontal scroll direction
     
     [SHARED_CONFIG_INSTANCE setLongPressDurationBeforeDrag:0.0];
     

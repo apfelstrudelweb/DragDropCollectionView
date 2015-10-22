@@ -31,14 +31,11 @@
     bool shouldRemoveAllEmptyCells;
     
     NSObject* dragDropHelper;
-    
     UIButton* undoButton;
-    
     NSInteger scrollDirection;
-    
     bool hasAutomaticCellSize;
-    
     float longPressDurationBeforeDrag;
+    bool shouldItemsBePlacedFromLeftToRight;
 }
 
 @end
@@ -88,7 +85,6 @@
 - (void) setIsSourceItemConsumable: (bool) value {
     isSourceItemConsumable = value;
 }
-
 - (void) setShouldRemoveAllEmptyCells: (bool) value {
     shouldRemoveAllEmptyCells = value;
 }
@@ -103,6 +99,9 @@
 }
 - (void) setLongPressDurationBeforeDrag: (float) value {
     longPressDurationBeforeDrag = value;
+}
+- (void) setShouldItemsBePlacedFromLeftToRight: (bool) value {
+    shouldItemsBePlacedFromLeftToRight = value;
 }
 
 
@@ -176,9 +175,11 @@
 - (bool) getHasAutomaticCellSize {
     return hasAutomaticCellSize;
 }
-
 - (float) getLongPressDurationBeforeDrag {
     return longPressDurationBeforeDrag;
+}
+- (bool) getShouldItemsBePlacedFromLeftToRight {
+    return shouldItemsBePlacedFromLeftToRight;
 }
 
 @end

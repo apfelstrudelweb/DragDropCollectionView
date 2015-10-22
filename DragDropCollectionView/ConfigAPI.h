@@ -33,5 +33,6 @@
 @property (NS_NONATOMIC_IOSONLY, getter=getScrollDirection) NSInteger scrollDirection;
 @property (NS_NONATOMIC_IOSONLY, getter=getHasAutomaticCellSize) bool hasAutomaticCellSize;
 @property (NS_NONATOMIC_IOSONLY, getter=getLongPressDurationBeforeDrag) float longPressDurationBeforeDrag;
+@property (NS_NONATOMIC_IOSONLY, getter=getShouldItemsBePlacedFromLeftToRight) bool shouldItemsBePlacedFromLeftToRight;
 
 @end

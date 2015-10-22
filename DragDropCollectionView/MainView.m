@@ -77,7 +77,7 @@
         // we get problems after an interface rotation!
         
         if (true) {
-            self.cellSize = CGSizeMake(200, 100);
+            self.cellSize = IS_IPAD ? CGSizeMake(200, 100) : CGSizeMake(120, 60);
         } else {
             self.cellSize = [self.dragCollectionView getBestFillingCellSize:self.dragCollectionViewSize];
         }
@@ -133,7 +133,7 @@
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
 
     return self.cellSize;
-//    return CGSizeMake(100, 50);
+    //return CGSizeMake(100, 50);
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {

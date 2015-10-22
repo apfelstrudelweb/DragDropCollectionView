@@ -185,7 +185,7 @@
         insertIndex = (int)rightCell.indexPath.item;
         
         // Prevent that the dragged cell is treated like an embedding cell group
-        if (leftCell.indexPath.item == moveableView.index || rightCell.indexPath.item == moveableView.index) {
+        if ([moveableView isKindOfClass:[DropView class]] && (leftCell.indexPath.item == moveableView.index || rightCell.indexPath.item == moveableView.index)) {
             return;
         }
         
@@ -207,6 +207,12 @@
         
         if (insertCells) {
             [self insertCell:moveableView];
+            // now scroll to the inserted cell
+            NSIndexPath* scrollToIndexPath = [NSIndexPath indexPathForItem:insertIndex inSection:0];
+            
+            UICollectionViewScrollPosition scrollPos = [SHARED_CONFIG_INSTANCE getScrollDirection] == horizontal ? UICollectionViewScrollPositionCenteredHorizontally : UICollectionViewScrollPositionCenteredVertically;
+            
+            [dropCollectionView scrollToItemAtIndexPath:scrollToIndexPath atScrollPosition:scrollPos animated:YES];
         } else {
             [self appendCell:moveableView recognizer:recognizer];
         }

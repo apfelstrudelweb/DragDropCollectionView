@@ -85,6 +85,10 @@
 - (void) setLongPressDurationBeforeDrag: (float) value {
     [persistencyManager setLongPressDurationBeforeDrag:value];
 }
+- (void) setShouldItemsBePlacedFromLeftToRight: (bool) value {
+    [persistencyManager setShouldItemsBePlacedFromLeftToRight:value];
+}
+
 
 
 // Getter
@@ -132,6 +136,9 @@
 }
 - (float) getLongPressDurationBeforeDrag {
     return [persistencyManager getLongPressDurationBeforeDrag];
+}
+- (bool) getShouldItemsBePlacedFromLeftToRight {
+    return [persistencyManager getShouldItemsBePlacedFromLeftToRight];
 }
 
 @end
