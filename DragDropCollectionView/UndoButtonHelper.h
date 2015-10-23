@@ -16,14 +16,13 @@
 + (UndoButtonHelper*) sharedInstance;
 
 - (void) initWithButton: (UIButton*) button;
+- (void) initWithInfoLabel: (UILabel*) label;
+
+- (void) updateHistory: (History*) hist;
 
 - (void) setSourceDictionary: (NSMutableDictionary*) dict;
 - (void) setTargetDictionary: (NSMutableDictionary*) dict;
 
-- (void) updateHistory: (History*) hist;
 
-//- (void) addViewToHistory: (DragView*) dragView andDropView: (DropView*) dropView;
-//
-//- (void) removeViewFromHistory: (DragView*) dragView andDropView: (DropView*) dropView;
 
 @end

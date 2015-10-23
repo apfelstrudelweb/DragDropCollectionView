@@ -14,7 +14,7 @@
 #import "CurrentState.h"
 
 #define ANIMATION_DURATION 0.5
-//#define MIN_PRESS_DURATION 0.5
+#define MIN_PRESS_DURATION 0.5
 
 #define SHARED_CONFIG_INSTANCE     [ConfigAPI sharedInstance]
 #define SHARED_STATE_INSTANCE      [CurrentState sharedInstance]
@@ -33,7 +33,7 @@
     
     CGRect originalFrame;
     
-    // UILongPressGestureRecognizer* longPressGesture;
+    UILongPressGestureRecognizer* longPressGesture;
     UIPanGestureRecognizer* panRecognizer;
     float initialX;
     float initialY;
@@ -66,13 +66,13 @@
             [self setupLabelConstraints];
         }
         
-        //        if (!longPressGesture) {
-        //            longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didLongPress:)];
-        //
-        //            longPressGesture.minimumPressDuration = MIN_PRESS_DURATION;
-        //            longPressGesture.delegate = self;
-        //            [self addGestureRecognizer:longPressGesture];
-        //        }
+        if (!longPressGesture) {
+            longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didLongPress:)];
+            
+            longPressGesture.minimumPressDuration = MIN_PRESS_DURATION;
+            longPressGesture.delegate = self;
+            [self addGestureRecognizer:longPressGesture];
+        }
         
         
         
@@ -103,9 +103,9 @@
     }
     
     if (recognizer.state == UIGestureRecognizerStateEnded) {
-
+        
         float finalY = [recognizer locationInView:self.window].y;
-
+        
         
         if (finalY >= [SHARED_STATE_INSTANCE getTopTargetCollectionView]) {
             // if we drop into the same grid, do nothing
@@ -132,24 +132,30 @@
     }
 }
 
+- (void) didLongPress:(UISwipeGestureRecognizer*)sender  {
+    
+    // for empty cells only
+    if (!moveableView) {
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:self.indexPath forKey:@"indexPath"];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"arrasoltaDeleteCellNotification" object:nil userInfo:userInfo];
+        
+    }
+    
+}
+
 - (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
 shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     
     if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
         return YES;
     }
+    if ([gestureRecognizer isKindOfClass:[UILongPressGestureRecognizer class]]) {
+        return YES;
+    }
     return NO;
 }
 
-//- (void) didLongPress:(UISwipeGestureRecognizer*)sender  {
-//
-//    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:self.indexPath forKey:@"indexPath"];
-//
-//    // inform DragCollectionView
-//    if (sender.state == UIGestureRecognizerStateBegan){
-//        [[NSNotificationCenter defaultCenter] postNotificationName: @"arrasoltaDeleteCellNotification" object:nil userInfo:userInfo];
-//    }
-//}
 
 // MUST be called (for the iPad)
 - (void)layoutSubviews {

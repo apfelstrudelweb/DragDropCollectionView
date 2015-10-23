@@ -66,7 +66,7 @@
     self.viewsDictionary = @{   @"headline1"    : self.headline1,
                                 @"source"       : self.dragCollectionView,
                                 @"headline2"    : self.headline2,
-                                @"button"       : self.undoButton,
+                                @"button"       : self.btnView,
                                 @"target"       : self.dropCollectionView };
     
     CGRect screenRect = [UIScreen mainScreen].bounds;
@@ -164,7 +164,7 @@
 
     
     // Height constraint
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.undoButton
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.btnView
                                                               attribute:NSLayoutAttributeHeight
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self
@@ -173,15 +173,15 @@
                                                                constant:heightButton]];
     
     // Width constraint
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.undoButton
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.btnView
                                                               attribute:NSLayoutAttributeWidth
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self
                                                               attribute:NSLayoutAttributeWidth
-                                                             multiplier:0.0
-                                                               constant:heightButton]];
+                                                             multiplier:0.9
+                                                               constant:0.0]];
     // Center horizontally
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.undoButton
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.btnView
                                                               attribute:NSLayoutAttributeRight
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self.dragCollectionView

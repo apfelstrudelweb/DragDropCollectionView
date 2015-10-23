@@ -8,6 +8,7 @@
 
 #import "MainBasicView.h"
 
+
 @interface MainView : MainBasicView// <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 

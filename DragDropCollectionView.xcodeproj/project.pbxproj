@@ -10,6 +10,7 @@
 		1BBDE4121BAC1B7200CD5461 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BBDE4111BAC1B7200CD5461 /* Utils.m */; };
 		1BBDE4171BAC56C300CD5461 /* UILabel+size.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BBDE4161BAC56C300CD5461 /* UILabel+size.m */; };
 		1BD1ABB21BD9343E00F7E096 /* History.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD1ABB11BD9343E00F7E096 /* History.m */; settings = {ASSET_TAGS = (); }; };
+		1BD91F201BDAA17800468716 /* ButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD91F1F1BDAA17800468716 /* ButtonView.m */; settings = {ASSET_TAGS = (); }; };
 		1BD924A91BBEC36300EF90F7 /* CurrentState.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD924A81BBEC36300EF90F7 /* CurrentState.m */; };
 		1BD924AD1BBED7DB00EF90F7 /* greece.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BD924AC1BBED7DB00EF90F7 /* greece.png */; };
 		1BD924AF1BBEDA8E00EF90F7 /* hungary.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BD924AE1BBEDA8E00EF90F7 /* hungary.png */; };
@@ -81,6 +82,8 @@
 		1BBDE4161BAC56C300CD5461 /* UILabel+size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+size.m"; sourceTree = "<group>"; };
 		1BD1ABB01BD9343E00F7E096 /* History.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = History.h; sourceTree = "<group>"; };
 		1BD1ABB11BD9343E00F7E096 /* History.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = History.m; sourceTree = "<group>"; };
+		1BD91F1E1BDAA17800468716 /* ButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonView.h; sourceTree = "<group>"; };
+		1BD91F1F1BDAA17800468716 /* ButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonView.m; sourceTree = "<group>"; };
 		1BD924A71BBEC36300EF90F7 /* CurrentState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentState.h; sourceTree = "<group>"; };
 		1BD924A81BBEC36300EF90F7 /* CurrentState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrentState.m; sourceTree = "<group>"; };
 		1BD924AC1BBED7DB00EF90F7 /* greece.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greece.png; sourceTree = "<group>"; };
@@ -282,6 +285,8 @@
 				1BDD7EFC1BB54ABD00CB4161 /* MainBasicView.m */,
 				1BDF7FD11BA8354700A49AA9 /* MainView.h */,
 				1BDF7FD21BA8354700A49AA9 /* MainView.m */,
+				1BD91F1E1BDAA17800468716 /* ButtonView.h */,
+				1BD91F1F1BDAA17800468716 /* ButtonView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -568,6 +573,7 @@
 				1BE7810B1BC5536E00BD13C1 /* ConcreteCustomView.m in Sources */,
 				1BDCD8B81BC3B880000C21A7 /* DragDropHelper.m in Sources */,
 				1BDD7EFD1BB54ABD00CB4161 /* MainBasicView.m in Sources */,
+				1BD91F201BDAA17800468716 /* ButtonView.m in Sources */,
 				1BDF7FD31BA8354700A49AA9 /* MainView.m in Sources */,
 				1BDC75E91BB1B22E00171AA2 /* NSMutableArray+cat.m in Sources */,
 				1BD1ABB21BD9343E00F7E096 /* History.m in Sources */,

@@ -49,12 +49,11 @@
         [self.headline2 setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.headline2];
         
-        self.undoButton = [UIButton new];
-        UIImage* btnImage = [UIImage imageWithCGImage:[UIImage imageNamed:@"undo.png"].CGImage]; // trick for @2x.png
-        [self.undoButton setImage:btnImage forState:UIControlStateNormal];
-        [self.undoButton setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self addSubview:self.undoButton];
-        [SHARED_BUTTON_INSTANCE initWithButton:self.undoButton];
+        self.btnView = [ButtonView new];
+        //self.btnView.backgroundColor = [UIColor blueColor];
+        [self.btnView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self addSubview:self.btnView];
+        
         
         // Prepare source collection view
         self.sourceCellsDict = [SHARED_CONFIG_INSTANCE getDataSourceDict];

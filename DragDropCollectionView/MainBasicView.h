@@ -10,13 +10,14 @@
 
 // from framework
 #import "PublicAPI.h"
+#import "ButtonView.h"
 
 
 @interface MainBasicView : UIView
 
 @property (strong, nonatomic) UILabel *headline1;
 @property (strong, nonatomic) UILabel *headline2;
-@property (strong, nonatomic) UIButton *undoButton;
+@property (strong, nonatomic) ButtonView *btnView;
 
 @property (strong, nonatomic) DragCollectionView *dragCollectionView;
 @property (strong, nonatomic) DropCollectionView *dropCollectionView;

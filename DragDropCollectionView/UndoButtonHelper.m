@@ -25,6 +25,7 @@
     NSMutableDictionary* targetDictionary;
     
     UIButton* undoButton;
+    UILabel* infoLabel;
     NSMutableArray* historyArray;
 }
 @end
@@ -54,7 +55,9 @@
 // simply add new history object to stack
 - (void) updateHistory: (History*) hist {
     undoButton.alpha = 1.0;
+    infoLabel.alpha = 1.0;
     [historyArray addObject:hist];
+    infoLabel.text = [NSString stringWithFormat:@"%d", (int)historyArray.count];
 }
 
 - (void) initWithButton: (UIButton*) button {
@@ -64,6 +67,12 @@
     
     undoButton.alpha = ALPHA_OFF;
     
+}
+
+- (void) initWithInfoLabel: (UILabel*) label {
+    infoLabel = label;
+    infoLabel.text = 0;
+    infoLabel.alpha = ALPHA_OFF;
 }
 
 - (void) setSourceDictionary: (NSMutableDictionary*) dict {
@@ -191,10 +200,12 @@
     [historyArray removeLastObject];
     
     undoButton.alpha = historyArray.count==0 ? ALPHA_OFF : 1.0;
-    
+    infoLabel.alpha = historyArray.count==0 ? ALPHA_OFF : 1.0;
+    infoLabel.text = [NSString stringWithFormat:@"%d", (int)historyArray.count];
     
     // inform source collection view about change - reload needed
     [[NSNotificationCenter defaultCenter] postNotificationName: @"arrasoltaRestoreElementNotification" object:nil userInfo:nil];
 }
+
 
 @end
