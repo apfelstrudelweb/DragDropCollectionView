@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MoveableView.h"
 
 
 @interface CollectionViewCell : UICollectionViewCell <UIGestureRecognizerDelegate>
@@ -20,12 +21,14 @@
 
 @property (nonatomic) BOOL isTargetCell;
 
-//@property UILongPressGestureRecognizer* longPressGesture;
-
+// define push directions - accessible also from MainView.m
+typedef NS_ENUM (NSInteger, PushDirection) {
+    Left,
+    Right };
 
 
 - (void) reset;
-- (void) populateWithContentsOfView: (UIView*) view withinCollectionView:(UICollectionView*) collectionView;
+- (void) populateWithContentsOfView: (MoveableView*) view withinCollectionView:(UICollectionView*) collectionView;
 - (void) expand;
 - (void) shrink;
 - (void) highlight: (bool) flag;
@@ -33,10 +36,7 @@
 - (void) push: (NSInteger) direction;
 - (void) undoPush;
 
-// define push directions - accessible also from MainView.m
-typedef NS_ENUM (NSInteger, PushDirection) {
-    Left,
-    Right
-};
+
+
 
 @end

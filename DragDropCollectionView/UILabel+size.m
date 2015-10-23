@@ -25,10 +25,21 @@
 - (void) setTextForHeadline: (NSString*) text {
     
     self.text = text;
-    self.textAlignment = NSTextAlignmentLeft;
+    self.textAlignment = NSTextAlignmentCenter;
     self.textColor = FONT_COLOR;
     
-    UIFont* font = IS_IPAD ? [UIFont fontWithName:@"Helvetica-Bold" size:28] : [UIFont fontWithName:@"Helvetica-Bold" size:16];
+    UIFont* font = IS_IPAD ? [UIFont fontWithName:@"Helvetica-Bold" size:40] : [UIFont fontWithName:@"Helvetica-Bold" size:18];
+    
+    self.font = font;
+}
+
+- (void) setTextForSubHeadline: (NSString*) text {
+    
+    self.text = text;
+    self.textAlignment = NSTextAlignmentCenter;
+    self.textColor = FONT_COLOR;
+    
+    UIFont* font = IS_IPAD ? [UIFont fontWithName:@"Helvetica-Bold" size:30] : [UIFont fontWithName:@"Helvetica-Bold" size:14];
     
     self.font = font;
 }

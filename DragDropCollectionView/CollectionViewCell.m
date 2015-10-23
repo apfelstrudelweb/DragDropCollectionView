@@ -7,18 +7,16 @@
 //
 
 #import "CollectionViewCell.h"
-#import "Utils.h"
+
 #import "ConfigAPI.h"
-#import "DragView.h"
 #import "DropView.h"
-#import "Utils.h"
 #import "UILabel+size.h"
 #import "CurrentState.h"
 
 #define ANIMATION_DURATION 0.5
-#define MIN_PRESS_DURATION 0.5
+//#define MIN_PRESS_DURATION 0.5
 
-#define SHARED_CONFIG_INSTANCE   [ConfigAPI sharedInstance]
+#define SHARED_CONFIG_INSTANCE     [ConfigAPI sharedInstance]
 #define SHARED_STATE_INSTANCE      [CurrentState sharedInstance]
 
 @interface CollectionViewCell() {
@@ -31,14 +29,15 @@
     
     UIView* placeholderView; // basic subview of a cell - initially represented by a gray square
     UILabel* numberLabel;
-    UIView* moveableView;
+    MoveableView* moveableView;
     
     CGRect originalFrame;
     
-   // UILongPressGestureRecognizer* longPressGesture;
+    // UILongPressGestureRecognizer* longPressGesture;
     UIPanGestureRecognizer* panRecognizer;
     float initialX;
     float initialY;
+    
 }
 
 @end
@@ -58,7 +57,7 @@
         [self setupViewConstraints:placeholderView isExpanded:false];
         
         self.userInteractionEnabled = YES;
-
+        
         
         if ([SHARED_CONFIG_INSTANCE getShouldDropPlaceholderContainIndex]) {
             numberLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -67,14 +66,14 @@
             [self setupLabelConstraints];
         }
         
-//        if (!longPressGesture) {
-//            longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didLongPress:)];
-//            
-//            longPressGesture.minimumPressDuration = MIN_PRESS_DURATION;
-//            longPressGesture.delegate = self;
-//            [self addGestureRecognizer:longPressGesture];
-//        }
-       
+        //        if (!longPressGesture) {
+        //            longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didLongPress:)];
+        //
+        //            longPressGesture.minimumPressDuration = MIN_PRESS_DURATION;
+        //            longPressGesture.delegate = self;
+        //            [self addGestureRecognizer:longPressGesture];
+        //        }
+        
         
         
         if (!panRecognizer) {
@@ -94,39 +93,61 @@
 
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer {
     
+    if (!self.indexPath) return; // when a source element has been dragged to top
+    
+    
     if (recognizer.state == UIGestureRecognizerStateBegan) {
-
+        
         initialX = [recognizer locationInView:self.window].x;
         initialY = [recognizer locationInView:self.window].y;
-     
     }
     
     if (recognizer.state == UIGestureRecognizerStateEnded) {
-        
-        float finalX = [recognizer locationInView:self.window].x;
+
         float finalY = [recognizer locationInView:self.window].y;
+
         
-        float diffX = fabsf(finalX - initialX);
-        float diffY = initialY - finalY;
-        
-        float horizontalTolerance = 0.5*self.contentView.frame.size.width;
-        
-        if(diffX < horizontalTolerance && finalY < initialY && diffY > diffX) {
-            NSDictionary *userInfo = [NSDictionary dictionaryWithObject:self.indexPath forKey:@"indexPath"];
-            [[NSNotificationCenter defaultCenter] postNotificationName: @"deleteCellNotification" object:nil userInfo:userInfo];
+        if (finalY >= [SHARED_STATE_INSTANCE getTopTargetCollectionView]) {
+            // if we drop into the same grid, do nothing
+            return;
         }
         
+        if((finalY < [SHARED_STATE_INSTANCE getBottomSourceCollectionView]) || (finalY < initialY)) {
+            
+            NSDictionary *userInfo;
+            
+            //int index = self.indexPath.item;
+            
+            if (moveableView) {
+                userInfo = [NSDictionary dictionaryWithObject:(DropView*)moveableView forKey:@"dropView"];
+                
+            } else {
+                // delete an empty cell
+                userInfo = [NSDictionary dictionaryWithObject:self.indexPath forKey:@"indexPath"];
+            }
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"arrasoltaDeleteCellNotification" object:nil userInfo:userInfo];
+            
+        }
     }
+}
 
+- (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
+shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    
+    if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+        return YES;
+    }
+    return NO;
 }
 
 //- (void) didLongPress:(UISwipeGestureRecognizer*)sender  {
-//    
+//
 //    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:self.indexPath forKey:@"indexPath"];
-//    
+//
 //    // inform DragCollectionView
 //    if (sender.state == UIGestureRecognizerStateBegan){
-//        [[NSNotificationCenter defaultCenter] postNotificationName: @"deleteCellNotification" object:nil userInfo:userInfo];
+//        [[NSNotificationCenter defaultCenter] postNotificationName: @"arrasoltaDeleteCellNotification" object:nil userInfo:userInfo];
 //    }
 //}
 
@@ -162,6 +183,8 @@
     self.isPopulated = false;
     self.isExpanded = false;
     
+    moveableView = nil;
+    
     [self setNeedsDisplay];
     
 }
@@ -177,7 +200,7 @@
     }
 }
 
-- (void) populateWithContentsOfView: (UIView*) view withinCollectionView: (UICollectionView*) collectionView {
+- (void) populateWithContentsOfView: (MoveableView*) view withinCollectionView: (UICollectionView*) collectionView {
     
     [self reset];
     
@@ -185,7 +208,7 @@
         return;
     }
     
-
+    
     view.frame = self.contentView.bounds;
     view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.contentView addSubview:view];
@@ -261,7 +284,7 @@
 }
 
 - (void) undoPush {
-
+    
     self.isPushedToLeft  = false;
     self.isPushedToRight = false;
     

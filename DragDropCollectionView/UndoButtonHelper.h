@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "DragView.h"
 #import "DropView.h"
+#import "History.h"
 
 @interface UndoButtonHelper : NSObject
 
@@ -19,8 +20,10 @@
 - (void) setSourceDictionary: (NSMutableDictionary*) dict;
 - (void) setTargetDictionary: (NSMutableDictionary*) dict;
 
-- (void) addViewToHistory: (DragView*) dragView andDropView: (DropView*) dropView;
+- (void) updateHistory: (History*) hist;
 
-- (void) removeViewFromHistory: (DragView*) dragView andDropView: (DropView*) dropView;
+//- (void) addViewToHistory: (DragView*) dragView andDropView: (DropView*) dropView;
+//
+//- (void) removeViewFromHistory: (DragView*) dragView andDropView: (DropView*) dropView;
 
 @end

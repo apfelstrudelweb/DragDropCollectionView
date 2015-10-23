@@ -20,6 +20,9 @@
 @property (NS_NONATOMIC_IOSONLY, getter=getConsumedItems, readonly, copy) NSArray *consumedItems;
 @property (NS_NONATOMIC_IOSONLY, getter=getDragDropHelper, strong) NSObject *dragDropHelper;
 
+@property (NS_NONATOMIC_IOSONLY, getter=getBottomSourceCollectionView) float bottomSourceCollectionView;
+@property (NS_NONATOMIC_IOSONLY, getter=getTopTargetCollectionView) float topTargetCollectionView;
+
 
 
 - (void) addConsumedItem: (UIView*) view;

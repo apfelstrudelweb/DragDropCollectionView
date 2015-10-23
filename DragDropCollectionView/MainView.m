@@ -9,6 +9,9 @@
 #import "MainView.h"
 #import "UILabel+size.h"
 
+// remove
+#import "ConcreteCustomView.h"
+
 #define SHARED_CONFIG_INSTANCE   [ConfigAPI sharedInstance]
 #define SHARED_BUTTON_INSTANCE   [UndoButtonHelper sharedInstance]
 
@@ -37,12 +40,12 @@
         minLineSpacing = [SHARED_CONFIG_INSTANCE getMinLineSpacing];
         
         self.headline1 = [[UILabel alloc] initWithFrame:frame];
-        [self.headline1 setTextForHeadline:@"Drag and Drop Prototype"];
+        [self.headline1 setTextForHeadline:@"ArraSolta Drag & Drop Demo"];
         [self.headline1 setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.headline1];
         
         self.headline2 = [[UILabel alloc] initWithFrame:frame];
-        [self.headline2 setTextForHeadline:@"Drag elements from top to bottom"];
+        [self.headline2 setTextForSubHeadline:@"Drag elements from top to bottom"];
         [self.headline2 setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.headline2];
         
@@ -76,8 +79,8 @@
         // space within the collection view - we need to call the method otherwise
         // we get problems after an interface rotation!
         
-        if (true) {
-            self.cellSize = IS_IPAD ? CGSizeMake(200, 100) : CGSizeMake(120, 60);
+        if (false) {
+            self.cellSize = IS_IPAD ? CGSizeMake(200, 100) : CGSizeMake(90, 40);
         } else {
             self.cellSize = [self.dragCollectionView getBestFillingCellSize:self.dragCollectionViewSize];
         }
@@ -122,6 +125,9 @@
         // fill all cells from DropCollectionView
         cell = [((DropCollectionView*)collectionView) getCell:indexPath];
         DropView* dropView = (self.targetCellsDict)[@((int)indexPath.item)];
+        
+//        ConcreteCustomView* ccv = (ConcreteCustomView*)dropView.contentView;
+//        [ccv setLabelText:[NSString stringWithFormat:@"%d", dropView.previousDropViewIndex]];
 
         [cell populateWithContentsOfView:dropView withinCollectionView:collectionView];
     }

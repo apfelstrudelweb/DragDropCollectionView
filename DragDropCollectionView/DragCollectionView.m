@@ -10,6 +10,7 @@
 #import "Utils.h"
 #import "ConfigAPI.h"
 #import "CollectionViewFlowLayout.h"
+#import "CurrentState.h"
 
 #define REUSE_IDENTIFIER @"dragCell"
 #define SHARED_CONFIG_INSTANCE   [ConfigAPI sharedInstance]
@@ -23,9 +24,18 @@
 
 @implementation DragCollectionView
 
-//- (void)layoutSubviews {
-//    [super layoutSubviews];
-//    
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    CGSize size = self.contentSize;
+    CGPoint point = self.frame.origin;
+    
+    float bottomY = point.y + size.height;
+    
+    [[CurrentState sharedInstance] setBottomSourceCollectionView:bottomY];
+    
+    //NSLog(@"bottomY: %f", bottomY);
+    
 //    BOOL isInPortrait = UIDeviceOrientationIsPortrait([[UIDevice currentDevice] orientation]);
 //    
 //    if (isInPortrait) {
@@ -37,7 +47,7 @@
 //    CollectionViewFlowLayout *flowLayout = (id)self.collectionViewLayout;
 //    flowLayout.itemSize = CGSizeMake(50, 50); //[self getBestFillingCellSize:self.contentSize];
 //   // [flowLayout invalidateLayout];
-//}
+}
 
 
 
@@ -77,7 +87,7 @@
 
         [self registerClass:[CollectionViewCell class] forCellWithReuseIdentifier:REUSE_IDENTIFIER];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(restoreElementNotification:) name:@"restoreElementNotification"
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(restoreElementNotification:) name:@"arrasoltaRestoreElementNotification"
                                                    object:nil];
     
     }
@@ -88,7 +98,7 @@
 
 #pragma mark -NSNotificationCenter
 - (void) restoreElementNotification:(NSNotification *) notification {
-    if ([notification.name isEqualToString:@"restoreElementNotification"]) {
+    if ([notification.name isEqualToString:@"arrasoltaRestoreElementNotification"]) {
         [self reloadData];
     }
 }

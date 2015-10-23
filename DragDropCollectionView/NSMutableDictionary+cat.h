@@ -19,6 +19,8 @@
  */
 - (MoveableView*) insertObject: (id) object atIndex: (int) index withMaxCapacity: (int) lastIndex;
 - (void) shiftAllElementsToLeftFromIndex: (int) index;
+- (void) shiftAllElementsToRightFromIndex: (int) index;
+- (void) flipBackElementAtIndex: (int) index;
 
 - (void) removeMoveableView: (MoveableView*) view;
 - (void) addMoveableView: (MoveableView*) view atIndex: (int) index;

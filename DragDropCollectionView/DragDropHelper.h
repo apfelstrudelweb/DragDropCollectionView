@@ -18,6 +18,4 @@
 
 - (void)handlePan:(UIPanGestureRecognizer *)recognizer;
 
-- (void)updateHistory:(NSIndexPath *)dropIndexPath dragView:(DragView **)dragView;
-
 @end

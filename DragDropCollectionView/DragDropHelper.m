@@ -13,7 +13,7 @@
 #import "DropCollectionView.h"
 #import "ConfigAPI.h"
 #import "ViewConverter.h"
-
+#import "History.h"
 
 
 #define SHARED_STATE_INSTANCE      [CurrentState sharedInstance]
@@ -143,8 +143,6 @@
     
     // DURING DRAGGING
     else if (recognizer.state == UIGestureRecognizerStateChanged) {
-        
-        //NSLog(@"moveableView: %f - %f", moveableView.frame.origin.x, moveableView.frame.origin.y);
 
         [moveableView move:recognizer inView:mainView];
         
@@ -221,7 +219,7 @@
         [dragCollectionView reloadData];
         [dropCollectionView reloadData];
         
-        NSLog(@"targetCellsDict len: %lu", (unsigned long)targetCellsDict.count);
+        //NSLog(@"targetCellsDict len: %lu", (unsigned long)targetCellsDict.count);
         
         [SHARED_STATE_INSTANCE setTransactionActive:false];
         [[CurrentState sharedInstance] setDragAllowed:false];
@@ -234,6 +232,7 @@
         [concurrentBusyViews removeAllObjects];
         currentBusyView = nil;
         
+        // TODO: check if we need it!
         //[dropCollectionView.collectionViewLayout invalidateLayout];
     }
     
@@ -268,19 +267,39 @@
         }
         
         DropView* dropView = [SHARED_CONVERTER_INSTANCE convertToDropView:(DragView*)moveableView widthIndex:dropIndex];
-        
+
         // first remove underlying element ...
-        [self handleUnderlyingElement:dropView atIndex:dropIndex];
-        // ... and the populate dictionary!
+        bool hasUnderlyingElement = [self bringUnderlyingElementBackToOrigin:dropView atIndex:dropIndex];
+        // ... and then populate dictionary!
         [targetCellsDict addMoveableView:dropView atIndex:dropIndex];
-        // 5. remove drag view from main view
+        // remove drag view from main view
         [moveableView removeFromSuperview];
+        
+        // update history
+        History* hist = [History new];
+        hist.elementComesFromTop = YES;
+        hist.elementHasBeenReplaced = hasUnderlyingElement;
+        hist.index = dropView.index;
+        hist.previousIndex = dropView.previousDragViewIndex;
+        [SHARED_BUTTON_INSTANCE updateHistory:hist];
+
+ 
     } else {
         // Move inside the target grid
+        DropView* dropView = (DropView*)moveableView;
         // 1. bring back underlying element to source view
-        [self handleUnderlyingElement:moveableView atIndex:dropIndex];
+        bool hasUnderlyingElement = [self bringUnderlyingElementBackToOrigin:moveableView atIndex:dropIndex];
         // 2. update all indices from drop view
-        [(DropView*)moveableView move:targetCellsDict toIndex:dropIndex];
+        [dropView move:targetCellsDict toIndex:dropIndex];
+        
+        // update history
+        History* hist = [History new];
+        hist.elementComesFromTop = NO;
+        hist.elementHasBeenReplaced = hasUnderlyingElement;
+        hist.index = dropView.index;
+        hist.previousIndex = dropView.previousDropViewIndex;
+
+        [SHARED_BUTTON_INSTANCE updateHistory:hist];
     }
 }
 
@@ -288,8 +307,6 @@
  * Insert cell between two adjacent cells - the right-hand cell is shifted one cell towards right
  */
 - (void)insertCell:(MoveableView *)moveableView  {
-    
-    // TODO: fix BUG -> element crashes after it has been moved and inserted (moving it aigain)!
     
     NSIndexPath* insertionIndexPath = rightCell.indexPath;
     int highestInsertionIndex = (int)[dropCollectionView numberOfItemsInSection:0];
@@ -308,6 +325,14 @@
             [sourceCellsDict removeMoveableView:moveableView];
         }
 
+        // update history
+        History* hist = [History new];
+        hist.elementComesFromTop = YES;
+        hist.elementHasBeenInserted = YES;
+        hist.index = dropView.index;
+        hist.previousIndex = dropView.previousDragViewIndex;
+        [SHARED_BUTTON_INSTANCE updateHistory:hist];
+
     } else {
         
         // 2. view comes from target collection view
@@ -316,6 +341,14 @@
         dropView = (DropView*)moveableView;
         dropView.previousDropViewIndex = dropView.index;
         dropView.index = insertIndex;
+  
+        // update history
+        History* hist = [History new];
+        hist.elementComesFromTop = NO;
+        hist.elementHasBeenInserted = YES;
+        hist.index = dropView.index;
+        hist.previousIndex = dropView.previousDropViewIndex;
+        [SHARED_BUTTON_INSTANCE updateHistory:hist];
 
     }
     
@@ -326,8 +359,17 @@
         int prevDragIndex = droppedView.previousDragViewIndex;
         DragView* dragView = [SHARED_CONVERTER_INSTANCE convertToDragView:droppedView];
         [sourceCellsDict addMoveableView:dragView atIndex:prevDragIndex];
+        
+        // update history
+        History* hist = [History new];
+        hist.elementComesFromTop = NO;
+        hist.elementHasBeenDroppedOut = YES;
+        hist.index = insertIndex;
+        hist.previousIndex = prevDragIndex;
+        hist.deletionIndex = highestInsertionIndex-1;
+        [SHARED_BUTTON_INSTANCE updateHistory:hist];
     }
-
+ 
     [moveableView removeFromSuperview];
 }
 
@@ -490,12 +532,12 @@
 
 // check if cell is populated:
 // if so, bring back to source grid and remove from view
-- (void)handleUnderlyingElement:(MoveableView*) moveableView atIndex:(int) index {
+- (bool)bringUnderlyingElementBackToOrigin:(MoveableView*) moveableView atIndex:(int) index {
     
     DropView* underlyingView = targetCellsDict[@(index)];
     
     // if drop view view is dropped back into the same cell, do nothing!
-    if ([(DropView*)moveableView isEqual:underlyingView]) return;
+    if ([(DropView*)moveableView isEqual:underlyingView]) return NO;
     
     if (underlyingView) {
         // remove as underlying view from dict
@@ -506,20 +548,21 @@
             // add it to source dict again (recovery)
             [sourceCellsDict addMoveableView:dragView atIndex:underlyingView.previousDragViewIndex];
         }
+        
+        // update history
+        History* hist = [History new];
+        hist.elementComesFromTop = NO;
+        hist.elementHasBeenDeleted = NO;
+        hist.elementHasBeenReplaced = NO;
+        hist.deletionIndex = index;
+        hist.previousIndex = underlyingView.previousDragViewIndex;
+        [SHARED_BUTTON_INSTANCE updateHistory:hist];
+        
         [underlyingView removeFromSuperview];
+        return YES;
     }
+    return NO;
 }
 
-//- (void)handleInitialDragView:(DragView *)dragView {
-//    // Remove temporary DragView (it's only a snapshot) and replace it by a real one
-//    CGRect frame = newDragView.frame;
-//    [newDragView removeFromSuperview];
-//
-//    newDragView = [dragView provideNew];
-//    newDragView.frame = frame;
-//    [mainView addSubview:newDragView];
-//    // we need to update the dictionary - otherwise we get empty custom views!
-//    [sourceCellsDict setObject:newDragView forKey:[NSNumber numberWithInt:dragView.index]];
-//}
 
 @end

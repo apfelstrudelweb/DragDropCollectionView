@@ -15,6 +15,9 @@
     NSMutableArray* consumedItemsArray;
     
     NSObject* dragDropHelper;
+    
+    float bottomSourceCollectionView;
+    float topTargetCollectionView;
 }
 @end
 
@@ -77,5 +80,25 @@
 - (void) setDragDropHelper: (NSObject*) object {
     dragDropHelper = object;
 }
+
+- (float) getBottomSourceCollectionView {
+    return bottomSourceCollectionView;
+}
+
+- (void) setBottomSourceCollectionView: (float) value {
+    bottomSourceCollectionView = value;
+}
+
+- (float) getTopTargetCollectionView {
+    return topTargetCollectionView;
+}
+
+- (void) setTopTargetCollectionView: (float) value {
+    topTargetCollectionView = value;
+}
+
+
+
+
 
 @end

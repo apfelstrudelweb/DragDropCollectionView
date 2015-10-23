@@ -35,6 +35,17 @@
 
 @implementation DropCollectionView
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    CGPoint point = self.frame.origin;
+    
+    float topY = point.y;
+    
+    [[CurrentState sharedInstance] setTopTargetCollectionView:topY];
+
+}
+
 - (instancetype)initWithFrame:(CGRect)frame withinView: (UIView<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>*) view sourceDictionary:(NSMutableDictionary*) sourceDict targetDictionary:(NSMutableDictionary*) targetDict  {
     
     if (self) {
@@ -70,9 +81,9 @@
         
         [self registerClass:[CollectionViewCell class] forCellWithReuseIdentifier:REUSE_IDENTIFIER];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveDeleteCellNotification:) name:@"deleteCellNotification"
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveDeleteCellNotification:) name:@"arrasoltaDeleteCellNotification"
                                                    object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(restoreElementNotification:) name:@"restoreElementNotification"
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(restoreElementNotification:) name:@"arrasoltaRestoreElementNotification"
                                                    object:nil];
         
     }
@@ -82,26 +93,38 @@
 
 #pragma mark -NSNotificationCenter
 - (void) restoreElementNotification:(NSNotification *) notification {
-    if ([notification.name isEqualToString:@"restoreElementNotification"]) {
+    if ([notification.name isEqualToString:@"arrasoltaRestoreElementNotification"]) {
         [self reloadData];
     }
 }
 
 - (void) receiveDeleteCellNotification:(NSNotification *) notification {
     
-    if ([notification.name isEqualToString:@"deleteCellNotification"]) {
+    if ([notification.name isEqualToString:@"arrasoltaDeleteCellNotification"]) {
         
-        NSIndexPath* indexPath = notification.userInfo[@"indexPath"];
-        bool cellIsPopulated = targetCellsDict[@((int)indexPath.item)];
+        id userinfo = notification.userInfo[@"dropView"];
         
-        // remove the deletable view also from history (undo button)
-        // [SHARED_DRAGDROP_INSTANCE updateHistory:indexPath dragView:&dragView];
-        
-        if (!cellIsPopulated) {
+        if ([userinfo isKindOfClass:[DropView class]]) {
+            // populated cell
+            DropView* dropView = notification.userInfo[@"dropView"];
             
+            // update history
+            History* hist = [History new];
+            hist.elementHasBeenDeleted = YES;
+            hist.deletionIndex = dropView.index;
+            hist.previousIndex = dropView.previousDragViewIndex;
+            [SHARED_BUTTON_INSTANCE updateHistory:hist];
+        } else {
+            // empty cell
+            NSIndexPath* indexPath = notification.userInfo[@"indexPath"];
             [targetCellsDict shiftAllElementsToLeftFromIndex:(int)indexPath.item];
-            
             [self reloadData];
+            
+            // update history
+            History* hist = [History new];
+            hist.emptyCellHasBeenDeleted = YES;
+            hist.index = indexPath.item;
+            [SHARED_BUTTON_INSTANCE updateHistory:hist];
         }
     }
 }
@@ -127,7 +150,7 @@
 //    }
 //    
 //    // inform source collection view about change - reload needed
-//    [[NSNotificationCenter defaultCenter] postNotificationName: @"restoreElementNotification" object:nil userInfo:nil];
+//    [[NSNotificationCenter defaultCenter] postNotificationName: @"arrasoltaRestoreElementNotification" object:nil userInfo:nil];
     
 }
 
