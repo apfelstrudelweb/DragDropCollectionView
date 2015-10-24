@@ -281,7 +281,7 @@
         hist.elementHasBeenReplaced = hasUnderlyingElement;
         hist.index = dropView.index;
         hist.previousIndex = dropView.previousDragViewIndex;
-        [SHARED_BUTTON_INSTANCE updateHistory:hist];
+        [SHARED_BUTTON_INSTANCE updateHistory:hist incrementCounter:true];
 
  
     } else {
@@ -299,7 +299,7 @@
         hist.index = dropView.index;
         hist.previousIndex = dropView.previousDropViewIndex;
 
-        [SHARED_BUTTON_INSTANCE updateHistory:hist];
+        [SHARED_BUTTON_INSTANCE updateHistory:hist incrementCounter:true];
     }
 }
 
@@ -331,7 +331,7 @@
         hist.elementHasBeenInserted = YES;
         hist.index = dropView.index;
         hist.previousIndex = dropView.previousDragViewIndex;
-        [SHARED_BUTTON_INSTANCE updateHistory:hist];
+        [SHARED_BUTTON_INSTANCE updateHistory:hist incrementCounter:true];
 
     } else {
         
@@ -348,7 +348,7 @@
         hist.elementHasBeenInserted = YES;
         hist.index = dropView.index;
         hist.previousIndex = dropView.previousDropViewIndex;
-        [SHARED_BUTTON_INSTANCE updateHistory:hist];
+        [SHARED_BUTTON_INSTANCE updateHistory:hist incrementCounter:true];
 
     }
     
@@ -367,7 +367,7 @@
         hist.index = insertIndex;
         hist.previousIndex = prevDragIndex;
         hist.deletionIndex = highestInsertionIndex-1;
-        [SHARED_BUTTON_INSTANCE updateHistory:hist];
+        [SHARED_BUTTON_INSTANCE updateHistory:hist incrementCounter:false];
     }
  
     [moveableView removeFromSuperview];
@@ -536,7 +536,7 @@
     
     DropView* underlyingView = targetCellsDict[@(index)];
     
-    // if drop view view is dropped back into the same cell, do nothing!
+    // if drop view is dropped back into the same cell, do nothing!
     if ([(DropView*)moveableView isEqual:underlyingView]) return NO;
     
     if (underlyingView) {
@@ -551,12 +551,9 @@
         
         // update history
         History* hist = [History new];
-        hist.elementComesFromTop = NO;
-        hist.elementHasBeenDeleted = NO;
-        hist.elementHasBeenReplaced = NO;
         hist.deletionIndex = index;
         hist.previousIndex = underlyingView.previousDragViewIndex;
-        [SHARED_BUTTON_INSTANCE updateHistory:hist];
+        [SHARED_BUTTON_INSTANCE updateHistory:hist incrementCounter:false];
         
         [underlyingView removeFromSuperview];
         return YES;

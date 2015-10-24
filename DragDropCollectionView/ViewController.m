@@ -83,15 +83,15 @@
                            @[@"Italy", @"italy.png"],
                            @[@"Liechtenstein", @"liechtenstein.png"],
                            @[@"Luxembourg", @"luxembourg.png"],
-                           @[@"Malta", @"malta.png"],
-                           @[@"Netherlands", @"netherlands.png"],
-                           @[@"Norway", @"norway.png"],
-                           @[@"Poland", @"poland.png"],
-                           @[@"Portugal", @"portugal.png"],
-                           @[@"Spain", @"spain.png"],
-                           @[@"Sweden", @"sweden.png"],
-                           @[@"Switzerland", @"switzerland.png"],
-                           @[@"Turkey", @"turkey.png"]                    
+//                           @[@"Malta", @"malta.png"],
+//                           @[@"Netherlands", @"netherlands.png"],
+//                           @[@"Norway", @"norway.png"],
+//                           @[@"Poland", @"poland.png"],
+//                           @[@"Portugal", @"portugal.png"],
+//                           @[@"Spain", @"spain.png"],
+//                           @[@"Sweden", @"sweden.png"],
+//                           @[@"Switzerland", @"switzerland.png"],
+//                           @[@"Turkey", @"turkey.png"]                    
                            ];
     
     for (int i=0; i<countries.count; i++) {

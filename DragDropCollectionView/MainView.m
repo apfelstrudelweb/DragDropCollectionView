@@ -50,7 +50,6 @@
         [self addSubview:self.headline2];
         
         self.btnView = [ButtonView new];
-        //self.btnView.backgroundColor = [UIColor blueColor];
         [self.btnView setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.btnView];
         

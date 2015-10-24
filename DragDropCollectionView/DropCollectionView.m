@@ -113,7 +113,7 @@
             hist.elementHasBeenDeleted = YES;
             hist.deletionIndex = dropView.index;
             hist.previousIndex = dropView.previousDragViewIndex;
-            [SHARED_BUTTON_INSTANCE updateHistory:hist];
+            [SHARED_BUTTON_INSTANCE updateHistory:hist incrementCounter:true];
         } else {
             // empty cell
             NSIndexPath* indexPath = notification.userInfo[@"indexPath"];
@@ -123,8 +123,8 @@
             // update history
             History* hist = [History new];
             hist.emptyCellHasBeenDeleted = YES;
-            hist.index = indexPath.item;
-            [SHARED_BUTTON_INSTANCE updateHistory:hist];
+            hist.index = (int)indexPath.item;
+            [SHARED_BUTTON_INSTANCE updateHistory:hist incrementCounter:true];
         }
     }
 }

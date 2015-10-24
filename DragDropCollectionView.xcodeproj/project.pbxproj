@@ -40,6 +40,7 @@
 		1BD94FD41BC6A9E5004AF034 /* PublicAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD94FD31BC6A9E5004AF034 /* PublicAPI.m */; };
 		1BD968361BA99A3200C243D1 /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD968351BA99A3200C243D1 /* CollectionViewCell.m */; };
 		1BD9B3DE1BD25969009A7812 /* CollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD9B3DD1BD25969009A7812 /* CollectionViewFlowLayout.m */; };
+		1BD9FF1C1BDBCB5700A873F0 /* redo.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BD9FF1B1BDBCB5700A873F0 /* redo.png */; settings = {ASSET_TAGS = (); }; };
 		1BDB12321BAAB672005A5051 /* DragView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDB12311BAAB672005A5051 /* DragView.m */; };
 		1BDB9F701BBD71D0005C62CA /* CustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDB9F6F1BBD71D0005C62CA /* CustomView.m */; };
 		1BDC0A191BC916930097092A /* undo.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BDC0A181BC916930097092A /* undo.png */; };
@@ -117,6 +118,7 @@
 		1BD968351BA99A3200C243D1 /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
 		1BD9B3DC1BD25969009A7812 /* CollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewFlowLayout.h; sourceTree = "<group>"; };
 		1BD9B3DD1BD25969009A7812 /* CollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewFlowLayout.m; sourceTree = "<group>"; };
+		1BD9FF1B1BDBCB5700A873F0 /* redo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redo.png; sourceTree = "<group>"; };
 		1BDB12301BAAB672005A5051 /* DragView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DragView.h; sourceTree = "<group>"; };
 		1BDB12311BAAB672005A5051 /* DragView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DragView.m; sourceTree = "<group>"; };
 		1BDB9F6E1BBD71D0005C62CA /* CustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomView.h; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 		1BDC0A171BC916850097092A /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				1BD9FF1B1BDBCB5700A873F0 /* redo.png */,
 				1BDC0A181BC916930097092A /* undo.png */,
 			);
 			name = Icons;
@@ -518,6 +521,7 @@
 				1BDC0A191BC916930097092A /* undo.png in Resources */,
 				1BD924BB1BBEDB2500EF90F7 /* luxembourg.png in Resources */,
 				1BD924BF1BBEDB7100EF90F7 /* poland.png in Resources */,
+				1BD9FF1C1BDBCB5700A873F0 /* redo.png in Resources */,
 				1BD924D51BBEEFAD00EF90F7 /* liechtenstein.png in Resources */,
 				1BD924B71BBEDAF000EF90F7 /* germany.png in Resources */,
 				1BD924C71BBEDC0D00EF90F7 /* switzerland.png in Resources */,

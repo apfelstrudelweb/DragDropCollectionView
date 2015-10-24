@@ -31,17 +31,34 @@
     if (self) {
    
         self.undoButton = [UIButton new];
-        UIImage* btnImage = [UIImage imageWithCGImage:[UIImage imageNamed:@"undo.png"].CGImage]; // trick for @2x.png
-        [self.undoButton setImage:btnImage forState:UIControlStateNormal];
+        UIImage* undoBtnImage = [UIImage imageWithCGImage:[UIImage imageNamed:@"undo.png"].CGImage]; // trick for @2x.png
+        [self.undoButton setImage:undoBtnImage forState:UIControlStateNormal];
         [self.undoButton setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.undoButton];
+        
+        self.redoButton = [UIButton new];
+        UIImage* redoBtnImage = [UIImage imageWithCGImage:[UIImage imageNamed:@"redo.png"].CGImage]; // trick for @2x.png
+        [self.redoButton setImage:redoBtnImage forState:UIControlStateNormal];
+        [self.redoButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self addSubview:self.redoButton];
+        
+        self.resetButton = [UIButton new];
+        self.resetButton.backgroundColor = [UIColor lightGrayColor];
+        [self.resetButton setTitle:@"Reset" forState:UIControlStateNormal];
+        [self.resetButton setContentEdgeInsets:UIEdgeInsetsMake(10, 0, 10, 0)];
+        [self.resetButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self.resetButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self.resetButton.titleLabel setTextForSubHeadline:@""]; // formatting issue only
+        [self addSubview:self.resetButton];
         
         self.infoLabel = [UILabel new];
         [self.infoLabel setTextForSubHeadline:@"0"];
         [self.infoLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.infoLabel];
         
-        [SHARED_BUTTON_INSTANCE initWithButton:self.undoButton];
+        [SHARED_BUTTON_INSTANCE initWithResetButton:self.resetButton];
+        [SHARED_BUTTON_INSTANCE initWithUndoButton:self.undoButton];
+        [SHARED_BUTTON_INSTANCE initWithRedoButton:self.redoButton];
         [SHARED_BUTTON_INSTANCE initWithInfoLabel:self.infoLabel];
         
         [self setupConstraints];
@@ -54,7 +71,9 @@
 #pragma mark -constraint issues
 - (void)setupConstraints {
     
-    self.viewsDictionary = @{   @"button"    : self.undoButton,
+    self.viewsDictionary = @{   @"reset"    : self.resetButton,
+                                @"undo"     : self.undoButton,
+                                @"redo"     : self.redoButton,
                                 @"label"     : self.infoLabel
                                 };
     
@@ -64,7 +83,7 @@
     [self removeConstraints:layoutConstraints];
     
     
-    NSString* visualFormatText = [NSString stringWithFormat:@"H:[button]-%d-[label]-%d-|",MARGIN, MARGIN];
+    NSString* visualFormatText = [NSString stringWithFormat:@"H:[reset]-%d-[undo]-%d-[redo]-%d-[label]-%d-|",MARGIN, MARGIN, MARGIN, MARGIN];
     
     
     
@@ -80,10 +99,39 @@
     
     layoutConstraints = [NSMutableArray new];
     
-    float w = IS_IPAD ? 70 : 35;
-    float h = IS_IPAD ? 50 : 25;
-
+    float fact = IS_IPAD ? 1.0 : 0.5;
     
+    float buttonWidth  = fact*self.undoButton.imageView.image.size.width;
+    float buttonHeight = fact*self.undoButton.imageView.image.size.height;
+
+    // RESET Button
+    // Width constraint
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.resetButton
+                                                              attribute:NSLayoutAttributeWidth
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self
+                                                              attribute:NSLayoutAttributeWidth
+                                                             multiplier:0.2
+                                                               constant:0.0]];
+    
+    // Height constraint
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.resetButton
+                                                              attribute:NSLayoutAttributeHeight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self
+                                                              attribute:NSLayoutAttributeHeight
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+    
+    // Center vertically
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.resetButton
+                                                              attribute:NSLayoutAttributeCenterY
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self
+                                                              attribute:NSLayoutAttributeCenterY
+                                                             multiplier:1.0
+                                                               constant:0.0]];
+    // UNDO Button
     // Width constraint
     [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.undoButton
                                                               attribute:NSLayoutAttributeWidth
@@ -91,7 +139,7 @@
                                                                  toItem:self
                                                               attribute:NSLayoutAttributeWidth
                                                              multiplier:0.0
-                                                               constant:w]];
+                                                               constant:buttonWidth]];
     
     // Height constraint
     [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.undoButton
@@ -100,7 +148,7 @@
                                                                  toItem:self
                                                               attribute:NSLayoutAttributeHeight
                                                              multiplier:0.0
-                                                               constant:h]];
+                                                               constant:buttonHeight]];
     
     // Center vertically
     [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.undoButton
@@ -110,24 +158,45 @@
                                                               attribute:NSLayoutAttributeCenterY
                                                              multiplier:1.0
                                                                constant:0.0]];
+    
+    // REDO Button
+    // Width constraint
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.redoButton
+                                                              attribute:NSLayoutAttributeWidth
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self
+                                                              attribute:NSLayoutAttributeWidth
+                                                             multiplier:0.0
+                                                               constant:buttonWidth]];
+    
+    // Height constraint
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.redoButton
+                                                              attribute:NSLayoutAttributeHeight
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self
+                                                              attribute:NSLayoutAttributeHeight
+                                                             multiplier:0.0
+                                                               constant:buttonHeight]];
+    
+    // Center vertically
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.redoButton
+                                                              attribute:NSLayoutAttributeCenterY
+                                                              relatedBy:NSLayoutRelationEqual
+                                                                 toItem:self
+                                                              attribute:NSLayoutAttributeCenterY
+                                                             multiplier:1.0
+                                                               constant:0.0]];
 
+    // INFO Label
     // Width constraint
     [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.infoLabel
                                                               attribute:NSLayoutAttributeWidth
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self
                                                               attribute:NSLayoutAttributeWidth
-                                                             multiplier:0.0
-                                                               constant:20.0]];
+                                                             multiplier:0.2
+                                                               constant:0.0]];
     
-//    // Height constraint
-//    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.infoLabel
-//                                                              attribute:NSLayoutAttributeHeight
-//                                                              relatedBy:NSLayoutRelationLessThanOrEqual
-//                                                                 toItem:self
-//                                                              attribute:NSLayoutAttributeHeight
-//                                                             multiplier:0.0
-//                                                               constant:40.0]];
     
     // Center vertically
     [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.infoLabel

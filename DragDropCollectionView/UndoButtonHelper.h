@@ -15,10 +15,12 @@
 
 + (UndoButtonHelper*) sharedInstance;
 
-- (void) initWithButton: (UIButton*) button;
+- (void) initWithUndoButton: (UIButton*) button;
+- (void) initWithRedoButton: (UIButton*) button;
+- (void) initWithResetButton: (UIButton*) button;
 - (void) initWithInfoLabel: (UILabel*) label;
 
-- (void) updateHistory: (History*) hist;
+- (void) updateHistory: (History*) hist incrementCounter: (bool) flag;
 
 - (void) setSourceDictionary: (NSMutableDictionary*) dict;
 - (void) setTargetDictionary: (NSMutableDictionary*) dict;
