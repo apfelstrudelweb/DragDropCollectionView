@@ -45,14 +45,16 @@
         self.resetButton = [UIButton new];
         self.resetButton.backgroundColor = [UIColor lightGrayColor];
         [self.resetButton setTitle:@"Reset" forState:UIControlStateNormal];
-        [self.resetButton setContentEdgeInsets:UIEdgeInsetsMake(10, 0, 10, 0)];
+        [self.resetButton setContentEdgeInsets:UIEdgeInsetsMake(5, 0, 5, 0)];
         [self.resetButton setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self.resetButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [self.resetButton.titleLabel setTextForSubHeadline:@""]; // formatting issue only
+        self.resetButton.layer.cornerRadius = 5;
+        self.resetButton.clipsToBounds = YES;
         [self addSubview:self.resetButton];
         
         self.infoLabel = [UILabel new];
-        [self.infoLabel setTextForSubHeadline:@"0"];
+        [self.infoLabel setTextForHeadline:@"0"];
         [self.infoLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.infoLabel];
         

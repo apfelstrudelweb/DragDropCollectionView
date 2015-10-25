@@ -40,11 +40,11 @@
 		1BD94FD41BC6A9E5004AF034 /* PublicAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD94FD31BC6A9E5004AF034 /* PublicAPI.m */; };
 		1BD968361BA99A3200C243D1 /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD968351BA99A3200C243D1 /* CollectionViewCell.m */; };
 		1BD9B3DE1BD25969009A7812 /* CollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD9B3DD1BD25969009A7812 /* CollectionViewFlowLayout.m */; };
-		1BD9FF1C1BDBCB5700A873F0 /* redo.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BD9FF1B1BDBCB5700A873F0 /* redo.png */; settings = {ASSET_TAGS = (); }; };
 		1BDB12321BAAB672005A5051 /* DragView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDB12311BAAB672005A5051 /* DragView.m */; };
 		1BDB9F701BBD71D0005C62CA /* CustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDB9F6F1BBD71D0005C62CA /* CustomView.m */; };
-		1BDC0A191BC916930097092A /* undo.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BDC0A181BC916930097092A /* undo.png */; };
 		1BDC0A1C1BC968760097092A /* UndoButtonHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC0A1B1BC968760097092A /* UndoButtonHelper.m */; };
+		1BDC245C1BDCCF6000827ABE /* redo.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BDC245B1BDCCF6000827ABE /* redo.png */; settings = {ASSET_TAGS = (); }; };
+		1BDC245E1BDCCF6600827ABE /* undo.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BDC245D1BDCCF6600827ABE /* undo.png */; settings = {ASSET_TAGS = (); }; };
 		1BDC75E91BB1B22E00171AA2 /* NSMutableArray+cat.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC75E81BB1B22E00171AA2 /* NSMutableArray+cat.m */; };
 		1BDCD8B81BC3B880000C21A7 /* DragDropHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDCD8B71BC3B880000C21A7 /* DragDropHelper.m */; };
 		1BDD6CAF1BB819DB00AFE92C /* PersistencyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDD6CAE1BB819DB00AFE92C /* PersistencyManager.m */; };
@@ -118,14 +118,14 @@
 		1BD968351BA99A3200C243D1 /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
 		1BD9B3DC1BD25969009A7812 /* CollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewFlowLayout.h; sourceTree = "<group>"; };
 		1BD9B3DD1BD25969009A7812 /* CollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewFlowLayout.m; sourceTree = "<group>"; };
-		1BD9FF1B1BDBCB5700A873F0 /* redo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redo.png; sourceTree = "<group>"; };
 		1BDB12301BAAB672005A5051 /* DragView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DragView.h; sourceTree = "<group>"; };
 		1BDB12311BAAB672005A5051 /* DragView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DragView.m; sourceTree = "<group>"; };
 		1BDB9F6E1BBD71D0005C62CA /* CustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomView.h; sourceTree = "<group>"; };
 		1BDB9F6F1BBD71D0005C62CA /* CustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomView.m; sourceTree = "<group>"; };
-		1BDC0A181BC916930097092A /* undo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = undo.png; sourceTree = "<group>"; };
 		1BDC0A1A1BC968760097092A /* UndoButtonHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UndoButtonHelper.h; sourceTree = "<group>"; };
 		1BDC0A1B1BC968760097092A /* UndoButtonHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UndoButtonHelper.m; sourceTree = "<group>"; };
+		1BDC245B1BDCCF6000827ABE /* redo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redo.png; sourceTree = "<group>"; };
+		1BDC245D1BDCCF6600827ABE /* undo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = undo.png; sourceTree = "<group>"; };
 		1BDC75E71BB1B22E00171AA2 /* NSMutableArray+cat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+cat.h"; sourceTree = "<group>"; };
 		1BDC75E81BB1B22E00171AA2 /* NSMutableArray+cat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+cat.m"; sourceTree = "<group>"; };
 		1BDCD8B61BC3B880000C21A7 /* DragDropHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DragDropHelper.h; sourceTree = "<group>"; };
@@ -256,8 +256,8 @@
 		1BDC0A171BC916850097092A /* Icons */ = {
 			isa = PBXGroup;
 			children = (
-				1BD9FF1B1BDBCB5700A873F0 /* redo.png */,
-				1BDC0A181BC916930097092A /* undo.png */,
+				1BDC245B1BDCCF6000827ABE /* redo.png */,
+				1BDC245D1BDCCF6600827ABE /* undo.png */,
 			);
 			name = Icons;
 			sourceTree = "<group>";
@@ -518,10 +518,9 @@
 			files = (
 				1BD924C31BBEDBD500EF90F7 /* austria.png in Resources */,
 				1BD924B51BBEDADD00EF90F7 /* denmark.png in Resources */,
-				1BDC0A191BC916930097092A /* undo.png in Resources */,
+				1BDC245C1BDCCF6000827ABE /* redo.png in Resources */,
 				1BD924BB1BBEDB2500EF90F7 /* luxembourg.png in Resources */,
 				1BD924BF1BBEDB7100EF90F7 /* poland.png in Resources */,
-				1BD9FF1C1BDBCB5700A873F0 /* redo.png in Resources */,
 				1BD924D51BBEEFAD00EF90F7 /* liechtenstein.png in Resources */,
 				1BD924B71BBEDAF000EF90F7 /* germany.png in Resources */,
 				1BD924C71BBEDC0D00EF90F7 /* switzerland.png in Resources */,
@@ -542,6 +541,7 @@
 				1BD924DB1BBEF12100EF90F7 /* malta.png in Resources */,
 				1BD924B91BBEDB0C00EF90F7 /* italy.png in Resources */,
 				1BD924D91BBEF0B700EF90F7 /* iceland.png in Resources */,
+				1BDC245E1BDCCF6600827ABE /* undo.png in Resources */,
 				1BD924CB1BBEDC6C00EF90F7 /* norway.png in Resources */,
 				1BDF7FB91BA833FC00A49AA9 /* Images.xcassets in Resources */,
 			);
