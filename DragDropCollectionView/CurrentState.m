@@ -18,6 +18,9 @@
     
     float bottomSourceCollectionView;
     float topTargetCollectionView;
+    
+    CGSize cellSize;
+    CGSize initialCellSize;
 }
 @end
 
@@ -98,6 +101,25 @@
 }
 
 
+- (void) setCellSize:(CGSize)size {
+    cellSize = size;
+    
+    if (CGSizeEqualToSize(initialCellSize, CGSizeZero)) {
+        initialCellSize = cellSize;
+    }
+}
+
+- (CGSize) getCellSize {
+    return cellSize;
+}
+
+- (CGSize) getInitialCellSize {
+    return initialCellSize;
+}
+
+- (void) setInitialCellSize:(CGSize)size {
+    initialCellSize = size;
+}
 
 
 

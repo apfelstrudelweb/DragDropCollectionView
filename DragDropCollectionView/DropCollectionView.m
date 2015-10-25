@@ -70,10 +70,12 @@
         flowLayout.minimumLineSpacing = minLineSpacing;
         
         if ([SHARED_CONFIG_INSTANCE getScrollDirection] == horizontal) {
-            flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+            super.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         } else {
-            flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
+            super.scrollDirection = UICollectionViewScrollDirectionVertical;
         }
+        
+        flowLayout.scrollDirection = super.scrollDirection;
         
         self.delegate = view;
         self.dataSource = view;
@@ -92,6 +94,7 @@
 
 
 #pragma mark -NSNotificationCenter
+
 - (void) restoreElementNotification:(NSNotification *) notification {
     if ([notification.name isEqualToString:@"arrasoltaRestoreElementNotification"]) {
         [self reloadData];

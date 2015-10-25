@@ -10,9 +10,12 @@
 #import "DropView.h"
 #import "DragCollectionView.h"
 #import "CollectionViewCell.h"
+#import "CollectionView.h"
 
 
-@interface DragCollectionView : UICollectionView
+@interface DragCollectionView : CollectionView
+
+//@property (strong, nonatomic) UIPinchGestureRecognizer* pinchRecognizer;
 
 - (instancetype)initWithFrame:(CGRect)frame withinView: (UIView*) view;
 

@@ -14,11 +14,17 @@
 
 #define REUSE_IDENTIFIER @"dragCell"
 #define SHARED_CONFIG_INSTANCE   [ConfigAPI sharedInstance]
+#define SHARED_STATE_INSTANCE    [CurrentState sharedInstance]
 
 
 @interface DragCollectionView() {
+
+    //UICollectionViewScrollDirection scrollDirection;
+    
     float minInteritemSpacing;
     float minLineSpacing;
+    
+    int pinchCount;
 }
 @end
 
@@ -33,20 +39,6 @@
     float bottomY = point.y + size.height;
     
     [[CurrentState sharedInstance] setBottomSourceCollectionView:bottomY];
-    
-    //NSLog(@"bottomY: %f", bottomY);
-    
-//    BOOL isInPortrait = UIDeviceOrientationIsPortrait([[UIDevice currentDevice] orientation]);
-//    
-//    if (isInPortrait) {
-//        NSLog(@"Portrait");
-//    } else {
-//        NSLog(@"Landscape");
-//    }
-//    
-//    CollectionViewFlowLayout *flowLayout = (id)self.collectionViewLayout;
-//    flowLayout.itemSize = CGSizeMake(50, 50); //[self getBestFillingCellSize:self.contentSize];
-//   // [flowLayout invalidateLayout];
 }
 
 
@@ -72,10 +64,12 @@
         flowLayout.minimumLineSpacing = minLineSpacing;
 
         if ([SHARED_CONFIG_INSTANCE getScrollDirection] == horizontal) {
-            flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+            super.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         } else {
-            flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
+            super.scrollDirection = UICollectionViewScrollDirectionVertical;
         }
+        
+        flowLayout.scrollDirection = super.scrollDirection;
 
         
         self.backgroundColor = [SHARED_CONFIG_INSTANCE getBackgroundColorSourceView];
@@ -89,12 +83,11 @@
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(restoreElementNotification:) name:@"arrasoltaRestoreElementNotification"
                                                    object:nil];
+        
     
     }
     return self;
 }
-
-
 
 #pragma mark -NSNotificationCenter
 - (void) restoreElementNotification:(NSNotification *) notification {

@@ -14,6 +14,7 @@
 
 #define SHARED_CONFIG_INSTANCE   [ConfigAPI sharedInstance]
 #define SHARED_BUTTON_INSTANCE   [UndoButtonHelper sharedInstance]
+#define SHARED_STATE_INSTANCE    [CurrentState sharedInstance]
 
 @interface MainView() {
     
@@ -83,6 +84,8 @@
             self.cellSize = [self.dragCollectionView getBestFillingCellSize:self.dragCollectionViewSize];
         }
         
+        [SHARED_STATE_INSTANCE setCellSize:self.cellSize];
+        
         
         // Important - we need it for drag & drop functionality!
         [[DragDropHelper sharedInstance] initWithView:self collectionViews:@[self.dragCollectionView, self.dropCollectionView] cellDictionaries:@[self.sourceCellsDict, self.targetCellsDict]];
@@ -136,8 +139,9 @@
 #pragma mark <UICollectionViewDelegate>
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
 
-    return self.cellSize;
+    //return self.cellSize;
     //return CGSizeMake(100, 50);
+    return [SHARED_STATE_INSTANCE getCellSize];
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {

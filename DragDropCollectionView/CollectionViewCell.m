@@ -135,7 +135,7 @@
 - (void) didLongPress:(UISwipeGestureRecognizer*)sender  {
     
     // for empty cells only
-    if (!moveableView) {
+    if (moveableView != nil && self.indexPath != nil) {
         NSDictionary *userInfo = [NSDictionary dictionaryWithObject:self.indexPath forKey:@"indexPath"];
         
         [[NSNotificationCenter defaultCenter] postNotificationName: @"arrasoltaDeleteCellNotification" object:nil userInfo:userInfo];

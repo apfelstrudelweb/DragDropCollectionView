@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "CollectionViewCell.h"
+#import "CollectionView.h"
 
-@interface DropCollectionView : UICollectionView
+@interface DropCollectionView : CollectionView
 
 - (instancetype)initWithFrame:(CGRect)frame withinView: (UIView*) view sourceDictionary:(NSMutableDictionary*) sourceDict targetDictionary:(NSMutableDictionary*) targetDict;
 

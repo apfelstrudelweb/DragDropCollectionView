@@ -23,6 +23,9 @@
 @property (NS_NONATOMIC_IOSONLY, getter=getBottomSourceCollectionView) float bottomSourceCollectionView;
 @property (NS_NONATOMIC_IOSONLY, getter=getTopTargetCollectionView) float topTargetCollectionView;
 
+// dynamic cell size
+@property (NS_NONATOMIC_IOSONLY, getter=getCellSize) CGSize cellSize;
+@property (NS_NONATOMIC_IOSONLY, getter=getInitialCellSize) CGSize initialCellSize;
 
 
 - (void) addConsumedItem: (UIView*) view;
