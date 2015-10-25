@@ -40,6 +40,9 @@
 }
 
 // Setter
+- (void) setFixedCellSize:(CGSize)size {
+    [persistencyManager setFixedCellSize:size];
+}
 - (void) setCellWidthHeightRatio: (float) value {
     [persistencyManager setCellWidthHeightRatio:value];
 }
@@ -73,9 +76,9 @@
 - (void) setSourceItemConsumable: (bool) value {
     [persistencyManager setIsSourceItemConsumable:value];
 }
-- (void) shouldRemoveAllEmptyCells: (bool) value {
-    [persistencyManager setShouldRemoveAllEmptyCells:value];
-}
+//- (void) shouldRemoveAllEmptyCells: (bool) value {
+//    [persistencyManager setShouldRemoveAllEmptyCells:value];
+//}
 - (void) setScrollDirection: (NSInteger) value {
     [persistencyManager setScrollDirection:value];
 }
@@ -88,10 +91,18 @@
 - (void) setShouldItemsBePlacedFromLeftToRight: (bool) value {
     [persistencyManager setShouldItemsBePlacedFromLeftToRight:value];
 }
-
+-(void) setShouldPanningBeEnabled: (bool) value {
+    [persistencyManager setShouldPanningBeEnabled:value];
+}
+- (void) setShouldPanningBeCoupled: (bool) value {
+    [persistencyManager setShouldPanningBeCoupled:value];
+}
 
 
 // Getter
+- (CGSize) getFixedCellSize {
+    return [persistencyManager getFixedCellSize];
+}
 - (float) getCellWidthHeightRatio {
     return [persistencyManager getCellWidthHeightRatio];
 }
@@ -125,9 +136,9 @@
 - (bool) isSourceItemConsumable {
     return [persistencyManager getIsSourceItemConsumable];
 }
-- (bool) isShouldRemoveAllEmptyCells {
-    return [persistencyManager getShouldRemoveAllEmptyCells];
-}
+//- (bool) isShouldRemoveAllEmptyCells {
+//    return [persistencyManager getShouldRemoveAllEmptyCells];
+//}
 - (NSInteger) getScrollDirection {
     return [persistencyManager getScrollDirection];
 }
@@ -139,6 +150,12 @@
 }
 - (bool) getShouldItemsBePlacedFromLeftToRight {
     return [persistencyManager getShouldItemsBePlacedFromLeftToRight];
+}
+- (bool) getShouldPanningBeEnabled {
+    return [persistencyManager getShouldPanningBeEnabled];
+}
+- (bool) getShouldPanningBeCoupled {
+    return [persistencyManager getShouldPanningBeCoupled];
 }
 
 @end

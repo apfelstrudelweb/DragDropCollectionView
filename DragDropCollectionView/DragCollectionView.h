@@ -21,6 +21,5 @@
 
 - (CollectionViewCell*) getCell: (NSIndexPath*) indexPath;
 
-- (CGSize) getBestFillingCellSize: (CGSize) containerSize;
 
 @end

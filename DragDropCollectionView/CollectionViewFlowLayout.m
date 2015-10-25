@@ -7,6 +7,9 @@
 //
 
 #import "CollectionViewFlowLayout.h"
+#import "ConfigAPI.h"
+
+#define SHARED_CONFIG_INSTANCE     [ConfigAPI sharedInstance]
 
 
 @interface CollectionViewFlowLayout() {
@@ -81,6 +84,8 @@
     
     // height of collection view
     float availableHeight = self.collectionViewContentSize.height;
+    // width of collection view
+    float availableWidth = self.collectionViewContentSize.width;
     // height of a single collection view cell (here: equal sizes!)
     float cellHeight = ((UICollectionViewLayoutAttributes*)attributesArray[0]).frame.size.height;
     // height of a single collection view cell (here: equal sizes!)
@@ -121,6 +126,24 @@
         numberOfLastRowCells += numberOfRows;
     }
     
+    if (numberOfLastRowCells > numberOfCellsPerMainRow) {
+        numberOfCellsPerMainRow++;
+        //numberOfMainRowCells = numberOfCellsPerMainRow*(numberOfRows-1);
+        
+        if (numberOfCellsPerMainRow * numberOfRows > numberOfTotalCells) {
+            numberOfRows--;
+        }
+    }
+    
+    // make sure all available columns are filled before starting a new row
+    if (((numberOfCellsPerMainRow+1) * cellWidth + numberOfCellsPerMainRow * minInteritemSpacing) <= availableWidth) {
+        numberOfRows--;
+        numberOfCellsPerMainRow++;
+    }
+
+    
+    //if (numberOfCellsPerMainRow *
+    
     // get the width of the largest row (we need it for increasing the scroll area)
     maxRowWidth = numberOfCellsPerMainRow * cellWidth + (numberOfCellsPerMainRow - 1) * minInteritemSpacing;
     
@@ -129,9 +152,18 @@
         // now overwrite the geometrical properties of each cell
         UICollectionViewLayoutAttributes* attr = cache[i];// get from cache ...
         
-        int row = floor((float)i/(float)numberOfCellsPerMainRow);
-        int col = i % numberOfCellsPerMainRow;
+        int row = 0;
+        int col = 0;
+
+        if ([SHARED_CONFIG_INSTANCE getShouldItemsBePlacedFromLeftToRight]) {
+            row = floor((float)i/(float)numberOfCellsPerMainRow);
+            col = i % numberOfCellsPerMainRow;
+        } else {
+            row = i % numberOfRows;
+            col = floor((float)i/(float)numberOfRows);
+        }
         
+ 
         // overwrite layout in the cache ("call by reference")
         attr.frame = CGRectMake(col*(cellWidth+minInteritemSpacing), row*(cellHeight+minLineSpacing), cellWidth, cellHeight);
     }

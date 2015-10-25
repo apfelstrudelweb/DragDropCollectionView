@@ -110,6 +110,11 @@
 }
 
 - (CGSize) getCellSize {
+    
+//    if (CGSizeEqualToSize(cellSize, CGSizeZero)) {
+//        cellSize = CGSizeMake(0, 0);
+//    }
+    
     return cellSize;
 }
 

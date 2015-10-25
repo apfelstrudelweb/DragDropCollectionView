@@ -64,6 +64,11 @@
 
 // simply add new history object to stack
 - (void) updateHistory: (History*) hist incrementCounter: (bool) flag {
+    
+    if (hist.emptyCellHasBeenDeleted && targetDictionary.count == 0) {
+        return;
+    }
+    
     undoButton.alpha = 1.0;
     infoLabel.alpha = 1.0;
     [historyArray addObject:hist];
@@ -133,6 +138,8 @@
     infoLabel.text = [NSString stringWithFormat:@"%d", counter];
     resetButton.enabled = NO;
     resetButton.alpha = ALPHA_OFF;
+    //redoButton.enabled = NO;
+    redoButton.alpha = ALPHA_OFF;
     
     [targetDictionary removeAllObjects];
     [originalSourceDictionary enumerateKeysAndObjectsUsingBlock:^(id key, id object, BOOL *stop) {
@@ -381,10 +388,13 @@
     
     undoButton.alpha = historyArray.count==0 ? ALPHA_OFF : 1.0;
     redoButton.alpha = 1.0;
+    redoButton.enabled = YES;
+    
     infoLabel.alpha = historyArray.count==0 ? ALPHA_OFF : 1.0;
     infoLabel.text = [NSString stringWithFormat:@"%d", counter];
-    resetButton.enabled = historyArray.count==0 ? NO : YES;
-    resetButton.alpha = historyArray.count==0 ? ALPHA_OFF : 1.0;
+
+//    resetButton.enabled = historyArray.count==0 ? NO : YES;
+//    resetButton.alpha = historyArray.count==0 ? ALPHA_OFF : 1.0;
     
 //    // make sure we finally get the initial population of source collection view back
 //    if (historyArray.count == 0) {

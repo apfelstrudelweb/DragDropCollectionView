@@ -35,15 +35,16 @@
     [self setSourceElements];
     
     [SHARED_CONFIG_INSTANCE setSourceItemConsumable:true];
-    [SHARED_CONFIG_INSTANCE shouldRemoveAllEmptyCells:true];
+    
+    //[SHARED_CONFIG_INSTANCE setFixedCellSize:CGSizeMake(120, 60.0)];
     
     [SHARED_CONFIG_INSTANCE setCellWidthHeightRatio:CELL_WIDTH_HEIGHT_RATIO]; // width:height
     [SHARED_CONFIG_INSTANCE setMinInteritemSpacing:SPACE_BETWEEN_ITEMS];
     float minInterimSpacing = [SHARED_CONFIG_INSTANCE getMinInteritemSpacing];
     float minLineSpacing = minInterimSpacing / CELL_WIDTH_HEIGHT_RATIO;
     [SHARED_CONFIG_INSTANCE setMinLineSpacing:minLineSpacing];
-    [SHARED_CONFIG_INSTANCE setBackgroundColorSourceView:[UIColor clearColor]];
-    [SHARED_CONFIG_INSTANCE setBackgroundColorTargetView:[UIColor clearColor]];
+    [SHARED_CONFIG_INSTANCE setBackgroundColorSourceView:[UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0]];
+    [SHARED_CONFIG_INSTANCE setBackgroundColorTargetView:[UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0]];
     
     [SHARED_CONFIG_INSTANCE setDropPlaceholderColorUntouched:[UIColor colorWithRed:0.79 green:0.85 blue:0.97 alpha:1.0]];
     [SHARED_CONFIG_INSTANCE setDropPlaceholderColorTouched:[UIColor colorWithRed:0.64 green:0.76 blue:0.96 alpha:1.0]];
@@ -58,6 +59,9 @@
     [SHARED_CONFIG_INSTANCE setShouldItemsBePlacedFromLeftToRight:true]; // only for horizontal scroll direction
     
     [SHARED_CONFIG_INSTANCE setLongPressDurationBeforeDrag:0.0];
+    
+    [SHARED_CONFIG_INSTANCE setShouldPanningBeEnabled:true];
+    [SHARED_CONFIG_INSTANCE setShouldPanningBeCoupled:true];
     
     self.view = [MainView new];
     
@@ -91,7 +95,7 @@
                            @[@"Spain", @"spain.png"],
                            @[@"Sweden", @"sweden.png"],
                            @[@"Switzerland", @"switzerland.png"],
-                           @[@"Turkey", @"turkey.png"]                    
+                           @[@"Turkey", @"turkey.png"]
                            ];
     
     for (int i=0; i<countries.count; i++) {

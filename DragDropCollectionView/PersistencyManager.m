@@ -11,6 +11,7 @@
 
 @interface PersistencyManager () {
     
+    CGSize fixedCellSize;
     float cellWidthHeightRatio;
     
     float minInteritemSpacing;
@@ -36,6 +37,8 @@
     bool hasAutomaticCellSize;
     float longPressDurationBeforeDrag;
     bool shouldItemsBePlacedFromLeftToRight;
+    bool shouldPanningBeEnabled;
+    bool shouldPanningBeCoupled;
 }
 
 @end
@@ -52,6 +55,9 @@
 }
 
 // Config API
+- (void) setFixedCellSize:(CGSize)size {
+    fixedCellSize = size;
+}
 - (void) setCellWidthHeightRatio: (float) value {
     cellWidthHeightRatio = value;
 }
@@ -103,8 +109,18 @@
 - (void) setShouldItemsBePlacedFromLeftToRight: (bool) value {
     shouldItemsBePlacedFromLeftToRight = value;
 }
+-(void) setShouldPanningBeEnabled: (bool) value {
+    shouldPanningBeEnabled = value;
+}
+-(void) setShouldPanningBeCoupled: (bool) value {
+    shouldPanningBeCoupled = value;
+}
 
 
+
+- (CGSize) getFixedCellSize {
+    return fixedCellSize;
+}
 - (float) getCellWidthHeightRatio {
     if (cellWidthHeightRatio == INVALID) {
         return 1.0;
@@ -180,6 +196,12 @@
 }
 - (bool) getShouldItemsBePlacedFromLeftToRight {
     return shouldItemsBePlacedFromLeftToRight;
+}
+-(bool) getShouldPanningBeEnabled {
+    return shouldPanningBeEnabled;
+}
+-(bool) getShouldPanningBeCoupled {
+    return shouldPanningBeCoupled;
 }
 
 @end

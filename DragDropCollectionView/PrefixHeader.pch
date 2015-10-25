@@ -16,15 +16,15 @@
 #define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
 #define CELL_WIDTH_HEIGHT_RATIO 2.0
-#define SPACE_BETWEEN_ITEMS     IS_IPAD       ? 40.0 : 20.0
+#define SPACE_BETWEEN_ITEMS     IS_IPAD       ? 30.0 : 15.0
 //#define SPACE_BETWEEN_LINES     IS_IPAD       ? 11.0 : 7
 
 // sum of the following subviews must be 100
 #define PERCENT_HEADER_1    10
 #define PERCENT_HEADER_2    5
-#define PERCENT_UNDO_BTN    5
-#define PERCENT_DRAG_AREA   40
-#define PERCENT_DROP_AREA   40
+#define PERCENT_UNDO_BTN    10
+#define PERCENT_DRAG_AREA   37.5
+#define PERCENT_DROP_AREA   37.5
 
 
 #define MARGIN  20

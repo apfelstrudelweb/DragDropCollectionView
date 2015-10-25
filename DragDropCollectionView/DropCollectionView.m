@@ -52,11 +52,7 @@
         
         UICollectionViewFlowLayout* flowLayout;
         
-        if ([SHARED_CONFIG_INSTANCE getShouldItemsBePlacedFromLeftToRight]) {
-            flowLayout = [[CollectionViewFlowLayout alloc] init];
-        } else {
-            flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        }
+        flowLayout = [[CollectionViewFlowLayout alloc] init];
         
         self = [[DropCollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
         self.backgroundColor = [SHARED_CONFIG_INSTANCE getBackgroundColorTargetView];
@@ -88,12 +84,25 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(restoreElementNotification:) name:@"arrasoltaRestoreElementNotification"
                                                    object:nil];
         
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadDataNotification:) name:@"arrasoltaReloadDataNotification"
+                                                   object:nil];
+        
     }
     return self;
 }
 
 
 #pragma mark -NSNotificationCenter
+- (void) reloadDataNotification:(NSNotification *) notification {
+    if ([notification.name isEqualToString:@"arrasoltaReloadDataNotification"]) {
+        
+        if ([SHARED_CONFIG_INSTANCE getShouldPanningBeCoupled]) {
+            CollectionViewFlowLayout* layout = (CollectionViewFlowLayout*)self.collectionViewLayout;
+            layout.itemSize = [SHARED_STATE_INSTANCE getCellSize];
+        }
+
+    }
+}
 
 - (void) restoreElementNotification:(NSNotification *) notification {
     if ([notification.name isEqualToString:@"arrasoltaRestoreElementNotification"]) {

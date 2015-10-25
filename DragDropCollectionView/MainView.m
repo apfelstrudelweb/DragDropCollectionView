@@ -74,19 +74,6 @@
         
         [super setupConstraints];
         
-        // calculate the ideal cell size in order to use most of the available
-        // space within the collection view - we need to call the method otherwise
-        // we get problems after an interface rotation!
-        
-        if (false) {
-            self.cellSize = IS_IPAD ? CGSizeMake(200, 100) : CGSizeMake(90, 40);
-        } else {
-            self.cellSize = [self.dragCollectionView getBestFillingCellSize:self.dragCollectionViewSize];
-        }
-        
-        [SHARED_STATE_INSTANCE setCellSize:self.cellSize];
-        
-        
         // Important - we need it for drag & drop functionality!
         [[DragDropHelper sharedInstance] initWithView:self collectionViews:@[self.dragCollectionView, self.dropCollectionView] cellDictionaries:@[self.sourceCellsDict, self.targetCellsDict]];
         
@@ -97,10 +84,6 @@
 
 
 #pragma mark <UICollectionViewDataSource>
--(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
-}
-
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
     if ([collectionView isKindOfClass:[DragCollectionView class]]) {
@@ -126,9 +109,6 @@
         // fill all cells from DropCollectionView
         cell = [((DropCollectionView*)collectionView) getCell:indexPath];
         DropView* dropView = (self.targetCellsDict)[@((int)indexPath.item)];
-        
-//        ConcreteCustomView* ccv = (ConcreteCustomView*)dropView.contentView;
-//        [ccv setLabelText:[NSString stringWithFormat:@"%d", dropView.previousDropViewIndex]];
 
         [cell populateWithContentsOfView:dropView withinCollectionView:collectionView];
     }
@@ -137,13 +117,6 @@
 
 
 #pragma mark <UICollectionViewDelegate>
--(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-
-    //return self.cellSize;
-    //return CGSizeMake(100, 50);
-    return [SHARED_STATE_INSTANCE getCellSize];
-}
-
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     
     if ([collectionView isKindOfClass:[DragCollectionView class]]) {

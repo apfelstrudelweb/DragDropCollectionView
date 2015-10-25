@@ -15,9 +15,7 @@
 
 + (ConfigAPI*) sharedInstance;
 
-- (void) shouldRemoveAllEmptyCells: (bool) value;
-
-
+@property (NS_NONATOMIC_IOSONLY, getter=getFixedCellSize) CGSize fixedCellSize;
 @property (NS_NONATOMIC_IOSONLY, getter=getCellWidthHeightRatio) float cellWidthHeightRatio;
 @property (NS_NONATOMIC_IOSONLY, getter=getMinInteritemSpacing) float minInteritemSpacing;
 @property (NS_NONATOMIC_IOSONLY, getter=getMinLineSpacing) float minLineSpacing;
@@ -34,5 +32,7 @@
 @property (NS_NONATOMIC_IOSONLY, getter=getHasAutomaticCellSize) bool hasAutomaticCellSize;
 @property (NS_NONATOMIC_IOSONLY, getter=getLongPressDurationBeforeDrag) float longPressDurationBeforeDrag;
 @property (NS_NONATOMIC_IOSONLY, getter=getShouldItemsBePlacedFromLeftToRight) bool shouldItemsBePlacedFromLeftToRight;
+@property (NS_NONATOMIC_IOSONLY, getter=getShouldPanningBeEnabled) bool shouldPanningBeEnabled;
+@property (NS_NONATOMIC_IOSONLY, getter=getShouldPanningBeCoupled) bool shouldPanningBeCoupled;
 
 @end

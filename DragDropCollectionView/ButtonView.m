@@ -101,10 +101,12 @@
     
     layoutConstraints = [NSMutableArray new];
     
-    float fact = IS_IPAD ? 1.0 : 0.5;
+    float fact = IS_IPAD ? 0.6 : 0.3;
     
-    float buttonWidth  = fact*self.undoButton.imageView.image.size.width;
-    float buttonHeight = fact*self.undoButton.imageView.image.size.height;
+    float undoButtonWidth  = fact*self.undoButton.imageView.image.size.width;
+    float undoButtonHeight  = fact*self.undoButton.imageView.image.size.height;
+
+
 
     // RESET Button
     // Width constraint
@@ -115,15 +117,7 @@
                                                               attribute:NSLayoutAttributeWidth
                                                              multiplier:0.2
                                                                constant:0.0]];
-    
-    // Height constraint
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.resetButton
-                                                              attribute:NSLayoutAttributeHeight
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self
-                                                              attribute:NSLayoutAttributeHeight
-                                                             multiplier:1.0
-                                                               constant:0.0]];
+
     
     // Center vertically
     [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.resetButton
@@ -141,7 +135,7 @@
                                                                  toItem:self
                                                               attribute:NSLayoutAttributeWidth
                                                              multiplier:0.0
-                                                               constant:buttonWidth]];
+                                                               constant:undoButtonWidth]];
     
     // Height constraint
     [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.undoButton
@@ -150,7 +144,7 @@
                                                                  toItem:self
                                                               attribute:NSLayoutAttributeHeight
                                                              multiplier:0.0
-                                                               constant:buttonHeight]];
+                                                               constant:undoButtonHeight]];
     
     // Center vertically
     [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.undoButton
@@ -169,7 +163,7 @@
                                                                  toItem:self
                                                               attribute:NSLayoutAttributeWidth
                                                              multiplier:0.0
-                                                               constant:buttonWidth]];
+                                                               constant:undoButtonWidth]];
     
     // Height constraint
     [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.redoButton
@@ -178,7 +172,7 @@
                                                                  toItem:self
                                                               attribute:NSLayoutAttributeHeight
                                                              multiplier:0.0
-                                                               constant:buttonHeight]];
+                                                               constant:undoButtonHeight]];
     
     // Center vertically
     [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.redoButton
