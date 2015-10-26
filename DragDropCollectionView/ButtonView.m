@@ -84,8 +84,10 @@
     [self removeConstraints:visualFormatConstraints];
     [self removeConstraints:layoutConstraints];
     
+    int dist = IS_IPAD ? 50 : 25;
     
-    NSString* visualFormatText = [NSString stringWithFormat:@"H:[reset]-%d-[undo]-%d-[redo]-%d-[label]-%d-|",MARGIN, MARGIN, MARGIN, MARGIN];
+    
+    NSString* visualFormatText = [NSString stringWithFormat:@"H:[reset]-%d-[undo]-%d-[redo]-%d-[label]-%d-|",dist, dist, dist, dist];
     
     
     
@@ -190,7 +192,7 @@
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self
                                                               attribute:NSLayoutAttributeWidth
-                                                             multiplier:0.2
+                                                             multiplier:0.15
                                                                constant:0.0]];
     
     

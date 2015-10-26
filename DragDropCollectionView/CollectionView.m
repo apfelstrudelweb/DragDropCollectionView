@@ -161,6 +161,8 @@
         
         [SHARED_STATE_INSTANCE setCellSize:newSize];
         
+        NSLog(@"cell size: %f - %f", newSize.width, newSize.height);
+        
         
         // inform all collection views so they can reload both
         [[NSNotificationCenter defaultCenter] postNotificationName: @"arrasoltaReloadDataNotification" object:nil userInfo:nil];
@@ -214,9 +216,7 @@
         }
         
         numberOfRows = ceilf((float)N / (float)numberOfCellsPerRow);
-        //numberOfRows = floorf((float)N / (float)numberOfCellsPerRow);
-        
-        
+
         occupiedHeight = (numberOfRows==1) ? lastCellHeight : numberOfRows*lastCellHeight + (numberOfRows-1)*minLineSpacing;
         
         if (occupiedHeight > collectionViewHeight) {
@@ -227,10 +227,11 @@
         cellHeight = lastCellHeight;
         
         counter++;
-        
     }
     
+
     return CGSizeMake(cellWidth, cellHeight);
+    //return CGSizeMake(112, 56);
 }
 
 

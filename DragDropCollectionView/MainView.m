@@ -56,18 +56,18 @@
         
         
         // Prepare source collection view
-        self.sourceCellsDict = [SHARED_CONFIG_INSTANCE getDataSourceDict];
-        self.numberOfDragItems = (int)self.sourceCellsDict.count;
+        self.sourceDict = [SHARED_CONFIG_INSTANCE getDataSourceDict];
+        self.numberOfDragItems = (int)self.sourceDict.count;
         
         self.dragCollectionView = [[DragCollectionView alloc] initWithFrame:frame withinView:self];
         [self.dragCollectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.dragCollectionView];
         
         // Prepare target collection view
-        self.targetCellsDict = [NSMutableDictionary new];
+        self.targetDict = [NSMutableDictionary new];
         self.numberOfDropItems = [SHARED_CONFIG_INSTANCE getNumberOfDropItems];
         
-        self.dropCollectionView = [[DropCollectionView alloc] initWithFrame:frame withinView:self sourceDictionary:self.sourceCellsDict targetDictionary:self.targetCellsDict];
+        self.dropCollectionView = [[DropCollectionView alloc] initWithFrame:frame withinView:self sourceDictionary:self.sourceDict targetDictionary:self.targetDict];
         
         [self.dropCollectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.dropCollectionView];
@@ -75,7 +75,7 @@
         [super setupConstraints];
         
         // Important - we need it for drag & drop functionality!
-        [[DragDropHelper sharedInstance] initWithView:self collectionViews:@[self.dragCollectionView, self.dropCollectionView] cellDictionaries:@[self.sourceCellsDict, self.targetCellsDict]];
+        [[DragDropHelper sharedInstance] initWithView:self collectionViews:@[self.dragCollectionView, self.dropCollectionView] cellDictionaries:@[self.sourceDict, self.targetDict]];
         
         
     }
@@ -95,25 +95,10 @@
 
 -(CollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    CollectionViewCell *cell;
-    
-    // IMPORTANT: all cells are populated by "UIView objects" stored in dictionaries
-    if ([collectionView isKindOfClass:[DragCollectionView class]]) {
-        // fill all cells from DragCollectionView
-        cell = [((DragCollectionView*)collectionView) getCell:indexPath];
-        DragView* dragView = (self.sourceCellsDict)[@((int)indexPath.item)];
-
-        [cell populateWithContentsOfView:dragView withinCollectionView:collectionView];
-        
-    } else {
-        // fill all cells from DropCollectionView
-        cell = [((DropCollectionView*)collectionView) getCell:indexPath];
-        DropView* dropView = (self.targetCellsDict)[@((int)indexPath.item)];
-
-        [cell populateWithContentsOfView:dropView withinCollectionView:collectionView];
-    }
-    return cell;
+    return [Utils getCell:collectionView forIndexPath:indexPath cellDictionaries:@[self.sourceDict, self.targetDict]];
 }
+
+
 
 
 #pragma mark <UICollectionViewDelegate>

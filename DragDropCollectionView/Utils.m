@@ -230,4 +230,40 @@ float cellHeight;
                               );
 }
 
++ (CollectionViewCell*) getCell:(UICollectionView *)collectionView forIndexPath:(NSIndexPath *)indexPath cellDictionaries:(NSArray*) cellDictionaries {
+    
+    
+    id testObject = ((NSDictionary*) cellDictionaries[0]).allValues.firstObject;
+    
+    NSDictionary* sourceDict;
+    NSDictionary* targetDict;
+    
+    if ([testObject isKindOfClass:[DragView class]]) {
+        sourceDict = (NSMutableDictionary*) cellDictionaries[0];
+        targetDict = (NSMutableDictionary*) cellDictionaries[1];
+    } else {
+        sourceDict = (NSMutableDictionary*) cellDictionaries[1];
+        targetDict = (NSMutableDictionary*) cellDictionaries[0];
+    }
+    
+    CollectionViewCell* cell;
+    
+    if ([collectionView isKindOfClass:[DragCollectionView class]]) {
+        // fill all cells from DragCollectionView
+        cell = [((DragCollectionView*)collectionView) getCell:indexPath];
+        DragView* dragView = sourceDict[@((int)indexPath.item)];
+        
+        [cell populateWithContentsOfView:dragView withinCollectionView:collectionView];
+        
+    } else {
+        // fill all cells from DropCollectionView
+        cell = [((DropCollectionView*)collectionView) getCell:indexPath];
+        DropView* dropView = targetDict[@((int)indexPath.item)];
+        
+        [cell populateWithContentsOfView:dropView withinCollectionView:collectionView];
+    }
+    
+    return cell;
+}
+
 @end

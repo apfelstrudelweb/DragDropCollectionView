@@ -53,7 +53,7 @@
     [self.dragCollectionView reloadData];
     [self.dropCollectionView reloadData];
     
-    [Utils scrollToLastElement: self.dropCollectionView ofDictionary:self.targetCellsDict];
+    [Utils scrollToLastElement: self.dropCollectionView ofDictionary:self.targetDict];
 }
 
 

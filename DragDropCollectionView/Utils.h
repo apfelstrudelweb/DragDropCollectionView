@@ -11,6 +11,10 @@
 #import "NSMutableDictionary+cat.h"
 #import "CollectionViewCell.h"
 #import "MoveableView.h"
+#import "DragCollectionView.h"
+#import "DropCollectionView.h"
+#import "DragView.h"
+#import "DropView.h"
 
 
 @interface Utils : NSObject
@@ -34,5 +38,7 @@
 + (CGPoint) getCenteredTapLocation:(MoveableView *)moveableView inCollectionView:(UICollectionView*) collectionView recognizer:(UIPanGestureRecognizer *)recognizer;
 
 + (bool) size:(CGSize)smallerSize isSmallerThanOrEqualToSize:(CGSize)largerSize;
+
++ (CollectionViewCell*) getCell:(UICollectionView *)collectionView forIndexPath:(NSIndexPath *)indexPath cellDictionaries:(NSArray*) cellDictionaries;
 
 @end

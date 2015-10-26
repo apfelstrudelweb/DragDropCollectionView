@@ -12,6 +12,7 @@
 #import "CollectionViewFlowLayout.h"
 #import "CurrentState.h"
 
+
 #define REUSE_IDENTIFIER @"dragCell"
 #define SHARED_CONFIG_INSTANCE   [ConfigAPI sharedInstance]
 #define SHARED_STATE_INSTANCE    [CurrentState sharedInstance]
@@ -30,13 +31,11 @@
 @implementation DragCollectionView
 
 
-
-
-
 - (instancetype)initWithFrame:(CGRect)frame withinView: (UIView<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>*) view  {
     
 
     if (self) {
+        
         
         UICollectionViewFlowLayout* flowLayout = [[CollectionViewFlowLayout alloc] init];
         

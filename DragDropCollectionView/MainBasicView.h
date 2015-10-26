@@ -33,8 +33,8 @@
 @property (nonatomic) int numberOfDropItems;
 
 
-@property (strong, nonatomic) NSMutableDictionary* sourceCellsDict;
-@property (strong, nonatomic) NSMutableDictionary* targetCellsDict;
+@property (strong, nonatomic) NSMutableDictionary* sourceDict;
+@property (strong, nonatomic) NSMutableDictionary* targetDict;
 
 
 - (void)setupConstraints;

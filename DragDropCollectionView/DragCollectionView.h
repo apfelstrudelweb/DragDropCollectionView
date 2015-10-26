@@ -15,8 +15,6 @@
 
 @interface DragCollectionView : CollectionView
 
-//@property (strong, nonatomic) UIPinchGestureRecognizer* pinchRecognizer;
-
 - (instancetype)initWithFrame:(CGRect)frame withinView: (UIView*) view;
 
 - (CollectionViewCell*) getCell: (NSIndexPath*) indexPath;

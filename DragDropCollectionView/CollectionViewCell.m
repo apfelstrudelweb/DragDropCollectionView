@@ -9,6 +9,7 @@
 #import "CollectionViewCell.h"
 
 #import "ConfigAPI.h"
+#import "DragView.h"
 #import "DropView.h"
 #import "UILabel+size.h"
 #import "CurrentState.h"
@@ -44,6 +45,7 @@
 
 
 @implementation CollectionViewCell
+
 
 - (instancetype)initWithFrame:(CGRect)frame {
     
@@ -205,6 +207,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
         }
     }
 }
+
 
 - (void) populateWithContentsOfView: (MoveableView*) view withinCollectionView: (UICollectionView*) collectionView {
     
