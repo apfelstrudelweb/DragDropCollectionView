@@ -22,5 +22,12 @@
     return num;
 }
 
+- (void) initWithZeroObjects: (int) capacity {
+    
+    for (int i=0; i<capacity+1; i++) {
+         [self addObject:[NSNull null]];
+    }
+}
+
 
 @end

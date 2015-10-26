@@ -68,13 +68,13 @@
             [self setupLabelConstraints];
         }
         
-        if (!longPressGesture) {
-            longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didLongPress:)];
-            
-            longPressGesture.minimumPressDuration = MIN_PRESS_DURATION;
-            longPressGesture.delegate = self;
-            [self addGestureRecognizer:longPressGesture];
-        }
+//        if (!longPressGesture) {
+//            longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didLongPress:)];
+//            
+//            longPressGesture.minimumPressDuration = MIN_PRESS_DURATION;
+//            longPressGesture.delegate = self;
+//            [self addGestureRecognizer:longPressGesture];
+//        }
         
         
         

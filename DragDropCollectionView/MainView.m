@@ -95,7 +95,12 @@
 
 -(CollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
+    // Important: order of dictionaries must be maintained:
+    // 1. source dictionary
+    // 2. target dictionary
+    
     return [Utils getCell:collectionView forIndexPath:indexPath cellDictionaries:@[self.sourceDict, self.targetDict]];
+
 }
 
 

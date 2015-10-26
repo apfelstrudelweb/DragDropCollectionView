@@ -13,7 +13,6 @@
 #import "DropCollectionView.h"
 #import "ConfigAPI.h"
 #import "ViewConverter.h"
-#import "History.h"
 
 
 #define SHARED_STATE_INSTANCE      [CurrentState sharedInstance]
@@ -203,6 +202,9 @@
         
         [timer invalidate];
         
+        // update history
+        [SHARED_BUTTON_INSTANCE updateHistoryBeforeAction];
+        
         if (insertCells) {
             [self insertCell:moveableView];
             // now scroll to the inserted cell
@@ -214,6 +216,10 @@
         } else {
             [self appendCell:moveableView recognizer:recognizer];
         }
+        
+         [SHARED_BUTTON_INSTANCE updateHistoryAfterAction];
+        
+
         
         // refresh table views
         [dragCollectionView reloadData];
@@ -269,37 +275,19 @@
         DropView* dropView = [SHARED_CONVERTER_INSTANCE convertToDropView:(DragView*)moveableView widthIndex:dropIndex];
 
         // first remove underlying element ...
-        bool hasUnderlyingElement = [self bringUnderlyingElementBackToOrigin:dropView atIndex:dropIndex];
+       [self bringUnderlyingElementBackToOrigin:dropView atIndex:dropIndex];
         // ... and then populate dictionary!
         [targetCellsDict addMoveableView:dropView atIndex:dropIndex];
         // remove drag view from main view
         [moveableView removeFromSuperview];
-        
-        // update history
-        History* hist = [History new];
-        hist.elementComesFromTop = YES;
-        hist.elementHasBeenReplaced = hasUnderlyingElement;
-        hist.index = dropView.index;
-        hist.previousIndex = dropView.previousDragViewIndex;
-        [SHARED_BUTTON_INSTANCE updateHistory:hist incrementCounter:true];
 
- 
     } else {
         // Move inside the target grid
         DropView* dropView = (DropView*)moveableView;
         // 1. bring back underlying element to source view
-        bool hasUnderlyingElement = [self bringUnderlyingElementBackToOrigin:moveableView atIndex:dropIndex];
+        [self bringUnderlyingElementBackToOrigin:moveableView atIndex:dropIndex];
         // 2. update all indices from drop view
         [dropView move:targetCellsDict toIndex:dropIndex];
-        
-        // update history
-        History* hist = [History new];
-        hist.elementComesFromTop = NO;
-        hist.elementHasBeenReplaced = hasUnderlyingElement;
-        hist.index = dropView.index;
-        hist.previousIndex = dropView.previousDropViewIndex;
-
-        [SHARED_BUTTON_INSTANCE updateHistory:hist incrementCounter:true];
     }
 }
 
@@ -325,14 +313,6 @@
             [sourceCellsDict removeMoveableView:moveableView];
         }
 
-        // update history
-        History* hist = [History new];
-        hist.elementComesFromTop = YES;
-        hist.elementHasBeenInserted = YES;
-        hist.index = dropView.index;
-        hist.previousIndex = dropView.previousDragViewIndex;
-        [SHARED_BUTTON_INSTANCE updateHistory:hist incrementCounter:true];
-
     } else {
         
         // 2. view comes from target collection view
@@ -341,14 +321,6 @@
         dropView = (DropView*)moveableView;
         dropView.previousDropViewIndex = dropView.index;
         dropView.index = insertIndex;
-  
-        // update history
-        History* hist = [History new];
-        hist.elementComesFromTop = NO;
-        hist.elementHasBeenInserted = YES;
-        hist.index = dropView.index;
-        hist.previousIndex = dropView.previousDropViewIndex;
-        [SHARED_BUTTON_INSTANCE updateHistory:hist incrementCounter:true];
 
     }
     
@@ -359,15 +331,6 @@
         int prevDragIndex = droppedView.previousDragViewIndex;
         DragView* dragView = [SHARED_CONVERTER_INSTANCE convertToDragView:droppedView];
         [sourceCellsDict addMoveableView:dragView atIndex:prevDragIndex];
-        
-        // update history
-        History* hist = [History new];
-        hist.elementComesFromTop = NO;
-        hist.elementHasBeenDroppedOut = YES;
-        hist.index = insertIndex;
-        hist.previousIndex = prevDragIndex;
-        hist.deletionIndex = highestInsertionIndex-1;
-        [SHARED_BUTTON_INSTANCE updateHistory:hist incrementCounter:false];
     }
  
     [moveableView removeFromSuperview];
@@ -549,11 +512,11 @@
             [sourceCellsDict addMoveableView:dragView atIndex:underlyingView.previousDragViewIndex];
         }
         
-        // update history
-        History* hist = [History new];
-        hist.deletionIndex = index;
-        hist.previousIndex = underlyingView.previousDragViewIndex;
-        [SHARED_BUTTON_INSTANCE updateHistory:hist incrementCounter:false];
+//        // update history
+//        History* hist = [History new];
+//        hist.deletionIndex = index;
+//        hist.previousIndex = underlyingView.previousDragViewIndex;
+//        [SHARED_BUTTON_INSTANCE updateHistory:hist incrementCounter:false];
         
         [underlyingView removeFromSuperview];
         return YES;

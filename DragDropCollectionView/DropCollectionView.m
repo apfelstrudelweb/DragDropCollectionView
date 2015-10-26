@@ -115,55 +115,18 @@
     if ([notification.name isEqualToString:@"arrasoltaDeleteCellNotification"]) {
         
         id userinfo = notification.userInfo[@"dropView"];
-        
-        if ([userinfo isKindOfClass:[DropView class]]) {
-            // populated cell
-            DropView* dropView = notification.userInfo[@"dropView"];
-            
-            // update history
-            History* hist = [History new];
-            hist.elementHasBeenDeleted = YES;
-            hist.deletionIndex = dropView.index;
-            hist.previousIndex = dropView.previousDragViewIndex;
-            [SHARED_BUTTON_INSTANCE updateHistory:hist incrementCounter:true];
-        } else {
+
+        if (![userinfo isKindOfClass:[DropView class]]) {
             // empty cell
+            if (targetCellsDict.count > 0) {
+                [SHARED_BUTTON_INSTANCE updateHistoryBeforeAction];
+            }
+            
             NSIndexPath* indexPath = notification.userInfo[@"indexPath"];
             [targetCellsDict shiftAllElementsToLeftFromIndex:(int)indexPath.item];
             [self reloadData];
-            
-            // update history
-            History* hist = [History new];
-            hist.emptyCellHasBeenDeleted = YES;
-            hist.index = (int)indexPath.item;
-            [SHARED_BUTTON_INSTANCE updateHistory:hist incrementCounter:true];
         }
     }
-}
-
-- (void) recoverConsumedElement: (int) item; {
-    
-//    DropView* dropView = [targetCellsDict objectForKey:[NSNumber numberWithInt:item]];
-//    
-//    //Your main thread code goes in here
-//    NSArray* consumedViews = [SHARED_STATE_INSTANCE getConsumedItems];
-//    
-//    UIView* recoveryView;
-//    
-//    for (DragView* view in consumedViews) {
-//        if (view.index == dropView.sourceIndex) {
-//            [sourceCellsDict setObject:view forKey:[NSNumber numberWithInt:view.index]];
-//            recoveryView = view;
-//        }
-//    }
-//    
-//    if (recoveryView) {
-//        [SHARED_STATE_INSTANCE removeConsumedItem:recoveryView];
-//    }
-//    
-//    // inform source collection view about change - reload needed
-//    [[NSNotificationCenter defaultCenter] postNotificationName: @"arrasoltaRestoreElementNotification" object:nil userInfo:nil];
-    
 }
 
 

@@ -12,4 +12,6 @@
 
 @property (NS_NONATOMIC_IOSONLY, getter=getNumberOfActiveElements, readonly) int numberOfActiveElements;
 
+- (void) initWithZeroObjects: (int) capacity;
+
 @end

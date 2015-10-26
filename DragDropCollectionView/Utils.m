@@ -231,21 +231,14 @@ float cellHeight;
 }
 
 + (CollectionViewCell*) getCell:(UICollectionView *)collectionView forIndexPath:(NSIndexPath *)indexPath cellDictionaries:(NSArray*) cellDictionaries {
+
+    // Important: order of dictionaries must be maintained:
+    // 1. source dictionary
+    // 2. target dictionary
     
-    
-    id testObject = ((NSDictionary*) cellDictionaries[0]).allValues.firstObject;
-    
-    NSDictionary* sourceDict;
-    NSDictionary* targetDict;
-    
-    if ([testObject isKindOfClass:[DragView class]]) {
-        sourceDict = (NSMutableDictionary*) cellDictionaries[0];
-        targetDict = (NSMutableDictionary*) cellDictionaries[1];
-    } else {
-        sourceDict = (NSMutableDictionary*) cellDictionaries[1];
-        targetDict = (NSMutableDictionary*) cellDictionaries[0];
-    }
-    
+    NSDictionary* sourceDict = (NSMutableDictionary*) cellDictionaries[0];
+    NSDictionary* targetDict = (NSMutableDictionary*) cellDictionaries[1];
+
     CollectionViewCell* cell;
     
     if ([collectionView isKindOfClass:[DragCollectionView class]]) {
