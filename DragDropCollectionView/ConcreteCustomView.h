@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-// from framework
-#import "PublicAPI.h"
+#import "ArrasoltaAPI.h" // for CustomView
 
-@interface ConcreteCustomView : CustomView
+
+@interface ConcreteCustomView : ArrasoltaCustomView
 
 // these members will be called later by introspection and must not be bound to layout constraints!
 @property (strong, nonatomic) NSString* labelText;

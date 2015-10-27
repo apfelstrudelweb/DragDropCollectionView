@@ -7,20 +7,13 @@
 //
 
 #import "UILabel+size.h"
+#import "ArrasoltaConfig.h"
+
+#define SHARED_CONFIG_INSTANCE     [ArrasoltaConfig sharedInstance]
 #define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
 @implementation UILabel (size)
 
-- (void) setTextForDragDropElement: (NSString*) text {
-    
-    self.text = text;
-    self.textAlignment = NSTextAlignmentCenter;
-    self.textColor = [UIColor whiteColor];
-    
-    UIFont* font = IS_IPAD ? [UIFont fontWithName:@"Helvetica-Bold" size:28] : [UIFont fontWithName:@"Helvetica" size:14];
-    
-    self.font = font;
-}
 
 - (void) setTextForHeadline: (NSString*) text {
     
@@ -28,7 +21,7 @@
     self.textAlignment = NSTextAlignmentCenter;
     self.textColor = FONT_COLOR;
     
-    UIFont* font = IS_IPAD ? [UIFont fontWithName:@"Helvetica-Bold" size:40] : [UIFont fontWithName:@"Helvetica-Bold" size:18];
+    UIFont* font = IS_IPAD ? [UIFont fontWithName:[SHARED_CONFIG_INSTANCE getPreferredFontName] size:40] : [UIFont fontWithName:[SHARED_CONFIG_INSTANCE getPreferredFontName] size:18];
     
     self.font = font;
 }
@@ -39,20 +32,10 @@
     self.textAlignment = NSTextAlignmentCenter;
     self.textColor = FONT_COLOR;
     
-    UIFont* font = IS_IPAD ? [UIFont fontWithName:@"Helvetica-Bold" size:30] : [UIFont fontWithName:@"Helvetica-Bold" size:14];
+    UIFont* font = IS_IPAD ? [UIFont fontWithName:[SHARED_CONFIG_INSTANCE getPreferredFontName] size:30] : [UIFont fontWithName:[SHARED_CONFIG_INSTANCE getPreferredFontName] size:14];
     
     self.font = font;
 }
 
-- (void) setPlaceholderText: (NSString*) text {
-    
-    self.text = text;
-    self.textAlignment = NSTextAlignmentCenter;
-    self.textColor = [UIColor colorWithRed:0.51 green:0.62 blue:0.80 alpha:1.0];
-    
-    UIFont* font = IS_IPAD ? [UIFont fontWithName:@"Helvetica-Bold" size:24] : [UIFont fontWithName:@"Helvetica-Bold" size:12];
-    
-    self.font = font;
-}
 
 @end

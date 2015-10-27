@@ -7,10 +7,10 @@
 //
 
 #import "ButtonView.h"
-#import "UndoButtonHelper.h"
+#import "ArrasoltaUndoButtonHelper.h"
 #import "UILabel+size.h"
 
-#define SHARED_BUTTON_INSTANCE   [UndoButtonHelper sharedInstance]
+#define SHARED_BUTTON_INSTANCE   [ArrasoltaUndoButtonHelper sharedInstance]
 
 @interface ButtonView() {
     NSMutableArray* layoutConstraints;

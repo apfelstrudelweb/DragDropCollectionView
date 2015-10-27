@@ -40,7 +40,7 @@
 - (void) viewHasBeenRotated:(NSNotification *) notification {
     
     for (UIView *subview in self.subviews) {
-        if ([subview isKindOfClass:[DragView class]]) {
+        if ([subview isKindOfClass:[ArrasoltaDragView class]]) {
             [subview removeFromSuperview];
         }
     }
@@ -53,7 +53,7 @@
     [self.dragCollectionView reloadData];
     [self.dropCollectionView reloadData];
     
-    [Utils scrollToLastElement: self.dropCollectionView ofDictionary:self.targetDict];
+    [ArrasoltaUtils scrollToLastElement: self.dropCollectionView ofDictionary:self.targetDict];
 }
 
 

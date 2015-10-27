@@ -10,9 +10,9 @@
 #import "UILabel+size.h"
 
 // remove
-#import "ConcreteCustomView.h"
+//#import "ConcreteCustomView.h"
 
-#define SHARED_CONFIG_INSTANCE   [ConfigAPI sharedInstance]
+#define SHARED_CONFIG_INSTANCE   [ArrasoltaConfig sharedInstance]
 #define SHARED_BUTTON_INSTANCE   [UndoButtonHelper sharedInstance]
 #define SHARED_STATE_INSTANCE    [CurrentState sharedInstance]
 
@@ -59,7 +59,7 @@
         self.sourceDict = [SHARED_CONFIG_INSTANCE getDataSourceDict];
         self.numberOfDragItems = (int)self.sourceDict.count;
         
-        self.dragCollectionView = [[DragCollectionView alloc] initWithFrame:frame withinView:self];
+        self.dragCollectionView = [[ArrasoltaDragCollectionView alloc] initWithFrame:frame withinView:self];
         [self.dragCollectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.dragCollectionView];
         
@@ -67,7 +67,7 @@
         self.targetDict = [NSMutableDictionary new];
         self.numberOfDropItems = [SHARED_CONFIG_INSTANCE getNumberOfDropItems];
         
-        self.dropCollectionView = [[DropCollectionView alloc] initWithFrame:frame withinView:self sourceDictionary:self.sourceDict targetDictionary:self.targetDict];
+        self.dropCollectionView = [[ArrasoltaDropCollectionView alloc] initWithFrame:frame withinView:self sourceDictionary:self.sourceDict targetDictionary:self.targetDict];
         
         [self.dropCollectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.dropCollectionView];
@@ -75,9 +75,8 @@
         [super setupConstraints];
         
         // Important - we need it for drag & drop functionality!
-        [[DragDropHelper sharedInstance] initWithView:self collectionViews:@[self.dragCollectionView, self.dropCollectionView] cellDictionaries:@[self.sourceDict, self.targetDict]];
-        
-        
+        [[ArrasoltaDragDropHelper sharedInstance] initWithView:self collectionViews:@[self.dragCollectionView, self.dropCollectionView] cellDictionaries:@[self.sourceDict, self.targetDict]];
+   
     }
     return self;
 }
@@ -86,20 +85,20 @@
 #pragma mark <UICollectionViewDataSource>
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    if ([collectionView isKindOfClass:[DragCollectionView class]]) {
+    if ([collectionView isKindOfClass:[ArrasoltaDragCollectionView class]]) {
         return self.numberOfDragItems;
     } else {
         return self.numberOfDropItems;
     }
 }
 
--(CollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+-(ArrasoltaCollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     // Important: order of dictionaries must be maintained:
     // 1. source dictionary
     // 2. target dictionary
     
-    return [Utils getCell:collectionView forIndexPath:indexPath cellDictionaries:@[self.sourceDict, self.targetDict]];
+    return [ArrasoltaUtils getCell:collectionView forIndexPath:indexPath cellDictionaries:@[self.sourceDict, self.targetDict]];
 
 }
 
@@ -109,7 +108,7 @@
 #pragma mark <UICollectionViewDelegate>
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     
-    if ([collectionView isKindOfClass:[DragCollectionView class]]) {
+    if ([collectionView isKindOfClass:[ArrasoltaDragCollectionView class]]) {
         // don't change the insets of the source collection view
         return UIEdgeInsetsMake(0, 0, 0, 0);
     } else {
@@ -124,7 +123,7 @@
     
     CGPoint currentOffset = scrollView.contentOffset;
     
-    if ([scrollView isKindOfClass:[DragCollectionView class]]) {
+    if ([scrollView isKindOfClass:[ArrasoltaDragCollectionView class]]) {
         self.dropCollectionView.contentOffset = currentOffset;
     } else {
         //self.dragCollectionView.contentOffset = currentOffset;

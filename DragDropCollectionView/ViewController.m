@@ -12,10 +12,10 @@
 #import "ConcreteCustomView.h"
 
 // framework
-#import "PublicAPI.h"
+#import "ArrasoltaAPI.h"
 
 // Important: always include PublicAPI.h into the current project
-#define SHARED_CONFIG_INSTANCE   [ConfigAPI sharedInstance]
+#define SHARED_CONFIG_INSTANCE   [ArrasoltaConfig sharedInstance]
 
 
 @interface ViewController () {
@@ -32,25 +32,39 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [SHARED_CONFIG_INSTANCE setPreferredFontName:@"ArialRoundedMTBold"];
+    
     [self setSourceElements];
+    
     
     [SHARED_CONFIG_INSTANCE setSourceItemConsumable:true];
     
     //[SHARED_CONFIG_INSTANCE setFixedCellSize:CGSizeMake(120, 60.0)];
     
+//    [SHARED_CONFIG_INSTANCE setShouldCollectionViewFillEntireHeight:true];
+//    [SHARED_CONFIG_INSTANCE setShouldCollectionViewBeCenteredVertically:true];
+   
+    
     [SHARED_CONFIG_INSTANCE setCellWidthHeightRatio:CELL_WIDTH_HEIGHT_RATIO]; // width:height
-    [SHARED_CONFIG_INSTANCE setMinInteritemSpacing:SPACE_BETWEEN_ITEMS];
-    float minInterimSpacing = [SHARED_CONFIG_INSTANCE getMinInteritemSpacing];
+    [SHARED_CONFIG_INSTANCE setMinInteritemSpacing:0];
+    float minInterimSpacing = 0;//[SHARED_CONFIG_INSTANCE getMinInteritemSpacing];
     float minLineSpacing = minInterimSpacing / CELL_WIDTH_HEIGHT_RATIO;
-    [SHARED_CONFIG_INSTANCE setMinLineSpacing:minLineSpacing];
-    [SHARED_CONFIG_INSTANCE setBackgroundColorSourceView:[UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0]];
-    [SHARED_CONFIG_INSTANCE setBackgroundColorTargetView:[UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0]];
+    [SHARED_CONFIG_INSTANCE setMinLineSpacing:0];
+    
+    [SHARED_CONFIG_INSTANCE setBackgroundColorSourceView:[UIColor colorWithRed:0.89 green:0.92 blue:0.98 alpha:1.0]];
+    [SHARED_CONFIG_INSTANCE setBackgroundColorTargetView:[UIColor colorWithRed:0.89 green:0.92 blue:0.98 alpha:1.0]];
     
     [SHARED_CONFIG_INSTANCE setDropPlaceholderColorUntouched:[UIColor colorWithRed:0.79 green:0.85 blue:0.97 alpha:1.0]];
     [SHARED_CONFIG_INSTANCE setDropPlaceholderColorTouched:[UIColor colorWithRed:0.64 green:0.76 blue:0.96 alpha:1.0]];
+    
+    [SHARED_CONFIG_INSTANCE setShouldPlaceholderIndexStartFromZero:false]; // starts with index=1
+    [SHARED_CONFIG_INSTANCE setShouldDragPlaceholderContainIndex:true];
     [SHARED_CONFIG_INSTANCE setShouldDropPlaceholderContainIndex:true];
     
-    [SHARED_CONFIG_INSTANCE setNumberOfDropItems:3];
+    //[SHARED_CONFIG_INSTANCE setPlaceholderFontSize:10.0];
+    [SHARED_CONFIG_INSTANCE setPlaceholderTextColor:[UIColor colorWithRed:0.51 green:0.62 blue:0.80 alpha:1.0]];
+    
+    [SHARED_CONFIG_INSTANCE setNumberOfDropItems:30];
     
     [SHARED_CONFIG_INSTANCE setDataSourceDict:dataSourceDict];
     
@@ -63,6 +77,7 @@
     [SHARED_CONFIG_INSTANCE setShouldPanningBeEnabled:true];
     [SHARED_CONFIG_INSTANCE setShouldPanningBeCoupled:true];
     
+
     self.view = [MainView new];
     
 }
@@ -74,35 +89,60 @@
     NSArray* countries = @[@[@"Andorra", @"andorra.png"],
                            @[@"Austria", @"austria.png"],
                            @[@"Belgium", @"belgium.png"],
-                           @[@"Croatia", @"croatia.png"],
-                           @[@"Denmark", @"denmark.png"],
-                           @[@"Finland", @"finland.png"],
-                           @[@"France", @"france.png"],
-                           @[@"Germany", @"germany.png"],
-                           @[@"Great Britain", @"greatbritain.png"],
-                           @[@"Greece", @"greece.png"],
-                           @[@"Hungary", @"hungary.png"],
-                           @[@"Iceland", @"iceland.png"],
-                           @[@"Ireland", @"ireland.png"],
-                           @[@"Italy", @"italy.png"],
-                           @[@"Liechtenstein", @"liechtenstein.png"],
-                           @[@"Luxembourg", @"luxembourg.png"],
-                           @[@"Malta", @"malta.png"],
-                           @[@"Netherlands", @"netherlands.png"],
+//                           @[@"Croatia", @"croatia.png"],
+//                           @[@"Denmark", @"denmark.png"],
+//                           @[@"Finland", @"finland.png"],
+//                           @[@"France", @"france.png"],
+//                           @[@"Germany", @"germany.png"],
+//                           @[@"Great Britain", @"greatbritain.png"],
+//                           @[@"Greece", @"greece.png"],
+//                           @[@"Hungary", @"hungary.png"],
+//                           @[@"Iceland", @"iceland.png"],
+//                           @[@"Ireland", @"ireland.png"],
+//                           @[@"Italy", @"italy.png"],
+//                           @[@"Liechtenstein", @"liechtenstein.png"],
+//                           @[@"Luxembourg", @"luxembourg.png"],
+//                           @[@"Malta", @"malta.png"],
+//                           @[@"Netherlands", @"netherlands.png"],
                            @[@"Norway", @"norway.png"],
                            @[@"Poland", @"poland.png"],
                            @[@"Portugal", @"portugal.png"],
                            @[@"Spain", @"spain.png"],
                            @[@"Sweden", @"sweden.png"],
                            @[@"Switzerland", @"switzerland.png"],
+                           
+//                           @[@"Austria", @"austria.png"],
+//                           @[@"Belgium", @"belgium.png"],
+//                           @[@"Croatia", @"croatia.png"],
+//                           @[@"Denmark", @"denmark.png"],
+//                           @[@"Finland", @"finland.png"],
+//                           @[@"France", @"france.png"],
+//                           @[@"Germany", @"germany.png"],
+//                           @[@"Great Britain", @"greatbritain.png"],
+//                           @[@"Greece", @"greece.png"],
+//                           @[@"Hungary", @"hungary.png"],
+//                           @[@"Iceland", @"iceland.png"],
+//                           @[@"Ireland", @"ireland.png"],
+//                           @[@"Italy", @"italy.png"],
+//                           @[@"Liechtenstein", @"liechtenstein.png"],
+//                           @[@"Luxembourg", @"luxembourg.png"],
+//                           @[@"Malta", @"malta.png"],
+//                           @[@"Netherlands", @"netherlands.png"],
+//                           @[@"Norway", @"norway.png"],
+//                           @[@"Poland", @"poland.png"],
+//                           @[@"Portugal", @"portugal.png"],
+//                           @[@"Spain", @"spain.png"],
+//                           @[@"Sweden", @"sweden.png"],
+//                           @[@"Switzerland", @"switzerland.png"],
+                           
                            @[@"Turkey", @"turkey.png"]
                            ];
     
     for (int i=0; i<countries.count; i++) {
-        DragView* view = [DragView new];
+        ArrasoltaDragView* view = [ArrasoltaDragView new];
         view.index = i;
         [view setBorderColor:[UIColor redColor]];
-        [view setBorderWidth:2.0];
+        [view setBorderWidth:IS_IPAD ? 2 : 1];
         
         ConcreteCustomView* cv = [ConcreteCustomView new];
         if (i%2==0) {

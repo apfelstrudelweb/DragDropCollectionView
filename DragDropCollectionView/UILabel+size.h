@@ -10,9 +10,8 @@
 
 @interface UILabel (size)
 
-- (void) setTextForDragDropElement: (NSString*) text;
 - (void) setTextForHeadline: (NSString*) text;
 - (void) setTextForSubHeadline: (NSString*) text;
-- (void) setPlaceholderText: (NSString*) text;
+
 
 @end

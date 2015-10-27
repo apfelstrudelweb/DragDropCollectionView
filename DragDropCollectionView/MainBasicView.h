@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 // from framework
-#import "PublicAPI.h"
+#import "ArrasoltaAPI.h"
 #import "ButtonView.h"
 
 
@@ -19,8 +19,8 @@
 @property (strong, nonatomic) UILabel *headline2;
 @property (strong, nonatomic) ButtonView *btnView;
 
-@property (strong, nonatomic) DragCollectionView *dragCollectionView;
-@property (strong, nonatomic) DropCollectionView *dropCollectionView;
+@property (strong, nonatomic) ArrasoltaDragCollectionView *dragCollectionView;
+@property (strong, nonatomic) ArrasoltaDropCollectionView *dropCollectionView;
 
 @property (strong, nonatomic) NSDictionary *viewsDictionary;
 

@@ -8,9 +8,10 @@
 
 #import "ConcreteCustomView.h"
 #import "UILabel+size.h"
+#import "ArrasoltaConfig.h"
 
-#define FONT        @"Helvetica-Bold"
-#define FONTSIZE    7.0
+#define SHARED_CONFIG_INSTANCE     [ArrasoltaConfig sharedInstance]
+#define FONTSIZE    6.0
 
 #define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
@@ -64,7 +65,9 @@
     label.text = text;
     label.textAlignment = NSTextAlignmentCenter;
     
-    UIFont* font = IS_IPAD ? [UIFont fontWithName:FONT size:2*FONTSIZE] : [UIFont fontWithName:FONT size:FONTSIZE];
+    NSString* fontName = [SHARED_CONFIG_INSTANCE getPreferredFontName];
+    
+    UIFont* font = IS_IPAD ? [UIFont fontWithName:fontName size:2*FONTSIZE] : [UIFont fontWithName:fontName size:FONTSIZE];
     
     label.font = font;
 
@@ -171,6 +174,18 @@
         imageWidth = imageviewWidth;
        // imageviewHeight = imageWidth / ratio;
     }
+    
+    // for zooming purposes ...
+//    float f = 1.0;
+//    float zoomFact = f * viewWidth / imageView.image.size.width;
+//    imageWidth *= 0.9*zoomFact;
+//    imageHeight *= 0.9*zoomFact;
+    
+//    UIFont* font = label.font;
+//    NSString* fontName = font.fontName;
+//    CGFloat fontSize = IS_IPAD ? 12 : 6;
+//    UIFont* newFont = [UIFont fontWithName:fontName size:fontSize*zoomFact];
+//    [label setFont:newFont];
     
     
     // Width constraint

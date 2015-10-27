@@ -9,7 +9,7 @@
 #import "MainBasicView.h"
 
 
-@interface MainView : MainBasicView// <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface MainView : MainBasicView
 
 
 @property bool isTranslation;
