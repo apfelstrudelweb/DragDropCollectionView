@@ -38,6 +38,7 @@
         
         
         UICollectionViewFlowLayout* flowLayout = [[ArrasoltaCollectionViewFlowLayout alloc] init];
+        //UICollectionViewFlowLayout* flowLayout = [[UICollectionViewFlowLayout alloc] init];
         
         self = [[ArrasoltaDragCollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
         

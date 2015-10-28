@@ -103,9 +103,11 @@
 }
 
 
-
-
 #pragma mark <UICollectionViewDelegate>
+//-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+//    
+//    return self.cellSize;
+//}
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     
     if ([collectionView isKindOfClass:[ArrasoltaDragCollectionView class]]) {

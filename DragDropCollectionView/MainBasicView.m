@@ -39,16 +39,16 @@
 #pragma mark -NSNotification
 - (void) viewHasBeenRotated:(NSNotification *) notification {
     
-    for (UIView *subview in self.subviews) {
-        if ([subview isKindOfClass:[ArrasoltaDragView class]]) {
-            [subview removeFromSuperview];
-        }
-    }
+//    for (UIView *subview in self.subviews) {
+//        if ([subview isKindOfClass:[ArrasoltaDragView class]]) {
+//            [subview removeFromSuperview];
+//        }
+//    }
     
     [self setupConstraints];
     
     // Only use when variable cell size!
-    //self.cellSize = [self.dragCollectionView getBestFillingCellSize:self.dragCollectionViewSize];
+//    self.cellSize = [self.dragCollectionView getBestFillingCellSize:self.dragCollectionViewSize];
     
     [self.dragCollectionView reloadData];
     [self.dropCollectionView reloadData];

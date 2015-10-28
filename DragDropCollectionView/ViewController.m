@@ -41,15 +41,13 @@
     
     //[SHARED_CONFIG_INSTANCE setFixedCellSize:CGSizeMake(120, 60.0)];
     
-//    [SHARED_CONFIG_INSTANCE setShouldCollectionViewFillEntireHeight:true];
-//    [SHARED_CONFIG_INSTANCE setShouldCollectionViewBeCenteredVertically:true];
+    [SHARED_CONFIG_INSTANCE setShouldCollectionViewFillEntireHeight:true];
+    [SHARED_CONFIG_INSTANCE setShouldCollectionViewBeCenteredVertically:false];
    
     
     [SHARED_CONFIG_INSTANCE setCellWidthHeightRatio:CELL_WIDTH_HEIGHT_RATIO]; // width:height
-    [SHARED_CONFIG_INSTANCE setMinInteritemSpacing:0];
-    float minInterimSpacing = 0;//[SHARED_CONFIG_INSTANCE getMinInteritemSpacing];
-    float minLineSpacing = minInterimSpacing / CELL_WIDTH_HEIGHT_RATIO;
-    [SHARED_CONFIG_INSTANCE setMinLineSpacing:0];
+    [SHARED_CONFIG_INSTANCE setMinInteritemSpacing:10];
+    [SHARED_CONFIG_INSTANCE setMinLineSpacing:6];
     
     [SHARED_CONFIG_INSTANCE setBackgroundColorSourceView:[UIColor colorWithRed:0.89 green:0.92 blue:0.98 alpha:1.0]];
     [SHARED_CONFIG_INSTANCE setBackgroundColorTargetView:[UIColor colorWithRed:0.89 green:0.92 blue:0.98 alpha:1.0]];
@@ -89,28 +87,28 @@
     NSArray* countries = @[@[@"Andorra", @"andorra.png"],
                            @[@"Austria", @"austria.png"],
                            @[@"Belgium", @"belgium.png"],
-//                           @[@"Croatia", @"croatia.png"],
-//                           @[@"Denmark", @"denmark.png"],
-//                           @[@"Finland", @"finland.png"],
-//                           @[@"France", @"france.png"],
-//                           @[@"Germany", @"germany.png"],
-//                           @[@"Great Britain", @"greatbritain.png"],
-//                           @[@"Greece", @"greece.png"],
-//                           @[@"Hungary", @"hungary.png"],
-//                           @[@"Iceland", @"iceland.png"],
-//                           @[@"Ireland", @"ireland.png"],
-//                           @[@"Italy", @"italy.png"],
-//                           @[@"Liechtenstein", @"liechtenstein.png"],
-//                           @[@"Luxembourg", @"luxembourg.png"],
-//                           @[@"Malta", @"malta.png"],
-//                           @[@"Netherlands", @"netherlands.png"],
+                           @[@"Croatia", @"croatia.png"],
+                           @[@"Denmark", @"denmark.png"],
+                           @[@"Finland", @"finland.png"],
+                           @[@"France", @"france.png"],
+                           @[@"Germany", @"germany.png"],
+                           @[@"Great Britain", @"greatbritain.png"],
+                           @[@"Greece", @"greece.png"],
+                           @[@"Hungary", @"hungary.png"],
+                           @[@"Iceland", @"iceland.png"],
+                           @[@"Ireland", @"ireland.png"],
+                           @[@"Italy", @"italy.png"],
+                           @[@"Liechtenstein", @"liechtenstein.png"],
+                           @[@"Luxembourg", @"luxembourg.png"],
+                           @[@"Malta", @"malta.png"],
+                           @[@"Netherlands", @"netherlands.png"],
                            @[@"Norway", @"norway.png"],
                            @[@"Poland", @"poland.png"],
                            @[@"Portugal", @"portugal.png"],
                            @[@"Spain", @"spain.png"],
                            @[@"Sweden", @"sweden.png"],
                            @[@"Switzerland", @"switzerland.png"],
-                           
+
 //                           @[@"Austria", @"austria.png"],
 //                           @[@"Belgium", @"belgium.png"],
 //                           @[@"Croatia", @"croatia.png"],

@@ -19,7 +19,7 @@
     float minLineSpacing;
     
     int pinchCount;
-    
+
     bool deviceOrientationChanged;
     
 }
@@ -78,9 +78,6 @@
         
         minInteritemSpacing = [SHARED_CONFIG_INSTANCE getMinInteritemSpacing];
         minLineSpacing = [SHARED_CONFIG_INSTANCE getMinLineSpacing];
-        
-        // set initial value as dummy (content view size is still unknown)
-        layout.itemSize = CGSizeMake(10, 10);
         
         // for zooming
         if ([SHARED_CONFIG_INSTANCE getShouldPanningBeEnabled]) {
@@ -183,77 +180,66 @@
     float cellHeight = 0.0;
     float r = [SHARED_CONFIG_INSTANCE getCellWidthHeightRatio];
 
-    float occupiedHeight = 0.0;
     
     float W  = containerSize.width;
     float H = containerSize.height;
     int N = (int)[self numberOfItemsInSection:0];
     
-    
-    float contentArea = W*H;
-    float spacingArea = (N-1)*minInteritemSpacing + 2*minLineSpacing;
-    float effectiveArea = contentArea - spacingArea;
-    
-//    cellWidth = sqrtf(effectiveArea*cellSizeRatio/N);
-//    cellHeight = cellWidth / cellSizeRatio;
-    
-    
-    float rows = 2; // test ...
-    
-//    //cellWidth = rows/r;
-//    float a = (float)N/r - W*((float)rows/r);
-//    float b = W*H;
-//    float c = - W*H;
-//    
-//    float arg = powf(b, 2.0) - 4.0*a*c;
-//    
-//    cellWidth = 10*(-b + sqrtf(arg)) / (2.0*a);
 
     
-    cellWidth = W*(float)rows / (float)N;
+    // 1. first row
+    int cols = N;
+    int rows = 1;
+    
+    int lastRows = 1;
+    int lastCols = 1;
+    
+    for (int i=0; i<N; i++) {
+        
+        //NSLog(@"rows: %d cols: %d", rows, cols);
+        
+        cellWidth = (W + (1-cols)*minInteritemSpacing) / cols;
+        cellHeight = cellWidth / r;
+        
+        if ((rows*cellHeight + (rows-1)*minLineSpacing) > H) {
+            break;
+        }
+        
+        if (cols==1) break;
+        
+        lastRows = rows;
+        lastCols = cols;
+        cols--;
+        rows = ceil((float)N / (float)cols);
+
+    }
+    
+    
+    cellWidth = (W + (1-lastCols)*minInteritemSpacing) / lastCols;
     cellHeight = cellWidth / r;
     
+//    if ([SHARED_CONFIG_INSTANCE getShouldCollectionViewFillEntireHeight]) {
+//        float diffH = H - rows*cellHeight - (rows-1) * minLineSpacing;
+//        NSLog(@"diffH: %f", diffH);
+//        
+//        cellHeight += diffH/rows;
+//    }
     
-//    // 1. horizontal scroll: row is filled from top to bottom before next column appears
-//    int numberOfRows = 1;
-//    int counter = 0;
-//    int numberOfCellsPerRow = N;
+//    // regain ratio
+//    float idealCellWidth = r * cellHeight;
+//    float diffW = cellWidth - idealCellWidth;
 //    
-//    
-//    for (int i=N; i>0; i--) {
-//        
-//        
-//        float lastCellWidth = (collectionViewWidth-(i-1)*minInteritemSpacing) / i;
-//        float lastCellHeight = lastCellWidth / cellSizeRatio;
-//        
-//        if (lastCellWidth < 0) {
-//            continue; //overflow due to minInteritemSpacing
-//        }
-//        
-//        
-//        if (counter == 0) {
-//            numberOfCellsPerRow = i;
-//        } else {
-//            numberOfCellsPerRow--;
-//        }
-//        
-//        numberOfRows = ceilf((float)N / (float)numberOfCellsPerRow);
-//
-//        occupiedHeight = (numberOfRows==1) ? lastCellHeight : numberOfRows*lastCellHeight + (numberOfRows-1)*minLineSpacing;
-//        
-//        if (occupiedHeight > collectionViewHeight) {
-//            break;
-//        }
-//        
-//        cellWidth = lastCellWidth;
-//        cellHeight = lastCellHeight;
-//        
-//        counter++;
+//    if ([SHARED_CONFIG_INSTANCE getShouldCollectionViewFillEntireHeight]) {
+//        float correctedInterimSpacing =  minInteritemSpacing + diffW * cols / (cols-1);
+//        UICollectionViewFlowLayout* layout = (UICollectionViewFlowLayout*)self.collectionViewLayout;
+//        layout.minimumInteritemSpacing = correctedInterimSpacing;
 //    }
 //    
-//
+//    cellWidth = idealCellWidth;
+    
+
     return CGSizeMake(cellWidth, cellHeight);
-//    //return CGSizeMake(112, 56);
+    //return CGSizeMake(112, 56);
 }
 
 

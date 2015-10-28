@@ -415,6 +415,8 @@
 
 - (void) scrollHorizontally {
     
+    //if (dropCollectionView.hasFittingCellSize) return;
+    
     // middle of the collection view
     float collectionViewWidth = dropCollectionView.frame.size.width;
     float collectionViewMiddle = dropCollectionView.frame.origin.x + 0.5*dropCollectionView.frame.size.width;

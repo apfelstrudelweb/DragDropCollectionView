@@ -153,11 +153,14 @@
         numberOfEffectiveRows = numberOfRows;
     }
     
-    
+    float occupiedWidth = numberOfCellsPerMainRow*cellWidth + (numberOfCellsPerMainRow-1) * minInteritemSpacing;
     float occupiedHeight = numberOfEffectiveRows*cellHeight + (numberOfEffectiveRows-1) * minLineSpacing;
     
+    float offsetX = 0;
     float offsetY = 0;
     float offsetSpacingY = 0;
+    
+    bool shouldCollectionViewBeCenteredHorizontally = false;
     
     if (occupiedHeight < availableHeight) {
         
@@ -167,6 +170,9 @@
             }
         } else if ([SHARED_CONFIG_INSTANCE getShouldCollectionViewBeCenteredVertically]) {
             offsetY = 0.5*(availableHeight - occupiedHeight);
+        }
+        if (shouldCollectionViewBeCenteredHorizontally) {
+            offsetX = 0.5*(availableWidth - occupiedWidth);
         }
     }
     
@@ -192,7 +198,7 @@
         
         
         // overwrite layout in the cache ("call by reference")
-        attr.frame = CGRectMake(col*(cellWidth+minInteritemSpacing), row*(cellHeight+minLineSpacing+offsetSpacingY) + offsetY, cellWidth, cellHeight);
+        attr.frame = CGRectMake(col*(cellWidth+minInteritemSpacing) + offsetX, row*(cellHeight+minLineSpacing+offsetSpacingY) + offsetY, cellWidth, cellHeight);
     }
     
     attributesHaveBeenUpdated = true; // the next time, read from cache!

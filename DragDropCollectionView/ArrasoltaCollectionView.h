@@ -13,6 +13,10 @@
 @property (strong, nonatomic) UIPinchGestureRecognizer* pinchRecognizer;
 @property (nonatomic) UICollectionViewScrollDirection scrollDirection;
 
+//@property (nonatomic) bool hasFittingCellSize;
+
 - (instancetype)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewLayout *)layout;
+
+- (CGSize) getBestFillingCellSize: (CGSize) containerSize;
 
 @end

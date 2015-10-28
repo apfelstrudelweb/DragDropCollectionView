@@ -386,11 +386,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DragDropCollectionView/ArrasoltaCollectionViewFlowLayout.m"
-            timestampString = "467660421.568869"
+            timestampString = "467744626.204165"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "186"
-            endingLineNumber = "186"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
             landmarkName = "-layoutAttributesForElementsInRect:"
             landmarkType = "5">
          </BreakpointContent>
@@ -417,13 +417,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "DragDropCollectionView/ArrasoltaCollectionView.m"
-            timestampString = "467670640.78678"
+            filePath = "DragDropCollectionView/ArrasoltaCollectionViewFlowLayout.m"
+            timestampString = "467734946.825932"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "255"
-            endingLineNumber = "255"
-            landmarkName = "-getBestFillingCellSize:"
+            startingLineNumber = "157"
+            endingLineNumber = "157"
+            landmarkName = "-layoutAttributesForElementsInRect:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
