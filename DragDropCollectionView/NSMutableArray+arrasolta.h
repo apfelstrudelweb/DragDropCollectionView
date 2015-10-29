@@ -1,6 +1,6 @@
 //
 //  NSMutableArray+cat.h
-//  DragDropCollectionView
+//  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 22.09.15.
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.

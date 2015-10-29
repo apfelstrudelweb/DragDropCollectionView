@@ -1,16 +1,15 @@
 //
 //  ButtonView.m
-//  DragDropCollectionView
+//  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 23.10.15.
 //  Copyright © 2015 Ulrich Vormbrock. All rights reserved.
 //
 
 #import "ButtonView.h"
-#import "ArrasoltaUndoButtonHelper.h"
+#import "ArrasoltaAPI.h"
 #import "UILabel+size.h"
 
-#define SHARED_BUTTON_INSTANCE   [ArrasoltaUndoButtonHelper sharedInstance]
 
 @interface ButtonView() {
     NSMutableArray* layoutConstraints;

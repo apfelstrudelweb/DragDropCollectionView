@@ -1,15 +1,14 @@
 //
 //  CollectionViewFlowLayout.m
-//  DragDropCollectionView
+//  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 17.10.15.
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
 //
 
 #import "ArrasoltaCollectionViewFlowLayout.h"
-#import "ArrasoltaConfig.h"
+#import "ArrasoltaAPI.h"
 
-#define SHARED_CONFIG_INSTANCE     [ArrasoltaConfig sharedInstance]
 
 
 @interface ArrasoltaCollectionViewFlowLayout() {
@@ -123,7 +122,7 @@
     // in previous rows -> remember: we want to fill each available row!
     if (numberOfLastRowCells == 0) {
         numberOfCellsPerMainRow--;
-        numberOfMainRowCells = numberOfCellsPerMainRow*(numberOfRows-1);
+        //numberOfMainRowCells = numberOfCellsPerMainRow*(numberOfRows-1);
         numberOfLastRowCells += numberOfRows;
     }
     
@@ -147,7 +146,7 @@
     
     int numberOfEffectiveRows;
     
-    if ([SHARED_CONFIG_INSTANCE getShouldItemsBePlacedFromLeftToRight]) {
+    if ([SHARED_CONFIG_INSTANCE getShouldCellOrderBeHorizontal]) {
         numberOfEffectiveRows = floor((float)(numberOfTotalCells-1)/(float)numberOfCellsPerMainRow) + 1;
     } else {
         numberOfEffectiveRows = numberOfRows;
@@ -176,6 +175,14 @@
         }
     }
     
+    // if (during panning) a right margin is visible, fill it
+    if (occupiedWidth < availableWidth) {
+        
+        float deltaW = availableWidth - occupiedWidth;
+        deltaW /= (numberOfCellsPerMainRow-1);
+        minInteritemSpacing += deltaW;
+    }
+    
 
     // get the width of the largest row (we need it for increasing the scroll area)
     maxRowWidth = numberOfCellsPerMainRow * cellWidth + (numberOfCellsPerMainRow - 1) * minInteritemSpacing;
@@ -188,7 +195,7 @@
         int row = 0;
         int col = 0;
         
-        if ([SHARED_CONFIG_INSTANCE getShouldItemsBePlacedFromLeftToRight]) {
+        if ([SHARED_CONFIG_INSTANCE getShouldCellOrderBeHorizontal]) {
             row = floor((float)i/(float)numberOfCellsPerMainRow);
             col = i % numberOfCellsPerMainRow;
         } else {

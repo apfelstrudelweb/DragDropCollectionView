@@ -1,15 +1,14 @@
 //
 //  UILabel+cat.m
-//  DragDropCollectionView
+//  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 18.09.15.
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
 //
 
 #import "UILabel+size.h"
-#import "ArrasoltaConfig.h"
+#import "ArrasoltaAPI.h"
 
-#define SHARED_CONFIG_INSTANCE     [ArrasoltaConfig sharedInstance]
 #define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
 @implementation UILabel (size)

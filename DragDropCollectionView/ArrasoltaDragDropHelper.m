@@ -1,24 +1,20 @@
 //
 //  DragDropHelper.m
-//  DragDropCollectionView
+//  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 06.10.15.
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
 //
 
 #import "ArrasoltaDragDropHelper.h"
-#import "ArrasoltaUndoButtonHelper.h"
 #import "ArrasoltaUtils.h"
 #import "ArrasoltaDragCollectionView.h"
 #import "ArrasoltaDropCollectionView.h"
-#import "ArrasoltaConfig.h"
 #import "ArrasoltaViewConverter.h"
+#import "ArrasoltaAPI.h"
 
-
-#define SHARED_STATE_INSTANCE      [ArrasoltaCurrentState sharedInstance]
-#define SHARED_CONFIG_INSTANCE     [ArrasoltaConfig sharedInstance]
-#define SHARED_BUTTON_INSTANCE     [ArrasoltaUndoButtonHelper sharedInstance]
 #define SHARED_CONVERTER_INSTANCE  [ArrasoltaViewConverter sharedInstance]
+
 
 @interface ArrasoltaDragDropHelper() {
     
@@ -269,7 +265,7 @@
     if ([moveableView isKindOfClass:[ArrasoltaDragView class]]) {
         // Move from source grid to target grid
         // 1. remove drag view from source dict
-        if ([SHARED_CONFIG_INSTANCE isSourceItemConsumable]) {
+        if ([SHARED_CONFIG_INSTANCE areSourceItemsConsumable]) {
             [sourceCellsDict removeMoveableView:moveableView];
         }
         
@@ -314,7 +310,7 @@
         dropView.index = insertIndex;
         dropView.previousDragViewIndex = moveableView.index;
         
-        if ([SHARED_CONFIG_INSTANCE isSourceItemConsumable]) {
+        if ([SHARED_CONFIG_INSTANCE areSourceItemsConsumable]) {
             [sourceCellsDict removeMoveableView:moveableView];
         }
         
@@ -332,7 +328,7 @@
     // when target collection view is full, recover last element (which falls out)
     ArrasoltaDropView* droppedView = (ArrasoltaDropView*) [targetCellsDict insertObject: dropView atIndex:insertIndex withMaxCapacity:highestInsertionIndex];
     
-    if (droppedView && [SHARED_CONFIG_INSTANCE isSourceItemConsumable]) {
+    if (droppedView && [SHARED_CONFIG_INSTANCE areSourceItemsConsumable]) {
         int prevDragIndex = droppedView.previousDragViewIndex;
         ArrasoltaDragView* dragView = [SHARED_CONVERTER_INSTANCE convertToDragView:droppedView];
         [sourceCellsDict addMoveableView:dragView atIndex:prevDragIndex];
@@ -353,7 +349,7 @@
     [SHARED_STATE_INSTANCE setTransactionActive:false];
     
     if ([moveableView isKindOfClass:[ArrasoltaDragView class]]) {
-        if ([SHARED_CONFIG_INSTANCE isSourceItemConsumable]) {
+        if ([SHARED_CONFIG_INSTANCE areSourceItemsConsumable]) {
             [sourceCellsDict addMoveableView:moveableView atIndex:moveableView.index];
         }
     } else {
@@ -512,7 +508,7 @@
     if (underlyingView) {
         // remove as underlying view from dict
         [targetCellsDict removeMoveableView:underlyingView];
-        if ([SHARED_CONFIG_INSTANCE isSourceItemConsumable]) {
+        if ([SHARED_CONFIG_INSTANCE areSourceItemsConsumable]) {
             // convert to drag view again
             ArrasoltaDragView* dragView = [SHARED_CONVERTER_INSTANCE convertToDragView:underlyingView];
             // add it to source dict again (recovery)

@@ -1,26 +1,21 @@
 //
 //  DropCollectionView.m
-//  DragDropCollectionView
+//  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 25.09.15.
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
 //
 
 #import "ArrasoltaDropCollectionView.h"
+#import "ArrasoltaAPI.h"
 #import "ArrasoltaUtils.h"
-#import "ArrasoltaConfig.h"
-#import "ArrasoltaCurrentState.h"
 #import "ArrasoltaDropView.h"
-#import "ArrasoltaUndoButtonHelper.h"
 #import "ArrasoltaDragDropHelper.h"
 #import "ArrasoltaCollectionViewFlowLayout.h"
 
 
-#define SHARED_CONFIG_INSTANCE     [ArrasoltaConfig sharedInstance]
-#define SHARED_STATE_INSTANCE      [ArrasoltaCurrentState sharedInstance]
-#define SHARED_BUTTON_INSTANCE     [ArrasoltaUndoButtonHelper sharedInstance]
-
 #define REUSE_IDENTIFIER @"arrasoltaDropCell"
+
 
 @interface ArrasoltaDropCollectionView() {
     

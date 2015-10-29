@@ -1,6 +1,7 @@
 //
 //  Utils.h
-//  DragDropCollectionView
+//
+//  Utilities for Collection View  and Dictionary handling
 //
 //  Created by Ulrich Vormbrock on 18.09.15.
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
@@ -29,9 +30,9 @@
 
 + (ArrasoltaCollectionViewCell*) getTargetCell:(ArrasoltaMoveableView*)moveableView inCollectionView:(UICollectionView*) collectionView recognizer:(UIPanGestureRecognizer*)recognizer;
 
-+ (void)bringMoveableViewToFront:(UIPanGestureRecognizer *)recognizer moveableView:(ArrasoltaMoveableView *)moveableView overCollectionView:(UICollectionView*) collectionView;
++ (void) bringMoveableViewToFront:(UIPanGestureRecognizer *)recognizer moveableView:(ArrasoltaMoveableView *)moveableView overCollectionView:(UICollectionView*) collectionView;
 
-+ (CGRect)getCellFrame:(ArrasoltaMoveableView *)moveableView inCollectionView:(UICollectionView*) collectionView recognizer:(UIPanGestureRecognizer *)recognizer;
++ (CGRect) getCellFrame:(ArrasoltaMoveableView *)moveableView inCollectionView:(UICollectionView*) collectionView recognizer:(UIPanGestureRecognizer *)recognizer;
 
 + (NSArray*) getInsertCells:(ArrasoltaMoveableView *)moveableView inCollectionView:(UICollectionView*) collectionView recognizer:(UIPanGestureRecognizer*)recognizer;
 

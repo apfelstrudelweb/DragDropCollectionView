@@ -1,6 +1,6 @@
 //
 //  ViewController.m
-//  DragDropCollectionView
+//  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 15.09.15.
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
@@ -14,8 +14,6 @@
 // framework
 #import "ArrasoltaAPI.h"
 
-// Important: always include PublicAPI.h into the current project
-#define SHARED_CONFIG_INSTANCE   [ArrasoltaConfig sharedInstance]
 
 
 @interface ViewController () {
@@ -37,7 +35,7 @@
     [self setSourceElements];
     
     
-    [SHARED_CONFIG_INSTANCE setSourceItemConsumable:true];
+    [SHARED_CONFIG_INSTANCE setSourceItemsConsumable:true];
     
     //[SHARED_CONFIG_INSTANCE setFixedCellSize:CGSizeMake(120, 60.0)];
     
@@ -52,25 +50,25 @@
     [SHARED_CONFIG_INSTANCE setBackgroundColorSourceView:[UIColor colorWithRed:0.89 green:0.92 blue:0.98 alpha:1.0]];
     [SHARED_CONFIG_INSTANCE setBackgroundColorTargetView:[UIColor colorWithRed:0.89 green:0.92 blue:0.98 alpha:1.0]];
     
-    [SHARED_CONFIG_INSTANCE setDropPlaceholderColorUntouched:[UIColor colorWithRed:0.79 green:0.85 blue:0.97 alpha:1.0]];
-    [SHARED_CONFIG_INSTANCE setDropPlaceholderColorTouched:[UIColor colorWithRed:0.64 green:0.76 blue:0.96 alpha:1.0]];
+    [SHARED_CONFIG_INSTANCE setTargetPlaceholderColorUntouched:[UIColor colorWithRed:0.79 green:0.85 blue:0.97 alpha:1.0]];
+    [SHARED_CONFIG_INSTANCE setTargetPlaceholderColorTouched:[UIColor colorWithRed:0.64 green:0.76 blue:0.96 alpha:1.0]];
     
     [SHARED_CONFIG_INSTANCE setShouldPlaceholderIndexStartFromZero:false]; // starts with index=1
-    [SHARED_CONFIG_INSTANCE setShouldDragPlaceholderContainIndex:true];
-    [SHARED_CONFIG_INSTANCE setShouldDropPlaceholderContainIndex:true];
+    [SHARED_CONFIG_INSTANCE setShouldSourcePlaceholderDisplayIndex:true];
+    [SHARED_CONFIG_INSTANCE setShouldTargetPlaceholderDisplayIndex:true];
     
-    //[SHARED_CONFIG_INSTANCE setPlaceholderFontSize:10.0];
+    [SHARED_CONFIG_INSTANCE setPlaceholderFontSize:10.0];
     [SHARED_CONFIG_INSTANCE setPlaceholderTextColor:[UIColor colorWithRed:0.51 green:0.62 blue:0.80 alpha:1.0]];
     
-    [SHARED_CONFIG_INSTANCE setNumberOfDropItems:30];
+    [SHARED_CONFIG_INSTANCE setNumberOfTargetItems:30];
     
-    [SHARED_CONFIG_INSTANCE setDataSourceDict:dataSourceDict];
+    [SHARED_CONFIG_INSTANCE setSourceItemsDictionary:dataSourceDict];
     
     [SHARED_CONFIG_INSTANCE setScrollDirection:horizontal];
     //[SHARED_CONFIG_INSTANCE setScrollDirection:vertical];
-    [SHARED_CONFIG_INSTANCE setShouldItemsBePlacedFromLeftToRight:true]; // only for horizontal scroll direction
+    [SHARED_CONFIG_INSTANCE setShouldCellOrderBeHorizontal:true]; // only for horizontal scroll direction
     
-    [SHARED_CONFIG_INSTANCE setLongPressDurationBeforeDrag:0.0];
+    [SHARED_CONFIG_INSTANCE setLongPressDurationBeforeDragging:0.0];
     
     [SHARED_CONFIG_INSTANCE setShouldPanningBeEnabled:true];
     [SHARED_CONFIG_INSTANCE setShouldPanningBeCoupled:true];

@@ -1,23 +1,19 @@
 //
 //  CollectionViewCell.m
-//  DragDropCollectionView
+//  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 16.09.15.
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
 //
 
 #import "ArrasoltaCollectionViewCell.h"
-
-#import "ArrasoltaConfig.h"
+#import "ArrasoltaAPI.h"
 #import "ArrasoltaDragView.h"
 #import "ArrasoltaDropView.h"
-#import "ArrasoltaCurrentState.h"
+
 
 #define ANIMATION_DURATION 0.5
 
-
-#define SHARED_CONFIG_INSTANCE     [ArrasoltaConfig sharedInstance]
-#define SHARED_STATE_INSTANCE      [ArrasoltaCurrentState sharedInstance]
 
 @interface ArrasoltaCollectionViewCell() {
     
@@ -161,7 +157,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
 
 - (void) setNumberForDragView {
     
-    if ([SHARED_CONFIG_INSTANCE getShouldDragPlaceholderContainIndex]) {
+    if ([SHARED_CONFIG_INSTANCE getShouldSourcePlaceholderDisplayIndex]) {
         
         numberLabel.text = [NSString stringWithFormat:@"%d", placeholderIndex];
         numberLabel.textAlignment = NSTextAlignmentCenter;
@@ -178,7 +174,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
 
 - (void) setNumberForDropView {
     
-    if ([SHARED_CONFIG_INSTANCE getShouldDropPlaceholderContainIndex]) {
+    if ([SHARED_CONFIG_INSTANCE getShouldTargetPlaceholderDisplayIndex]) {
         numberLabel.text = [NSString stringWithFormat:@"%d", placeholderIndex];
         numberLabel.textAlignment = NSTextAlignmentCenter;
         
@@ -194,7 +190,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
 
 - (void) reset {
     
-    placeholderView.backgroundColor = [SHARED_CONFIG_INSTANCE getDropPlaceholderColorUntouched];
+    placeholderView.backgroundColor = [SHARED_CONFIG_INSTANCE getTargetPlaceholderColorUntouched];
     placeholderView.alpha = 1.0;
     
     placeholderIndex = (int)self.indexPath.item;
@@ -256,7 +252,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     if (self.isPopulated) {
         [self highlight:true];
     } else {
-        placeholderView.backgroundColor = [SHARED_CONFIG_INSTANCE getDropPlaceholderColorTouched];
+        placeholderView.backgroundColor = [SHARED_CONFIG_INSTANCE getTargetPlaceholderColorTouched];
     }
 }
 
@@ -268,7 +264,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     if (self.isPopulated) {
         [self highlight:false];
     } else {
-        placeholderView.backgroundColor = [SHARED_CONFIG_INSTANCE getDropPlaceholderColorUntouched];
+        placeholderView.backgroundColor = [SHARED_CONFIG_INSTANCE getTargetPlaceholderColorUntouched];
     }
 }
 

@@ -1,6 +1,6 @@
 //
 //  PersistencyManager.h
-//  DragDropCollectionView
+//  Singleton which collects and maintains all configs from ArrasoltaConfig.h
 //
 //  Created by Ulrich Vormbrock on 27.09.15.
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.

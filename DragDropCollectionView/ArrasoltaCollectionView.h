@@ -1,6 +1,6 @@
 //
 //  CollectionView.h
-//  DragDropCollectionView
+//  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 25.10.15.
 //  Copyright © 2015 Ulrich Vormbrock. All rights reserved.

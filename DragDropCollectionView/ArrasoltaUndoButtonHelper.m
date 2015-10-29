@@ -1,22 +1,16 @@
 //
 //  UndoButtonHelper.m
-//  DragDropCollectionView
+//  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 10.10.15.
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
 //
 
 #import "ArrasoltaUndoButtonHelper.h"
-#import "ArrasoltaCurrentState.h"
-#import "ArrasoltaConfig.h"
-#import "ArrasoltaViewConverter.h"
 #import "NSMutableDictionary+arrasolta.h"
 #import "NSMutableArray+arrasolta.h"
+#import "ArrasoltaAPI.h"
 
-
-#define SHARED_STATE_INSTANCE      [CurrentState sharedInstance]
-#define SHARED_CONFIG_INSTANCE     [ArrasoltaConfig sharedInstance]
-#define SHARED_CONVERTER_INSTANCE  [ViewConverter sharedInstance]
 
 #define ALPHA_OFF 0.25
 
@@ -127,8 +121,8 @@
         [snapshotSourceArray replaceObjectAtIndex:sourceIndex withObject:view];
     }];
     
-    bool cellsAreConsumabe = [SHARED_CONFIG_INSTANCE isSourceItemConsumable];
-    int dropCapacity = cellsAreConsumabe ? capacity : [SHARED_CONFIG_INSTANCE getNumberOfDropItems];
+    bool cellsAreConsumabe = [SHARED_CONFIG_INSTANCE areSourceItemsConsumable];
+    int dropCapacity = cellsAreConsumabe ? capacity : [SHARED_CONFIG_INSTANCE getNumberOfTargetItems];
     
     
     NSMutableArray* snapshotTargetArray = [[NSMutableArray alloc] initWithCapacity:dropCapacity];
@@ -166,8 +160,8 @@
         [snapshotSourceArray replaceObjectAtIndex:sourceIndex withObject:view];
     }];
     
-    bool cellsAreConsumabe = [SHARED_CONFIG_INSTANCE isSourceItemConsumable];
-    int dropCapacity = cellsAreConsumabe ? capacity : [SHARED_CONFIG_INSTANCE getNumberOfDropItems];
+    bool cellsAreConsumabe = [SHARED_CONFIG_INSTANCE areSourceItemsConsumable];
+    int dropCapacity = cellsAreConsumabe ? capacity : [SHARED_CONFIG_INSTANCE getNumberOfTargetItems];
     
     NSMutableArray* snapshotTargetArray = [[NSMutableArray alloc] initWithCapacity:dropCapacity];
     [snapshotTargetArray initWithZeroObjects:dropCapacity];

@@ -256,10 +256,10 @@
 		1BDD6CAC1BB8190700AFE92C /* API */ = {
 			isa = PBXGroup;
 			children = (
-				1BDDE7461BB4426400E54751 /* ArrasoltaConfig.h */,
-				1BDDE7471BB4426400E54751 /* ArrasoltaConfig.m */,
 				1BD94FD21BC6A9E5004AF034 /* ArrasoltaAPI.h */,
 				1BD94FD31BC6A9E5004AF034 /* ArrasoltaAPI.m */,
+				1BDDE7461BB4426400E54751 /* ArrasoltaConfig.h */,
+				1BDDE7471BB4426400E54751 /* ArrasoltaConfig.m */,
 			);
 			name = API;
 			sourceTree = "<group>";

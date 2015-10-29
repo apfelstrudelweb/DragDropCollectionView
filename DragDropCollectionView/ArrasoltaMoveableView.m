@@ -1,6 +1,6 @@
 //
 //  MoveableView.m
-//  DragDropCollectionView
+//  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 29.09.15.
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
@@ -8,11 +8,9 @@
 
 #import "ArrasoltaMoveableView.h"
 #import "ArrasoltaDragDropHelper.h"
-#import "ArrasoltaConfig.h"
+#import "ArrasoltaAPI.h"
 
 
-#define SHARED_STATE_INSTANCE      [ArrasoltaCurrentState sharedInstance]
-#define SHARED_CONFIG_INSTANCE     [ArrasoltaConfig sharedInstance]
 
 @interface ArrasoltaMoveableView() {
     
@@ -38,15 +36,15 @@
         dragDropHelper = (ArrasoltaDragDropHelper*)[SHARED_STATE_INSTANCE getDragDropHelper];
     }
     
-    if (!longPressRecognizer && [SHARED_CONFIG_INSTANCE getLongPressDurationBeforeDrag] > 0.0) {
+    if (!longPressRecognizer && [SHARED_CONFIG_INSTANCE getLongPressDurationBeforeDragging] > 0.0) {
         longPressRecognizer = [[UILongPressGestureRecognizer alloc]
                                initWithTarget:self action:@selector(handleLongPress:)];
-        longPressRecognizer.minimumPressDuration = [SHARED_CONFIG_INSTANCE getLongPressDurationBeforeDrag];
+        longPressRecognizer.minimumPressDuration = [SHARED_CONFIG_INSTANCE getLongPressDurationBeforeDragging];
         longPressRecognizer.delegate = self;
         [self addGestureRecognizer:longPressRecognizer];
     }
     
-    if ([SHARED_CONFIG_INSTANCE getLongPressDurationBeforeDrag] == 0.0) {
+    if ([SHARED_CONFIG_INSTANCE getLongPressDurationBeforeDragging] == 0.0) {
         [[ArrasoltaCurrentState sharedInstance] setDragAllowed:true];
     }
     

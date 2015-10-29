@@ -1,6 +1,6 @@
 //
 //  MainView.m
-//  DragDropCollectionView
+//  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 15.09.15.
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
@@ -12,9 +12,6 @@
 // remove
 //#import "ConcreteCustomView.h"
 
-#define SHARED_CONFIG_INSTANCE   [ArrasoltaConfig sharedInstance]
-#define SHARED_BUTTON_INSTANCE   [UndoButtonHelper sharedInstance]
-#define SHARED_STATE_INSTANCE    [CurrentState sharedInstance]
 
 @interface MainView() {
     
@@ -41,7 +38,7 @@
         minLineSpacing = [SHARED_CONFIG_INSTANCE getMinLineSpacing];
         
         self.headline1 = [[UILabel alloc] initWithFrame:frame];
-        [self.headline1 setTextForHeadline:@"ArraSolta Drag & Drop Demo"];
+        [self.headline1 setTextForHeadline:@"ArraSolta Showcase"];
         [self.headline1 setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.headline1];
         
@@ -56,7 +53,7 @@
         
         
         // Prepare source collection view
-        self.sourceDict = [SHARED_CONFIG_INSTANCE getDataSourceDict];
+        self.sourceDict = [SHARED_CONFIG_INSTANCE getSourceItemsDictionary];
         self.numberOfDragItems = (int)self.sourceDict.count;
         
         self.dragCollectionView = [[ArrasoltaDragCollectionView alloc] initWithFrame:frame withinView:self];
@@ -65,7 +62,7 @@
         
         // Prepare target collection view
         self.targetDict = [NSMutableDictionary new];
-        self.numberOfDropItems = [SHARED_CONFIG_INSTANCE getNumberOfDropItems];
+        self.numberOfDropItems = [SHARED_CONFIG_INSTANCE getNumberOfTargetItems];
         
         self.dropCollectionView = [[ArrasoltaDropCollectionView alloc] initWithFrame:frame withinView:self sourceDictionary:self.sourceDict targetDictionary:self.targetDict];
         
@@ -104,10 +101,6 @@
 
 
 #pragma mark <UICollectionViewDelegate>
-//-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-//    
-//    return self.cellSize;
-//}
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     
     if ([collectionView isKindOfClass:[ArrasoltaDragCollectionView class]]) {

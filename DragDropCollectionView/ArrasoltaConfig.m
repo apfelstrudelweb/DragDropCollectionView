@@ -1,6 +1,6 @@
 //
 //  DragDropConfig.m
-//  DragDropCollectionView
+//  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 24.09.15.
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
@@ -17,21 +17,19 @@
 
 @implementation ArrasoltaConfig
 
-+ (ArrasoltaConfig*)sharedInstance
-{
++ (ArrasoltaConfig*)sharedInstance {
     
     static ArrasoltaConfig *_sharedInstance = nil;
-    
     static dispatch_once_t oncePredicate;
     
     dispatch_once(&oncePredicate, ^{
         _sharedInstance = [[ArrasoltaConfig alloc] init];
     });
+    
     return _sharedInstance;
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         persistencyManager = [[ArrasoltaPersistencyManager alloc] init];
@@ -64,13 +62,13 @@
 - (void) setBackgroundColorTargetView: (UIColor*) color {
     [persistencyManager setBackgroundColorTargetView:color];
 }
-- (void) setDataSourceDict: (NSMutableDictionary*) dict {
+- (void) setSourceItemsDictionary: (NSMutableDictionary*) dict {
     [persistencyManager setDataSourceDict:dict];
 }
-- (void) setDropPlaceholderColorUntouched: (UIColor*) color {
+- (void) setTargetPlaceholderColorUntouched: (UIColor*) color {
     [persistencyManager setDropPlaceholderColorUntouched:color];
 }
-- (void) setDropPlaceholderColorTouched: (UIColor*) color {
+- (void) setTargetPlaceholderColorTouched: (UIColor*) color {
     [persistencyManager setDropPlaceholderColorTouched:color];
 }
 - (void) setPreferredFontName: (NSString*) value {
@@ -85,31 +83,25 @@
 - (void) setShouldPlaceholderIndexStartFromZero: (bool) value {
     [persistencyManager setShouldPlaceholderIndexStartFromZero:value];
 }
-- (void) setShouldDragPlaceholderContainIndex: (bool) value {
+- (void) setShouldSourcePlaceholderDisplayIndex: (bool) value {
     [persistencyManager setShouldDragPlaceholderContainIndex:value];
 }
-- (void) setShouldDropPlaceholderContainIndex: (bool) value {
+- (void) setShouldTargetPlaceholderDisplayIndex: (bool) value {
     [persistencyManager setShouldDropPlaceholderContainIndex:value];
 }
-- (void) setNumberOfDropItems: (int) value {
+- (void) setNumberOfTargetItems: (int) value {
     [persistencyManager setNumberOfDropItems:value];
 }
-- (void) setSourceItemConsumable: (bool) value {
+- (void) setSourceItemsConsumable: (bool) value {
     [persistencyManager setIsSourceItemConsumable:value];
 }
-//- (void) shouldRemoveAllEmptyCells: (bool) value {
-//    [persistencyManager setShouldRemoveAllEmptyCells:value];
-//}
 - (void) setScrollDirection: (NSInteger) value {
     [persistencyManager setScrollDirection:value];
 }
-- (void) setHasAutomaticCellSize: (bool) value {
-    [persistencyManager setHasAutomaticCellSize:value];
-}
-- (void) setLongPressDurationBeforeDrag: (float) value {
+- (void) setLongPressDurationBeforeDragging: (float) value {
     [persistencyManager setLongPressDurationBeforeDrag:value];
 }
-- (void) setShouldItemsBePlacedFromLeftToRight: (bool) value {
+- (void) setShouldCellOrderBeHorizontal: (bool) value {
     [persistencyManager setShouldItemsBePlacedFromLeftToRight:value];
 }
 -(void) setShouldPanningBeEnabled: (bool) value {
@@ -145,13 +137,13 @@
 - (UIColor*) getBackgroundColorTargetView {
     return [persistencyManager getBackgroundColorTargetView];
 }
-- (NSMutableDictionary*) getDataSourceDict {
+- (NSMutableDictionary*) getSourceItemsDictionary {
     return [persistencyManager getDataSourceDict];
 }
-- (UIColor*) getDropPlaceholderColorUntouched {
+- (UIColor*) getTargetPlaceholderColorUntouched {
     return [persistencyManager getDropPlaceholderColorUntouched];
 }
-- (UIColor*) getDropPlaceholderColorTouched {
+- (UIColor*) getTargetPlaceholderColorTouched {
     return [persistencyManager getDropPlaceholderColorTouched];
 }
 - (NSString*) getPreferredFontName {
@@ -166,31 +158,25 @@
 - (bool) getShouldPlaceholderIndexStartFromZero {
     return [persistencyManager getShouldPlaceholderIndexStartFromZero];
 }
-- (bool) getShouldDragPlaceholderContainIndex {
+- (bool) getShouldSourcePlaceholderDisplayIndex {
     return [persistencyManager getShouldDragPlaceholderContainIndex];
 }
-- (bool) getShouldDropPlaceholderContainIndex {
+- (bool) getShouldTargetPlaceholderDisplayIndex {
     return [persistencyManager getShouldDropPlaceholderContainIndex];
 }
-- (int) getNumberOfDropItems {
+- (int) getNumberOfTargetItems {
     return [persistencyManager getNumberOfDropItems];
 }
-- (bool) isSourceItemConsumable {
+- (bool) areSourceItemsConsumable {
     return [persistencyManager getIsSourceItemConsumable];
 }
-//- (bool) isShouldRemoveAllEmptyCells {
-//    return [persistencyManager getShouldRemoveAllEmptyCells];
-//}
 - (NSInteger) getScrollDirection {
     return [persistencyManager getScrollDirection];
 }
-- (bool) getHasAutomaticCellSize {
-    return [persistencyManager getHasAutomaticCellSize];
-}
-- (float) getLongPressDurationBeforeDrag {
+- (float) getLongPressDurationBeforeDragging {
     return [persistencyManager getLongPressDurationBeforeDrag];
 }
-- (bool) getShouldItemsBePlacedFromLeftToRight {
+- (bool) getShouldCellOrderBeHorizontal {
     return [persistencyManager getShouldItemsBePlacedFromLeftToRight];
 }
 - (bool) getShouldPanningBeEnabled {

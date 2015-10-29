@@ -1,6 +1,6 @@
 //
 //  ConcreteCustomView.m
-//  DragDropCollectionView
+//  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 07.10.15.
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
@@ -8,9 +8,8 @@
 
 #import "ConcreteCustomView.h"
 #import "UILabel+size.h"
-#import "ArrasoltaConfig.h"
 
-#define SHARED_CONFIG_INSTANCE     [ArrasoltaConfig sharedInstance]
+
 #define FONTSIZE    6.0
 
 #define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)

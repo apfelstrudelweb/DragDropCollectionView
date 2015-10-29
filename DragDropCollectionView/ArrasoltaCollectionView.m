@@ -1,17 +1,14 @@
 //
 //  CollectionView.m
-//  DragDropCollectionView
+//  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 25.10.15.
 //  Copyright © 2015 Ulrich Vormbrock. All rights reserved.
 //
 
 #import "ArrasoltaCollectionView.h"
-#import "ArrasoltaCurrentState.h"
-#import "ArrasoltaConfig.h"
+#import "ArrasoltaAPI.h"
 
-#define SHARED_STATE_INSTANCE    [ArrasoltaCurrentState sharedInstance]
-#define SHARED_CONFIG_INSTANCE   [ArrasoltaConfig sharedInstance]
 
 @interface ArrasoltaCollectionView() {
     
@@ -191,7 +188,7 @@
     int cols = N;
     int rows = 1;
     
-    int lastRows = 1;
+    //int lastRows = 1;
     int lastCols = 1;
     
     for (int i=0; i<N; i++) {
@@ -207,7 +204,7 @@
         
         if (cols==1) break;
         
-        lastRows = rows;
+        //lastRows = rows;
         lastCols = cols;
         cols--;
         rows = ceil((float)N / (float)cols);
