@@ -11,13 +11,11 @@
 
 @interface MainView() {
     
-    float minLineSpacing;
-    
-    // subview proportions
-    float totalHeight;
-    float totalWidth;
+    // for subview components
+    float totalHeight, totalWidth;
     int percentHeader, percentButton, percentDragArea, percentDropArea;
     
+    // layout constraints
     NSMutableArray* layoutConstraints;
     NSArray *visualFormatConstraints;
 }
@@ -29,57 +27,50 @@
 
 
 
-- (instancetype)init {
-    return [self initWithFrame:CGRectZero];
-}
-
-
 - (instancetype)initWithFrame:(CGRect)frame {
     
     self = [super initWithFrame:frame];
     if (self) {
         
-        minLineSpacing = [SHARED_CONFIG_INSTANCE getMinLineSpacing];
+        self.labelHeadline = [[UILabel alloc] initWithFrame:frame];
+        [self.labelHeadline setHeadlineText:@"ArraSolta Showcase"];
+        [self.labelHeadline setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self addSubview:self.labelHeadline];
         
-        self.headline = [[UILabel alloc] initWithFrame:frame];
-        [self.headline setHeadlineText:@"ArraSolta Showcase"];
-        [self.headline setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self addSubview:self.headline];
         
-
-        self.btnView = [ButtonView new];
-        [self.btnView setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self addSubview:self.btnView];
+        self.undoButtonView = [ButtonView new];
+        [self.undoButtonView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self addSubview:self.undoButtonView];
         
         
         // Prepare source collection view
-        self.sourceDict = [SHARED_CONFIG_INSTANCE getSourceItemsDictionary];
-        self.numberOfDragItems = (int)self.sourceDict.count;
+        self.sourceItemsDictionary = [SHARED_CONFIG_INSTANCE getSourceItemsDictionary];
+        self.numberOfSourceItems = (int)self.sourceItemsDictionary.count;
         
-        self.dragCollectionView = [[ArrasoltaDragCollectionView alloc] initWithFrame:frame withinView:self];
-        [self.dragCollectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self addSubview:self.dragCollectionView];
+        self.sourceCollectionView = [[ArrasoltaDragCollectionView alloc] initWithFrame:frame withinView:self];
+        [self.sourceCollectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self addSubview:self.sourceCollectionView];
         
         // Prepare target collection view
-        self.targetDict = [NSMutableDictionary new];
-        self.numberOfDropItems = [SHARED_CONFIG_INSTANCE getNumberOfTargetItems];
+        self.targetItemsDictionary = [NSMutableDictionary new];
+        self.numberOfTargetItems = [SHARED_CONFIG_INSTANCE getNumberOfTargetItems];
         
-        self.dropCollectionView = [[ArrasoltaDropCollectionView alloc] initWithFrame:frame withinView:self sourceDictionary:self.sourceDict targetDictionary:self.targetDict];
+        self.targetCollectionView = [[ArrasoltaDropCollectionView alloc] initWithFrame:frame withinView:self sourceDictionary:self.sourceItemsDictionary targetDictionary:self.targetItemsDictionary];
         
-        [self.dropCollectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
-        [self addSubview:self.dropCollectionView];
+        [self.targetCollectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self addSubview:self.targetCollectionView];
         
         [self setupConstraints];
         
         // Important - we need it for drag & drop functionality!
-        [[ArrasoltaDragDropHelper sharedInstance] initWithView:self collectionViews:@[self.dragCollectionView, self.dropCollectionView] cellDictionaries:@[self.sourceDict, self.targetDict]];
+        [[ArrasoltaDragDropHelper sharedInstance] initWithView:self collectionViews:@[self.sourceCollectionView, self.targetCollectionView] cellDictionaries:@[self.sourceItemsDictionary, self.targetItemsDictionary]];
         
         // observe device rotations
         [[NSNotificationCenter defaultCenter]
          addObserver:self selector:@selector(orientationChanged:)
          name:UIDeviceOrientationDidChangeNotification
          object:[UIDevice currentDevice]];
-   
+        
     }
     return self;
 }
@@ -89,9 +80,9 @@
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
     if ([collectionView isKindOfClass:[ArrasoltaDragCollectionView class]]) {
-        return self.numberOfDragItems;
+        return self.numberOfSourceItems;
     } else {
-        return self.numberOfDropItems;
+        return self.numberOfTargetItems;
     }
 }
 
@@ -101,22 +92,10 @@
     // 1. source dictionary
     // 2. target dictionary
     
-    return [ArrasoltaUtils getCell:collectionView forIndexPath:indexPath cellDictionaries:@[self.sourceDict, self.targetDict]];
-
-}
-
-
-#pragma mark <UICollectionViewDelegate>
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    return [ArrasoltaUtils getCell:collectionView forIndexPath:indexPath cellDictionaries:@[self.sourceItemsDictionary, self.targetItemsDictionary]];
     
-    if ([collectionView isKindOfClass:[ArrasoltaDragCollectionView class]]) {
-        // don't change the insets of the source collection view
-        return UIEdgeInsetsMake(0, 0, 0, 0);
-    } else {
-        // let small space above - so when cell is to be inserted, the left and right cell has enough place to expand to the top as well
-        return UIEdgeInsetsMake(minLineSpacing, 0, 0, 0);
-    }
 }
+
 
 #pragma mark <UIScrollViewDelegate>
 // synchronize scrolling
@@ -125,7 +104,7 @@
     CGPoint currentOffset = scrollView.contentOffset;
     
     if ([scrollView isKindOfClass:[ArrasoltaDragCollectionView class]]) {
-        self.dropCollectionView.contentOffset = currentOffset;
+        self.targetCollectionView.contentOffset = currentOffset;
     } else {
         //self.dragCollectionView.contentOffset = currentOffset;
     }
@@ -136,22 +115,19 @@
     
     [self setupConstraints];
     
-    // Only use when variable cell size!
-    //    self.cellSize = [self.dragCollectionView getBestFillingCellSize:self.dragCollectionViewSize];
+    [self.sourceCollectionView reloadData];
+    [self.targetCollectionView reloadData];
     
-    [self.dragCollectionView reloadData];
-    [self.dropCollectionView reloadData];
-    
-    [ArrasoltaUtils scrollToLastElement: self.dropCollectionView ofDictionary:self.targetDict];
+    [ArrasoltaUtils scrollToLastElement: self.targetCollectionView ofDictionary:self.targetItemsDictionary];
 }
 
 #pragma mark -constraint issues
 - (void)setupConstraints {
     
-    self.viewsDictionary = @{   @"headline"     : self.headline,
-                                @"source"       : self.dragCollectionView,
-                                @"button"       : self.btnView,
-                                @"target"       : self.dropCollectionView };
+    self.subviewsDictionaryForAutoLayout = @{   @"headline"     : self.labelHeadline,
+                                                @"source"       : self.sourceCollectionView,
+                                                @"button"       : self.undoButtonView,
+                                                @"target"       : self.targetCollectionView };
     
     CGRect screenRect = [UIScreen mainScreen].bounds;
     
@@ -162,21 +138,21 @@
     percentDragArea = PERCENT_DRAG_AREA;
     percentDropArea = PERCENT_DROP_AREA;
     
-    self.dragCollectionViewSize = CGSizeMake(totalWidth, totalHeight*percentDragArea*0.01);
+    self.sourceCollectionViewSize = CGSizeMake(totalWidth, totalHeight*percentDragArea*0.01);
     
     // clear constraints in case of device rotation
     [self removeConstraints:visualFormatConstraints];
     [self removeConstraints:layoutConstraints];
     
     
-    NSString* visualFormatText = [NSString stringWithFormat:@"V:|-%d-[headline]-%d-[source]-%d-[button]-%d-[target]",MARGIN, 0, 0, 0];
+    NSString* visualFormatText = [NSString stringWithFormat:@"V:|-%d-[headline]-%d-[source]-%d-[button]-%d-[target]", 0, 0, 0, 0];
     
     
     
     visualFormatConstraints = [NSLayoutConstraint constraintsWithVisualFormat:visualFormatText
                                                                       options:0
                                                                       metrics:nil
-                                                                        views:self.viewsDictionary];
+                                                                        views:self.subviewsDictionaryForAutoLayout];
     
     for (int i = 0; i<visualFormatConstraints.count; i++) {
         [self addConstraint:visualFormatConstraints[i]];
@@ -193,7 +169,7 @@
     float heightDropArea = (float) totalHeight*percentDropArea*0.01;
     
     // Width constraint
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.headline
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.labelHeadline
                                                               attribute:NSLayoutAttributeWidth
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self
@@ -202,7 +178,7 @@
                                                                constant:totalWidth]];
     
     // Height constraint
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.headline
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.labelHeadline
                                                               attribute:NSLayoutAttributeHeight
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self
@@ -210,7 +186,7 @@
                                                              multiplier:0.0
                                                                constant:heightHeader]];
     // Center horizontally
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.headline
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.labelHeadline
                                                               attribute:NSLayoutAttributeCenterX
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self
@@ -221,7 +197,7 @@
     
     
     // Height constraint
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.btnView
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.undoButtonView
                                                               attribute:NSLayoutAttributeHeight
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self
@@ -230,7 +206,7 @@
                                                                constant:heightButton]];
     
     // Width constraint
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.btnView
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.undoButtonView
                                                               attribute:NSLayoutAttributeWidth
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self
@@ -238,17 +214,17 @@
                                                              multiplier:0.9
                                                                constant:0.0]];
     // Center horizontally
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.btnView
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.undoButtonView
                                                               attribute:NSLayoutAttributeRight
                                                               relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.dragCollectionView
+                                                                 toItem:self.sourceCollectionView
                                                               attribute:NSLayoutAttributeRight
                                                              multiplier:1.0
                                                                constant:0.0]];
     
     
     // Width constraint
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.dragCollectionView
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.sourceCollectionView
                                                               attribute:NSLayoutAttributeWidth
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self
@@ -257,7 +233,7 @@
                                                                constant:totalWidth]];
     
     // Height constraint
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.dragCollectionView
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.sourceCollectionView
                                                               attribute:NSLayoutAttributeHeight
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self
@@ -266,7 +242,7 @@
                                                                constant:heightDragArea]];
     
     // Center horizontally
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.dragCollectionView
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.sourceCollectionView
                                                               attribute:NSLayoutAttributeCenterX
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self
@@ -275,7 +251,7 @@
                                                                constant:0.0]];
     
     // Width constraint
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.dropCollectionView
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.targetCollectionView
                                                               attribute:NSLayoutAttributeWidth
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self
@@ -284,7 +260,7 @@
                                                                constant:totalWidth]];
     
     // Height constraint
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.dropCollectionView
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.targetCollectionView
                                                               attribute:NSLayoutAttributeHeight
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self
@@ -293,7 +269,7 @@
                                                                constant:heightDropArea]];
     
     // Center horizontally
-    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.dropCollectionView
+    [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.targetCollectionView
                                                               attribute:NSLayoutAttributeCenterX
                                                               relatedBy:NSLayoutRelationEqual
                                                                  toItem:self

@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1BDA14AB1BE3627A0010C16E /* ArraSolta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA14AA1BE3627A0010C16E /* ArraSolta.framework */; };
-		1BDA14AC1BE3627A0010C16E /* ArraSolta.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA14AA1BE3627A0010C16E /* ArraSolta.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1BC498331BE3D8E500E44837 /* ArraSolta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BC498321BE3D8E500E44837 /* ArraSolta.framework */; };
+		1BC498341BE3D8E500E44837 /* ArraSolta.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1BC498321BE3D8E500E44837 /* ArraSolta.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1BDA15001BE36B540010C16E /* MainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDA14FC1BE36B540010C16E /* MainView.m */; };
 		1BDA15011BE36B540010C16E /* ButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDA14FE1BE36B540010C16E /* ButtonView.m */; };
 		1BDA15061BE36B840010C16E /* CustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDA15051BE36B840010C16E /* CustomView.m */; };
@@ -72,7 +72,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				1BDA14AC1BE3627A0010C16E /* ArraSolta.framework in Embed Frameworks */,
+				1BC498341BE3D8E500E44837 /* ArraSolta.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -80,7 +80,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1BDA14AA1BE3627A0010C16E /* ArraSolta.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ArraSolta.framework; sourceTree = "<group>"; };
+		1BC498321BE3D8E500E44837 /* ArraSolta.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ArraSolta.framework; path = Framework/ArraSolta.framework; sourceTree = "<group>"; };
 		1BDA14FB1BE36B540010C16E /* MainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainView.h; sourceTree = "<group>"; };
 		1BDA14FC1BE36B540010C16E /* MainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainView.m; sourceTree = "<group>"; };
 		1BDA14FD1BE36B540010C16E /* ButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonView.h; sourceTree = "<group>"; };
@@ -138,7 +138,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1BDA14AB1BE3627A0010C16E /* ArraSolta.framework in Frameworks */,
+				1BC498331BE3D8E500E44837 /* ArraSolta.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,7 +250,7 @@
 		1BEEA7141BE28294002844CF = {
 			isa = PBXGroup;
 			children = (
-				1BDA14AA1BE3627A0010C16E /* ArraSolta.framework */,
+				1BC498321BE3D8E500E44837 /* ArraSolta.framework */,
 				1BEEA71F1BE28294002844CF /* ArrasoltaShowcase */,
 				1BEEA7391BE28294002844CF /* ArrasoltaShowcaseTests */,
 				1BEEA7441BE28294002844CF /* ArrasoltaShowcaseUITests */,
@@ -601,6 +601,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Framework",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ArrasoltaShowcase/PrefixHeader.pch;
@@ -622,6 +623,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Framework",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ArrasoltaShowcase/PrefixHeader.pch;

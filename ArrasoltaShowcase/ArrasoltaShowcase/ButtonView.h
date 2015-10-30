@@ -13,8 +13,8 @@
 @property (strong, nonatomic) UIButton *undoButton;
 @property (strong, nonatomic) UIButton *redoButton;
 @property (strong, nonatomic) UIButton *resetButton;
-@property (strong, nonatomic) UILabel *infoLabel;
+@property (strong, nonatomic) UILabel  *counterLabel;
 
-@property (strong, nonatomic) NSDictionary *viewsDictionary;
+@property (strong, nonatomic) NSDictionary *subviewsDictionaryForAutoLayout;
 
 @end

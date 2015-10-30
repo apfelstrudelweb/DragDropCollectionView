@@ -9,19 +9,15 @@
 #import "CustomView.h"
 
 
-#define FONTSIZE    6.0
-
-#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-
 @interface CustomView( ) {
     
-    NSDictionary *viewsDictionary;
+    NSDictionary *subviewsDictionaryForAutoLayout;
     NSMutableArray* layoutConstraints;
     NSArray *visualFormatConstraints;
     
     // don't declare these members in the public interface,
     // otherwise we get conflicts with introspection in conjunction
-    // with layout constraints during dragging this view!
+    // with layout constraints during the dragging process of this view!
     UILabel *label;
     UIImageView *imageView;
 }
@@ -57,22 +53,53 @@
 }
 
 
+#pragma mark -layoutSubviews
+// IMPORTANT: this method must be implemented
+- (void)layoutSubviews {
+    
+    // Performance issue: don't update constraints continuously during dragging the view,
+    // only when view has been dropped or before dragging!
+    if (!self.viewIsInDragState) {
+        [self setupConstraints];
+    }
+}
+
+
 #pragma  mark -getter/setter
+/**
+ * Label - country
+ **/
 - (void) setLabelText: (NSString*) text {
     
     label.text = text;
     label.textAlignment = NSTextAlignmentCenter;
     
+    CGFloat fontSize = 6.0;
+    
+    // font name can be extracted from config settings or be defined here
     NSString* fontName = [SHARED_CONFIG_INSTANCE getPreferredFontName];
-    
-    UIFont* font = IS_IPAD ? [UIFont fontWithName:fontName size:2*FONTSIZE] : [UIFont fontWithName:fontName size:FONTSIZE];
-    
+    UIFont* font = IS_IPAD ? [UIFont fontWithName:fontName size:2*fontSize] : [UIFont fontWithName:fontName size:fontSize];
     label.font = font;
-
 }
 
-- (void) setImageName: (NSString*) name {
+- (NSString*) getLabelText {
+    return label.text;
+}
 
+- (void) setLabelColor: (UIColor*) color {
+    label.textColor = color;
+}
+
+- (UIColor*) getLabelColor {
+    return label.textColor;
+}
+
+
+/**
+ * Image - name of the PNG file - flag of country
+ **/
+- (void) setImageName: (NSString*) name {
+    
     UIImage* image = [UIImage imageWithCGImage:[UIImage imageNamed:name].CGImage]; // trick for @2x.png
     // we need to set the accessibility identifier for the getter,
     // as an UIImage doesn't have any method for retrieving its name
@@ -84,39 +111,15 @@
     return imageView.image.accessibilityIdentifier;
 }
 
-- (void) setLabelColor: (UIColor*) color {
-    label.textColor = color;
-}
-
+/**
+ * Background color of this custom view
+ **/
 - (void) setBackgroundColorOfView: (UIColor*) color {
     self.backgroundColor = color;
 }
 
-
-- (NSString*) getLabelText {
-    return label.text;
-}
-
-
-
-- (UIColor*) getLabelColor {
-    return label.textColor;
-}
-
 - (UIColor*) getBackgroundColorOfView {
     return self.backgroundColor;
-}
-
-
-// IMPORTANT: this method must be implemented
-#pragma mark -layoutSubviews
-- (void)layoutSubviews {
-    
-    // Performance issue: don't update constraints continuously during dragging the view,
-    // only when view has been dropped or before dragging!
-    if (!self.viewIsInDragState) {
-        [self setupConstraints];
-    }
 }
 
 
@@ -136,15 +139,15 @@
     
     // define the order of the subviews - here we place them vertically:
     // on the top we place the label, beneath we place the image view
-    viewsDictionary = @{        @"label"       : label,
-                                @"image"       : imageView };
+    subviewsDictionaryForAutoLayout = @{        @"label"       : label,
+                                                @"image"       : imageView };
     
     NSString* visualFormatText = [NSString stringWithFormat:@"V:|-%f-[label]-%f-[image]", padding, padding];
     
     visualFormatConstraints = [NSLayoutConstraint constraintsWithVisualFormat:visualFormatText
                                                                       options:0
                                                                       metrics:nil
-                                                                        views:viewsDictionary];
+                                                                        views:subviewsDictionaryForAutoLayout];
     
     for (int i = 0; i<visualFormatConstraints.count; i++) {
         [self addConstraint:visualFormatConstraints[i]];
@@ -170,20 +173,8 @@
         imageWidth = ratio * imageHeight;
     } else if (imageviewWidth < imageWidth) {
         imageWidth = imageviewWidth;
-       // imageviewHeight = imageWidth / ratio;
+        // imageviewHeight = imageWidth / ratio;
     }
-    
-    // for zooming purposes ...
-//    float f = 1.0;
-//    float zoomFact = f * viewWidth / imageView.image.size.width;
-//    imageWidth *= 0.9*zoomFact;
-//    imageHeight *= 0.9*zoomFact;
-    
-//    UIFont* font = label.font;
-//    NSString* fontName = font.fontName;
-//    CGFloat fontSize = IS_IPAD ? 12 : 6;
-//    UIFont* newFont = [UIFont fontWithName:fontName size:fontSize*zoomFact];
-//    [label setFont:newFont];
     
     
     // Width constraint

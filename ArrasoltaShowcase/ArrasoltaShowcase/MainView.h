@@ -10,26 +10,33 @@
 
 @interface MainView : UIView
 
-@property (strong, nonatomic) UILabel *headline;
-@property (strong, nonatomic) ButtonView *btnView;
+/**
+ *  Simple GUI elements
+ **/
+@property (strong, nonatomic) UILabel    *labelHeadline;
+@property (strong, nonatomic) ButtonView *undoButtonView;
 
-@property (strong, nonatomic) ArrasoltaDragCollectionView *dragCollectionView;
-@property (strong, nonatomic) ArrasoltaDropCollectionView *dropCollectionView;
+/**
+ *  Collection Views
+ **/
+@property (strong, nonatomic) ArrasoltaDragCollectionView *sourceCollectionView;
+@property (strong, nonatomic) ArrasoltaDropCollectionView *targetCollectionView;
+@property (nonatomic) CGSize sourceCollectionViewSize;
+@property (nonatomic) CGSize singleCellSize;
 
-@property (strong, nonatomic) NSDictionary *viewsDictionary;
+/**
+ *  Dictionaries (populating the collection views)
+ **/
+@property (strong, nonatomic) NSMutableDictionary *sourceItemsDictionary;
+@property (strong, nonatomic) NSMutableDictionary *targetItemsDictionary;
+// number of items as result of number of elements in dictionaries
+@property (nonatomic) int numberOfSourceItems;
+@property (nonatomic) int numberOfTargetItems;
 
-@property (nonatomic) CGSize dragCollectionViewSize;
-@property (nonatomic) CGSize cellSize;
+/**
+ *  Dictionary of subviews (for auto layout issues)
+ **/
+@property (strong, nonatomic) NSDictionary *subviewsDictionaryForAutoLayout;
 
-@property (nonatomic) int numberOfColumns;
-
-@property (nonatomic) int numberOfDragItems;
-@property (nonatomic) int numberOfDropItems;
-
-
-@property (strong, nonatomic) NSMutableDictionary* sourceDict;
-@property (strong, nonatomic) NSMutableDictionary* targetDict;
-
-@property bool isTranslation;
 
 @end
