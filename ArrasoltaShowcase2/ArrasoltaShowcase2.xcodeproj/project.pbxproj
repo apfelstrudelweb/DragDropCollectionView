@@ -1,0 +1,624 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1BC498331BE3D8E500E44837 /* ArraSolta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BC498321BE3D8E500E44837 /* ArraSolta.framework */; };
+		1BC498341BE3D8E500E44837 /* ArraSolta.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1BC498321BE3D8E500E44837 /* ArraSolta.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1BDA15001BE36B540010C16E /* MainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDA14FC1BE36B540010C16E /* MainView.m */; };
+		1BDA15011BE36B540010C16E /* ButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDA14FE1BE36B540010C16E /* ButtonView.m */; };
+		1BDA15061BE36B840010C16E /* CustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDA15051BE36B840010C16E /* CustomView.m */; };
+		1BDA150A1BE36B9A0010C16E /* UILabel+format.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDA15091BE36B9A0010C16E /* UILabel+format.m */; };
+		1BDA15111BE36BDD0010C16E /* redo.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BDA150F1BE36BDD0010C16E /* redo.png */; };
+		1BDA15121BE36BDD0010C16E /* undo.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BDA15101BE36BDD0010C16E /* undo.png */; };
+		1BEEA7221BE28294002844CF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEEA7211BE28294002844CF /* main.m */; };
+		1BEEA7251BE28294002844CF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEEA7241BE28294002844CF /* AppDelegate.m */; };
+		1BEEA7281BE28294002844CF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEEA7271BE28294002844CF /* ViewController.m */; };
+		1BEEA72D1BE28294002844CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BEEA72C1BE28294002844CF /* Assets.xcassets */; };
+		1BEEA73B1BE28294002844CF /* ArrasoltaShowcaseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEEA73A1BE28294002844CF /* ArrasoltaShowcaseTests.m */; };
+		1BEEA7461BE28294002844CF /* ArrasoltaShowcaseUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEEA7451BE28294002844CF /* ArrasoltaShowcaseUITests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1BEEA7371BE28294002844CF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1BEEA7151BE28294002844CF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1BEEA71C1BE28294002844CF;
+			remoteInfo = ArrasoltaShowcase;
+		};
+		1BEEA7421BE28294002844CF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1BEEA7151BE28294002844CF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1BEEA71C1BE28294002844CF;
+			remoteInfo = ArrasoltaShowcase;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1BEEA75A1BE28700002844CF /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				1BC498341BE3D8E500E44837 /* ArraSolta.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		1BC498321BE3D8E500E44837 /* ArraSolta.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ArraSolta.framework; path = Framework/ArraSolta.framework; sourceTree = "<group>"; };
+		1BDA14FB1BE36B540010C16E /* MainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainView.h; sourceTree = "<group>"; };
+		1BDA14FC1BE36B540010C16E /* MainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainView.m; sourceTree = "<group>"; };
+		1BDA14FD1BE36B540010C16E /* ButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonView.h; sourceTree = "<group>"; };
+		1BDA14FE1BE36B540010C16E /* ButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonView.m; sourceTree = "<group>"; };
+		1BDA15041BE36B840010C16E /* CustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomView.h; sourceTree = "<group>"; };
+		1BDA15051BE36B840010C16E /* CustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomView.m; sourceTree = "<group>"; };
+		1BDA15081BE36B9A0010C16E /* UILabel+format.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+format.h"; sourceTree = "<group>"; };
+		1BDA15091BE36B9A0010C16E /* UILabel+format.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+format.m"; sourceTree = "<group>"; };
+		1BDA150B1BE36BAD0010C16E /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		1BDA150F1BE36BDD0010C16E /* redo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redo.png; sourceTree = "<group>"; };
+		1BDA15101BE36BDD0010C16E /* undo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = undo.png; sourceTree = "<group>"; };
+		1BEEA71D1BE28294002844CF /* ArrasoltaShowcase2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ArrasoltaShowcase2.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1BEEA7211BE28294002844CF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1BEEA7231BE28294002844CF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		1BEEA7241BE28294002844CF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		1BEEA7261BE28294002844CF /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		1BEEA7271BE28294002844CF /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		1BEEA72C1BE28294002844CF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1BEEA7311BE28294002844CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1BEEA7361BE28294002844CF /* ArrasoltaShowcase2.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ArrasoltaShowcase2.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1BEEA73A1BE28294002844CF /* ArrasoltaShowcaseTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaShowcaseTests.m; sourceTree = "<group>"; };
+		1BEEA73C1BE28294002844CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1BEEA7411BE28294002844CF /* ArrasoltaShowcase2.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ArrasoltaShowcase2.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1BEEA7451BE28294002844CF /* ArrasoltaShowcaseUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaShowcaseUITests.m; sourceTree = "<group>"; };
+		1BEEA7471BE28294002844CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1BEEA71A1BE28294002844CF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1BC498331BE3D8E500E44837 /* ArraSolta.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1BEEA7331BE28294002844CF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1BEEA73E1BE28294002844CF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1BDA15021BE36B5B0010C16E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1BDA15451BE378B60010C16E /* UndoButton */,
+				1BDA15031BE36B720010C16E /* DraggableView */,
+				1BDA14FB1BE36B540010C16E /* MainView.h */,
+				1BDA14FC1BE36B540010C16E /* MainView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		1BDA15031BE36B720010C16E /* DraggableView */ = {
+			isa = PBXGroup;
+			children = (
+				1BDA15041BE36B840010C16E /* CustomView.h */,
+				1BDA15051BE36B840010C16E /* CustomView.m */,
+			);
+			name = DraggableView;
+			sourceTree = "<group>";
+		};
+		1BDA15071BE36B8F0010C16E /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				1BDA15081BE36B9A0010C16E /* UILabel+format.h */,
+				1BDA15091BE36B9A0010C16E /* UILabel+format.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		1BDA150C1BE36BC40010C16E /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				1BDA150D1BE36BCC0010C16E /* Icons */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		1BDA150D1BE36BCC0010C16E /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				1BDA150F1BE36BDD0010C16E /* redo.png */,
+				1BDA15101BE36BDD0010C16E /* undo.png */,
+			);
+			name = Icons;
+			sourceTree = "<group>";
+		};
+		1BDA15451BE378B60010C16E /* UndoButton */ = {
+			isa = PBXGroup;
+			children = (
+				1BDA14FD1BE36B540010C16E /* ButtonView.h */,
+				1BDA14FE1BE36B540010C16E /* ButtonView.m */,
+			);
+			name = UndoButton;
+			sourceTree = "<group>";
+		};
+		1BEEA7141BE28294002844CF = {
+			isa = PBXGroup;
+			children = (
+				1BC498321BE3D8E500E44837 /* ArraSolta.framework */,
+				1BEEA71F1BE28294002844CF /* ArrasoltaShowcase2 */,
+				1BEEA7391BE28294002844CF /* ArrasoltaShowcase2Tests */,
+				1BEEA7441BE28294002844CF /* ArrasoltaShowcase2UITests */,
+				1BEEA71E1BE28294002844CF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1BEEA71E1BE28294002844CF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1BEEA71D1BE28294002844CF /* ArrasoltaShowcase2.app */,
+				1BEEA7361BE28294002844CF /* ArrasoltaShowcase2.xctest */,
+				1BEEA7411BE28294002844CF /* ArrasoltaShowcase2.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1BEEA71F1BE28294002844CF /* ArrasoltaShowcase2 */ = {
+			isa = PBXGroup;
+			children = (
+				1BDA150C1BE36BC40010C16E /* Images */,
+				1BDA15071BE36B8F0010C16E /* Categories */,
+				1BDA15021BE36B5B0010C16E /* Views */,
+				1BEEA7231BE28294002844CF /* AppDelegate.h */,
+				1BEEA7241BE28294002844CF /* AppDelegate.m */,
+				1BEEA7261BE28294002844CF /* ViewController.h */,
+				1BEEA7271BE28294002844CF /* ViewController.m */,
+				1BEEA72C1BE28294002844CF /* Assets.xcassets */,
+				1BEEA7311BE28294002844CF /* Info.plist */,
+				1BEEA7201BE28294002844CF /* Supporting Files */,
+			);
+			name = ArrasoltaShowcase2;
+			path = ArrasoltaShowcase;
+			sourceTree = "<group>";
+		};
+		1BEEA7201BE28294002844CF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1BDA150B1BE36BAD0010C16E /* PrefixHeader.pch */,
+				1BEEA7211BE28294002844CF /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1BEEA7391BE28294002844CF /* ArrasoltaShowcase2Tests */ = {
+			isa = PBXGroup;
+			children = (
+				1BEEA73A1BE28294002844CF /* ArrasoltaShowcaseTests.m */,
+				1BEEA73C1BE28294002844CF /* Info.plist */,
+			);
+			name = ArrasoltaShowcase2Tests;
+			path = ArrasoltaShowcaseTests;
+			sourceTree = "<group>";
+		};
+		1BEEA7441BE28294002844CF /* ArrasoltaShowcase2UITests */ = {
+			isa = PBXGroup;
+			children = (
+				1BEEA7451BE28294002844CF /* ArrasoltaShowcaseUITests.m */,
+				1BEEA7471BE28294002844CF /* Info.plist */,
+			);
+			name = ArrasoltaShowcase2UITests;
+			path = ArrasoltaShowcaseUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1BEEA71C1BE28294002844CF /* ArrasoltaShowcase2 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1BEEA74A1BE28294002844CF /* Build configuration list for PBXNativeTarget "ArrasoltaShowcase2" */;
+			buildPhases = (
+				1BEEA7191BE28294002844CF /* Sources */,
+				1BEEA71A1BE28294002844CF /* Frameworks */,
+				1BEEA71B1BE28294002844CF /* Resources */,
+				1BEEA75A1BE28700002844CF /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ArrasoltaShowcase2;
+			productName = ArrasoltaShowcase;
+			productReference = 1BEEA71D1BE28294002844CF /* ArrasoltaShowcase2.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1BEEA7351BE28294002844CF /* ArrasoltaShowcase2Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1BEEA74D1BE28294002844CF /* Build configuration list for PBXNativeTarget "ArrasoltaShowcase2Tests" */;
+			buildPhases = (
+				1BEEA7321BE28294002844CF /* Sources */,
+				1BEEA7331BE28294002844CF /* Frameworks */,
+				1BEEA7341BE28294002844CF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1BEEA7381BE28294002844CF /* PBXTargetDependency */,
+			);
+			name = ArrasoltaShowcase2Tests;
+			productName = ArrasoltaShowcaseTests;
+			productReference = 1BEEA7361BE28294002844CF /* ArrasoltaShowcase2.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		1BEEA7401BE28294002844CF /* ArrasoltaShowcase2UITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1BEEA7501BE28294002844CF /* Build configuration list for PBXNativeTarget "ArrasoltaShowcase2UITests" */;
+			buildPhases = (
+				1BEEA73D1BE28294002844CF /* Sources */,
+				1BEEA73E1BE28294002844CF /* Frameworks */,
+				1BEEA73F1BE28294002844CF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1BEEA7431BE28294002844CF /* PBXTargetDependency */,
+			);
+			name = ArrasoltaShowcase2UITests;
+			productName = ArrasoltaShowcaseUITests;
+			productReference = 1BEEA7411BE28294002844CF /* ArrasoltaShowcase2.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1BEEA7151BE28294002844CF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = "Ulrich Vormbrock";
+				TargetAttributes = {
+					1BEEA71C1BE28294002844CF = {
+						CreatedOnToolsVersion = 7.0.1;
+					};
+					1BEEA7351BE28294002844CF = {
+						CreatedOnToolsVersion = 7.0.1;
+						TestTargetID = 1BEEA71C1BE28294002844CF;
+					};
+					1BEEA7401BE28294002844CF = {
+						CreatedOnToolsVersion = 7.0.1;
+						TestTargetID = 1BEEA71C1BE28294002844CF;
+					};
+				};
+			};
+			buildConfigurationList = 1BEEA7181BE28294002844CF /* Build configuration list for PBXProject "ArrasoltaShowcase2" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 1BEEA7141BE28294002844CF;
+			productRefGroup = 1BEEA71E1BE28294002844CF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1BEEA71C1BE28294002844CF /* ArrasoltaShowcase2 */,
+				1BEEA7351BE28294002844CF /* ArrasoltaShowcase2Tests */,
+				1BEEA7401BE28294002844CF /* ArrasoltaShowcase2UITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1BEEA71B1BE28294002844CF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1BEEA72D1BE28294002844CF /* Assets.xcassets in Resources */,
+				1BDA15111BE36BDD0010C16E /* redo.png in Resources */,
+				1BDA15121BE36BDD0010C16E /* undo.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1BEEA7341BE28294002844CF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1BEEA73F1BE28294002844CF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1BEEA7191BE28294002844CF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1BDA15001BE36B540010C16E /* MainView.m in Sources */,
+				1BEEA7281BE28294002844CF /* ViewController.m in Sources */,
+				1BDA15061BE36B840010C16E /* CustomView.m in Sources */,
+				1BEEA7251BE28294002844CF /* AppDelegate.m in Sources */,
+				1BDA150A1BE36B9A0010C16E /* UILabel+format.m in Sources */,
+				1BDA15011BE36B540010C16E /* ButtonView.m in Sources */,
+				1BEEA7221BE28294002844CF /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1BEEA7321BE28294002844CF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1BEEA73B1BE28294002844CF /* ArrasoltaShowcaseTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1BEEA73D1BE28294002844CF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1BEEA7461BE28294002844CF /* ArrasoltaShowcaseUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1BEEA7381BE28294002844CF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1BEEA71C1BE28294002844CF /* ArrasoltaShowcase2 */;
+			targetProxy = 1BEEA7371BE28294002844CF /* PBXContainerItemProxy */;
+		};
+		1BEEA7431BE28294002844CF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1BEEA71C1BE28294002844CF /* ArrasoltaShowcase2 */;
+			targetProxy = 1BEEA7421BE28294002844CF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1BEEA7481BE28294002844CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1BEEA7491BE28294002844CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		1BEEA74B1BE28294002844CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Framework",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ArrasoltaShowcase/PrefixHeader.pch;
+				INFOPLIST_FILE = ArrasoltaShowcase/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = ch.vormbrock.ArrasoltaShowcase2;
+				PRODUCT_NAME = ArrasoltaShowcase2;
+			};
+			name = Debug;
+		};
+		1BEEA74C1BE28294002844CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Framework",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ArrasoltaShowcase/PrefixHeader.pch;
+				INFOPLIST_FILE = ArrasoltaShowcase/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = ch.vormbrock.ArrasoltaShowcase2;
+				PRODUCT_NAME = ArrasoltaShowcase2;
+			};
+			name = Release;
+		};
+		1BEEA74E1BE28294002844CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = ArrasoltaShowcaseTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = ch.vormbrock.ArrasoltaShowcaseTests;
+				PRODUCT_NAME = ArrasoltaShowcase2;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ArrasoltaShowcase2.app/ArrasoltaShowcase2";
+			};
+			name = Debug;
+		};
+		1BEEA74F1BE28294002844CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = ArrasoltaShowcaseTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = ch.vormbrock.ArrasoltaShowcaseTests;
+				PRODUCT_NAME = ArrasoltaShowcase2;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ArrasoltaShowcase2.app/ArrasoltaShowcase2";
+			};
+			name = Release;
+		};
+		1BEEA7511BE28294002844CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = ArrasoltaShowcaseUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = ch.vormbrock.ArrasoltaShowcaseUITests;
+				PRODUCT_NAME = ArrasoltaShowcase2;
+				TEST_TARGET_NAME = ArrasoltaShowcase;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		1BEEA7521BE28294002844CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = ArrasoltaShowcaseUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = ch.vormbrock.ArrasoltaShowcaseUITests;
+				PRODUCT_NAME = ArrasoltaShowcase2;
+				TEST_TARGET_NAME = ArrasoltaShowcase;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1BEEA7181BE28294002844CF /* Build configuration list for PBXProject "ArrasoltaShowcase2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1BEEA7481BE28294002844CF /* Debug */,
+				1BEEA7491BE28294002844CF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1BEEA74A1BE28294002844CF /* Build configuration list for PBXNativeTarget "ArrasoltaShowcase2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1BEEA74B1BE28294002844CF /* Debug */,
+				1BEEA74C1BE28294002844CF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1BEEA74D1BE28294002844CF /* Build configuration list for PBXNativeTarget "ArrasoltaShowcase2Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1BEEA74E1BE28294002844CF /* Debug */,
+				1BEEA74F1BE28294002844CF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1BEEA7501BE28294002844CF /* Build configuration list for PBXNativeTarget "ArrasoltaShowcase2UITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1BEEA7511BE28294002844CF /* Debug */,
+				1BEEA7521BE28294002844CF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1BEEA7151BE28294002844CF /* Project object */;
+}
