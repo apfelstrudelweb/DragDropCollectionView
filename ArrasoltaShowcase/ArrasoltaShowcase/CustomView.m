@@ -6,15 +6,14 @@
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
 //
 
-#import "ConcreteCustomView.h"
-#import "UILabel+size.h"
+#import "CustomView.h"
 
 
 #define FONTSIZE    6.0
 
 #define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
-@interface ConcreteCustomView( ) {
+@interface CustomView( ) {
     
     NSDictionary *viewsDictionary;
     NSMutableArray* layoutConstraints;
@@ -28,7 +27,7 @@
 }
 @end
 
-@implementation ConcreteCustomView
+@implementation CustomView
 
 - (instancetype)init {
     return [self initWithFrame:CGRectZero];

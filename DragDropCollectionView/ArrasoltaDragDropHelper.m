@@ -197,11 +197,12 @@
     else if (recognizer.state == UIGestureRecognizerStateEnded) {
         
         [timer invalidate];
-        
-        // update history
-        [SHARED_BUTTON_INSTANCE updateHistoryBeforeAction];
+ 
+      
         
         if (insertCells) {
+            // update history
+            [SHARED_BUTTON_INSTANCE updateHistoryBeforeAction];
             [self insertCell:moveableView];
             // now scroll to the inserted cell
             NSIndexPath* scrollToIndexPath = [NSIndexPath indexPathForItem:insertIndex inSection:0];
@@ -209,11 +210,12 @@
             UICollectionViewScrollPosition scrollPos = [SHARED_CONFIG_INSTANCE getScrollDirection] == horizontal ? UICollectionViewScrollPositionCenteredHorizontally : UICollectionViewScrollPositionCenteredVertically;
             
             [dropCollectionView scrollToItemAtIndexPath:scrollToIndexPath atScrollPosition:scrollPos animated:YES];
+            [SHARED_BUTTON_INSTANCE updateHistoryAfterAction];
         } else {
             [self appendCell:moveableView recognizer:recognizer];
         }
         
-        [SHARED_BUTTON_INSTANCE updateHistoryAfterAction];
+        
 
         // refresh table views
         [dragCollectionView reloadData];
@@ -256,11 +258,25 @@
         return;
     }
     
-    // if view is not dropped into a valid cell, handle it
+    // if view is not dropped into a valid cell, handle it ...
     if (!dropCell) {
-        [self flipBackToOrigin:moveableView];
+ 
+        if ([moveableView isKindOfClass:[ArrasoltaDropView class]]) {
+            // track drop view if moved back to the source grid
+            // update history
+            [SHARED_BUTTON_INSTANCE updateHistoryBeforeAction];
+            [self flipBackToOrigin:moveableView];
+            [SHARED_BUTTON_INSTANCE updateHistoryAfterAction];
+        } else {
+            // ... but don't track drag view which stays in source grid
+            [self flipBackToOrigin:moveableView];
+        }
+        
         return;
     }
+    
+    // update history
+    [SHARED_BUTTON_INSTANCE updateHistoryBeforeAction];
     
     if ([moveableView isKindOfClass:[ArrasoltaDragView class]]) {
         // Move from source grid to target grid
@@ -286,6 +302,7 @@
         // 2. update all indices from drop view
         [dropView move:targetCellsDict toIndex:dropIndex];
     }
+    [SHARED_BUTTON_INSTANCE updateHistoryAfterAction];
 }
 
 /**

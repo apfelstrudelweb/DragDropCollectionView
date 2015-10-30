@@ -108,7 +108,8 @@
 #pragma mark -history update and read
 /**
  *
- *  We populate an array with snapshots of both the source, both the target collection view
+ *  We populate an array with snapshots of both the source, 
+ *  both the target collection view
  *
  **/
 - (void) updateHistoryBeforeAction {
@@ -123,7 +124,6 @@
     
     bool cellsAreConsumabe = [SHARED_CONFIG_INSTANCE areSourceItemsConsumable];
     int dropCapacity = cellsAreConsumabe ? capacity : [SHARED_CONFIG_INSTANCE getNumberOfTargetItems];
-    
     
     NSMutableArray* snapshotTargetArray = [[NSMutableArray alloc] initWithCapacity:dropCapacity];
     [snapshotTargetArray initWithZeroObjects:dropCapacity];
