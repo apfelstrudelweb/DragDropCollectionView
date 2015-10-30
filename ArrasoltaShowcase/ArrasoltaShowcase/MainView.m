@@ -47,15 +47,15 @@
         self.sourceItemsDictionary = [SHARED_CONFIG_INSTANCE getSourceItemsDictionary];
         self.numberOfSourceItems = (int)self.sourceItemsDictionary.count;
         
-        self.sourceCollectionView = [[ArrasoltaDragCollectionView alloc] initWithFrame:frame withinView:self];
+        self.sourceCollectionView = [[ArrasoltaSourceCollectionView alloc] initWithFrame:frame withinView:self];
         [self.sourceCollectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.sourceCollectionView];
         
-        // Prepare target collection view
+        // Prepare target collection view - it's still empty!
         self.targetItemsDictionary = [NSMutableDictionary new];
         self.numberOfTargetItems = [SHARED_CONFIG_INSTANCE getNumberOfTargetItems];
         
-        self.targetCollectionView = [[ArrasoltaDropCollectionView alloc] initWithFrame:frame withinView:self sourceDictionary:self.sourceItemsDictionary targetDictionary:self.targetItemsDictionary];
+        self.targetCollectionView = [[ArrasoltaTargetCollectionView alloc] initWithFrame:frame withinView:self sourceDictionary:self.sourceItemsDictionary targetDictionary:self.targetItemsDictionary];
         
         [self.targetCollectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.targetCollectionView];
@@ -79,7 +79,7 @@
 #pragma mark <UICollectionViewDataSource>
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    if ([collectionView isKindOfClass:[ArrasoltaDragCollectionView class]]) {
+    if ([collectionView isKindOfClass:[ArrasoltaSourceCollectionView class]]) {
         return self.numberOfSourceItems;
     } else {
         return self.numberOfTargetItems;
@@ -103,7 +103,7 @@
     
     CGPoint currentOffset = scrollView.contentOffset;
     
-    if ([scrollView isKindOfClass:[ArrasoltaDragCollectionView class]]) {
+    if ([scrollView isKindOfClass:[ArrasoltaSourceCollectionView class]]) {
         self.targetCollectionView.contentOffset = currentOffset;
     } else {
         //self.dragCollectionView.contentOffset = currentOffset;
@@ -118,6 +118,7 @@
     [self.sourceCollectionView reloadData];
     [self.targetCollectionView reloadData];
     
+    // not mandatory - but use it if you want to have scrolling to the last item
     [ArrasoltaUtils scrollToLastElement: self.targetCollectionView ofDictionary:self.targetItemsDictionary];
 }
 
@@ -168,6 +169,11 @@
     float heightDragArea = (float) totalHeight*percentDragArea*0.01;
     float heightDropArea = (float) totalHeight*percentDropArea*0.01;
     
+    /**
+     *
+     * Label
+     *
+     **/
     // Width constraint
     [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.labelHeadline
                                                               attribute:NSLayoutAttributeWidth
@@ -195,7 +201,11 @@
                                                                constant:0.0]];
     
     
-    
+    /**
+     *
+     * Undo / Redo Button plus Counter Label
+     *
+     **/
     // Height constraint
     [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.undoButtonView
                                                               attribute:NSLayoutAttributeHeight
@@ -223,6 +233,11 @@
                                                                constant:0.0]];
     
     
+    /**
+     *
+     * Source Collection View
+     *
+     **/
     // Width constraint
     [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.sourceCollectionView
                                                               attribute:NSLayoutAttributeWidth
@@ -250,6 +265,11 @@
                                                              multiplier:1.0
                                                                constant:0.0]];
     
+    /**
+     *
+     * Target Collection View
+     *
+     **/
     // Width constraint
     [layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self.targetCollectionView
                                                               attribute:NSLayoutAttributeWidth

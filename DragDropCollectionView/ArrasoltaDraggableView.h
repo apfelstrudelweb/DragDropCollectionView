@@ -6,10 +6,9 @@
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "ArrasoltaMoveableView.h"
 
-@interface ArrasoltaDragView : ArrasoltaMoveableView
+@interface ArrasoltaDraggableView : ArrasoltaMoveableView
 
 
 - (void) setBorderColor: (UIColor*) color;

@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		1BBDE4121BAC1B7200CD5461 /* ArrasoltaUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BBDE4111BAC1B7200CD5461 /* ArrasoltaUtils.m */; };
 		1BBDE4171BAC56C300CD5461 /* UILabel+size.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BBDE4161BAC56C300CD5461 /* UILabel+size.m */; };
-		1BD91F201BDAA17800468716 /* ButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD91F1F1BDAA17800468716 /* ButtonView.m */; settings = {ASSET_TAGS = (); }; };
+		1BD91F201BDAA17800468716 /* ButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD91F1F1BDAA17800468716 /* ButtonView.m */; };
 		1BD924A91BBEC36300EF90F7 /* ArrasoltaCurrentState.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD924A81BBEC36300EF90F7 /* ArrasoltaCurrentState.m */; };
 		1BD924AD1BBED7DB00EF90F7 /* greece.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BD924AC1BBED7DB00EF90F7 /* greece.png */; };
 		1BD924AF1BBEDA8E00EF90F7 /* hungary.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BD924AE1BBEDA8E00EF90F7 /* hungary.png */; };
@@ -39,19 +39,19 @@
 		1BD94FD41BC6A9E5004AF034 /* ArrasoltaAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD94FD31BC6A9E5004AF034 /* ArrasoltaAPI.m */; };
 		1BD968361BA99A3200C243D1 /* ArrasoltaCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD968351BA99A3200C243D1 /* ArrasoltaCollectionViewCell.m */; };
 		1BD9B3DE1BD25969009A7812 /* ArrasoltaCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD9B3DD1BD25969009A7812 /* ArrasoltaCollectionViewFlowLayout.m */; };
-		1BDB12321BAAB672005A5051 /* ArrasoltaDragView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDB12311BAAB672005A5051 /* ArrasoltaDragView.m */; };
+		1BDB12321BAAB672005A5051 /* ArrasoltaDraggableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDB12311BAAB672005A5051 /* ArrasoltaDraggableView.m */; };
 		1BDB9F701BBD71D0005C62CA /* ArrasoltaCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDB9F6F1BBD71D0005C62CA /* ArrasoltaCustomView.m */; };
 		1BDC0A1C1BC968760097092A /* ArrasoltaUndoButtonHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC0A1B1BC968760097092A /* ArrasoltaUndoButtonHelper.m */; };
-		1BDC245C1BDCCF6000827ABE /* redo.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BDC245B1BDCCF6000827ABE /* redo.png */; settings = {ASSET_TAGS = (); }; };
-		1BDC245E1BDCCF6600827ABE /* undo.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BDC245D1BDCCF6600827ABE /* undo.png */; settings = {ASSET_TAGS = (); }; };
-		1BDC24611BDCEFEC00827ABE /* ArrasoltaCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC24601BDCEFEC00827ABE /* ArrasoltaCollectionView.m */; settings = {ASSET_TAGS = (); }; };
+		1BDC245C1BDCCF6000827ABE /* redo.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BDC245B1BDCCF6000827ABE /* redo.png */; };
+		1BDC245E1BDCCF6600827ABE /* undo.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BDC245D1BDCCF6600827ABE /* undo.png */; };
+		1BDC24611BDCEFEC00827ABE /* ArrasoltaCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC24601BDCEFEC00827ABE /* ArrasoltaCollectionView.m */; };
 		1BDC75E91BB1B22E00171AA2 /* NSMutableArray+arrasolta.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC75E81BB1B22E00171AA2 /* NSMutableArray+arrasolta.m */; };
 		1BDCD8B81BC3B880000C21A7 /* ArrasoltaDragDropHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDCD8B71BC3B880000C21A7 /* ArrasoltaDragDropHelper.m */; };
 		1BDD6CAF1BB819DB00AFE92C /* ArrasoltaPersistencyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDD6CAE1BB819DB00AFE92C /* ArrasoltaPersistencyManager.m */; };
 		1BDD7EF71BB53AE700CB4161 /* NSMutableDictionary+arrasolta.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDD7EF61BB53AE700CB4161 /* NSMutableDictionary+arrasolta.m */; };
 		1BDD7EFD1BB54ABD00CB4161 /* MainBasicView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDD7EFC1BB54ABD00CB4161 /* MainBasicView.m */; };
-		1BDD7F011BB5553A00CB4161 /* ArrasoltaDragCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDD7F001BB5553A00CB4161 /* ArrasoltaDragCollectionView.m */; };
-		1BDD7F041BB5556C00CB4161 /* ArrasoltaDropCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDD7F031BB5556C00CB4161 /* ArrasoltaDropCollectionView.m */; };
+		1BDD7F011BB5553A00CB4161 /* ArrasoltaSourceCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDD7F001BB5553A00CB4161 /* ArrasoltaSourceCollectionView.m */; };
+		1BDD7F041BB5556C00CB4161 /* ArrasoltaTargetCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDD7F031BB5556C00CB4161 /* ArrasoltaTargetCollectionView.m */; };
 		1BDDE7481BB4426400E54751 /* ArrasoltaConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDDE7471BB4426400E54751 /* ArrasoltaConfig.m */; };
 		1BDEF6711BD0FB6E00ADEBBF /* ArrasoltaViewConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDEF6701BD0FB6E00ADEBBF /* ArrasoltaViewConverter.m */; };
 		1BDF7FAE1BA833FC00A49AA9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDF7FAD1BA833FC00A49AA9 /* main.m */; };
@@ -60,7 +60,7 @@
 		1BDF7FB91BA833FC00A49AA9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BDF7FB81BA833FC00A49AA9 /* Images.xcassets */; };
 		1BDF7FC81BA833FC00A49AA9 /* DragDropCollectionViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDF7FC71BA833FC00A49AA9 /* DragDropCollectionViewTests.m */; };
 		1BDF7FD31BA8354700A49AA9 /* MainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDF7FD21BA8354700A49AA9 /* MainView.m */; };
-		1BE559FF1BBAD38900E5218F /* ArrasoltaDropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE559FE1BBAD38900E5218F /* ArrasoltaDropView.m */; };
+		1BE559FF1BBAD38900E5218F /* ArrasoltaDroppableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE559FE1BBAD38900E5218F /* ArrasoltaDroppableView.m */; };
 		1BE55A031BBAD3DF00E5218F /* ArrasoltaMoveableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE55A021BBAD3DF00E5218F /* ArrasoltaMoveableView.m */; };
 		1BE7810B1BC5536E00BD13C1 /* ConcreteCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE7810A1BC5536E00BD13C1 /* ConcreteCustomView.m */; };
 /* End PBXBuildFile section */
@@ -116,8 +116,8 @@
 		1BD968351BA99A3200C243D1 /* ArrasoltaCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaCollectionViewCell.m; sourceTree = "<group>"; };
 		1BD9B3DC1BD25969009A7812 /* ArrasoltaCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaCollectionViewFlowLayout.h; sourceTree = "<group>"; };
 		1BD9B3DD1BD25969009A7812 /* ArrasoltaCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaCollectionViewFlowLayout.m; sourceTree = "<group>"; };
-		1BDB12301BAAB672005A5051 /* ArrasoltaDragView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaDragView.h; sourceTree = "<group>"; };
-		1BDB12311BAAB672005A5051 /* ArrasoltaDragView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaDragView.m; sourceTree = "<group>"; };
+		1BDB12301BAAB672005A5051 /* ArrasoltaDraggableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaDraggableView.h; sourceTree = "<group>"; };
+		1BDB12311BAAB672005A5051 /* ArrasoltaDraggableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaDraggableView.m; sourceTree = "<group>"; };
 		1BDB9F6E1BBD71D0005C62CA /* ArrasoltaCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaCustomView.h; sourceTree = "<group>"; };
 		1BDB9F6F1BBD71D0005C62CA /* ArrasoltaCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaCustomView.m; sourceTree = "<group>"; };
 		1BDC0A1A1BC968760097092A /* ArrasoltaUndoButtonHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaUndoButtonHelper.h; sourceTree = "<group>"; };
@@ -136,10 +136,10 @@
 		1BDD7EF61BB53AE700CB4161 /* NSMutableDictionary+arrasolta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+arrasolta.m"; sourceTree = "<group>"; };
 		1BDD7EFB1BB54ABD00CB4161 /* MainBasicView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainBasicView.h; sourceTree = "<group>"; };
 		1BDD7EFC1BB54ABD00CB4161 /* MainBasicView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainBasicView.m; sourceTree = "<group>"; };
-		1BDD7EFF1BB5553A00CB4161 /* ArrasoltaDragCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaDragCollectionView.h; sourceTree = "<group>"; };
-		1BDD7F001BB5553A00CB4161 /* ArrasoltaDragCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaDragCollectionView.m; sourceTree = "<group>"; };
-		1BDD7F021BB5556C00CB4161 /* ArrasoltaDropCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaDropCollectionView.h; sourceTree = "<group>"; };
-		1BDD7F031BB5556C00CB4161 /* ArrasoltaDropCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaDropCollectionView.m; sourceTree = "<group>"; };
+		1BDD7EFF1BB5553A00CB4161 /* ArrasoltaSourceCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaSourceCollectionView.h; sourceTree = "<group>"; };
+		1BDD7F001BB5553A00CB4161 /* ArrasoltaSourceCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaSourceCollectionView.m; sourceTree = "<group>"; };
+		1BDD7F021BB5556C00CB4161 /* ArrasoltaTargetCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaTargetCollectionView.h; sourceTree = "<group>"; };
+		1BDD7F031BB5556C00CB4161 /* ArrasoltaTargetCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaTargetCollectionView.m; sourceTree = "<group>"; };
 		1BDDE7461BB4426400E54751 /* ArrasoltaConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaConfig.h; sourceTree = "<group>"; };
 		1BDDE7471BB4426400E54751 /* ArrasoltaConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaConfig.m; sourceTree = "<group>"; };
 		1BDEF66F1BD0FB6E00ADEBBF /* ArrasoltaViewConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaViewConverter.h; sourceTree = "<group>"; };
@@ -157,8 +157,8 @@
 		1BDF7FC71BA833FC00A49AA9 /* DragDropCollectionViewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DragDropCollectionViewTests.m; sourceTree = "<group>"; };
 		1BDF7FD11BA8354700A49AA9 /* MainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainView.h; sourceTree = "<group>"; };
 		1BDF7FD21BA8354700A49AA9 /* MainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainView.m; sourceTree = "<group>"; };
-		1BE559FD1BBAD38900E5218F /* ArrasoltaDropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaDropView.h; sourceTree = "<group>"; };
-		1BE559FE1BBAD38900E5218F /* ArrasoltaDropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaDropView.m; sourceTree = "<group>"; };
+		1BE559FD1BBAD38900E5218F /* ArrasoltaDroppableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaDroppableView.h; sourceTree = "<group>"; };
+		1BE559FE1BBAD38900E5218F /* ArrasoltaDroppableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaDroppableView.m; sourceTree = "<group>"; };
 		1BE55A011BBAD3DF00E5218F /* ArrasoltaMoveableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaMoveableView.h; sourceTree = "<group>"; };
 		1BE55A021BBAD3DF00E5218F /* ArrasoltaMoveableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaMoveableView.m; sourceTree = "<group>"; };
 		1BE781091BC5536E00BD13C1 /* ConcreteCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConcreteCustomView.h; sourceTree = "<group>"; };
@@ -367,10 +367,10 @@
 		1BE55A001BBAD3A300E5218F /* Moveable */ = {
 			isa = PBXGroup;
 			children = (
-				1BDB12301BAAB672005A5051 /* ArrasoltaDragView.h */,
-				1BDB12311BAAB672005A5051 /* ArrasoltaDragView.m */,
-				1BE559FD1BBAD38900E5218F /* ArrasoltaDropView.h */,
-				1BE559FE1BBAD38900E5218F /* ArrasoltaDropView.m */,
+				1BDB12301BAAB672005A5051 /* ArrasoltaDraggableView.h */,
+				1BDB12311BAAB672005A5051 /* ArrasoltaDraggableView.m */,
+				1BE559FD1BBAD38900E5218F /* ArrasoltaDroppableView.h */,
+				1BE559FE1BBAD38900E5218F /* ArrasoltaDroppableView.m */,
 				1BE55A011BBAD3DF00E5218F /* ArrasoltaMoveableView.h */,
 				1BE55A021BBAD3DF00E5218F /* ArrasoltaMoveableView.m */,
 				1BDB9F6E1BBD71D0005C62CA /* ArrasoltaCustomView.h */,
@@ -407,10 +407,10 @@
 				1BD968351BA99A3200C243D1 /* ArrasoltaCollectionViewCell.m */,
 				1BDC245F1BDCEFEC00827ABE /* ArrasoltaCollectionView.h */,
 				1BDC24601BDCEFEC00827ABE /* ArrasoltaCollectionView.m */,
-				1BDD7EFF1BB5553A00CB4161 /* ArrasoltaDragCollectionView.h */,
-				1BDD7F001BB5553A00CB4161 /* ArrasoltaDragCollectionView.m */,
-				1BDD7F021BB5556C00CB4161 /* ArrasoltaDropCollectionView.h */,
-				1BDD7F031BB5556C00CB4161 /* ArrasoltaDropCollectionView.m */,
+				1BDD7EFF1BB5553A00CB4161 /* ArrasoltaSourceCollectionView.h */,
+				1BDD7F001BB5553A00CB4161 /* ArrasoltaSourceCollectionView.m */,
+				1BDD7F021BB5556C00CB4161 /* ArrasoltaTargetCollectionView.h */,
+				1BDD7F031BB5556C00CB4161 /* ArrasoltaTargetCollectionView.m */,
 				1BD9B3DC1BD25969009A7812 /* ArrasoltaCollectionViewFlowLayout.h */,
 				1BD9B3DD1BD25969009A7812 /* ArrasoltaCollectionViewFlowLayout.m */,
 			);
@@ -553,8 +553,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1BE559FF1BBAD38900E5218F /* ArrasoltaDropView.m in Sources */,
-				1BDD7F041BB5556C00CB4161 /* ArrasoltaDropCollectionView.m in Sources */,
+				1BE559FF1BBAD38900E5218F /* ArrasoltaDroppableView.m in Sources */,
+				1BDD7F041BB5556C00CB4161 /* ArrasoltaTargetCollectionView.m in Sources */,
 				1BE55A031BBAD3DF00E5218F /* ArrasoltaMoveableView.m in Sources */,
 				1BBDE4121BAC1B7200CD5461 /* ArrasoltaUtils.m in Sources */,
 				1BD968361BA99A3200C243D1 /* ArrasoltaCollectionViewCell.m in Sources */,
@@ -574,11 +574,11 @@
 				1BDC24611BDCEFEC00827ABE /* ArrasoltaCollectionView.m in Sources */,
 				1BDC75E91BB1B22E00171AA2 /* NSMutableArray+arrasolta.m in Sources */,
 				1BBDE4171BAC56C300CD5461 /* UILabel+size.m in Sources */,
-				1BDB12321BAAB672005A5051 /* ArrasoltaDragView.m in Sources */,
+				1BDB12321BAAB672005A5051 /* ArrasoltaDraggableView.m in Sources */,
 				1BD94FD41BC6A9E5004AF034 /* ArrasoltaAPI.m in Sources */,
 				1BDF7FB11BA833FC00A49AA9 /* AppDelegate.m in Sources */,
 				1BDF7FAE1BA833FC00A49AA9 /* main.m in Sources */,
-				1BDD7F011BB5553A00CB4161 /* ArrasoltaDragCollectionView.m in Sources */,
+				1BDD7F011BB5553A00CB4161 /* ArrasoltaSourceCollectionView.m in Sources */,
 				1BDD7EF71BB53AE700CB4161 /* NSMutableDictionary+arrasolta.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

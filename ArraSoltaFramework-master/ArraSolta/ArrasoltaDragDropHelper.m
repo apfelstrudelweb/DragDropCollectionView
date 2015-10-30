@@ -7,9 +7,6 @@
 //
 
 #import "ArrasoltaDragDropHelper.h"
-#import "ArrasoltaUtils.h"
-#import "ArrasoltaDragCollectionView.h"
-#import "ArrasoltaDropCollectionView.h"
 #import "ArrasoltaViewConverter.h"
 #import "ArrasoltaAPI.h"
 
@@ -20,8 +17,8 @@
     
     // what we need from outside
     UIView* mainView;
-    ArrasoltaDragCollectionView* dragCollectionView;
-    ArrasoltaDropCollectionView* dropCollectionView;
+    ArrasoltaSourceCollectionView* dragCollectionView;
+    ArrasoltaTargetCollectionView* dropCollectionView;
     NSMutableDictionary* sourceCellsDict;
     NSMutableDictionary* targetCellsDict;
     
@@ -32,8 +29,8 @@
     ArrasoltaCollectionViewCell* dropCell;
     ArrasoltaCollectionViewCell* lastLeftCell;
     
-    ArrasoltaDragView* targetDragView;
-    ArrasoltaDragView* newDragView;
+    ArrasoltaDraggableView* targetDragView;
+    ArrasoltaDraggableView* newDragView;
     
     
     NSArray* insertCells;
@@ -73,18 +70,18 @@
     mainView = view;
     
     // countercheck for type safety
-    if ([collectionViews[0] isKindOfClass:[ArrasoltaDragCollectionView class                             ]]) {
-        dragCollectionView = (ArrasoltaDragCollectionView*) collectionViews[0];
-        dropCollectionView = (ArrasoltaDropCollectionView*) collectionViews[1];
+    if ([collectionViews[0] isKindOfClass:[ArrasoltaSourceCollectionView class                             ]]) {
+        dragCollectionView = (ArrasoltaSourceCollectionView*) collectionViews[0];
+        dropCollectionView = (ArrasoltaTargetCollectionView*) collectionViews[1];
     } else {
-        dragCollectionView = (ArrasoltaDragCollectionView*) collectionViews[1];
-        dropCollectionView = (ArrasoltaDropCollectionView*) collectionViews[0];
+        dragCollectionView = (ArrasoltaSourceCollectionView*) collectionViews[1];
+        dropCollectionView = (ArrasoltaTargetCollectionView*) collectionViews[0];
     }
     
     id testObject = ((NSMutableDictionary*) cellDictionaries[0]).allValues.firstObject;
     
     
-    if ([testObject isKindOfClass:[ArrasoltaDragView class]]) {
+    if ([testObject isKindOfClass:[ArrasoltaDraggableView class]]) {
         sourceCellsDict = (NSMutableDictionary*) cellDictionaries[0];
         targetCellsDict = (NSMutableDictionary*) cellDictionaries[1];
     } else {
@@ -123,10 +120,10 @@
         
         // bring view in front so there are no overlays from
         // other cells
-        UICollectionView* collectionView = [moveableView isKindOfClass:[ArrasoltaDragView class]] ? dragCollectionView : dropCollectionView;
+        UICollectionView* collectionView = [moveableView isKindOfClass:[ArrasoltaDraggableView class]] ? dragCollectionView : dropCollectionView;
         [ArrasoltaUtils bringMoveableViewToFront:recognizer moveableView:moveableView overCollectionView:collectionView];
         
-        if ([moveableView isKindOfClass:[ArrasoltaDragView class]]) {
+        if ([moveableView isKindOfClass:[ArrasoltaDraggableView class]]) {
             comesFromSourceCollectionView = true;
         } else {
             comesFromSourceCollectionView = false;
@@ -178,7 +175,7 @@
         insertIndex = (int)rightCell.indexPath.item;
         
         // Prevent that the dragged cell is treated like an embedding cell group
-        if ([moveableView isKindOfClass:[ArrasoltaDropView class]] && (leftCell.indexPath.item == moveableView.index || rightCell.indexPath.item == moveableView.index)) {
+        if ([moveableView isKindOfClass:[ArrasoltaDroppableView class]] && (leftCell.indexPath.item == moveableView.index || rightCell.indexPath.item == moveableView.index)) {
             return;
         }
         
@@ -261,7 +258,7 @@
     // if view is not dropped into a valid cell, handle it ...
     if (!dropCell) {
  
-        if ([moveableView isKindOfClass:[ArrasoltaDropView class]]) {
+        if ([moveableView isKindOfClass:[ArrasoltaDroppableView class]]) {
             // track drop view if moved back to the source grid
             // update history
             [SHARED_BUTTON_INSTANCE updateHistoryBeforeAction];
@@ -278,14 +275,14 @@
     // update history
     [SHARED_BUTTON_INSTANCE updateHistoryBeforeAction];
     
-    if ([moveableView isKindOfClass:[ArrasoltaDragView class]]) {
+    if ([moveableView isKindOfClass:[ArrasoltaDraggableView class]]) {
         // Move from source grid to target grid
         // 1. remove drag view from source dict
         if ([SHARED_CONFIG_INSTANCE areSourceItemsConsumable]) {
             [sourceCellsDict removeMoveableView:moveableView];
         }
         
-        ArrasoltaDropView* dropView = [SHARED_CONVERTER_INSTANCE convertToDropView:(ArrasoltaDragView*)moveableView widthIndex:dropIndex];
+        ArrasoltaDroppableView* dropView = [SHARED_CONVERTER_INSTANCE convertToDropView:(ArrasoltaDraggableView*)moveableView widthIndex:dropIndex];
         
         // first remove underlying element ...
         [self bringUnderlyingElementBackToOrigin:dropView atIndex:dropIndex];
@@ -296,7 +293,7 @@
         
     } else {
         // Move inside the target grid
-        ArrasoltaDropView* dropView = (ArrasoltaDropView*)moveableView;
+        ArrasoltaDroppableView* dropView = (ArrasoltaDroppableView*)moveableView;
         // 1. bring back underlying element to source view
         [self bringUnderlyingElementBackToOrigin:moveableView atIndex:dropIndex];
         // 2. update all indices from drop view
@@ -318,12 +315,12 @@
         return;
     }
     
-    ArrasoltaDropView* dropView;
+    ArrasoltaDroppableView* dropView;
     
-    if ([moveableView isKindOfClass:[ArrasoltaDragView class]]) {
+    if ([moveableView isKindOfClass:[ArrasoltaDraggableView class]]) {
         
         // 1. view comes from source collection view
-        dropView = [SHARED_CONVERTER_INSTANCE convertToDropView:(ArrasoltaDragView*)moveableView widthIndex:insertIndex];
+        dropView = [SHARED_CONVERTER_INSTANCE convertToDropView:(ArrasoltaDraggableView*)moveableView widthIndex:insertIndex];
         dropView.index = insertIndex;
         dropView.previousDragViewIndex = moveableView.index;
         
@@ -334,20 +331,20 @@
     } else {
         
         // 2. view comes from target collection view
-        [targetCellsDict removeMoveableView:(ArrasoltaDropView*)moveableView];
+        [targetCellsDict removeMoveableView:(ArrasoltaDroppableView*)moveableView];
         
-        dropView = (ArrasoltaDropView*)moveableView;
+        dropView = (ArrasoltaDroppableView*)moveableView;
         dropView.previousDropViewIndex = dropView.index;
         dropView.index = insertIndex;
         
     }
     
     // when target collection view is full, recover last element (which falls out)
-    ArrasoltaDropView* droppedView = (ArrasoltaDropView*) [targetCellsDict insertObject: dropView atIndex:insertIndex withMaxCapacity:highestInsertionIndex];
+    ArrasoltaDroppableView* droppedView = (ArrasoltaDroppableView*) [targetCellsDict insertObject: dropView atIndex:insertIndex withMaxCapacity:highestInsertionIndex];
     
     if (droppedView && [SHARED_CONFIG_INSTANCE areSourceItemsConsumable]) {
         int prevDragIndex = droppedView.previousDragViewIndex;
-        ArrasoltaDragView* dragView = [SHARED_CONVERTER_INSTANCE convertToDragView:droppedView];
+        ArrasoltaDraggableView* dragView = [SHARED_CONVERTER_INSTANCE convertToDragView:droppedView];
         [sourceCellsDict addMoveableView:dragView atIndex:prevDragIndex];
     }
     
@@ -365,14 +362,14 @@
     
     [SHARED_STATE_INSTANCE setTransactionActive:false];
     
-    if ([moveableView isKindOfClass:[ArrasoltaDragView class]]) {
+    if ([moveableView isKindOfClass:[ArrasoltaDraggableView class]]) {
         if ([SHARED_CONFIG_INSTANCE areSourceItemsConsumable]) {
             [sourceCellsDict addMoveableView:moveableView atIndex:moveableView.index];
         }
     } else {
-        ArrasoltaDragView* dragView = [SHARED_CONVERTER_INSTANCE convertToDragView:(ArrasoltaDropView*)moveableView];
+        ArrasoltaDraggableView* dragView = [SHARED_CONVERTER_INSTANCE convertToDragView:(ArrasoltaDroppableView*)moveableView];
         // add it to source dict again (recovery)
-        [sourceCellsDict addMoveableView:dragView atIndex:((ArrasoltaDropView*)moveableView).previousDragViewIndex];
+        [sourceCellsDict addMoveableView:dragView atIndex:((ArrasoltaDroppableView*)moveableView).previousDragViewIndex];
         [targetCellsDict removeMoveableView:moveableView];
     }
 }
@@ -517,17 +514,17 @@
 // if so, bring back to source grid and remove from view
 - (bool)bringUnderlyingElementBackToOrigin:(ArrasoltaMoveableView*) moveableView atIndex:(int) index {
     
-    ArrasoltaDropView* underlyingView = targetCellsDict[@(index)];
+    ArrasoltaDroppableView* underlyingView = targetCellsDict[@(index)];
     
     // if drop view is dropped back into the same cell, do nothing!
-    if ([(ArrasoltaDropView*)moveableView isEqual:underlyingView]) return NO;
+    if ([(ArrasoltaDroppableView*)moveableView isEqual:underlyingView]) return NO;
     
     if (underlyingView) {
         // remove as underlying view from dict
         [targetCellsDict removeMoveableView:underlyingView];
         if ([SHARED_CONFIG_INSTANCE areSourceItemsConsumable]) {
             // convert to drag view again
-            ArrasoltaDragView* dragView = [SHARED_CONVERTER_INSTANCE convertToDragView:underlyingView];
+            ArrasoltaDraggableView* dragView = [SHARED_CONVERTER_INSTANCE convertToDragView:underlyingView];
             // add it to source dict again (recovery)
             [sourceCellsDict addMoveableView:dragView atIndex:underlyingView.previousDragViewIndex];
         }

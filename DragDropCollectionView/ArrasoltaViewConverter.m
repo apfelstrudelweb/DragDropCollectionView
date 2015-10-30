@@ -24,9 +24,9 @@
     return _sharedInstance;
 }
 
-- (ArrasoltaDropView*) convertToDropView: (ArrasoltaDragView*) view widthIndex: (int)index {
+- (ArrasoltaDroppableView*) convertToDropView: (ArrasoltaDraggableView*) view widthIndex: (int)index {
     
-    ArrasoltaDropView *dropView = [ArrasoltaDropView new];
+    ArrasoltaDroppableView *dropView = [ArrasoltaDroppableView new];
     dropView.index = index;
     dropView.frame = view.frame;
     dropView.previousDragViewIndex = view.index;
@@ -42,9 +42,9 @@
 
 }
 
-- (ArrasoltaDragView*) convertToDragView: (ArrasoltaDropView*) view {
+- (ArrasoltaDraggableView*) convertToDragView: (ArrasoltaDroppableView*) view {
     
-    ArrasoltaDragView *dragView = [ArrasoltaDragView new];
+    ArrasoltaDraggableView *dragView = [ArrasoltaDraggableView new];
     dragView.frame = view.frame;
     dragView.index = view.previousDragViewIndex;
 //    dropView.previousDragViewIndex = view.index;

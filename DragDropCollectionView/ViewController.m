@@ -135,7 +135,7 @@
                            ];
     
     for (int i=0; i<countries.count; i++) {
-        ArrasoltaDragView* view = [ArrasoltaDragView new];
+        ArrasoltaDraggableView* view = [ArrasoltaDraggableView new];
         view.index = i;
         [view setBorderColor:[UIColor redColor]];
         [view setBorderWidth:IS_IPAD ? 2 : 1];

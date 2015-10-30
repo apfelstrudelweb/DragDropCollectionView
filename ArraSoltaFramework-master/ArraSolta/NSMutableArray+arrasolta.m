@@ -1,5 +1,5 @@
 //
-//  NSMutableArray+cat.m
+//  NSMutableArray+arrasolta.m
 //  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 22.09.15.

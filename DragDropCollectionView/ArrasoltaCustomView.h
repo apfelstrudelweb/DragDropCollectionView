@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-
 @interface ArrasoltaCustomView : UIView
 
 @property (nonatomic) bool viewIsInDragState;

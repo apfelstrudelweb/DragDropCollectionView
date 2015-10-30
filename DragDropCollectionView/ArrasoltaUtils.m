@@ -241,17 +241,17 @@ float cellHeight;
 
     ArrasoltaCollectionViewCell* cell;
     
-    if ([collectionView isKindOfClass:[ArrasoltaDragCollectionView class]]) {
+    if ([collectionView isKindOfClass:[ArrasoltaSourceCollectionView class]]) {
         // fill all cells from DragCollectionView
-        cell = [((ArrasoltaDragCollectionView*)collectionView) getCell:indexPath];
-        ArrasoltaDragView* dragView = sourceDict[@((int)indexPath.item)];
+        cell = [((ArrasoltaSourceCollectionView*)collectionView) getCell:indexPath];
+        ArrasoltaDraggableView* dragView = sourceDict[@((int)indexPath.item)];
         
         [cell populateWithContentsOfView:dragView withinCollectionView:collectionView];
         
     } else {
         // fill all cells from DropCollectionView
-        cell = [((ArrasoltaDropCollectionView*)collectionView) getCell:indexPath];
-        ArrasoltaDropView* dropView = targetDict[@((int)indexPath.item)];
+        cell = [((ArrasoltaTargetCollectionView*)collectionView) getCell:indexPath];
+        ArrasoltaDroppableView* dropView = targetDict[@((int)indexPath.item)];
         
         [cell populateWithContentsOfView:dropView withinCollectionView:collectionView];
     }

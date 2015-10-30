@@ -6,33 +6,25 @@
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
 //
 
-#import "ArrasoltaDropView.h"
-#import "ArrasoltaCustomView.h"
+#import "ArrasoltaDroppableView.h"
 #import "NSMutableDictionary+arrasolta.h"
 
-//#pragma GCC diagnostic ignored "-Wundeclared-selector"
 
-
-@interface ArrasoltaDropView() {
-  
-}
-@end
-
-@implementation ArrasoltaDropView
+@implementation ArrasoltaDroppableView
 
 
 - (instancetype)init {
     return [self initWithFrame:CGRectZero];
 }
 
-- (instancetype)initWithView:(ArrasoltaDropView*)view inCollectionViewCell:(ArrasoltaCollectionViewCell*) cell {
+- (instancetype)initWithView:(ArrasoltaDroppableView*)view inCollectionViewCell:(ArrasoltaCollectionViewCell*) cell {
     
     self = [super initWithFrame:cell.frame];
     if (self) {
         
         // if there is already an underlying DropView, remove it
         for (UIView* view in cell.subviews) {
-            if ([view isKindOfClass:[ArrasoltaDropView class]]) {
+            if ([view isKindOfClass:[ArrasoltaDroppableView class]]) {
                 [view removeFromSuperview];
             }
         }

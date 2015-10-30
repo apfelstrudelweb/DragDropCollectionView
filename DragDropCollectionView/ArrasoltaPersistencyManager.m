@@ -7,7 +7,9 @@
 //
 
 #import "ArrasoltaPersistencyManager.h"
+
 #define INVALID -1
+
 #define ARRASOLTA_IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
 @interface ArrasoltaPersistencyManager () {

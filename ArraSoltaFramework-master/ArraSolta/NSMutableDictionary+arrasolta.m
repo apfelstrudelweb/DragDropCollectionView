@@ -1,5 +1,5 @@
 //
-//  NSMutableDictionary+cat.m
+//  NSMutableDictionary+arrasolta.m
 //  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 25.09.15.
@@ -7,7 +7,7 @@
 //
 
 #import "NSMutableDictionary+arrasolta.h"
-#import "ArrasoltaDropView.h"
+#import "ArrasoltaDroppableView.h"
 
 @implementation NSMutableDictionary (arrasolta)
 
@@ -71,7 +71,7 @@
             
             ArrasoltaMoveableView* object = self[key];
             object.index = key.intValue+1;
-            ((ArrasoltaDropView*)object).previousDropViewIndex = key.intValue;
+            ((ArrasoltaDroppableView*)object).previousDropViewIndex = key.intValue;
             newDict[newKey] = object;
         } else if (key.intValue == lastIndex) {
             droppedView = self[key];
@@ -253,7 +253,7 @@
         } else if (key.intValue == index) {
             // this is the inserted element - bring it back to original position
             ArrasoltaMoveableView* object = self[key];
-            int newIndex = ((ArrasoltaDropView*)object).previousDropViewIndex;
+            int newIndex = ((ArrasoltaDroppableView*)object).previousDropViewIndex;
             object.index = newIndex;
             //((DropView*)object).previousDropViewIndex = key.intValue;
             NSNumber* origKey = @(newIndex);

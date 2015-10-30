@@ -8,14 +8,10 @@
 //
 
 
-#import "NSMutableArray+arrasolta.h"
 #import "NSMutableDictionary+arrasolta.h"
-#import "ArrasoltaCollectionViewCell.h"
-#import "ArrasoltaMoveableView.h"
-#import "ArrasoltaDragCollectionView.h"
-#import "ArrasoltaDropCollectionView.h"
-#import "ArrasoltaDragView.h"
-#import "ArrasoltaDropView.h"
+#import "ArrasoltaSourceCollectionView.h"
+#import "ArrasoltaTargetCollectionView.h"
+#import "ArrasoltaDraggableView.h"
 
 
 @interface ArrasoltaUtils : NSObject

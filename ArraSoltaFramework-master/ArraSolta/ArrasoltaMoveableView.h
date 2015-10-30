@@ -6,10 +6,11 @@
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "ArrasoltaCustomView.h"
 
 @interface ArrasoltaMoveableView : UIView<UIGestureRecognizerDelegate>
+
+@property (NS_NONATOMIC_IOSONLY, getter=getContentView, strong) ArrasoltaCustomView *contentView;
 
 @property int index; // index of current collectionView
 
@@ -19,8 +20,6 @@
 - (void) move:(UIPanGestureRecognizer *)recognizer inView:(UIView*) view;
 
 - (void) enablePanGestureRecognizer: (bool) flag;
-
-@property (NS_NONATOMIC_IOSONLY, getter=getContentView, strong) ArrasoltaCustomView *contentView;
 
 
 - (void) initialize;

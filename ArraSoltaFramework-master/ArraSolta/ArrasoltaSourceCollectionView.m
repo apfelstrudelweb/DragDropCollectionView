@@ -6,9 +6,8 @@
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
 //
 
-#import "ArrasoltaDragCollectionView.h"
+#import "ArrasoltaSourceCollectionView.h"
 #import "ArrasoltaAPI.h"
-#import "ArrasoltaUtils.h"
 #import "ArrasoltaCollectionViewFlowLayout.h"
 
 
@@ -16,7 +15,7 @@
 
 
 
-@interface ArrasoltaDragCollectionView() {
+@interface ArrasoltaSourceCollectionView() {
 
     //UICollectionViewScrollDirection scrollDirection;
     
@@ -26,7 +25,7 @@
 }
 @end
 
-@implementation ArrasoltaDragCollectionView
+@implementation ArrasoltaSourceCollectionView
 
 
 - (instancetype)initWithFrame:(CGRect)frame withinView: (UIView<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>*) view  {
@@ -38,7 +37,7 @@
         UICollectionViewFlowLayout* flowLayout = [[ArrasoltaCollectionViewFlowLayout alloc] init];
         //UICollectionViewFlowLayout* flowLayout = [[UICollectionViewFlowLayout alloc] init];
         
-        self = [[ArrasoltaDragCollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
+        self = [[ArrasoltaSourceCollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
         
         minInteritemSpacing = [SHARED_CONFIG_INSTANCE getMinInteritemSpacing];
         minLineSpacing = [SHARED_CONFIG_INSTANCE getMinLineSpacing];// set member variable AFTER  instantiation - otherwise it will be lost later

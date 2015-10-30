@@ -6,9 +6,8 @@
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "ArrasoltaCurrentState.h"
-#import "ArrasoltaDragView.h"
+
 
 @interface ArrasoltaDragDropHelper : NSObject
 

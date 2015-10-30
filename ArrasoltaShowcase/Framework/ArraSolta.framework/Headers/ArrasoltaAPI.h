@@ -10,15 +10,14 @@
 //
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+
+#import "ArrasoltaDragDropHelper.h"
 #import "ArrasoltaUndoButtonHelper.h"
 #import "ArrasoltaConfig.h"
-#import "ArrasoltaDragCollectionView.h"
-#import "ArrasoltaDropCollectionView.h"
 #import "ArrasoltaUtils.h"
-#import "ArrasoltaDragDropHelper.h"
-#import "ArrasoltaCustomView.h"
 
-// Macros - it's recommended that you use these macros
+
+// Macros - it's recommended that you work with these macros
 #define SHARED_STATE_INSTANCE      [ArrasoltaCurrentState sharedInstance]
 #define SHARED_CONFIG_INSTANCE     [ArrasoltaConfig sharedInstance]
 #define SHARED_BUTTON_INSTANCE     [ArrasoltaUndoButtonHelper sharedInstance]

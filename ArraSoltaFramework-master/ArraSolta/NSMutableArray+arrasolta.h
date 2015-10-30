@@ -1,12 +1,12 @@
 //
-//  NSMutableArray+cat.h
+//  NSMutableArray+arrasolta.h
 //  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 22.09.15.
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface NSMutableArray (arrasolta)
 

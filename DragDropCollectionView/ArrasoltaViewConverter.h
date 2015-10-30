@@ -8,16 +8,16 @@
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "ArrasoltaDragView.h"
-#import "ArrasoltaDropView.h"
+
+#import "ArrasoltaDraggableView.h"
+#import "ArrasoltaDroppableView.h"
 
 @interface ArrasoltaViewConverter : NSObject
 
 + (ArrasoltaViewConverter*) sharedInstance;
 
-- (ArrasoltaDropView*) convertToDropView: (ArrasoltaDragView*) view widthIndex: (int)index;
-- (ArrasoltaDragView*) convertToDragView: (ArrasoltaDropView*) view;
+- (ArrasoltaDroppableView*) convertToDropView: (ArrasoltaDraggableView*) view widthIndex: (int)index;
+- (ArrasoltaDraggableView*) convertToDragView: (ArrasoltaDroppableView*) view;
 
 
 @end

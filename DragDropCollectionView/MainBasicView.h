@@ -19,8 +19,8 @@
 @property (strong, nonatomic) UILabel *headline2;
 @property (strong, nonatomic) ButtonView *btnView;
 
-@property (strong, nonatomic) ArrasoltaDragCollectionView *dragCollectionView;
-@property (strong, nonatomic) ArrasoltaDropCollectionView *dropCollectionView;
+@property (strong, nonatomic) ArrasoltaSourceCollectionView *dragCollectionView;
+@property (strong, nonatomic) ArrasoltaTargetCollectionView *dropCollectionView;
 
 @property (strong, nonatomic) NSDictionary *viewsDictionary;
 

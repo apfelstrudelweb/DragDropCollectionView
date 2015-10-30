@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+
 #import "ArrasoltaMoveableView.h"
 
 

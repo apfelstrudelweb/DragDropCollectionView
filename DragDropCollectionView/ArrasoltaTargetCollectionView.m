@@ -6,18 +6,15 @@
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
 //
 
-#import "ArrasoltaDropCollectionView.h"
+#import "ArrasoltaTargetCollectionView.h"
 #import "ArrasoltaAPI.h"
-#import "ArrasoltaUtils.h"
-#import "ArrasoltaDropView.h"
-#import "ArrasoltaDragDropHelper.h"
 #import "ArrasoltaCollectionViewFlowLayout.h"
 
 
 #define REUSE_IDENTIFIER @"arrasoltaDropCell"
 
 
-@interface ArrasoltaDropCollectionView() {
+@interface ArrasoltaTargetCollectionView() {
     
     NSMutableDictionary* sourceCellsDict;
     NSMutableDictionary* targetCellsDict;
@@ -27,7 +24,7 @@
 }
 @end
 
-@implementation ArrasoltaDropCollectionView
+@implementation ArrasoltaTargetCollectionView
 
 - (void)layoutSubviews {
     [super layoutSubviews];
@@ -48,7 +45,7 @@
         
         flowLayout = [[ArrasoltaCollectionViewFlowLayout alloc] init];
         
-        self = [[ArrasoltaDropCollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
+        self = [[ArrasoltaTargetCollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
         self.backgroundColor = [SHARED_CONFIG_INSTANCE getBackgroundColorTargetView];
         
         sourceCellsDict = sourceDict;
@@ -110,11 +107,11 @@
         
         id userinfo = notification.userInfo[@"dropView"];
         
-        if ([userinfo isKindOfClass:[ArrasoltaDragView class]]) {
+        if ([userinfo isKindOfClass:[ArrasoltaDraggableView class]]) {
             return;
         }
 
-        if (![userinfo isKindOfClass:[ArrasoltaDropView class]]) {
+        if (![userinfo isKindOfClass:[ArrasoltaDroppableView class]]) {
             // empty cell
             if (targetCellsDict.count > 0) {
                 [SHARED_BUTTON_INSTANCE updateHistoryBeforeAction];

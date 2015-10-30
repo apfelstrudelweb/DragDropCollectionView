@@ -8,8 +8,6 @@
 
 #import "ArrasoltaCollectionViewCell.h"
 #import "ArrasoltaAPI.h"
-#import "ArrasoltaDragView.h"
-#import "ArrasoltaDropView.h"
 
 
 #define ANIMATION_DURATION 0.5
@@ -107,7 +105,7 @@
             //int index = self.indexPath.item;
             
             if (moveableView) {
-                userInfo = [NSDictionary dictionaryWithObject:(ArrasoltaDropView*)moveableView forKey:@"dropView"];
+                userInfo = [NSDictionary dictionaryWithObject:(ArrasoltaDroppableView*)moveableView forKey:@"dropView"];
                 
             } else {
                 // delete an empty cell
@@ -237,7 +235,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     
     moveableView = view;
     
-    if ([view isKindOfClass:[ArrasoltaDropView class]]) {
+    if ([view isKindOfClass:[ArrasoltaDroppableView class]]) {
         self.isPopulated = true;
     }
 }

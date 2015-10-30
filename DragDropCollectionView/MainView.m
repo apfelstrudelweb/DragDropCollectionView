@@ -56,7 +56,7 @@
         self.sourceDict = [SHARED_CONFIG_INSTANCE getSourceItemsDictionary];
         self.numberOfDragItems = (int)self.sourceDict.count;
         
-        self.dragCollectionView = [[ArrasoltaDragCollectionView alloc] initWithFrame:frame withinView:self];
+        self.dragCollectionView = [[ArrasoltaSourceCollectionView alloc] initWithFrame:frame withinView:self];
         [self.dragCollectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.dragCollectionView];
         
@@ -64,7 +64,7 @@
         self.targetDict = [NSMutableDictionary new];
         self.numberOfDropItems = [SHARED_CONFIG_INSTANCE getNumberOfTargetItems];
         
-        self.dropCollectionView = [[ArrasoltaDropCollectionView alloc] initWithFrame:frame withinView:self sourceDictionary:self.sourceDict targetDictionary:self.targetDict];
+        self.dropCollectionView = [[ArrasoltaTargetCollectionView alloc] initWithFrame:frame withinView:self sourceDictionary:self.sourceDict targetDictionary:self.targetDict];
         
         [self.dropCollectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.dropCollectionView];
@@ -82,7 +82,7 @@
 #pragma mark <UICollectionViewDataSource>
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    if ([collectionView isKindOfClass:[ArrasoltaDragCollectionView class]]) {
+    if ([collectionView isKindOfClass:[ArrasoltaSourceCollectionView class]]) {
         return self.numberOfDragItems;
     } else {
         return self.numberOfDropItems;
@@ -103,7 +103,7 @@
 #pragma mark <UICollectionViewDelegate>
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     
-    if ([collectionView isKindOfClass:[ArrasoltaDragCollectionView class]]) {
+    if ([collectionView isKindOfClass:[ArrasoltaSourceCollectionView class]]) {
         // don't change the insets of the source collection view
         return UIEdgeInsetsMake(0, 0, 0, 0);
     } else {
@@ -118,7 +118,7 @@
     
     CGPoint currentOffset = scrollView.contentOffset;
     
-    if ([scrollView isKindOfClass:[ArrasoltaDragCollectionView class]]) {
+    if ([scrollView isKindOfClass:[ArrasoltaSourceCollectionView class]]) {
         self.dropCollectionView.contentOffset = currentOffset;
     } else {
         //self.dragCollectionView.contentOffset = currentOffset;

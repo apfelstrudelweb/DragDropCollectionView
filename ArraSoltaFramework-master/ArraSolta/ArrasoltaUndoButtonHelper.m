@@ -7,7 +7,6 @@
 //
 
 #import "ArrasoltaUndoButtonHelper.h"
-#import "NSMutableDictionary+arrasolta.h"
 #import "NSMutableArray+arrasolta.h"
 #import "ArrasoltaAPI.h"
 
@@ -117,7 +116,7 @@
     NSMutableArray* snapshotSourceArray = [[NSMutableArray alloc] initWithCapacity:capacity];
     [snapshotSourceArray initWithZeroObjects:capacity];
     
-    [sourceDictionary enumerateKeysAndObjectsUsingBlock:^(NSNumber* number, ArrasoltaDragView* view, BOOL *stop) {
+    [sourceDictionary enumerateKeysAndObjectsUsingBlock:^(NSNumber* number, ArrasoltaDraggableView* view, BOOL *stop) {
         int sourceIndex = [number intValue];
         [snapshotSourceArray replaceObjectAtIndex:sourceIndex withObject:view];
     }];
@@ -128,7 +127,7 @@
     NSMutableArray* snapshotTargetArray = [[NSMutableArray alloc] initWithCapacity:dropCapacity];
     [snapshotTargetArray initWithZeroObjects:dropCapacity];
     
-    [targetDictionary enumerateKeysAndObjectsUsingBlock:^(NSNumber* number, ArrasoltaDropView* view, BOOL *stop) {
+    [targetDictionary enumerateKeysAndObjectsUsingBlock:^(NSNumber* number, ArrasoltaDroppableView* view, BOOL *stop) {
         int targetIndex = [number intValue];
         [snapshotTargetArray replaceObjectAtIndex:targetIndex withObject:view];
     }];
@@ -155,7 +154,7 @@
     NSMutableArray* snapshotSourceArray = [[NSMutableArray alloc] initWithCapacity:capacity];
     [snapshotSourceArray initWithZeroObjects:capacity];
     
-    [sourceDictionary enumerateKeysAndObjectsUsingBlock:^(NSNumber* number, ArrasoltaDragView* view, BOOL *stop) {
+    [sourceDictionary enumerateKeysAndObjectsUsingBlock:^(NSNumber* number, ArrasoltaDraggableView* view, BOOL *stop) {
         int sourceIndex = [number intValue];
         [snapshotSourceArray replaceObjectAtIndex:sourceIndex withObject:view];
     }];
@@ -166,7 +165,7 @@
     NSMutableArray* snapshotTargetArray = [[NSMutableArray alloc] initWithCapacity:dropCapacity];
     [snapshotTargetArray initWithZeroObjects:dropCapacity];
     
-    [targetDictionary enumerateKeysAndObjectsUsingBlock:^(NSNumber* number, ArrasoltaDropView* view, BOOL *stop) {
+    [targetDictionary enumerateKeysAndObjectsUsingBlock:^(NSNumber* number, ArrasoltaDroppableView* view, BOOL *stop) {
         int targetIndex = [number intValue];
         [snapshotTargetArray replaceObjectAtIndex:targetIndex withObject:view];
     }];
@@ -191,7 +190,7 @@
         id obj  = snapshotSourceArray[i];
         
         if(![obj isEqual:[NSNull null]]) {
-            ArrasoltaDragView* dragView = obj;
+            ArrasoltaDraggableView* dragView = obj;
             [sourceDictionary setObject:dragView forKey:@(i)];
         }
     }
@@ -203,7 +202,7 @@
         id obj  = snapshotTargetArray[i];
         
         if(![obj isEqual:[NSNull null]]) {
-            ArrasoltaDropView* dropView = obj;
+            ArrasoltaDroppableView* dropView = obj;
             [targetDictionary setObject:dropView forKey:@(i)];
         }
     }
@@ -245,7 +244,7 @@
         id obj  = snapshotSourceArray[i];
         
         if(![obj isEqual:[NSNull null]]) {
-            ArrasoltaDragView* dragView = obj;
+            ArrasoltaDraggableView* dragView = obj;
             [sourceDictionary setObject:dragView forKey:@(i)];
         }
     }
@@ -257,7 +256,7 @@
         id obj  = snapshotTargetArray[i];
         
         if(![obj isEqual:[NSNull null]]) {
-            ArrasoltaDropView* dropView = obj;
+            ArrasoltaDroppableView* dropView = obj;
             [targetDictionary setObject:dropView forKey:@(i)];
         }
     }

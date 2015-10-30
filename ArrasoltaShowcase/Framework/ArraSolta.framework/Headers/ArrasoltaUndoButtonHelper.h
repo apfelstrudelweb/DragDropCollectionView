@@ -6,9 +6,7 @@
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "ArrasoltaDragView.h"
-#import "ArrasoltaDropView.h"
+#import <UIKit/UIKit.h>
 
 @interface ArrasoltaUndoButtonHelper : NSObject
 

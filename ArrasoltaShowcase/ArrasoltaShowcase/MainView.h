@@ -19,8 +19,8 @@
 /**
  *  Collection Views
  **/
-@property (strong, nonatomic) ArrasoltaDragCollectionView *sourceCollectionView;
-@property (strong, nonatomic) ArrasoltaDropCollectionView *targetCollectionView;
+@property (strong, nonatomic) ArrasoltaSourceCollectionView *sourceCollectionView;
+@property (strong, nonatomic) ArrasoltaTargetCollectionView *targetCollectionView;
 @property (nonatomic) CGSize sourceCollectionViewSize;
 @property (nonatomic) CGSize singleCellSize;
 

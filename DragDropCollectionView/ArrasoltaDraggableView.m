@@ -6,22 +6,13 @@
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
 //
 
-#import "ArrasoltaDragView.h"
-#import "ArrasoltaCustomView.h"
+#import "ArrasoltaDraggableView.h"
 
 
-@interface ArrasoltaDragView() {
-    
-}
-@end
-
-
-
-@implementation ArrasoltaDragView
+@implementation ArrasoltaDraggableView
 
 
 - (void) setBorderColor: (UIColor*) color {
-    //[super setBackgroundColor:color];
     super.borderColor = color;
 }
 

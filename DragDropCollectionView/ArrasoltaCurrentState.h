@@ -6,9 +6,7 @@
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-
 
 @interface ArrasoltaCurrentState : NSObject
 
