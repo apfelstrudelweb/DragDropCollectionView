@@ -40,7 +40,7 @@
     [SHARED_CONFIG_INSTANCE setSourceItemsConsumable:false];
     
     if (hasAutomaticCellSize) {
-        [SHARED_CONFIG_INSTANCE setCellWidthHeightRatio:1.0]; // width = 2.0*height
+        [SHARED_CONFIG_INSTANCE setCellWidthHeightRatio:1.2]; // width = 2.0*height
     } else {
         [SHARED_CONFIG_INSTANCE setFixedCellSize:CGSizeMake(80, 40.0)];
     }
@@ -49,24 +49,24 @@
     [SHARED_CONFIG_INSTANCE setShouldCollectionViewBeCenteredVertically:true];
     
     
-    [SHARED_CONFIG_INSTANCE setMinInteritemSpacing:10];
-    [SHARED_CONFIG_INSTANCE setMinLineSpacing:6];
+    [SHARED_CONFIG_INSTANCE setMinInteritemSpacing:6];
+    [SHARED_CONFIG_INSTANCE setMinLineSpacing:4];
     
-    [SHARED_CONFIG_INSTANCE setBackgroundColorSourceView:[UIColor colorWithRed:0.31 green:0.44 blue:0.67 alpha:1.0]];
-    [SHARED_CONFIG_INSTANCE setBackgroundColorTargetView:[UIColor colorWithRed:0.31 green:0.44 blue:0.67 alpha:1.0]];
+    [SHARED_CONFIG_INSTANCE setBackgroundColorSourceView:COMPONENT_COLOR];
+    [SHARED_CONFIG_INSTANCE setBackgroundColorTargetView:COMPONENT_COLOR];
     
-    [SHARED_CONFIG_INSTANCE setTargetPlaceholderColorUntouched:[UIColor lightGrayColor]];
-    [SHARED_CONFIG_INSTANCE setTargetPlaceholderColorTouched:[UIColor grayColor]];
+    [SHARED_CONFIG_INSTANCE setTargetPlaceholderColorUntouched:[UIColor clearColor]];
+    [SHARED_CONFIG_INSTANCE setTargetPlaceholderColorTouched:[UIColor colorWithRed:0.51 green:0.67 blue:0.96 alpha:1.0]];
     
     [SHARED_CONFIG_INSTANCE setShouldPlaceholderIndexStartFromZero:false]; // starts with index=1
     [SHARED_CONFIG_INSTANCE setShouldSourcePlaceholderDisplayIndex:true];
     [SHARED_CONFIG_INSTANCE setShouldTargetPlaceholderDisplayIndex:true];
     
     [SHARED_CONFIG_INSTANCE setPlaceholderFontSize:IS_IPAD ? 20 : 10];
-    [SHARED_CONFIG_INSTANCE setPlaceholderTextColor:[UIColor whiteColor]];
+    [SHARED_CONFIG_INSTANCE setPlaceholderTextColor:[UIColor colorWithRed:0.77 green:0.84 blue:0.96 alpha:1.0]];
     
     // MUST be set if source items are NOT consumable
-    [SHARED_CONFIG_INSTANCE setNumberOfTargetItems:50];
+    [SHARED_CONFIG_INSTANCE setNumberOfTargetItems:60];
     
     // dictionary populated in "setSourceElements"
     [SHARED_CONFIG_INSTANCE setSourceItemsDictionary:dataSourceDictionary];
@@ -79,7 +79,7 @@
     
     // zooming by panning
     [SHARED_CONFIG_INSTANCE setShouldPanningBeEnabled:true];
-    // flag if both collection views should be zoomed simultaneously
+    // flag whether both collection views should be zoomed simultaneously
     [SHARED_CONFIG_INSTANCE setShouldPanningBeCoupled:true];
     
     
@@ -96,34 +96,58 @@
     
     dataSourceDictionary = [NSMutableDictionary new];
     
-    // PNGs from Images/Flags
-    NSArray* chords = @[@[@"C", [UIColor colorWithRed:0.95 green:0.29 blue:0.29 alpha:1.0]],
-                           @[@"C#", [UIColor colorWithRed:1.00 green:0.60 blue:0.00 alpha:1.0]],
-                           @[@"D", [UIColor colorWithRed:0.90 green:0.57 blue:0.22 alpha:1.0]],
-                           @[@"D#", [UIColor colorWithRed:1.00 green:0.85 blue:0.40 alpha:1.0]],
-                           @[@"E", [UIColor colorWithRed:0.39 green:0.96 blue:0.39 alpha:1.0]],
-                           @[@"F", [UIColor colorWithRed:0.42 green:0.66 blue:0.31 alpha:1.0]],
-                           @[@"F#", [UIColor colorWithRed:0.00 green:1.00 blue:0.64 alpha:1.0]],
-                           @[@"G", [UIColor colorWithRed:0.00 green:1.00 blue:0.85 alpha:1.0]],
-                           @[@"G#", [UIColor colorWithRed:0.24 green:0.47 blue:0.85 alpha:1.0]],
-                           @[@"A", [UIColor colorWithRed:0.45 green:0.45 blue:0.95 alpha:1.0]],
-                           @[@"A#", [UIColor colorWithRed:0.74 green:0.40 blue:0.97 alpha:1.0]],
-                           @[@"H", [UIColor colorWithRed:0.96 green:0.48 blue:0.96 alpha:1.0]]
-                           ];
+    UIColor* colorC = [UIColor colorWithRed:0.96 green:0.22 blue:0.22 alpha:1.0];
+    UIColor* colorD = [UIColor colorWithRed:0.95 green:0.73 blue:0.09 alpha:1.0];
+    UIColor* colorE = [UIColor colorWithRed:0.55 green:0.88 blue:0.40 alpha:1.0];
+    UIColor* colorF = [UIColor colorWithRed:0.11 green:0.75 blue:0.11 alpha:1.0];
+    UIColor* colorG = [UIColor colorWithRed:0.25 green:0.41 blue:0.96 alpha:1.0];
+    UIColor* colorA = [UIColor colorWithRed:0.69 green:0.33 blue:0.93 alpha:1.0];
+    UIColor* colorB = [UIColor colorWithRed:0.97 green:0.31 blue:0.84 alpha:1.0];
     
-    for (int i=0; i<chords.count; i++) {
+    // As showcase, use 24 common open-position guitar chords
+    
+    // Example: the song "Oh Susanna" has the following chord sequence:
+    // Verse:   G-D-G-D-G-D-G-D-G
+    // Chorus:  C-G-D-G-D-G
+    NSArray* chordsArray = @[@[@"C", colorC],
+                             @[@"C7", colorC],
+                             @[@"Cmaj7", colorC],
+                             @[@"D", colorD],
+                             @[@"D7", colorD],
+                             @[@"Dm", colorD],
+                             @[@"Dm7", colorD],
+                             @[@"Dmaj7", colorD],
+                             @[@"E", colorE],
+                             @[@"E7", colorE],
+                             @[@"Em", colorE],
+                             @[@"Em7", colorE],
+                             @[@"F", colorF],
+                             @[@"Fmaj7", colorF],
+                             @[@"G", colorG],
+                             @[@"G7", colorG],
+                             @[@"A", colorA],
+                             @[@"A7", colorA],
+                             @[@"Am", colorA],
+                             @[@"Am7", colorA],
+                             @[@"Amaj7", colorA],
+                             @[@"Bb", colorB],
+                             @[@"B7", colorB],
+                             @[@"Bm", colorB]
+                             ];
+    
+    for (int i=0; i<chordsArray.count; i++) {
         // first populate the draggable view from framework (which serves as
         // a container for the custom view - see below)
         ArrasoltaDraggableView* view = [ArrasoltaDraggableView new];
         view.index = i; // index must be set - otherwise, the undo functionality won't work
-        [view setBorderColor:[UIColor blackColor]];
-        [view setBorderWidth:IS_IPAD ? 6 : 3];
+        [view setBorderColor:[UIColor clearColor]];
+        [view setBorderWidth:IS_IPAD ? 4 : 2];
         
         // now populate the own UIView which serves as draggable/droppable view
         CustomView* customView = [CustomView new];
-        customView.backgroundColorOfView = chords[i][1];
-        customView.labelText = chords[i][0];
-        customView.labelColor = [UIColor colorWithRed:0.27 green:0.27 blue:0.27 alpha:1.0];
+        customView.backgroundColorOfView = chordsArray[i][1];
+        customView.labelText = chordsArray[i][0];
+        customView.labelColor = [UIColor blackColor];
         
         [view setContentView:customView];
         

@@ -31,8 +31,8 @@
         label = [UILabel new];
         
         [self addSubview:label];
-        
-        // Mandatory for later introspection
+
+        // Mandatory - this framework needs it!
         self.concreteClassName = NSStringFromClass([self class]);
         
     }
@@ -48,20 +48,24 @@
     // only when view has been dropped or before dragging!
     if (!self.viewIsInDragState) {
         label.frame = self.bounds;
+        // now we want to have rounded corners ... with black thin border
+        self.layer.cornerRadius = 0.5*label.frame.size.height;
+        self.layer.borderWidth = IS_IPAD ? 2.0 : 1.0;
+        self.layer.borderColor = [UIColor blackColor].CGColor;
     }
 }
 
 
 #pragma  mark -getter/setter
 /**
- * Label - Note - c,d,e ...
+ * Label - Note - C, D, E ...
  **/
 - (void) setLabelText: (NSString*) text {
     
     label.text = text;
     label.textAlignment = NSTextAlignmentCenter;
     
-    CGFloat fontSize = IS_IPAD ? 20 : 15;
+    CGFloat fontSize = 8.0;
     
     // font name can be extracted from config settings or be defined here
     NSString* fontName = [SHARED_CONFIG_INSTANCE getPreferredFontName];

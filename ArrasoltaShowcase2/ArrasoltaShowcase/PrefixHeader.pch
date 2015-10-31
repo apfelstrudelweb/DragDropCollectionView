@@ -24,11 +24,13 @@
 // sum of the following subviews must be less or equal 100
 #define PERCENT_HEADER      15
 #define PERCENT_UNDO_BTN    10
-#define PERCENT_DRAG_AREA   18
+#define PERCENT_DRAG_AREA   20
 #define PERCENT_DROP_AREA   52
 
+// background color of collection views and button colors
+#define COMPONENT_COLOR     [UIColor colorWithRed:0.31 green:0.48 blue:0.75 alpha:1.0]
 
-#define FONT_COLOR               [UIColor colorWithRed:0.31 green:0.44 blue:0.67 alpha:1.0]
+#define FONT_COLOR          [UIColor colorWithRed:0.11 green:0.27 blue:0.53 alpha:1.0]
 
 
 

@@ -35,7 +35,7 @@
         self.backgroundColor = [UIColor colorWithRed:0.77 green:0.84 blue:0.96 alpha:1.0];
         
         self.labelHeadline = [[UILabel alloc] initWithFrame:frame];
-        [self.labelHeadline setHeadlineText:@"ArraSolta Showcase"];
+        [self.labelHeadline setHeadlineText:@"Compose a Song"];
         [self.labelHeadline setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.labelHeadline];
         
@@ -51,6 +51,7 @@
         
         self.sourceCollectionView = [[ArrasoltaSourceCollectionView alloc] initWithFrame:frame withinView:self];
         [self.sourceCollectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        self.sourceCollectionView.layer.cornerRadius = IS_IPAD ? 20.0 : 10.0;
         [self addSubview:self.sourceCollectionView];
         
         // Prepare target collection view - it's still empty!
@@ -58,8 +59,8 @@
         self.numberOfTargetItems = [SHARED_CONFIG_INSTANCE getNumberOfTargetItems];
         
         self.targetCollectionView = [[ArrasoltaTargetCollectionView alloc] initWithFrame:frame withinView:self sourceDictionary:self.sourceItemsDictionary targetDictionary:self.targetItemsDictionary];
-        
         [self.targetCollectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        self.targetCollectionView.layer.cornerRadius = IS_IPAD ? 20.0 : 10.0;
         [self addSubview:self.targetCollectionView];
         
         [self setupConstraints];

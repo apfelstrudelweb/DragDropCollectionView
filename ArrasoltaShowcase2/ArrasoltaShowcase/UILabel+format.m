@@ -35,5 +35,15 @@
     self.font = font;
 }
 
+- (void) setCounterText: (NSString*) text {
+    self.text = text;
+    self.textAlignment = NSTextAlignmentCenter;
+    self.textColor = COMPONENT_COLOR;
+    
+    UIFont* font = IS_IPAD ? [UIFont fontWithName:[SHARED_CONFIG_INSTANCE getPreferredFontName] size:50] : [UIFont fontWithName:[SHARED_CONFIG_INSTANCE getPreferredFontName] size:24];
+    
+    self.font = font;
+}
+
 
 @end

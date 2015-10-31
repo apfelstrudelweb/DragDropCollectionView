@@ -13,5 +13,7 @@
 - (void) setHeadlineText: (NSString*) text;
 - (void) setButtonText: (NSString*) text;
 
+- (void) setCounterText: (NSString*) text;
+
 
 @end

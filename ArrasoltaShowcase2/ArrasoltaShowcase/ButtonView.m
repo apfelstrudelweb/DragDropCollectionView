@@ -22,19 +22,23 @@
     if (self) {
    
         self.undoButton = [UIButton new];
-        UIImage* undoBtnImage = [UIImage imageWithCGImage:[UIImage imageNamed:@"undo.png"].CGImage]; // trick for @2x.png
+        // we want to tint the icon -> UIImageRenderingModeAlwaysTemplate
+        UIImage* undoBtnImage = [[UIImage imageNamed:@"undo.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        self.undoButton.tintColor = COMPONENT_COLOR;
         [self.undoButton setImage:undoBtnImage forState:UIControlStateNormal];
         [self.undoButton setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.undoButton];
         
         self.redoButton = [UIButton new];
-        UIImage* redoBtnImage = [UIImage imageWithCGImage:[UIImage imageNamed:@"redo.png"].CGImage]; // trick for @2x.png
+        // we want to tint the icon -> UIImageRenderingModeAlwaysTemplate
+        UIImage* redoBtnImage = [[UIImage imageNamed:@"redo.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        self.redoButton.tintColor = COMPONENT_COLOR;
         [self.redoButton setImage:redoBtnImage forState:UIControlStateNormal];
         [self.redoButton setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.redoButton];
         
         self.resetButton = [UIButton new];
-        self.resetButton.backgroundColor = [UIColor lightGrayColor];
+        self.resetButton.backgroundColor = COMPONENT_COLOR;
         [self.resetButton setTitle:@"Reset" forState:UIControlStateNormal];
         [self.resetButton setContentEdgeInsets:UIEdgeInsetsMake(5, 0, 5, 0)];
         [self.resetButton setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -45,7 +49,7 @@
         [self addSubview:self.resetButton];
         
         self.counterLabel = [UILabel new];
-        [self.counterLabel setHeadlineText:@"0"];
+        [self.counterLabel setCounterText:@"0"];
         [self.counterLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.counterLabel];
         
