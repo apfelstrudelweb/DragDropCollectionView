@@ -10,6 +10,7 @@
 
 @interface ArrasoltaCurrentState () {
     bool transactionActive;
+    bool stopPanning;
     
     NSMutableArray* consumedItemsArray;
     
@@ -56,6 +57,14 @@
     return transactionActive;
 }
 
+- (void) setStopPanning: (bool) value {
+    stopPanning = value;
+}
+
+- (bool) isStopPanning {
+    return stopPanning;
+}
+
 - (void) addConsumedItem: (UIView*) view {
     [consumedItemsArray addObject:view];
 }
@@ -100,10 +109,6 @@
 }
 
 - (CGSize) getCellSize {
-    
-//    if (CGSizeEqualToSize(cellSize, CGSizeZero)) {
-//        cellSize = CGSizeMake(0, 0);
-//    }
     
     return cellSize;
 }

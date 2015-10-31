@@ -13,6 +13,7 @@
 + (ArrasoltaCurrentState*) sharedInstance;
 
 @property (NS_NONATOMIC_IOSONLY, getter=isTransactionActive) bool transactionActive;
+@property (NS_NONATOMIC_IOSONLY, getter=isStopPanning) bool stopPanning;
 @property (NS_NONATOMIC_IOSONLY, getter=isDragAllowed) bool dragAllowed;
 
 @property (NS_NONATOMIC_IOSONLY, getter=getConsumedItems, readonly, copy) NSArray *consumedItems;

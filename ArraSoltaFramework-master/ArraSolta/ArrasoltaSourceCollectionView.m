@@ -16,12 +16,12 @@
 
 
 @interface ArrasoltaSourceCollectionView() {
-
+    
     //UICollectionViewScrollDirection scrollDirection;
     
     float minInteritemSpacing;
     float minLineSpacing;
-
+    
 }
 @end
 
@@ -30,7 +30,7 @@
 
 - (instancetype)initWithFrame:(CGRect)frame withinView: (UIView<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>*) view  {
     
-
+    
     if (self) {
         
         
@@ -43,7 +43,7 @@
         minLineSpacing = [SHARED_CONFIG_INSTANCE getMinLineSpacing];// set member variable AFTER  instantiation - otherwise it will be lost later
         flowLayout.minimumInteritemSpacing = minInteritemSpacing;
         flowLayout.minimumLineSpacing = minLineSpacing;
-
+        
         if ([SHARED_CONFIG_INSTANCE getScrollDirection] == horizontal) {
             super.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         } else {
@@ -51,15 +51,15 @@
         }
         
         flowLayout.scrollDirection = super.scrollDirection;
-
+        
         
         self.backgroundColor = [SHARED_CONFIG_INSTANCE getBackgroundColorSourceView];
-
+        
         self.delegate = view;
         self.dataSource = view;
         self.showsHorizontalScrollIndicator = NO;
         self.showsVerticalScrollIndicator = NO;
-
+        
         [self registerClass:[ArrasoltaCollectionViewCell class] forCellWithReuseIdentifier:REUSE_IDENTIFIER];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(restoreElementNotification:) name:@"arrasoltaRestoreElementNotification"
@@ -70,7 +70,7 @@
         
         
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-
+        
     }
     return self;
 }
@@ -78,6 +78,14 @@
 #pragma mark -NSNotificationCenter
 - (void) reloadDataNotification:(NSNotification *) notification {
     if ([notification.name isEqualToString:@"arrasoltaReloadDataNotification"]) {
+        
+        [self scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+        
+        ArrasoltaCollectionViewFlowLayout* layout = ( ArrasoltaCollectionViewFlowLayout*)self.collectionViewLayout;
+        CGSize itemSize = layout.itemSize;
+        if (itemSize.height > 0.8 * self.contentSize.height || itemSize.width > 0.8 * self.contentSize.width) {
+            [SHARED_STATE_INSTANCE setStopPanning:true];
+        }
         
         if ([SHARED_CONFIG_INSTANCE getShouldPanningBeCoupled]) {
             ArrasoltaCollectionViewFlowLayout* layout = (ArrasoltaCollectionViewFlowLayout*)self.collectionViewLayout;

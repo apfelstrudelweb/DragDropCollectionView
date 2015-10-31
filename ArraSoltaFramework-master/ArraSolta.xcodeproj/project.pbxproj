@@ -126,6 +126,97 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1BDE424B1BE4C138006C0505 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				1BDA14E91BE368EC0010C16E /* NSMutableArray+arrasolta.h */,
+				1BDA14EA1BE368EC0010C16E /* NSMutableArray+arrasolta.m */,
+				1BDA14EB1BE368EC0010C16E /* NSMutableDictionary+arrasolta.h */,
+				1BDA14EC1BE368EC0010C16E /* NSMutableDictionary+arrasolta.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		1BDE424C1BE4C149006C0505 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				1BDA14D91BE368E20010C16E /* ArrasoltaUtils.h */,
+				1BDA14DA1BE368E20010C16E /* ArrasoltaUtils.m */,
+				1BDA14DB1BE368E20010C16E /* ArrasoltaDragDropHelper.h */,
+				1BDA14DC1BE368E20010C16E /* ArrasoltaDragDropHelper.m */,
+				1BDA14DD1BE368E20010C16E /* ArrasoltaUndoButtonHelper.h */,
+				1BDA14DE1BE368E20010C16E /* ArrasoltaUndoButtonHelper.m */,
+				1BDA14DF1BE368E20010C16E /* ArrasoltaViewConverter.h */,
+				1BDA14E01BE368E20010C16E /* ArrasoltaViewConverter.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		1BDE424D1BE4C166006C0505 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1BDE42511BE4C1DB006C0505 /* API */,
+				1BDE42501BE4C1C8006C0505 /* Session */,
+				1BDE424F1BE4C1A1006C0505 /* Moveable */,
+				1BDE424E1BE4C16F006C0505 /* CollectionView */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		1BDE424E1BE4C16F006C0505 /* CollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				1BDA14C71BE368DA0010C16E /* ArrasoltaCollectionView.h */,
+				1BDA14C81BE368DA0010C16E /* ArrasoltaCollectionView.m */,
+				1BC4983D1BE3EFA400E44837 /* ArrasoltaSourceCollectionView.h */,
+				1BC4983E1BE3EFA400E44837 /* ArrasoltaSourceCollectionView.m */,
+				1BC4983F1BE3EFA400E44837 /* ArrasoltaTargetCollectionView.h */,
+				1BC498401BE3EFA400E44837 /* ArrasoltaTargetCollectionView.m */,
+				1BDA14C51BE368DA0010C16E /* ArrasoltaCollectionViewCell.h */,
+				1BDA14C61BE368DA0010C16E /* ArrasoltaCollectionViewCell.m */,
+				1BDA14CD1BE368DA0010C16E /* ArrasoltaCollectionViewFlowLayout.h */,
+				1BDA14CE1BE368DA0010C16E /* ArrasoltaCollectionViewFlowLayout.m */,
+			);
+			name = CollectionView;
+			sourceTree = "<group>";
+		};
+		1BDE424F1BE4C1A1006C0505 /* Moveable */ = {
+			isa = PBXGroup;
+			children = (
+				1BC498351BE3EF7800E44837 /* ArrasoltaDraggableView.h */,
+				1BC498361BE3EF7800E44837 /* ArrasoltaDraggableView.m */,
+				1BC498391BE3EF8600E44837 /* ArrasoltaDroppableView.h */,
+				1BC4983A1BE3EF8600E44837 /* ArrasoltaDroppableView.m */,
+				1BDA14B91BE368D30010C16E /* ArrasoltaMoveableView.h */,
+				1BDA14BA1BE368D30010C16E /* ArrasoltaMoveableView.m */,
+				1BDA14BB1BE368D30010C16E /* ArrasoltaCustomView.h */,
+				1BDA14BC1BE368D30010C16E /* ArrasoltaCustomView.m */,
+			);
+			name = Moveable;
+			sourceTree = "<group>";
+		};
+		1BDE42501BE4C1C8006C0505 /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				1BDA14AD1BE368C90010C16E /* ArrasoltaPersistencyManager.h */,
+				1BDA14AE1BE368C90010C16E /* ArrasoltaPersistencyManager.m */,
+				1BDA14AF1BE368C90010C16E /* ArrasoltaCurrentState.h */,
+				1BDA14B01BE368C90010C16E /* ArrasoltaCurrentState.m */,
+			);
+			name = Session;
+			sourceTree = "<group>";
+		};
+		1BDE42511BE4C1DB006C0505 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				1BDA14F11BE369410010C16E /* ArrasoltaAPI.h */,
+				1BDA14F21BE369410010C16E /* ArrasoltaAPI.m */,
+				1BDA14F31BE369410010C16E /* ArrasoltaConfig.h */,
+				1BDA14F41BE369410010C16E /* ArrasoltaConfig.m */,
+			);
+			name = API;
+			sourceTree = "<group>";
+		};
 		FFA595481B2727F700939F20 = {
 			isa = PBXGroup;
 			children = (
@@ -147,44 +238,9 @@
 		FFA595541B2727F700939F20 /* ArraSolta */ = {
 			isa = PBXGroup;
 			children = (
-				1BDA14F11BE369410010C16E /* ArrasoltaAPI.h */,
-				1BDA14F21BE369410010C16E /* ArrasoltaAPI.m */,
-				1BDA14F31BE369410010C16E /* ArrasoltaConfig.h */,
-				1BDA14F41BE369410010C16E /* ArrasoltaConfig.m */,
-				1BC498351BE3EF7800E44837 /* ArrasoltaDraggableView.h */,
-				1BC498361BE3EF7800E44837 /* ArrasoltaDraggableView.m */,
-				1BC498391BE3EF8600E44837 /* ArrasoltaDroppableView.h */,
-				1BC4983A1BE3EF8600E44837 /* ArrasoltaDroppableView.m */,
-				1BC4983D1BE3EFA400E44837 /* ArrasoltaSourceCollectionView.h */,
-				1BC4983E1BE3EFA400E44837 /* ArrasoltaSourceCollectionView.m */,
-				1BC4983F1BE3EFA400E44837 /* ArrasoltaTargetCollectionView.h */,
-				1BC498401BE3EFA400E44837 /* ArrasoltaTargetCollectionView.m */,
-				1BDA14AD1BE368C90010C16E /* ArrasoltaPersistencyManager.h */,
-				1BDA14AE1BE368C90010C16E /* ArrasoltaPersistencyManager.m */,
-				1BDA14AF1BE368C90010C16E /* ArrasoltaCurrentState.h */,
-				1BDA14B01BE368C90010C16E /* ArrasoltaCurrentState.m */,
-				1BDA14B91BE368D30010C16E /* ArrasoltaMoveableView.h */,
-				1BDA14BA1BE368D30010C16E /* ArrasoltaMoveableView.m */,
-				1BDA14BB1BE368D30010C16E /* ArrasoltaCustomView.h */,
-				1BDA14BC1BE368D30010C16E /* ArrasoltaCustomView.m */,
-				1BDA14C51BE368DA0010C16E /* ArrasoltaCollectionViewCell.h */,
-				1BDA14C61BE368DA0010C16E /* ArrasoltaCollectionViewCell.m */,
-				1BDA14C71BE368DA0010C16E /* ArrasoltaCollectionView.h */,
-				1BDA14C81BE368DA0010C16E /* ArrasoltaCollectionView.m */,
-				1BDA14CD1BE368DA0010C16E /* ArrasoltaCollectionViewFlowLayout.h */,
-				1BDA14CE1BE368DA0010C16E /* ArrasoltaCollectionViewFlowLayout.m */,
-				1BDA14D91BE368E20010C16E /* ArrasoltaUtils.h */,
-				1BDA14DA1BE368E20010C16E /* ArrasoltaUtils.m */,
-				1BDA14DB1BE368E20010C16E /* ArrasoltaDragDropHelper.h */,
-				1BDA14DC1BE368E20010C16E /* ArrasoltaDragDropHelper.m */,
-				1BDA14DD1BE368E20010C16E /* ArrasoltaUndoButtonHelper.h */,
-				1BDA14DE1BE368E20010C16E /* ArrasoltaUndoButtonHelper.m */,
-				1BDA14DF1BE368E20010C16E /* ArrasoltaViewConverter.h */,
-				1BDA14E01BE368E20010C16E /* ArrasoltaViewConverter.m */,
-				1BDA14E91BE368EC0010C16E /* NSMutableArray+arrasolta.h */,
-				1BDA14EA1BE368EC0010C16E /* NSMutableArray+arrasolta.m */,
-				1BDA14EB1BE368EC0010C16E /* NSMutableDictionary+arrasolta.h */,
-				1BDA14EC1BE368EC0010C16E /* NSMutableDictionary+arrasolta.m */,
+				1BDE424D1BE4C166006C0505 /* View */,
+				1BDE424C1BE4C149006C0505 /* Utilities */,
+				1BDE424B1BE4C138006C0505 /* Categories */,
 				FFA595571B2727F700939F20 /* ArraSolta.h */,
 				FFA595551B2727F700939F20 /* Supporting Files */,
 			);

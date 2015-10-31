@@ -109,6 +109,11 @@
     
     bool pinchOut = recognizer.scale > 1.0;
     
+    // increase speed when zooming out
+    if (!pinchOut) {
+        speed *= 2;
+    }
+    
     
     UICollectionViewFlowLayout* layout = (UICollectionViewFlowLayout*)self.collectionViewLayout;
     
@@ -126,12 +131,19 @@
         float dY = (1.0 + speed);
         
         if (pinchOut) {
-            
-            if (2.5*size.width > contentWidth || 2.5*size.height > contentHeight) {
+            if (size.width > 0.8*contentWidth || size.height > 0.8*contentHeight) {
                 return;
             }
+            
+            if ([SHARED_STATE_INSTANCE isStopPanning]) {
+                return;
+            }
+            
             newSize = CGSizeMake(size.width + dX, size.height + dY);
         } else {
+            
+            [SHARED_STATE_INSTANCE setStopPanning:false];
+            
             CGSize minimalCellSize = [SHARED_STATE_INSTANCE getInitialCellSize];
             
             CGSize fixedSize = [SHARED_CONFIG_INSTANCE getFixedCellSize];
@@ -155,6 +167,7 @@
         
         layout.itemSize = newSize;
         [self setCollectionViewLayout:layout];
+        
         
         [SHARED_STATE_INSTANCE setCellSize:newSize];
  

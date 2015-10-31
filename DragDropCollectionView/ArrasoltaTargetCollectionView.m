@@ -87,11 +87,18 @@
 - (void) reloadDataNotification:(NSNotification *) notification {
     if ([notification.name isEqualToString:@"arrasoltaReloadDataNotification"]) {
         
+        [self scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+        
+        ArrasoltaCollectionViewFlowLayout* layout = ( ArrasoltaCollectionViewFlowLayout*)self.collectionViewLayout;
+        CGSize itemSize = layout.itemSize;
+        if (itemSize.height > 0.8 * self.contentSize.height || itemSize.width > 0.8 * self.contentSize.width) {
+            [SHARED_STATE_INSTANCE setStopPanning:true];
+        }
+        
         if ([SHARED_CONFIG_INSTANCE getShouldPanningBeCoupled]) {
             ArrasoltaCollectionViewFlowLayout* layout = (ArrasoltaCollectionViewFlowLayout*)self.collectionViewLayout;
             layout.itemSize = [SHARED_STATE_INSTANCE getCellSize];
         }
-
     }
 }
 

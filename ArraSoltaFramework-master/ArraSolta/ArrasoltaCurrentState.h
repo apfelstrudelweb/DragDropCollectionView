@@ -5,6 +5,7 @@
 //  Created by Ulrich Vormbrock on 02.10.15.
 //  Copyright (c) 2015 Ulrich Vormbrock. All rights reserved.
 //
+
 #import <UIKit/UIKit.h>
 
 @interface ArrasoltaCurrentState : NSObject
@@ -12,6 +13,7 @@
 + (ArrasoltaCurrentState*) sharedInstance;
 
 @property (NS_NONATOMIC_IOSONLY, getter=isTransactionActive) bool transactionActive;
+@property (NS_NONATOMIC_IOSONLY, getter=isStopPanning) bool stopPanning;
 @property (NS_NONATOMIC_IOSONLY, getter=isDragAllowed) bool dragAllowed;
 
 @property (NS_NONATOMIC_IOSONLY, getter=getConsumedItems, readonly, copy) NSArray *consumedItems;

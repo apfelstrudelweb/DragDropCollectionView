@@ -16,7 +16,7 @@
     float minLineSpacing;
     
     int pinchCount;
-
+    
     bool deviceOrientationChanged;
     
 }
@@ -109,6 +109,11 @@
     
     bool pinchOut = recognizer.scale > 1.0;
     
+    // increase speed when zooming out
+    if (!pinchOut) {
+        speed *= 2;
+    }
+    
     
     UICollectionViewFlowLayout* layout = (UICollectionViewFlowLayout*)self.collectionViewLayout;
     
@@ -126,12 +131,19 @@
         float dY = (1.0 + speed);
         
         if (pinchOut) {
-            
-            if (2.5*size.width > contentWidth || 2.5*size.height > contentHeight) {
+            if (size.width > 0.8*contentWidth || size.height > 0.8*contentHeight) {
                 return;
             }
+            
+            if ([SHARED_STATE_INSTANCE isStopPanning]) {
+                return;
+            }
+            
             newSize = CGSizeMake(size.width + dX, size.height + dY);
         } else {
+            
+            [SHARED_STATE_INSTANCE setStopPanning:false];
+            
             CGSize minimalCellSize = [SHARED_STATE_INSTANCE getInitialCellSize];
             
             CGSize fixedSize = [SHARED_CONFIG_INSTANCE getFixedCellSize];
@@ -156,8 +168,9 @@
         layout.itemSize = newSize;
         [self setCollectionViewLayout:layout];
         
+        
         [SHARED_STATE_INSTANCE setCellSize:newSize];
- 
+        
         // inform all collection views so they can reload both
         [[NSNotificationCenter defaultCenter] postNotificationName: @"arrasoltaReloadDataNotification" object:nil userInfo:nil];
         
@@ -176,13 +189,13 @@
     float cellWidth = 0.0;
     float cellHeight = 0.0;
     float r = [SHARED_CONFIG_INSTANCE getCellWidthHeightRatio];
-
+    
     
     float W  = containerSize.width;
     float H = containerSize.height;
     int N = (int)[self numberOfItemsInSection:0];
     
-
+    
     
     // 1. first row
     int cols = N;
@@ -208,33 +221,33 @@
         lastCols = cols;
         cols--;
         rows = ceil((float)N / (float)cols);
-
+        
     }
     
     
     cellWidth = (W + (1-lastCols)*minInteritemSpacing) / lastCols;
     cellHeight = cellWidth / r;
     
-//    if ([SHARED_CONFIG_INSTANCE getShouldCollectionViewFillEntireHeight]) {
-//        float diffH = H - rows*cellHeight - (rows-1) * minLineSpacing;
-//        NSLog(@"diffH: %f", diffH);
-//        
-//        cellHeight += diffH/rows;
-//    }
+    //    if ([SHARED_CONFIG_INSTANCE getShouldCollectionViewFillEntireHeight]) {
+    //        float diffH = H - rows*cellHeight - (rows-1) * minLineSpacing;
+    //        NSLog(@"diffH: %f", diffH);
+    //
+    //        cellHeight += diffH/rows;
+    //    }
     
-//    // regain ratio
-//    float idealCellWidth = r * cellHeight;
-//    float diffW = cellWidth - idealCellWidth;
-//    
-//    if ([SHARED_CONFIG_INSTANCE getShouldCollectionViewFillEntireHeight]) {
-//        float correctedInterimSpacing =  minInteritemSpacing + diffW * cols / (cols-1);
-//        UICollectionViewFlowLayout* layout = (UICollectionViewFlowLayout*)self.collectionViewLayout;
-//        layout.minimumInteritemSpacing = correctedInterimSpacing;
-//    }
-//    
-//    cellWidth = idealCellWidth;
+    //    // regain ratio
+    //    float idealCellWidth = r * cellHeight;
+    //    float diffW = cellWidth - idealCellWidth;
+    //
+    //    if ([SHARED_CONFIG_INSTANCE getShouldCollectionViewFillEntireHeight]) {
+    //        float correctedInterimSpacing =  minInteritemSpacing + diffW * cols / (cols-1);
+    //        UICollectionViewFlowLayout* layout = (UICollectionViewFlowLayout*)self.collectionViewLayout;
+    //        layout.minimumInteritemSpacing = correctedInterimSpacing;
+    //    }
+    //
+    //    cellWidth = idealCellWidth;
     
-
+    
     return CGSizeMake(cellWidth, cellHeight);
     //return CGSizeMake(112, 56);
 }
