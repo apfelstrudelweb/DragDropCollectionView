@@ -1,6 +1,0 @@
-framework module ArraSolta {
-  umbrella header "ArraSolta.h"
-
-  export *
-  module * { export * }
-}

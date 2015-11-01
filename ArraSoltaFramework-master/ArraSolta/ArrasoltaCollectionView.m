@@ -16,7 +16,7 @@
     float minLineSpacing;
     
     int pinchCount;
-    
+
     bool deviceOrientationChanged;
     
 }
@@ -170,7 +170,7 @@
         
         
         [SHARED_STATE_INSTANCE setCellSize:newSize];
-        
+ 
         // inform all collection views so they can reload both
         [[NSNotificationCenter defaultCenter] postNotificationName: @"arrasoltaReloadDataNotification" object:nil userInfo:nil];
         
@@ -189,13 +189,13 @@
     float cellWidth = 0.0;
     float cellHeight = 0.0;
     float r = [SHARED_CONFIG_INSTANCE getCellWidthHeightRatio];
-    
+
     
     float W  = containerSize.width;
     float H = containerSize.height;
     int N = (int)[self numberOfItemsInSection:0];
     
-    
+
     
     // 1. first row
     int cols = N;
@@ -221,33 +221,33 @@
         lastCols = cols;
         cols--;
         rows = ceil((float)N / (float)cols);
-        
+
     }
     
     
     cellWidth = (W + (1-lastCols)*minInteritemSpacing) / lastCols;
     cellHeight = cellWidth / r;
     
-    //    if ([SHARED_CONFIG_INSTANCE getShouldCollectionViewFillEntireHeight]) {
-    //        float diffH = H - rows*cellHeight - (rows-1) * minLineSpacing;
-    //        NSLog(@"diffH: %f", diffH);
-    //
-    //        cellHeight += diffH/rows;
-    //    }
+//    if ([SHARED_CONFIG_INSTANCE getShouldCollectionViewFillEntireHeight]) {
+//        float diffH = H - rows*cellHeight - (rows-1) * minLineSpacing;
+//        NSLog(@"diffH: %f", diffH);
+//        
+//        cellHeight += diffH/rows;
+//    }
     
-    //    // regain ratio
-    //    float idealCellWidth = r * cellHeight;
-    //    float diffW = cellWidth - idealCellWidth;
-    //
-    //    if ([SHARED_CONFIG_INSTANCE getShouldCollectionViewFillEntireHeight]) {
-    //        float correctedInterimSpacing =  minInteritemSpacing + diffW * cols / (cols-1);
-    //        UICollectionViewFlowLayout* layout = (UICollectionViewFlowLayout*)self.collectionViewLayout;
-    //        layout.minimumInteritemSpacing = correctedInterimSpacing;
-    //    }
-    //
-    //    cellWidth = idealCellWidth;
+//    // regain ratio
+//    float idealCellWidth = r * cellHeight;
+//    float diffW = cellWidth - idealCellWidth;
+//    
+//    if ([SHARED_CONFIG_INSTANCE getShouldCollectionViewFillEntireHeight]) {
+//        float correctedInterimSpacing =  minInteritemSpacing + diffW * cols / (cols-1);
+//        UICollectionViewFlowLayout* layout = (UICollectionViewFlowLayout*)self.collectionViewLayout;
+//        layout.minimumInteritemSpacing = correctedInterimSpacing;
+//    }
+//    
+//    cellWidth = idealCellWidth;
     
-    
+
     return CGSizeMake(cellWidth, cellHeight);
     //return CGSizeMake(112, 56);
 }

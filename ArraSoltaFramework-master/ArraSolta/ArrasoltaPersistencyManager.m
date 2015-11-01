@@ -26,6 +26,7 @@
     UIColor* backgroundColorSourceView;
     UIColor* backgroundColorTargetView;
     
+    UIColor* dragPlaceholderColor;
     UIColor* dropPlaceholderColorUntouched;
     UIColor* dropPlaceholderColorTouched;
     
@@ -93,6 +94,9 @@
 }
 - (void) setDataSourceDict: (NSMutableDictionary*) dict {
     dataSourceDict = dict;
+}
+- (void) setDragPlaceholderColor: (UIColor*) color {
+    dragPlaceholderColor = color;
 }
 - (void) setDropPlaceholderColorUntouched: (UIColor*) color {
     dropPlaceholderColorUntouched = color;
@@ -190,6 +194,13 @@
 }
 - (NSMutableDictionary*) getDataSourceDict {
     return dataSourceDict;
+}
+- (UIColor*) getDragPlaceholderColor {
+    if (dragPlaceholderColor) {
+        return dragPlaceholderColor;
+    } else {
+        return [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1.0];
+    }
 }
 - (UIColor*) getDropPlaceholderColorUntouched {
     if (dropPlaceholderColorUntouched) {

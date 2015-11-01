@@ -27,6 +27,7 @@ typedef NS_ENUM (NSInteger, ScrollDirection) {
 @property (NS_NONATOMIC_IOSONLY, getter=getBackgroundColorSourceView, copy) UIColor *backgroundColorSourceView;
 @property (NS_NONATOMIC_IOSONLY, getter=getBackgroundColorTargetView, copy) UIColor *backgroundColorTargetView;
 @property (NS_NONATOMIC_IOSONLY, getter=getDataSourceDict, copy) NSMutableDictionary *dataSourceDict;
+@property (NS_NONATOMIC_IOSONLY, getter=getDragPlaceholderColor, copy) UIColor *dragPlaceholderColor;
 @property (NS_NONATOMIC_IOSONLY, getter=getDropPlaceholderColorUntouched, copy) UIColor *dropPlaceholderColorUntouched;
 @property (NS_NONATOMIC_IOSONLY, getter=getDropPlaceholderColorTouched, copy) UIColor *dropPlaceholderColorTouched;
 @property (NS_NONATOMIC_IOSONLY, getter=getShouldPlaceholderIndexStartFromZero) bool shouldPlaceholderIndexStartFromZero;

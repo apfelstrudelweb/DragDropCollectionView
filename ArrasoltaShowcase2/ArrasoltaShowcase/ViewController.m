@@ -55,6 +55,7 @@
     [SHARED_CONFIG_INSTANCE setBackgroundColorSourceView:COMPONENT_COLOR];
     [SHARED_CONFIG_INSTANCE setBackgroundColorTargetView:COMPONENT_COLOR];
     
+    [SHARED_CONFIG_INSTANCE setSourcePlaceholderColor:[UIColor clearColor]];
     [SHARED_CONFIG_INSTANCE setTargetPlaceholderColorUntouched:[UIColor clearColor]];
     [SHARED_CONFIG_INSTANCE setTargetPlaceholderColorTouched:[UIColor colorWithRed:0.51 green:0.67 blue:0.96 alpha:1.0]];
     

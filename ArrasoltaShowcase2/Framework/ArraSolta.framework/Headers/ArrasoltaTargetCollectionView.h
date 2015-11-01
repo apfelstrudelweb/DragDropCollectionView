@@ -7,14 +7,15 @@
 //
 
 
-#import "ArrasoltaCollectionViewCell.h"
+#import "ArrasoltaTargetCollectionViewCell.h"
+#import "ArrasoltaTargetCollectionViewCell.h"
 #import "ArrasoltaCollectionView.h"
 
 @interface ArrasoltaTargetCollectionView : ArrasoltaCollectionView
 
 - (instancetype)initWithFrame:(CGRect)frame withinView: (UIView*) view sourceDictionary:(NSMutableDictionary*) sourceDict targetDictionary:(NSMutableDictionary*) targetDict;
 
-- (ArrasoltaCollectionViewCell*) getCell: (NSIndexPath*) indexPath;
+- (ArrasoltaTargetCollectionViewCell*) getCell: (NSIndexPath*) indexPath;
 
 - (void) resetAllCells;
 

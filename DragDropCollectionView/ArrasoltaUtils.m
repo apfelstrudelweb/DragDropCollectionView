@@ -57,7 +57,7 @@ float cellHeight;
  * Calculates the size and the position of a single UICollectionViewCell and returns a CGRect
  *
  */
-+ (CGRect) getCellCoordinates: (ArrasoltaCollectionViewCell *) cell fromCollectionView: (UICollectionView*) collectionView {
++ (CGRect) getCellCoordinates: (ArrasoltaTargetCollectionViewCell *) cell fromCollectionView: (UICollectionView*) collectionView {
     
     CGPoint origin = collectionView.frame.origin;
     float x = origin.x;
@@ -113,12 +113,12 @@ float cellHeight;
  * it (after dragging it from the source collection view)
  *
  */
-+ (ArrasoltaCollectionViewCell*)getTargetCell:(ArrasoltaMoveableView *)moveableView inCollectionView:(UICollectionView*) collectionView recognizer:(UIPanGestureRecognizer *)recognizer {
++ (ArrasoltaTargetCollectionViewCell*)getTargetCell:(ArrasoltaMoveableView *)moveableView inCollectionView:(UICollectionView*) collectionView recognizer:(UIPanGestureRecognizer *)recognizer {
     
     CGPoint correctedTapLocation = [self getCenteredTapLocation:moveableView inCollectionView:collectionView recognizer:recognizer];
     
     NSIndexPath* dropIndexPath = [collectionView indexPathForItemAtPoint:correctedTapLocation];
-    return (ArrasoltaCollectionViewCell*)[collectionView cellForItemAtIndexPath:dropIndexPath];
+    return (ArrasoltaTargetCollectionViewCell*)[collectionView cellForItemAtIndexPath:dropIndexPath];
 }
 
 + (void)bringMoveableViewToFront:(UIPanGestureRecognizer *)recognizer moveableView:(ArrasoltaMoveableView *)moveableView overCollectionView:(UICollectionView*) collectionView {
@@ -133,7 +133,7 @@ float cellHeight;
     CGPoint correctedTapLocation = [self getCenteredTapLocation:moveableView inCollectionView:collectionView recognizer:recognizer];
     
     NSIndexPath* dropIndexPath = [collectionView indexPathForItemAtPoint:correctedTapLocation];
-    ArrasoltaCollectionViewCell *cell = (ArrasoltaCollectionViewCell*)[collectionView cellForItemAtIndexPath:dropIndexPath];
+    ArrasoltaTargetCollectionViewCell *cell = (ArrasoltaTargetCollectionViewCell*)[collectionView cellForItemAtIndexPath:dropIndexPath];
     
     CGRect cvFrame = collectionView.frame;
     float cvX = cvFrame.origin.x;
@@ -172,8 +172,8 @@ float cellHeight;
     
     NSIndexPath* dropIndexPathRight = [NSIndexPath indexPathForItem:leftIndex+1 inSection:dropIndexPathLeft.section];
     
-    ArrasoltaCollectionViewCell* leftCell = (ArrasoltaCollectionViewCell*)[collectionView cellForItemAtIndexPath:dropIndexPathLeft];
-    ArrasoltaCollectionViewCell* rightCell = (ArrasoltaCollectionViewCell*)[collectionView cellForItemAtIndexPath:dropIndexPathRight];
+    ArrasoltaTargetCollectionViewCell* leftCell = (ArrasoltaTargetCollectionViewCell*)[collectionView cellForItemAtIndexPath:dropIndexPathLeft];
+    ArrasoltaTargetCollectionViewCell* rightCell = (ArrasoltaTargetCollectionViewCell*)[collectionView cellForItemAtIndexPath:dropIndexPathRight];
     
     if (leftCell.isPopulated && rightCell.isPopulated) {
         return @[leftCell, rightCell];
@@ -189,7 +189,7 @@ float cellHeight;
     CGPoint tapLocationInCollectionView = [recognizer locationInView:collectionView];
     
     // negative offset -> left cell should not be highlighted when touch point is in the middle of two cells
-    ArrasoltaCollectionViewCell* dummyCell;
+    ArrasoltaTargetCollectionViewCell* dummyCell;
     
     
     // Get vertical scroll offset
@@ -199,7 +199,7 @@ float cellHeight;
     // That's why we need to iterate over all cells and find the first one which can
     // provide the width and height of such.
     for (int i=0; i<[collectionView numberOfItemsInSection:0]; i++) {
-        dummyCell = (ArrasoltaCollectionViewCell*)[collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:i inSection:0]];
+        dummyCell = (ArrasoltaTargetCollectionViewCell*)[collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:i inSection:0]];
         if (dummyCell) {
             break;
         }
@@ -240,6 +240,7 @@ float cellHeight;
     NSDictionary* targetDict = (NSMutableDictionary*) cellDictionaries[1];
 
     ArrasoltaCollectionViewCell* cell;
+
     
     if ([collectionView isKindOfClass:[ArrasoltaSourceCollectionView class]]) {
         // fill all cells from DragCollectionView

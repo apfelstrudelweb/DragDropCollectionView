@@ -32,6 +32,8 @@ FOUNDATION_EXPORT const unsigned char ArraSoltaVersionString[];
 #import <ArraSolta/ArrasoltaDraggableView.h>
 #import <ArraSolta/ArrasoltaDroppableView.h>
 #import <ArraSolta/ArrasoltaCollectionViewCell.h>
+#import <ArraSolta/ArrasoltaSourceCollectionViewCell.h>
+#import <ArraSolta/ArrasoltaTargetCollectionViewCell.h>
 #import <ArraSolta/ArrasoltaCollectionView.h>
 
 

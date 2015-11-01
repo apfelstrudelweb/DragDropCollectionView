@@ -65,6 +65,9 @@
 - (void) setSourceItemsDictionary: (NSMutableDictionary*) dict {
     [persistencyManager setDataSourceDict:dict];
 }
+- (void) setSourcePlaceholderColor: (UIColor*) color {
+    [persistencyManager setDragPlaceholderColor:color];
+}
 - (void) setTargetPlaceholderColorUntouched: (UIColor*) color {
     [persistencyManager setDropPlaceholderColorUntouched:color];
 }
@@ -139,6 +142,9 @@
 }
 - (NSMutableDictionary*) getSourceItemsDictionary {
     return [persistencyManager getDataSourceDict];
+}
+- (UIColor*) getSourcePlaceholderColor {
+    return [persistencyManager getDragPlaceholderColor];
 }
 - (UIColor*) getTargetPlaceholderColorUntouched {
     return [persistencyManager getDropPlaceholderColorUntouched];

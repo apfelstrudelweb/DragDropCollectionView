@@ -17,14 +17,14 @@
 @interface ArrasoltaUtils : NSObject
 
 + (void) eliminateEmptyKeysInDict: (NSMutableDictionary*) dict;
-+ (CGRect) getCellCoordinates: (ArrasoltaCollectionViewCell*) cell fromCollectionView: (UICollectionView*) collectionView;
++ (CGRect) getCellCoordinates: (ArrasoltaTargetCollectionViewCell*) cell fromCollectionView: (UICollectionView*) collectionView;
 + (UIColor*) getRandomColor;
 
 + (int) getHighestKeyInDict: (NSMutableDictionary*) dict;
 + (void) scrollToLastElement: (UICollectionView*) collectionView ofDictionary: (NSMutableDictionary*) dict;
 
 
-+ (ArrasoltaCollectionViewCell*) getTargetCell:(ArrasoltaMoveableView*)moveableView inCollectionView:(UICollectionView*) collectionView recognizer:(UIPanGestureRecognizer*)recognizer;
++ (ArrasoltaTargetCollectionViewCell*) getTargetCell:(ArrasoltaMoveableView*)moveableView inCollectionView:(UICollectionView*) collectionView recognizer:(UIPanGestureRecognizer*)recognizer;
 
 + (void) bringMoveableViewToFront:(UIPanGestureRecognizer *)recognizer moveableView:(ArrasoltaMoveableView *)moveableView overCollectionView:(UICollectionView*) collectionView;
 

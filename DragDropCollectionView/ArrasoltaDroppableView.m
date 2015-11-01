@@ -17,7 +17,7 @@
     return [self initWithFrame:CGRectZero];
 }
 
-- (instancetype)initWithView:(ArrasoltaDroppableView*)view inCollectionViewCell:(ArrasoltaCollectionViewCell*) cell {
+- (instancetype)initWithView:(ArrasoltaDroppableView*)view inCollectionViewCell:(ArrasoltaTargetCollectionViewCell*) cell {
     
     self = [super initWithFrame:cell.frame];
     if (self) {

@@ -7,32 +7,38 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B2C4A6E1BE62E0100CE43A1 /* ArrasoltaCollectionViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B2C4A681BE62E0100CE43A1 /* ArrasoltaCollectionViewCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B2C4A6F1BE62E0100CE43A1 /* ArrasoltaCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2C4A691BE62E0100CE43A1 /* ArrasoltaCollectionViewCell.m */; };
+		1B2C4A701BE62E0100CE43A1 /* ArrasoltaSourceCollectionViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B2C4A6A1BE62E0100CE43A1 /* ArrasoltaSourceCollectionViewCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B2C4A711BE62E0100CE43A1 /* ArrasoltaSourceCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2C4A6B1BE62E0100CE43A1 /* ArrasoltaSourceCollectionViewCell.m */; };
+		1B2C4A721BE62E0100CE43A1 /* ArrasoltaTargetCollectionViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B2C4A6C1BE62E0100CE43A1 /* ArrasoltaTargetCollectionViewCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B2C4A731BE62E0100CE43A1 /* ArrasoltaTargetCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2C4A6D1BE62E0100CE43A1 /* ArrasoltaTargetCollectionViewCell.m */; };
+		1B2C4A7A1BE62E2400CE43A1 /* ArrasoltaCollectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B2C4A741BE62E2400CE43A1 /* ArrasoltaCollectionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B2C4A7B1BE62E2400CE43A1 /* ArrasoltaCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2C4A751BE62E2400CE43A1 /* ArrasoltaCollectionView.m */; };
+		1B2C4A7C1BE62E2400CE43A1 /* ArrasoltaSourceCollectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B2C4A761BE62E2400CE43A1 /* ArrasoltaSourceCollectionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B2C4A7D1BE62E2400CE43A1 /* ArrasoltaSourceCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2C4A771BE62E2400CE43A1 /* ArrasoltaSourceCollectionView.m */; };
+		1B2C4A7E1BE62E2400CE43A1 /* ArrasoltaTargetCollectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B2C4A781BE62E2400CE43A1 /* ArrasoltaTargetCollectionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B2C4A7F1BE62E2400CE43A1 /* ArrasoltaTargetCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2C4A791BE62E2400CE43A1 /* ArrasoltaTargetCollectionView.m */; };
+		1B2C4A821BE62E4900CE43A1 /* ArrasoltaConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B2C4A801BE62E4900CE43A1 /* ArrasoltaConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B2C4A831BE62E4900CE43A1 /* ArrasoltaConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2C4A811BE62E4900CE43A1 /* ArrasoltaConfig.m */; };
+		1B2C4A861BE62E6200CE43A1 /* ArrasoltaPersistencyManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B2C4A841BE62E6200CE43A1 /* ArrasoltaPersistencyManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B2C4A871BE62E6200CE43A1 /* ArrasoltaPersistencyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2C4A851BE62E6200CE43A1 /* ArrasoltaPersistencyManager.m */; };
+		1B2C4A8A1BE62E8D00CE43A1 /* ArrasoltaDragDropHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B2C4A881BE62E8D00CE43A1 /* ArrasoltaDragDropHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B2C4A8B1BE62E8D00CE43A1 /* ArrasoltaDragDropHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2C4A891BE62E8D00CE43A1 /* ArrasoltaDragDropHelper.m */; };
+		1B2C4A8E1BE62EC300CE43A1 /* ArrasoltaDroppableView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B2C4A8C1BE62EC300CE43A1 /* ArrasoltaDroppableView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B2C4A8F1BE62EC300CE43A1 /* ArrasoltaDroppableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2C4A8D1BE62EC300CE43A1 /* ArrasoltaDroppableView.m */; };
 		1BC498371BE3EF7800E44837 /* ArrasoltaDraggableView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BC498351BE3EF7800E44837 /* ArrasoltaDraggableView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1BC498381BE3EF7800E44837 /* ArrasoltaDraggableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC498361BE3EF7800E44837 /* ArrasoltaDraggableView.m */; };
-		1BC4983B1BE3EF8600E44837 /* ArrasoltaDroppableView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BC498391BE3EF8600E44837 /* ArrasoltaDroppableView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1BC4983C1BE3EF8600E44837 /* ArrasoltaDroppableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC4983A1BE3EF8600E44837 /* ArrasoltaDroppableView.m */; };
-		1BC498411BE3EFA400E44837 /* ArrasoltaSourceCollectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BC4983D1BE3EFA400E44837 /* ArrasoltaSourceCollectionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1BC498421BE3EFA400E44837 /* ArrasoltaSourceCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC4983E1BE3EFA400E44837 /* ArrasoltaSourceCollectionView.m */; };
-		1BC498431BE3EFA400E44837 /* ArrasoltaTargetCollectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BC4983F1BE3EFA400E44837 /* ArrasoltaTargetCollectionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1BC498441BE3EFA400E44837 /* ArrasoltaTargetCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC498401BE3EFA400E44837 /* ArrasoltaTargetCollectionView.m */; };
-		1BDA14B11BE368C90010C16E /* ArrasoltaPersistencyManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BDA14AD1BE368C90010C16E /* ArrasoltaPersistencyManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1BDA14B21BE368C90010C16E /* ArrasoltaPersistencyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDA14AE1BE368C90010C16E /* ArrasoltaPersistencyManager.m */; };
 		1BDA14B31BE368C90010C16E /* ArrasoltaCurrentState.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BDA14AF1BE368C90010C16E /* ArrasoltaCurrentState.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1BDA14B41BE368C90010C16E /* ArrasoltaCurrentState.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDA14B01BE368C90010C16E /* ArrasoltaCurrentState.m */; };
 		1BDA14C11BE368D30010C16E /* ArrasoltaMoveableView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BDA14B91BE368D30010C16E /* ArrasoltaMoveableView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1BDA14C21BE368D30010C16E /* ArrasoltaMoveableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDA14BA1BE368D30010C16E /* ArrasoltaMoveableView.m */; };
 		1BDA14C31BE368D30010C16E /* ArrasoltaCustomView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BDA14BB1BE368D30010C16E /* ArrasoltaCustomView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1BDA14C41BE368D30010C16E /* ArrasoltaCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDA14BC1BE368D30010C16E /* ArrasoltaCustomView.m */; };
-		1BDA14CF1BE368DA0010C16E /* ArrasoltaCollectionViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BDA14C51BE368DA0010C16E /* ArrasoltaCollectionViewCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1BDA14D01BE368DA0010C16E /* ArrasoltaCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDA14C61BE368DA0010C16E /* ArrasoltaCollectionViewCell.m */; };
-		1BDA14D11BE368DA0010C16E /* ArrasoltaCollectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BDA14C71BE368DA0010C16E /* ArrasoltaCollectionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1BDA14D21BE368DA0010C16E /* ArrasoltaCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDA14C81BE368DA0010C16E /* ArrasoltaCollectionView.m */; };
 		1BDA14D71BE368DA0010C16E /* ArrasoltaCollectionViewFlowLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BDA14CD1BE368DA0010C16E /* ArrasoltaCollectionViewFlowLayout.h */; };
 		1BDA14D81BE368DA0010C16E /* ArrasoltaCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDA14CE1BE368DA0010C16E /* ArrasoltaCollectionViewFlowLayout.m */; };
 		1BDA14E11BE368E20010C16E /* ArrasoltaUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BDA14D91BE368E20010C16E /* ArrasoltaUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1BDA14E21BE368E20010C16E /* ArrasoltaUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDA14DA1BE368E20010C16E /* ArrasoltaUtils.m */; };
-		1BDA14E31BE368E20010C16E /* ArrasoltaDragDropHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BDA14DB1BE368E20010C16E /* ArrasoltaDragDropHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1BDA14E41BE368E20010C16E /* ArrasoltaDragDropHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDA14DC1BE368E20010C16E /* ArrasoltaDragDropHelper.m */; };
 		1BDA14E51BE368E20010C16E /* ArrasoltaUndoButtonHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BDA14DD1BE368E20010C16E /* ArrasoltaUndoButtonHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1BDA14E61BE368E20010C16E /* ArrasoltaUndoButtonHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDA14DE1BE368E20010C16E /* ArrasoltaUndoButtonHelper.m */; };
 		1BDA14E71BE368E20010C16E /* ArrasoltaViewConverter.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BDA14DF1BE368E20010C16E /* ArrasoltaViewConverter.h */; };
@@ -43,8 +49,6 @@
 		1BDA14F01BE368EC0010C16E /* NSMutableDictionary+arrasolta.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDA14EC1BE368EC0010C16E /* NSMutableDictionary+arrasolta.m */; };
 		1BDA14F51BE369410010C16E /* ArrasoltaAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BDA14F11BE369410010C16E /* ArrasoltaAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1BDA14F61BE369410010C16E /* ArrasoltaAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDA14F21BE369410010C16E /* ArrasoltaAPI.m */; };
-		1BDA14F71BE369410010C16E /* ArrasoltaConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BDA14F31BE369410010C16E /* ArrasoltaConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1BDA14F81BE369410010C16E /* ArrasoltaConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDA14F41BE369410010C16E /* ArrasoltaConfig.m */; };
 		FFA595581B2727F700939F20 /* ArraSolta.h in Headers */ = {isa = PBXBuildFile; fileRef = FFA595571B2727F700939F20 /* ArraSolta.h */; };
 		FFA5955E1B2727F700939F20 /* ArraSolta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFA595521B2727F700939F20 /* ArraSolta.framework */; };
 		FFA595651B2727F700939F20 /* InsertSampleFrameworkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA595641B2727F700939F20 /* InsertSampleFrameworkTests.m */; };
@@ -61,32 +65,38 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1B2C4A681BE62E0100CE43A1 /* ArrasoltaCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaCollectionViewCell.h; sourceTree = "<group>"; };
+		1B2C4A691BE62E0100CE43A1 /* ArrasoltaCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaCollectionViewCell.m; sourceTree = "<group>"; };
+		1B2C4A6A1BE62E0100CE43A1 /* ArrasoltaSourceCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaSourceCollectionViewCell.h; sourceTree = "<group>"; };
+		1B2C4A6B1BE62E0100CE43A1 /* ArrasoltaSourceCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaSourceCollectionViewCell.m; sourceTree = "<group>"; };
+		1B2C4A6C1BE62E0100CE43A1 /* ArrasoltaTargetCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaTargetCollectionViewCell.h; sourceTree = "<group>"; };
+		1B2C4A6D1BE62E0100CE43A1 /* ArrasoltaTargetCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaTargetCollectionViewCell.m; sourceTree = "<group>"; };
+		1B2C4A741BE62E2400CE43A1 /* ArrasoltaCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaCollectionView.h; sourceTree = "<group>"; };
+		1B2C4A751BE62E2400CE43A1 /* ArrasoltaCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaCollectionView.m; sourceTree = "<group>"; };
+		1B2C4A761BE62E2400CE43A1 /* ArrasoltaSourceCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaSourceCollectionView.h; sourceTree = "<group>"; };
+		1B2C4A771BE62E2400CE43A1 /* ArrasoltaSourceCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaSourceCollectionView.m; sourceTree = "<group>"; };
+		1B2C4A781BE62E2400CE43A1 /* ArrasoltaTargetCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaTargetCollectionView.h; sourceTree = "<group>"; };
+		1B2C4A791BE62E2400CE43A1 /* ArrasoltaTargetCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaTargetCollectionView.m; sourceTree = "<group>"; };
+		1B2C4A801BE62E4900CE43A1 /* ArrasoltaConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaConfig.h; sourceTree = "<group>"; };
+		1B2C4A811BE62E4900CE43A1 /* ArrasoltaConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaConfig.m; sourceTree = "<group>"; };
+		1B2C4A841BE62E6200CE43A1 /* ArrasoltaPersistencyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaPersistencyManager.h; sourceTree = "<group>"; };
+		1B2C4A851BE62E6200CE43A1 /* ArrasoltaPersistencyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaPersistencyManager.m; sourceTree = "<group>"; };
+		1B2C4A881BE62E8D00CE43A1 /* ArrasoltaDragDropHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaDragDropHelper.h; sourceTree = "<group>"; };
+		1B2C4A891BE62E8D00CE43A1 /* ArrasoltaDragDropHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaDragDropHelper.m; sourceTree = "<group>"; };
+		1B2C4A8C1BE62EC300CE43A1 /* ArrasoltaDroppableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaDroppableView.h; sourceTree = "<group>"; };
+		1B2C4A8D1BE62EC300CE43A1 /* ArrasoltaDroppableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaDroppableView.m; sourceTree = "<group>"; };
 		1BC498351BE3EF7800E44837 /* ArrasoltaDraggableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaDraggableView.h; sourceTree = "<group>"; };
 		1BC498361BE3EF7800E44837 /* ArrasoltaDraggableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaDraggableView.m; sourceTree = "<group>"; };
-		1BC498391BE3EF8600E44837 /* ArrasoltaDroppableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaDroppableView.h; sourceTree = "<group>"; };
-		1BC4983A1BE3EF8600E44837 /* ArrasoltaDroppableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaDroppableView.m; sourceTree = "<group>"; };
-		1BC4983D1BE3EFA400E44837 /* ArrasoltaSourceCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaSourceCollectionView.h; sourceTree = "<group>"; };
-		1BC4983E1BE3EFA400E44837 /* ArrasoltaSourceCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaSourceCollectionView.m; sourceTree = "<group>"; };
-		1BC4983F1BE3EFA400E44837 /* ArrasoltaTargetCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaTargetCollectionView.h; sourceTree = "<group>"; };
-		1BC498401BE3EFA400E44837 /* ArrasoltaTargetCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaTargetCollectionView.m; sourceTree = "<group>"; };
-		1BDA14AD1BE368C90010C16E /* ArrasoltaPersistencyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaPersistencyManager.h; sourceTree = "<group>"; };
-		1BDA14AE1BE368C90010C16E /* ArrasoltaPersistencyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaPersistencyManager.m; sourceTree = "<group>"; };
 		1BDA14AF1BE368C90010C16E /* ArrasoltaCurrentState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaCurrentState.h; sourceTree = "<group>"; };
 		1BDA14B01BE368C90010C16E /* ArrasoltaCurrentState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaCurrentState.m; sourceTree = "<group>"; };
 		1BDA14B91BE368D30010C16E /* ArrasoltaMoveableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaMoveableView.h; sourceTree = "<group>"; };
 		1BDA14BA1BE368D30010C16E /* ArrasoltaMoveableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaMoveableView.m; sourceTree = "<group>"; };
 		1BDA14BB1BE368D30010C16E /* ArrasoltaCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaCustomView.h; sourceTree = "<group>"; };
 		1BDA14BC1BE368D30010C16E /* ArrasoltaCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaCustomView.m; sourceTree = "<group>"; };
-		1BDA14C51BE368DA0010C16E /* ArrasoltaCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaCollectionViewCell.h; sourceTree = "<group>"; };
-		1BDA14C61BE368DA0010C16E /* ArrasoltaCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaCollectionViewCell.m; sourceTree = "<group>"; };
-		1BDA14C71BE368DA0010C16E /* ArrasoltaCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaCollectionView.h; sourceTree = "<group>"; };
-		1BDA14C81BE368DA0010C16E /* ArrasoltaCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaCollectionView.m; sourceTree = "<group>"; };
 		1BDA14CD1BE368DA0010C16E /* ArrasoltaCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaCollectionViewFlowLayout.h; sourceTree = "<group>"; };
 		1BDA14CE1BE368DA0010C16E /* ArrasoltaCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaCollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		1BDA14D91BE368E20010C16E /* ArrasoltaUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaUtils.h; sourceTree = "<group>"; };
 		1BDA14DA1BE368E20010C16E /* ArrasoltaUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaUtils.m; sourceTree = "<group>"; };
-		1BDA14DB1BE368E20010C16E /* ArrasoltaDragDropHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaDragDropHelper.h; sourceTree = "<group>"; };
-		1BDA14DC1BE368E20010C16E /* ArrasoltaDragDropHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaDragDropHelper.m; sourceTree = "<group>"; };
 		1BDA14DD1BE368E20010C16E /* ArrasoltaUndoButtonHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaUndoButtonHelper.h; sourceTree = "<group>"; };
 		1BDA14DE1BE368E20010C16E /* ArrasoltaUndoButtonHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaUndoButtonHelper.m; sourceTree = "<group>"; };
 		1BDA14DF1BE368E20010C16E /* ArrasoltaViewConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaViewConverter.h; sourceTree = "<group>"; };
@@ -97,8 +107,6 @@
 		1BDA14EC1BE368EC0010C16E /* NSMutableDictionary+arrasolta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+arrasolta.m"; sourceTree = "<group>"; };
 		1BDA14F11BE369410010C16E /* ArrasoltaAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaAPI.h; sourceTree = "<group>"; };
 		1BDA14F21BE369410010C16E /* ArrasoltaAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaAPI.m; sourceTree = "<group>"; };
-		1BDA14F31BE369410010C16E /* ArrasoltaConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrasoltaConfig.h; sourceTree = "<group>"; };
-		1BDA14F41BE369410010C16E /* ArrasoltaConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrasoltaConfig.m; sourceTree = "<group>"; };
 		FFA595521B2727F700939F20 /* ArraSolta.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ArraSolta.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFA595561B2727F700939F20 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FFA595571B2727F700939F20 /* ArraSolta.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArraSolta.h; sourceTree = "<group>"; };
@@ -126,6 +134,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1B2C4A671BE62DD900CE43A1 /* CollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				1B2C4A681BE62E0100CE43A1 /* ArrasoltaCollectionViewCell.h */,
+				1B2C4A691BE62E0100CE43A1 /* ArrasoltaCollectionViewCell.m */,
+				1B2C4A6A1BE62E0100CE43A1 /* ArrasoltaSourceCollectionViewCell.h */,
+				1B2C4A6B1BE62E0100CE43A1 /* ArrasoltaSourceCollectionViewCell.m */,
+				1B2C4A6C1BE62E0100CE43A1 /* ArrasoltaTargetCollectionViewCell.h */,
+				1B2C4A6D1BE62E0100CE43A1 /* ArrasoltaTargetCollectionViewCell.m */,
+			);
+			name = CollectionViewCell;
+			sourceTree = "<group>";
+		};
 		1BDE424B1BE4C138006C0505 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -142,8 +163,8 @@
 			children = (
 				1BDA14D91BE368E20010C16E /* ArrasoltaUtils.h */,
 				1BDA14DA1BE368E20010C16E /* ArrasoltaUtils.m */,
-				1BDA14DB1BE368E20010C16E /* ArrasoltaDragDropHelper.h */,
-				1BDA14DC1BE368E20010C16E /* ArrasoltaDragDropHelper.m */,
+				1B2C4A881BE62E8D00CE43A1 /* ArrasoltaDragDropHelper.h */,
+				1B2C4A891BE62E8D00CE43A1 /* ArrasoltaDragDropHelper.m */,
 				1BDA14DD1BE368E20010C16E /* ArrasoltaUndoButtonHelper.h */,
 				1BDA14DE1BE368E20010C16E /* ArrasoltaUndoButtonHelper.m */,
 				1BDA14DF1BE368E20010C16E /* ArrasoltaViewConverter.h */,
@@ -166,16 +187,15 @@
 		1BDE424E1BE4C16F006C0505 /* CollectionView */ = {
 			isa = PBXGroup;
 			children = (
-				1BDA14C71BE368DA0010C16E /* ArrasoltaCollectionView.h */,
-				1BDA14C81BE368DA0010C16E /* ArrasoltaCollectionView.m */,
-				1BC4983D1BE3EFA400E44837 /* ArrasoltaSourceCollectionView.h */,
-				1BC4983E1BE3EFA400E44837 /* ArrasoltaSourceCollectionView.m */,
-				1BC4983F1BE3EFA400E44837 /* ArrasoltaTargetCollectionView.h */,
-				1BC498401BE3EFA400E44837 /* ArrasoltaTargetCollectionView.m */,
-				1BDA14C51BE368DA0010C16E /* ArrasoltaCollectionViewCell.h */,
-				1BDA14C61BE368DA0010C16E /* ArrasoltaCollectionViewCell.m */,
+				1B2C4A671BE62DD900CE43A1 /* CollectionViewCell */,
 				1BDA14CD1BE368DA0010C16E /* ArrasoltaCollectionViewFlowLayout.h */,
 				1BDA14CE1BE368DA0010C16E /* ArrasoltaCollectionViewFlowLayout.m */,
+				1B2C4A741BE62E2400CE43A1 /* ArrasoltaCollectionView.h */,
+				1B2C4A751BE62E2400CE43A1 /* ArrasoltaCollectionView.m */,
+				1B2C4A761BE62E2400CE43A1 /* ArrasoltaSourceCollectionView.h */,
+				1B2C4A771BE62E2400CE43A1 /* ArrasoltaSourceCollectionView.m */,
+				1B2C4A781BE62E2400CE43A1 /* ArrasoltaTargetCollectionView.h */,
+				1B2C4A791BE62E2400CE43A1 /* ArrasoltaTargetCollectionView.m */,
 			);
 			name = CollectionView;
 			sourceTree = "<group>";
@@ -185,8 +205,8 @@
 			children = (
 				1BC498351BE3EF7800E44837 /* ArrasoltaDraggableView.h */,
 				1BC498361BE3EF7800E44837 /* ArrasoltaDraggableView.m */,
-				1BC498391BE3EF8600E44837 /* ArrasoltaDroppableView.h */,
-				1BC4983A1BE3EF8600E44837 /* ArrasoltaDroppableView.m */,
+				1B2C4A8C1BE62EC300CE43A1 /* ArrasoltaDroppableView.h */,
+				1B2C4A8D1BE62EC300CE43A1 /* ArrasoltaDroppableView.m */,
 				1BDA14B91BE368D30010C16E /* ArrasoltaMoveableView.h */,
 				1BDA14BA1BE368D30010C16E /* ArrasoltaMoveableView.m */,
 				1BDA14BB1BE368D30010C16E /* ArrasoltaCustomView.h */,
@@ -198,8 +218,8 @@
 		1BDE42501BE4C1C8006C0505 /* Session */ = {
 			isa = PBXGroup;
 			children = (
-				1BDA14AD1BE368C90010C16E /* ArrasoltaPersistencyManager.h */,
-				1BDA14AE1BE368C90010C16E /* ArrasoltaPersistencyManager.m */,
+				1B2C4A841BE62E6200CE43A1 /* ArrasoltaPersistencyManager.h */,
+				1B2C4A851BE62E6200CE43A1 /* ArrasoltaPersistencyManager.m */,
 				1BDA14AF1BE368C90010C16E /* ArrasoltaCurrentState.h */,
 				1BDA14B01BE368C90010C16E /* ArrasoltaCurrentState.m */,
 			);
@@ -211,8 +231,8 @@
 			children = (
 				1BDA14F11BE369410010C16E /* ArrasoltaAPI.h */,
 				1BDA14F21BE369410010C16E /* ArrasoltaAPI.m */,
-				1BDA14F31BE369410010C16E /* ArrasoltaConfig.h */,
-				1BDA14F41BE369410010C16E /* ArrasoltaConfig.m */,
+				1B2C4A801BE62E4900CE43A1 /* ArrasoltaConfig.h */,
+				1B2C4A811BE62E4900CE43A1 /* ArrasoltaConfig.m */,
 			);
 			name = API;
 			sourceTree = "<group>";
@@ -281,21 +301,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				1BDA14F51BE369410010C16E /* ArrasoltaAPI.h in Headers */,
-				1BDA14E31BE368E20010C16E /* ArrasoltaDragDropHelper.h in Headers */,
+				1B2C4A7A1BE62E2400CE43A1 /* ArrasoltaCollectionView.h in Headers */,
+				1B2C4A821BE62E4900CE43A1 /* ArrasoltaConfig.h in Headers */,
 				1BDA14E51BE368E20010C16E /* ArrasoltaUndoButtonHelper.h in Headers */,
-				1BDA14F71BE369410010C16E /* ArrasoltaConfig.h in Headers */,
 				1BDA14E11BE368E20010C16E /* ArrasoltaUtils.h in Headers */,
+				1B2C4A8E1BE62EC300CE43A1 /* ArrasoltaDroppableView.h in Headers */,
+				1B2C4A6E1BE62E0100CE43A1 /* ArrasoltaCollectionViewCell.h in Headers */,
 				1BDA14C11BE368D30010C16E /* ArrasoltaMoveableView.h in Headers */,
-				1BDA14B11BE368C90010C16E /* ArrasoltaPersistencyManager.h in Headers */,
+				1B2C4A861BE62E6200CE43A1 /* ArrasoltaPersistencyManager.h in Headers */,
+				1B2C4A701BE62E0100CE43A1 /* ArrasoltaSourceCollectionViewCell.h in Headers */,
 				1BDA14B31BE368C90010C16E /* ArrasoltaCurrentState.h in Headers */,
+				1B2C4A721BE62E0100CE43A1 /* ArrasoltaTargetCollectionViewCell.h in Headers */,
 				1BDA14C31BE368D30010C16E /* ArrasoltaCustomView.h in Headers */,
+				1B2C4A8A1BE62E8D00CE43A1 /* ArrasoltaDragDropHelper.h in Headers */,
+				1B2C4A7E1BE62E2400CE43A1 /* ArrasoltaTargetCollectionView.h in Headers */,
 				1BDA14EF1BE368EC0010C16E /* NSMutableDictionary+arrasolta.h in Headers */,
-				1BC498411BE3EFA400E44837 /* ArrasoltaSourceCollectionView.h in Headers */,
-				1BC498431BE3EFA400E44837 /* ArrasoltaTargetCollectionView.h in Headers */,
+				1B2C4A7C1BE62E2400CE43A1 /* ArrasoltaSourceCollectionView.h in Headers */,
 				1BC498371BE3EF7800E44837 /* ArrasoltaDraggableView.h in Headers */,
-				1BC4983B1BE3EF8600E44837 /* ArrasoltaDroppableView.h in Headers */,
-				1BDA14D11BE368DA0010C16E /* ArrasoltaCollectionView.h in Headers */,
-				1BDA14CF1BE368DA0010C16E /* ArrasoltaCollectionViewCell.h in Headers */,
 				FFA595581B2727F700939F20 /* ArraSolta.h in Headers */,
 				1BDA14D71BE368DA0010C16E /* ArrasoltaCollectionViewFlowLayout.h in Headers */,
 				1BDA14ED1BE368EC0010C16E /* NSMutableArray+arrasolta.h in Headers */,
@@ -416,25 +438,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B2C4A7F1BE62E2400CE43A1 /* ArrasoltaTargetCollectionView.m in Sources */,
 				1BC498381BE3EF7800E44837 /* ArrasoltaDraggableView.m in Sources */,
 				1BDA14F61BE369410010C16E /* ArrasoltaAPI.m in Sources */,
+				1B2C4A8B1BE62E8D00CE43A1 /* ArrasoltaDragDropHelper.m in Sources */,
+				1B2C4A731BE62E0100CE43A1 /* ArrasoltaTargetCollectionViewCell.m in Sources */,
 				1BDA14C21BE368D30010C16E /* ArrasoltaMoveableView.m in Sources */,
 				1BDA14E21BE368E20010C16E /* ArrasoltaUtils.m in Sources */,
 				1BDA14E81BE368E20010C16E /* ArrasoltaViewConverter.m in Sources */,
 				1BDA14EE1BE368EC0010C16E /* NSMutableArray+arrasolta.m in Sources */,
 				1BDA14D81BE368DA0010C16E /* ArrasoltaCollectionViewFlowLayout.m in Sources */,
-				1BC498421BE3EFA400E44837 /* ArrasoltaSourceCollectionView.m in Sources */,
-				1BDA14B21BE368C90010C16E /* ArrasoltaPersistencyManager.m in Sources */,
+				1B2C4A8F1BE62EC300CE43A1 /* ArrasoltaDroppableView.m in Sources */,
+				1B2C4A831BE62E4900CE43A1 /* ArrasoltaConfig.m in Sources */,
 				1BDA14F01BE368EC0010C16E /* NSMutableDictionary+arrasolta.m in Sources */,
 				1BDA14C41BE368D30010C16E /* ArrasoltaCustomView.m in Sources */,
-				1BC4983C1BE3EF8600E44837 /* ArrasoltaDroppableView.m in Sources */,
-				1BDA14D21BE368DA0010C16E /* ArrasoltaCollectionView.m in Sources */,
-				1BDA14D01BE368DA0010C16E /* ArrasoltaCollectionViewCell.m in Sources */,
-				1BDA14E41BE368E20010C16E /* ArrasoltaDragDropHelper.m in Sources */,
+				1B2C4A7D1BE62E2400CE43A1 /* ArrasoltaSourceCollectionView.m in Sources */,
+				1B2C4A6F1BE62E0100CE43A1 /* ArrasoltaCollectionViewCell.m in Sources */,
+				1B2C4A7B1BE62E2400CE43A1 /* ArrasoltaCollectionView.m in Sources */,
+				1B2C4A711BE62E0100CE43A1 /* ArrasoltaSourceCollectionViewCell.m in Sources */,
+				1B2C4A871BE62E6200CE43A1 /* ArrasoltaPersistencyManager.m in Sources */,
 				1BDA14B41BE368C90010C16E /* ArrasoltaCurrentState.m in Sources */,
 				1BDA14E61BE368E20010C16E /* ArrasoltaUndoButtonHelper.m in Sources */,
-				1BDA14F81BE369410010C16E /* ArrasoltaConfig.m in Sources */,
-				1BC498441BE3EFA400E44837 /* ArrasoltaTargetCollectionView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

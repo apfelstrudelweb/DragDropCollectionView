@@ -50,6 +50,7 @@
     [SHARED_CONFIG_INSTANCE setBackgroundColorSourceView:[UIColor colorWithRed:0.89 green:0.92 blue:0.98 alpha:1.0]];
     [SHARED_CONFIG_INSTANCE setBackgroundColorTargetView:[UIColor colorWithRed:0.89 green:0.92 blue:0.98 alpha:1.0]];
     
+    [SHARED_CONFIG_INSTANCE setSourcePlaceholderColor:[UIColor redColor]];
     [SHARED_CONFIG_INSTANCE setTargetPlaceholderColorUntouched:[UIColor colorWithRed:0.79 green:0.85 blue:0.97 alpha:1.0]];
     [SHARED_CONFIG_INSTANCE setTargetPlaceholderColorTouched:[UIColor colorWithRed:0.64 green:0.76 blue:0.96 alpha:1.0]];
     
@@ -68,7 +69,7 @@
     //[SHARED_CONFIG_INSTANCE setScrollDirection:vertical];
     [SHARED_CONFIG_INSTANCE setShouldCellOrderBeHorizontal:true]; // only for horizontal scroll direction
     
-    [SHARED_CONFIG_INSTANCE setLongPressDurationBeforeDragging:0.0];
+    [SHARED_CONFIG_INSTANCE setLongPressDurationBeforeDragging:0.5];
     
     [SHARED_CONFIG_INSTANCE setShouldPanningBeEnabled:true];
     [SHARED_CONFIG_INSTANCE setShouldPanningBeCoupled:true];

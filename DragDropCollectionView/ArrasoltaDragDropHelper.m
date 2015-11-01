@@ -24,10 +24,10 @@
     
     
     // what we do process inside
-    ArrasoltaCollectionViewCell* leftCell;
-    ArrasoltaCollectionViewCell* rightCell;
-    ArrasoltaCollectionViewCell* dropCell;
-    ArrasoltaCollectionViewCell* lastLeftCell;
+    ArrasoltaTargetCollectionViewCell* leftCell;
+    ArrasoltaTargetCollectionViewCell* rightCell;
+    ArrasoltaTargetCollectionViewCell* dropCell;
+    ArrasoltaTargetCollectionViewCell* lastLeftCell;
     
     ArrasoltaDraggableView* targetDragView;
     ArrasoltaDraggableView* newDragView;
@@ -152,7 +152,7 @@
         // reset all cells (from previous touches)
         [dropCollectionView resetAllCells];
         
-        ArrasoltaCollectionViewCell* hoverCell = [ArrasoltaUtils getTargetCell:moveableView inCollectionView:dropCollectionView recognizer:recognizer];
+        ArrasoltaTargetCollectionViewCell* hoverCell = [ArrasoltaUtils getTargetCell:moveableView inCollectionView:dropCollectionView recognizer:recognizer];
         
         // nothing more to do - wait until end position
         if (hoverCell) {
@@ -194,9 +194,7 @@
     else if (recognizer.state == UIGestureRecognizerStateEnded) {
         
         [timer invalidate];
- 
-      
-        
+
         if (insertCells) {
             // update history
             [SHARED_BUTTON_INSTANCE updateHistoryBeforeAction];
@@ -211,8 +209,7 @@
         } else {
             [self appendCell:moveableView recognizer:recognizer];
         }
-        
-        
+
 
         // refresh table views
         [dragCollectionView reloadData];

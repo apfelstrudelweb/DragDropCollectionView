@@ -9,13 +9,13 @@
 
 #import "ArrasoltaDroppableView.h"
 #import "ArrasoltaCollectionView.h"
-
+#import "ArrasoltaSourceCollectionViewCell.h"
 
 @interface ArrasoltaSourceCollectionView : ArrasoltaCollectionView
 
 - (instancetype)initWithFrame:(CGRect)frame withinView: (UIView*) view;
 
-- (ArrasoltaCollectionViewCell*) getCell: (NSIndexPath*) indexPath;
+- (ArrasoltaSourceCollectionViewCell*) getCell: (NSIndexPath*) indexPath;
 
 
 @end

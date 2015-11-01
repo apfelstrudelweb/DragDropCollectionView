@@ -9,6 +9,7 @@
 #import "ArrasoltaTargetCollectionView.h"
 #import "ArrasoltaAPI.h"
 #import "ArrasoltaCollectionViewFlowLayout.h"
+#import "ArrasoltaTargetCollectionView.h"
 
 
 #define REUSE_IDENTIFIER @"arrasoltaDropCell"
@@ -34,7 +35,7 @@
     float topY = point.y;
     
     [[ArrasoltaCurrentState sharedInstance] setTopTargetCollectionView:topY];
-    
+
 }
 
 - (instancetype)initWithFrame:(CGRect)frame withinView: (UIView<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>*) view sourceDictionary:(NSMutableDictionary*) sourceDict targetDictionary:(NSMutableDictionary*) targetDict  {
@@ -68,7 +69,7 @@
         self.dataSource = view;
         self.showsHorizontalScrollIndicator = NO;
         
-        [self registerClass:[ArrasoltaCollectionViewCell class] forCellWithReuseIdentifier:REUSE_IDENTIFIER];
+        [self registerClass:[ArrasoltaTargetCollectionViewCell class] forCellWithReuseIdentifier:REUSE_IDENTIFIER];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveDeleteCellNotification:) name:@"arrasoltaDeleteCellNotification"
                                                    object:nil];
@@ -117,7 +118,7 @@
         if ([userinfo isKindOfClass:[ArrasoltaDraggableView class]]) {
             return;
         }
-        
+
         if (![userinfo isKindOfClass:[ArrasoltaDroppableView class]]) {
             // empty cell
             if (targetCellsDict.count > 0) {
@@ -133,10 +134,9 @@
 
 
 
-- (ArrasoltaCollectionViewCell*) getCell: (NSIndexPath*) indexPath {
-    ArrasoltaCollectionViewCell* cell = [self dequeueReusableCellWithReuseIdentifier:REUSE_IDENTIFIER forIndexPath:indexPath];
+- (ArrasoltaTargetCollectionViewCell*) getCell: (NSIndexPath*) indexPath {
+    ArrasoltaTargetCollectionViewCell* cell = [self dequeueReusableCellWithReuseIdentifier:REUSE_IDENTIFIER forIndexPath:indexPath];
     cell.indexPath = indexPath;
-    cell.isTargetCell = true;
     [cell reset];
     [cell setNumberForDropView];
     return cell;
@@ -144,7 +144,7 @@
 
 - (void) resetAllCells {
     
-    for (ArrasoltaCollectionViewCell *cell in self.visibleCells) {
+    for (ArrasoltaTargetCollectionViewCell *cell in self.visibleCells) {
         [cell shrink];
     }
 }

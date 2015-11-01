@@ -10,6 +10,7 @@
 #import "ArrasoltaAPI.h"
 #import "ArrasoltaCollectionViewFlowLayout.h"
 
+#import "ArrasoltaSourceCollectionViewCell.h"
 
 #define REUSE_IDENTIFIER @"arrasoltaDragCell"
 
@@ -60,7 +61,7 @@
         self.showsHorizontalScrollIndicator = NO;
         self.showsVerticalScrollIndicator = NO;
 
-        [self registerClass:[ArrasoltaCollectionViewCell class] forCellWithReuseIdentifier:REUSE_IDENTIFIER];
+        [self registerClass:[ArrasoltaSourceCollectionViewCell class] forCellWithReuseIdentifier:REUSE_IDENTIFIER];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(restoreElementNotification:) name:@"arrasoltaRestoreElementNotification"
                                                    object:nil];
@@ -101,8 +102,8 @@
 }
 
 
-- (ArrasoltaCollectionViewCell*) getCell: (NSIndexPath*) indexPath {
-    ArrasoltaCollectionViewCell* cell = [self dequeueReusableCellWithReuseIdentifier:REUSE_IDENTIFIER forIndexPath:indexPath];
+- (ArrasoltaSourceCollectionViewCell*) getCell: (NSIndexPath*) indexPath {
+    ArrasoltaSourceCollectionViewCell* cell = [self dequeueReusableCellWithReuseIdentifier:REUSE_IDENTIFIER forIndexPath:indexPath];
     cell.indexPath = indexPath;
     //cell.isTargetCell = true;
     [cell reset];

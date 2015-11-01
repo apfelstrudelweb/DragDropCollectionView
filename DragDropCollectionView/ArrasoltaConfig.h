@@ -25,6 +25,7 @@
 @property (NS_NONATOMIC_IOSONLY, getter=getBackgroundColorSourceView, copy) UIColor *backgroundColorSourceView;
 @property (NS_NONATOMIC_IOSONLY, getter=getBackgroundColorTargetView, copy) UIColor *backgroundColorTargetView;
 @property (NS_NONATOMIC_IOSONLY, getter=getSourceItemsDictionary, copy) NSMutableDictionary *sourceItemsDictionary;
+@property (NS_NONATOMIC_IOSONLY, getter=getSourcePlaceholderColor, copy) UIColor *sourcePlaceholderColor;
 @property (NS_NONATOMIC_IOSONLY, getter=getTargetPlaceholderColorUntouched, copy) UIColor *targetPlaceholderColorUntouched;
 @property (NS_NONATOMIC_IOSONLY, getter=getTargetPlaceholderColorTouched, copy) UIColor *targetPlaceholderColorTouched;
 @property (NS_NONATOMIC_IOSONLY, getter=getShouldPlaceholderIndexStartFromZero) bool shouldPlaceholderIndexStartFromZero;

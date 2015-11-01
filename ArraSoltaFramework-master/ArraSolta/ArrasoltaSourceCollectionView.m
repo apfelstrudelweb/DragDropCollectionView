@@ -10,18 +10,19 @@
 #import "ArrasoltaAPI.h"
 #import "ArrasoltaCollectionViewFlowLayout.h"
 
+#import "ArrasoltaSourceCollectionViewCell.h"
 
 #define REUSE_IDENTIFIER @"arrasoltaDragCell"
 
 
 
 @interface ArrasoltaSourceCollectionView() {
-    
+
     //UICollectionViewScrollDirection scrollDirection;
     
     float minInteritemSpacing;
     float minLineSpacing;
-    
+
 }
 @end
 
@@ -30,7 +31,7 @@
 
 - (instancetype)initWithFrame:(CGRect)frame withinView: (UIView<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>*) view  {
     
-    
+
     if (self) {
         
         
@@ -43,7 +44,7 @@
         minLineSpacing = [SHARED_CONFIG_INSTANCE getMinLineSpacing];// set member variable AFTER  instantiation - otherwise it will be lost later
         flowLayout.minimumInteritemSpacing = minInteritemSpacing;
         flowLayout.minimumLineSpacing = minLineSpacing;
-        
+
         if ([SHARED_CONFIG_INSTANCE getScrollDirection] == horizontal) {
             super.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         } else {
@@ -51,16 +52,16 @@
         }
         
         flowLayout.scrollDirection = super.scrollDirection;
-        
+
         
         self.backgroundColor = [SHARED_CONFIG_INSTANCE getBackgroundColorSourceView];
-        
+
         self.delegate = view;
         self.dataSource = view;
         self.showsHorizontalScrollIndicator = NO;
         self.showsVerticalScrollIndicator = NO;
-        
-        [self registerClass:[ArrasoltaCollectionViewCell class] forCellWithReuseIdentifier:REUSE_IDENTIFIER];
+
+        [self registerClass:[ArrasoltaSourceCollectionViewCell class] forCellWithReuseIdentifier:REUSE_IDENTIFIER];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(restoreElementNotification:) name:@"arrasoltaRestoreElementNotification"
                                                    object:nil];
@@ -70,7 +71,7 @@
         
         
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-        
+
     }
     return self;
 }
@@ -101,8 +102,8 @@
 }
 
 
-- (ArrasoltaCollectionViewCell*) getCell: (NSIndexPath*) indexPath {
-    ArrasoltaCollectionViewCell* cell = [self dequeueReusableCellWithReuseIdentifier:REUSE_IDENTIFIER forIndexPath:indexPath];
+- (ArrasoltaSourceCollectionViewCell*) getCell: (NSIndexPath*) indexPath {
+    ArrasoltaSourceCollectionViewCell* cell = [self dequeueReusableCellWithReuseIdentifier:REUSE_IDENTIFIER forIndexPath:indexPath];
     cell.indexPath = indexPath;
     //cell.isTargetCell = true;
     [cell reset];
