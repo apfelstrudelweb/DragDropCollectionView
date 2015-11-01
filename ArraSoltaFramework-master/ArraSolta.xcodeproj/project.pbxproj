@@ -575,6 +575,7 @@
 				ARCHS = (
 					"$(ARCHS_STANDARD)",
 					armv7s,
+					arm64,
 				);
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -598,6 +599,7 @@
 				ARCHS = (
 					"$(ARCHS_STANDARD)",
 					armv7s,
+					arm64,
 				);
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
