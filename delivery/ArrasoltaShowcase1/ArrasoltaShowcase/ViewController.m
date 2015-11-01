@@ -10,7 +10,7 @@
 
 @interface ViewController () {
     
-    // Dictionary populated by user -> see method "populateDataSourceDictionary"
+    // Dictionary populated by the user -> see method "populateDataSourceDictionary"
     NSMutableDictionary* dataSourceDictionary;
     
     bool hasAutomaticCellSize;

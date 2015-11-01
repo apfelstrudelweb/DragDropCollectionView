@@ -141,8 +141,7 @@
         // a container for the custom view - see below)
         ArrasoltaDraggableView* view = [ArrasoltaDraggableView new];
         view.index = i; // index must be set - otherwise, the undo functionality won't work
-        [view setBorderColor:[UIColor clearColor]];
-        [view setBorderWidth:IS_IPAD ? 4 : 2];
+        [view setBorderColor:[UIColor clearColor]]; // optional
         
         // now populate the own UIView which serves as draggable/droppable view
         CustomView* customView = [CustomView new];

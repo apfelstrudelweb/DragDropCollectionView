@@ -27,9 +27,7 @@
 #define PERCENT_DRAG_AREA   38
 #define PERCENT_DROP_AREA   38
 
-
 #define FONT_COLOR               [UIColor darkGrayColor]
-
 
 
 #endif
