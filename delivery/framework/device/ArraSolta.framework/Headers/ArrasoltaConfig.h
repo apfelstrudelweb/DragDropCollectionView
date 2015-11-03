@@ -1,5 +1,5 @@
 //
-//  DragDropConfig.h
+//  ArrasoltaConfig.h
 //
 //  Singleton which stores all configurations made in the View Controller.
 //  The configurations are maintained within the entire session.

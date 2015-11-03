@@ -1,5 +1,5 @@
 //
-//  CollectionViewCell.h
+//  ArrasoltaTargetCollectionViewCell.h
 //  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 16.09.15.

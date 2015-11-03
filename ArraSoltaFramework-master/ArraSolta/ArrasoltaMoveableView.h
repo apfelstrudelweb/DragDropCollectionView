@@ -1,5 +1,5 @@
 //
-//  MoveableView.h
+//  ArrasoltaMoveableView.h
 //  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 29.09.15.

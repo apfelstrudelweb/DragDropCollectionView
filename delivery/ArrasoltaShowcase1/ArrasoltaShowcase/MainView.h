@@ -8,7 +8,7 @@
 #import "ButtonView.h"
 
 
-@interface MainView : UIView
+@interface MainView : UIView// <UICollectionViewDelegateFlowLayout>
 
 /**
  *  Simple GUI elements

@@ -1,5 +1,5 @@
 //
-//  CollectionViewFlowLayout.h
+//  ArrasoltaCollectionViewFlowLayout.h
 //  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 17.10.15.

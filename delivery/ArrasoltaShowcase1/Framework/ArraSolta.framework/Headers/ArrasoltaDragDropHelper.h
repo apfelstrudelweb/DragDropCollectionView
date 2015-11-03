@@ -1,5 +1,5 @@
 //
-//  DragDropHelper.h
+//  ArrasoltaDragDropHelper.h
 //  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 06.10.15.
@@ -8,6 +8,7 @@
 
 #import "ArrasoltaCurrentState.h"
 
+#define SHARED_STATE_INSTANCE      [ArrasoltaCurrentState sharedInstance]
 
 @interface ArrasoltaDragDropHelper : NSObject
 

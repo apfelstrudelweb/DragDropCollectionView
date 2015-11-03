@@ -1,5 +1,5 @@
 //
-//  ViewConverter.h
+//  ArrasoltaViewConverter.h
 //
 //  Converter which performs a conversion from Source to Target View
 //  and vice versa:

@@ -1,5 +1,5 @@
 //
-//  DragCollectionView.h
+//  ArrasoltaSourceCollectionView.h
 //  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 25.09.15.

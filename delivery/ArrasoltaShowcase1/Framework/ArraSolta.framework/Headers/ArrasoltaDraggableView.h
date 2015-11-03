@@ -1,5 +1,5 @@
 //
-//  DragView.h
+//  ArrasoltaDraggableView.h
 //  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 17.09.15.

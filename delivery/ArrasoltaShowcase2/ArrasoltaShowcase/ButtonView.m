@@ -24,7 +24,7 @@
         self.undoButton = [UIButton new];
         // we want to tint the icon -> UIImageRenderingModeAlwaysTemplate
         UIImage* undoBtnImage = [[UIImage imageNamed:@"undo.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        self.undoButton.tintColor = COMPONENT_COLOR;
+        self.undoButton.tintColor = [UIColor redColor];
         [self.undoButton setImage:undoBtnImage forState:UIControlStateNormal];
         [self.undoButton setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:self.undoButton];

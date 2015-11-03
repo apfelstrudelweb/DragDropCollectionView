@@ -47,7 +47,6 @@
         
         // Mandatory for later introspection
         self.concreteClassName = NSStringFromClass([self class]);
-        
     }
     return self;
 }
@@ -96,11 +95,11 @@
 
 
 /**
- * Image - name of the PNG file - flag of country
+ * Image - name of the PNG file - country
  **/
 - (void) setImageName: (NSString*) name {
     
-    UIImage* image = [UIImage imageWithCGImage:[UIImage imageNamed:name].CGImage]; // trick for @2x.png
+    UIImage* image = [UIImage imageWithCGImage:[UIImage imageNamed:name].CGImage];
     // we need to set the accessibility identifier for the getter,
     // as an UIImage doesn't have any method for retrieving its name
     image.accessibilityIdentifier = name;

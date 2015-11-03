@@ -1,5 +1,5 @@
 //
-//  PublicAPI.h
+//  ArrasoltaAPI.h
 //
 //  Include this API into all files of your projects,
 //  as for example into your View Controller and into
@@ -17,8 +17,7 @@
 #import "ArrasoltaUtils.h"
 
 
-// Macros - it's recommended that you work with these macros
-#define SHARED_STATE_INSTANCE      [ArrasoltaCurrentState sharedInstance]
+// Macros - it's recommended that you work with them
 #define SHARED_CONFIG_INSTANCE     [ArrasoltaConfig sharedInstance]
 #define SHARED_BUTTON_INSTANCE     [ArrasoltaUndoButtonHelper sharedInstance]
 

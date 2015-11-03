@@ -10,9 +10,9 @@
 
 @interface ButtonView : UIView
 
+@property (strong, nonatomic) UIButton *resetButton;
 @property (strong, nonatomic) UIButton *undoButton;
 @property (strong, nonatomic) UIButton *redoButton;
-@property (strong, nonatomic) UIButton *resetButton;
 @property (strong, nonatomic) UILabel  *counterLabel;
 
 @property (strong, nonatomic) NSDictionary *subviewsDictionaryForAutoLayout;

@@ -1,5 +1,5 @@
 //
-//  CustomView.h
+//  ArrasoltaCustomView.h
 //  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 01.10.15.

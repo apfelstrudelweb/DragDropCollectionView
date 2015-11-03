@@ -1,5 +1,5 @@
 //
-//  Utils.h
+//  ArrasoltaUtils.h
 //
 //  Utilities for Collection View  and Dictionary handling
 //

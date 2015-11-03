@@ -1,5 +1,5 @@
 //
-//  CurrentState.h
+//  ArrasoltaCurrentState.h
 //  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 02.10.15.

@@ -91,10 +91,20 @@
     // Important: order of dictionaries must be maintained:
     // 1. source dictionary
     // 2. target dictionary
-    
     return [ArrasoltaUtils getCell:collectionView forIndexPath:indexPath cellDictionaries:@[self.sourceItemsDictionary, self.targetItemsDictionary]];
     
 }
+
+//#pragma mark <UICollectionViewDelegateFlowLayout>
+//- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+//    
+//    float paddingTop    = 10.0;
+//    float paddingLeft   = 10.0;
+//    float paddingBottom =  0.0;
+//    float paddingRight  = 10.0;
+//    
+//    return UIEdgeInsetsMake(paddingTop, paddingLeft, paddingBottom, paddingRight);
+//}
 
 
 #pragma mark <UIScrollViewDelegate>

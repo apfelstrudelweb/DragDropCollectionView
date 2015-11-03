@@ -1,5 +1,5 @@
 //
-//  UndoButtonHelper.h
+//  ArrasoltaUndoButtonHelper.h
 //  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 10.10.15.

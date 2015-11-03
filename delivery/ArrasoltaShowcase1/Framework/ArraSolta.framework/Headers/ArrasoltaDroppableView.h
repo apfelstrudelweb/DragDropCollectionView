@@ -1,5 +1,5 @@
 //
-//  DropView.h
+//  ArrasoltaDroppableView.h
 //  ArraSolta framework
 //
 //  Created by Ulrich Vormbrock on 29.09.15.
